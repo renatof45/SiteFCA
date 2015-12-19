@@ -24,7 +24,7 @@
 
 body { margin: 0; background-color:White !important;}
 body #body  { color: #686868; margin: 0 auto; text-align: center; font: 11px arial, verdana, sans-serif; width: 100%;}
-#body .topheaderbg { width: 100%; background: #fff url(../img/bg.gif) repeat-x top left; height: 28px; }
+#body .topheaderbg { width: 100%;}
 body #body  #container { margin: -28px auto 0 auto; text-align: center; }
 #body img { border: none; }
 
