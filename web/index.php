@@ -26,15 +26,15 @@ spl_autoload_register('loadClass');
 session_start();
 
 $app = new \Slim\Slim(array(
-    'templates.path' => './',
+            'templates.path' => './',
         ));
 
 
 $app->get('/', function() use ($app) {
-    $errors = array();
-    $flashes = null;
-    require '../layout/index.phtml';
-});
+            $errors = array();
+            $flashes = null;
+            require '../layout/index.phtml';
+        });
 
 
 
