@@ -1,0 +1,474 @@
+<?php if ($_SESSION['user']=='711241'): ?>
+
+<script>
+    $(function() {
+        $( "#tabs" ).tabs();
+    });
+
+
+    function sub(that){
+    $('#dvLoading').show();
+    that.form.submit()
+ }
+</script>
+
+<h1>Editar Óleo</h1>
+
+<form id='ajaxform1' method="post">
+    
+    <fieldset>
+         <div class="field">
+            <label>Oleo:</label>
+             <select name="oleo" onchange="alterar_lub();">
+               <?php if (array_key_exists('oleo', $_POST)): ?>
+                    <option  value="<?php echo $_POST['oleo']; ?>"><?php echo $oleos->getOleo($_POST['oleo']); ?></option>
+                <?php endif; ?>
+                <?php if (array_key_exists('oleo', $_GET)): ?>
+                    <option  value="<?php echo $_GET['oleo']; ?>"><?php echo $oleos->getOleo($_GET['oleo']); ?></option>
+                <?php endif; ?>
+             <?php foreach ($oleo_list as $list): ?>
+                <option  value="<?php  echo  $list['ID'] ?>"><?php  echo  $list['Designacao']; ?></option>
+             <?php endforeach; ?>
+            </select>
+        </div>
+    <div class="field">
+            <label>Embalagens:</label>
+    </div>
+   <div id="tabs" style="margin-top:20px;margin-bottom:20px">
+    <ul>
+        <li><a href="#tabs-1">20L</a></li>
+        <li><a href="#tabs-2">205L</a></li>
+        <li><a href="#tabs-3">1000L</a></li>
+    </ul>
+    <div id="tabs-1">       
+            <div class="field">
+            <label style="width: 100px;">Codigo SAP:</label>
+            <input type="text" name="codigo20[codigo]" value="<?php if(array_key_exists('20L', $codigos)) echo  $codigos['20L']['codigo_oleo'] ?>" class="text"/>
+            </div>
+                <div class="field">
+                    <label style="width: 68px;">Area(s):</label>
+                </div>
+                    <ul style="list-style:none;margin-top:30px">
+                        <li>
+                          <input type="hidden"  name="codigo20[areaa][checked]" value="" />
+                          <input type="checkbox" name="codigo20[areaa][checked]"  <?php if (isset($areaA))  {if (array_key_exists('20L',$areaA)) echo  ' checked ';}?> value="4"><h4 style="display: inline;">Area A:</h4></input>
+                          <ul>
+                            <li>
+                              <div class="field">
+                                <label >Stock Minimo:</label>
+                                <select name="codigo20[areaa][stock]">
+                                     <?php if (array_key_exists('20L', $areaA)): ?>
+                                        <option  value="<?php  echo  $areaA['20L']['stock']; ?>"><?php  echo   $areaA['20L']['stock']; ?></option>
+                                     <?php endif; ?>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                                &nbsp;
+                                Embalagens
+                                <div class="field">
+                                 <label>Descrição:</label>
+                                 <textarea name="codigo20[areaa][descricao]"  cols="1" rows="1"><?php if (isset($areaA))  {if (array_key_exists('20L',$areaA)) echo  $areaA['20L']['Utilização'];}?></textarea>
+                              </div>
+                              <div>
+                            </li>
+                           </ul>
+                        </li>
+                        <li style="margin-top:10px">
+                          <input type="hidden"  name="codigo20[areab][checked]" value="" />
+                          <input type="checkbox" name="codigo20[areab][checked]" <?php if (isset($areaB))  {if (array_key_exists('20L',$areaB)) echo  ' checked ';}?> value="3"><h4 style="display: inline;">Area B:</h4></input>
+                          <ul>
+                            <li>
+                              <div class="field">
+                                <label >Stock Minimo:</label>
+                                <select name="codigo20[areab][stock]">
+                                     <?php  if (array_key_exists('20L', $areaB)): ?>
+                                        <option  value="<?php  echo  $areaB['20L']['stock']; ?>"><?php  echo   $areaB['20L']['stock']; ?></option>
+                                     <?php endif; ?>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                                &nbsp;
+                                Embalagens
+                                <div class="field">
+                                 <label>Descrição:</label>
+                                 <textarea name="codigo20[areab][descricao]" cols="1" rows="1"><?php if (isset($areaB))  {if (array_key_exists('20L',$areaB)) echo  $areaB['20L']['Utilização'];} ?></textarea>
+                              </div>
+                              <div>
+                            </li>
+                           </ul>
+                        </li>
+                        <li style="margin-top:10px">
+                          <input type="hidden"  name="codigo20[areac][checked]" value="" />
+                          <input type="checkbox" name="codigo20[areac][checked]" <?php if (isset($areaC))  {if (array_key_exists('20L',$areaC)) echo  ' checked ';} ?> value="1"><h4 style="display: inline;">Area C:</h4></input>
+                          <ul>
+                            <li>
+                              <div class="field">
+                                <label >Stock Minimo:</label>
+                                <select name="codigo20[areac][stock]">
+                                     <?php if (array_key_exists('20L', $areaC)): ?>
+                                        <option  value="<?php  echo  $areaC['20L']['stock']; ?>"><?php  echo   $areaC['20L']['stock']; ?></option>
+                                     <?php endif; ?>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                                &nbsp;
+                                Embalagens
+                                <div class="field">
+                                 <label>Descrição:</label>
+                                 <textarea name="codigo20[areac][descricao]" cols="1" rows="1"><?php if (isset($areaC))  {if (array_key_exists('20L',$areaC)) echo  $areaC['20L']['Utilização'];} ?></textarea>
+                              </div>
+                              <div>
+                            </li>
+                           </ul>
+                        </li>
+                        <li style="margin-top:10px">
+                          <input type="hidden"  name="codigo20[vuvb][checked]" value="" />
+                           <input type="checkbox" name="codigo20[vuvb][checked]" <?php if (isset($vuvb))  {if (array_key_exists('20L',$vuvb)) echo  ' checked ';} ?> value="5"><h4 style="display: inline;">VU/VB:</h4></input>
+                           <ul>
+                            <li>
+                              <div class="field">
+                                <label >Stock Minimo:</label>
+                                <select name="codigo20[vuvb][stock]">
+                                     <?php if (array_key_exists('20L', $vuvb)): ?>
+                                        <option  value="<?php  echo  $areaC['20L']['stock']; ?>"><?php  echo   $vuvb['20L']['stock']; ?></option>
+                                     <?php endif; ?>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                                &nbsp;
+                                Embalagens
+                                <div class="field">
+                                 <label>Descrição:</label>
+                                 <textarea name="codigo20[vuvb][descricao]" cols="1" rows="1"><?php if (isset($vuvb))  {if (array_key_exists('20L',$vuvb)) echo  $vuvb['20L']['Utilização'];} ?></textarea>
+                              </div>
+                              <div>
+                            </li>
+                           </ul>
+                        </li>
+                        <li style="margin-top:10px">
+                          <input type="hidden"  name="codigo20[hds][checked]" value="" />
+                           <input type="checkbox" name="codigo20[hds][checked]" <?php if (isset($hds))  {if (array_key_exists('20L',$hds)) echo  ' checked ';} ?> value="2"><h4 style="display: inline;">HDS:</h4></input>
+                           <ul>
+                            <li>
+                              <div class="field">
+                                <label >Stock Minimo:</label>
+                                <select name="codigo20[hds][stock]">
+                                     <?php if (array_key_exists('20L', $hds)): ?>
+                                        <option  value="<?php  echo  $hds['20L']['stock']; ?>"><?php  echo   $hds['20L']['stock']; ?></option>
+                                     <?php endif; ?>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                                &nbsp;
+                                Embalagens
+                              <div>
+                              <div class="field">
+                                 <label>Descrição:</label>
+                                 <textarea name="codigo20[hds][descricao]"><?php if (isset($hds))  {if (array_key_exists('20L',$hds)) echo  $hds['20L']['Utilização'];} ?></textarea>
+                              </div>
+                            </li>
+                           </ul>
+                        </li>
+                    </ul>
+      </div>
+      <div id="tabs-2">
+          <div class="field">
+            <label style="width: 100px;">Codigo SAP:</label>
+            <input type="text" name="codigo205[codigo]" value="<?php if(array_key_exists('205L', $codigos)) echo  $codigos['205L']['codigo_oleo'] ?>" class="text"/>
+            </div>
+                <div class="field">
+                    <label style="width: 68px;">Area(s):</label>
+                </div>
+                    <ul style="list-style:none;margin-top:30px">
+                        <li>
+                          <input type="hidden"  name="codigo205[areaa][checked]" value="" />
+                          <input type="checkbox" name="codigo205[areaa][checked]"  <?php if (isset($areaA))  {if (array_key_exists('205L',$areaA)) echo  ' checked ';}?> value="4"><h4 style="display: inline;">Area A:</h4></input>
+                          <ul>
+                            <li>
+                              <div class="field">
+                                <label >Stock Minimo:</label>
+                                <select name="codigo205[areaa][stock]">
+                                     <?php if (array_key_exists('205L', $areaA)): ?>
+                                        <option  value="<?php  echo  $areaA['205L']['stock']; ?>"><?php  echo   $areaA['205L']['stock']; ?></option>
+                                     <?php endif; ?>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                                &nbsp;
+                                Embalagens
+                                <div class="field">
+                                 <label>Descrição:</label>
+                                 <textarea name="codigo205[areaa][descricao]"  cols="1" rows="1"><?php if (isset($areaA))  {if (array_key_exists('205L',$areaA)) echo  $areaA['205L']['Utilização'];}?></textarea>
+                              </div>
+                              <div>
+                            </li>
+                           </ul>
+                        </li>
+                        <li style="margin-top:10px">
+                          <input type="hidden"  name="codigo205[areab][checked]" value="" />
+                          <input type="checkbox" name="codigo205[areab][checked]" <?php if (isset($areaB))  {if (array_key_exists('205L',$areaB)) echo  ' checked ';}?> value="3"><h4 style="display: inline;">Area B:</h4></input>
+                          <ul>
+                            <li>
+                              <div class="field">
+                                <label >Stock Minimo:</label>
+                                <select name="codigo205[areab][stock]">
+                                     <?php  if (array_key_exists('205L', $areaB)): ?>
+                                        <option  value="<?php  echo  $areaB['205L']['stock']; ?>"><?php  echo   $areaB['205L']['stock']; ?></option>
+                                     <?php endif; ?>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                                &nbsp;
+                                Embalagens
+                                <div class="field">
+                                 <label>Descrição:</label>
+                                 <textarea name="codigo205[areab][descricao]" cols="1" rows="1"><?php if (isset($areaB))  {if (array_key_exists('205L',$areaB)) echo  $areaB['205L']['Utilização'];} ?></textarea>
+                              </div>
+                              <div>
+                            </li>
+                           </ul>
+                        </li>
+                        <li style="margin-top:10px">
+                          <input type="hidden"  name="codigo205[areac][checked]" value="" />
+                          <input type="checkbox" name="codigo205[areac][checked]" <?php if (isset($areaC))  {if (array_key_exists('205L',$areaC)) echo  ' checked ';} ?> value="1"><h4 style="display: inline;">Area C:</h4></input>
+                          <ul>
+                            <li>
+                              <div class="field">
+                                <label >Stock Minimo:</label>
+                                <select name="codigo205[areac][stock]">
+                                     <?php if (array_key_exists('205L', $areaC)): ?>
+                                        <option  value="<?php  echo  $areaC['205L']['stock']; ?>"><?php  echo   $areaC['205L']['stock']; ?></option>
+                                     <?php endif; ?>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                                &nbsp;
+                                Embalagens
+                                <div class="field">
+                                 <label>Descrição:</label>
+                                 <textarea name="codigo205[areac][descricao]" cols="1" rows="1"><?php if (isset($areaC))  {if (array_key_exists('205L',$areaC)) echo  $areaC['205L']['Utilização'];} ?></textarea>
+                              </div>
+                              <div>
+                            </li>
+                           </ul>
+                        </li>
+                        <li style="margin-top:10px">
+                          <input type="hidden"  name="codigo205[vuvb][checked]" value="" />
+                           <input type="checkbox" name="codigo205[vuvb][checked]" <?php if (isset($vuvb))  {if (array_key_exists('205L',$vuvb)) echo  ' checked ';} ?> value="5"><h4 style="display: inline;">VU/VB:</h4></input>
+                           <ul>
+                            <li>
+                              <div class="field">
+                                <label >Stock Minimo:</label>
+                                <select name="codigo205[vuvb][stock]">
+                                     <?php if (array_key_exists('205L', $vuvb)): ?>
+                                        <option  value="<?php  echo  $areaC['205L']['stock']; ?>"><?php  echo   $vuvb['205L']['stock']; ?></option>
+                                     <?php endif; ?>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                                &nbsp;
+                                Embalagens
+                                <div class="field">
+                                 <label>Descrição:</label>
+                                 <textarea name="codigo205[vuvb][descricao]" cols="1" rows="1"><?php if (isset($vuvb))  {if (array_key_exists('205L',$vuvb)) echo  $vuvb['205L']['Utilização'];} ?></textarea>
+                              </div>
+                              <div>
+                            </li>
+                           </ul>
+                        </li>
+                        <li style="margin-top:10px">
+                          <input type="hidden"  name="codigo205[hds][checked]" value="" />
+                           <input type="checkbox" name="codigo205[hds][checked]" <?php if (isset($hds))  {if (array_key_exists('205L',$hds)) echo  ' checked ';} ?> value="2"><h4 style="display: inline;">HDS:</h4></input>
+                           <ul>
+                            <li>
+                              <div class="field">
+                                <label >Stock Minimo:</label>
+                                <select name="codigo205[hds][stock]">
+                                     <?php if (array_key_exists('205L', $hds)): ?>
+                                        <option  value="<?php  echo  $hds['205L']['stock']; ?>"><?php  echo   $hds['205L']['stock']; ?></option>
+                                     <?php endif; ?>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                                &nbsp;
+                                Embalagens
+                              <div>
+                              <div class="field">
+                                 <label>Descrição:</label>
+                                 <textarea name="codigo205[hds][descricao]"><?php if (isset($hds))  {if (array_key_exists('205L',$hds)) echo  $hds['205L']['Utilização'];} ?></textarea>
+                              </div>
+                            </li>
+                           </ul>
+                        </li>
+                    </ul>
+      </div>
+      <div id="tabs-3"> 
+             <div class="field">
+            <label style="width: 100px;">Codigo SAP:</label>
+            <input type="text" name="codigo1000[codigo]" value="<?php if(array_key_exists('1000L', $codigos)) echo  $codigos['1000L']['codigo_oleo'] ?>" class="text"/>
+            </div>
+                <div class="field">
+                    <label style="width: 68px;">Area(s):</label>
+                </div>
+                    <ul style="list-style:none;margin-top:30px">
+                        <li>
+                          <input type="hidden"  name="codigo1000[areaa][checked]" value="" />
+                          <input type="checkbox" name="codigo1000[areaa][checked]"  <?php if (isset($areaA))  {if (array_key_exists('1000L',$areaA)) echo  ' checked ';}?> value="4"><h4 style="display: inline;">Area A:</h4></input>
+                          <ul>
+                            <li>
+                              <div class="field">
+                                <label >Stock Minimo:</label>
+                                <select name="codigo1000[areaa][stock]">
+                                     <?php if (array_key_exists('1000L', $areaA)): ?>
+                                        <option  value="<?php  echo  $areaA['1000L']['stock']; ?>"><?php  echo   $areaA['1000L']['stock']; ?></option>
+                                     <?php endif; ?>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                                &nbsp;
+                                Embalagens
+                                <div class="field">
+                                 <label>Descrição:</label>
+                                 <textarea name="codigo1000[areaa][descricao]"  cols="1" rows="1"><?php if (isset($areaA))  {if (array_key_exists('1000L',$areaA)) echo  $areaA['1000L']['Utilização'];}?></textarea>
+                              </div>
+                              <div>
+                            </li>
+                           </ul>
+                        </li>
+                        <li style="margin-top:10px">
+                          <input type="hidden"  name="codigo1000[areab][checked]" value="" />
+                          <input type="checkbox" name="codigo1000[areab][checked]" <?php if (isset($areaB))  {if (array_key_exists('1000L',$areaB)) echo  ' checked ';}?> value="3"><h4 style="display: inline;">Area B:</h4></input>
+                          <ul>
+                            <li>
+                              <div class="field">
+                                <label >Stock Minimo:</label>
+                                <select name="codigo1000[areab][stock]">
+                                     <?php  if (array_key_exists('1000L', $areaB)): ?>
+                                        <option  value="<?php  echo  $areaB['1000L']['stock']; ?>"><?php  echo   $areaB['1000L']['stock']; ?></option>
+                                     <?php endif; ?>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                                &nbsp;
+                                Embalagens
+                                <div class="field">
+                                 <label>Descrição:</label>
+                                 <textarea name="codigo1000[areab][descricao]" cols="1" rows="1"><?php if (isset($areaB))  {if (array_key_exists('1000L',$areaB)) echo  $areaB['1000L']['Utilização'];} ?></textarea>
+                              </div>
+                              <div>
+                            </li>
+                           </ul>
+                        </li>
+                        <li style="margin-top:10px">
+                          <input type="hidden"  name="codigo1000[areac][checked]" value="" />
+                          <input type="checkbox" name="codigo1000[areac][checked]" <?php if (isset($areaC))  {if (array_key_exists('1000L',$areaC)) echo  ' checked ';} ?> value="1"><h4 style="display: inline;">Area C:</h4></input>
+                          <ul>
+                            <li>
+                              <div class="field">
+                                <label >Stock Minimo:</label>
+                                <select name="codigo1000[areac][stock]">
+                                     <?php if (array_key_exists('1000L', $areaC)): ?>
+                                        <option  value="<?php  echo  $areaC['1000L']['stock']; ?>"><?php  echo   $areaC['1000L']['stock']; ?></option>
+                                     <?php endif; ?>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                                &nbsp;
+                                Embalagens
+                                <div class="field">
+                                 <label>Descrição:</label>
+                                 <textarea name="codigo1000[areac][descricao]" cols="1" rows="1"><?php if (isset($areaC))  {if (array_key_exists('1000L',$areaC)) echo  $areaC['1000L']['Utilização'];} ?></textarea>
+                              </div>
+                              <div>
+                            </li>
+                           </ul>
+                        </li>
+                        <li style="margin-top:10px">
+                          <input type="hidden"  name="codigo1000[vuvb][checked]" value="" />
+                           <input type="checkbox" name="codigo1000[vuvb][checked]" <?php if (isset($vuvb))  {if (array_key_exists('1000L',$vuvb)) echo  ' checked ';} ?> value="5"><h4 style="display: inline;">VU/VB:</h4></input>
+                           <ul>
+                            <li>
+                              <div class="field">
+                                <label >Stock Minimo:</label>
+                                <select name="codigo1000[vuvb][stock]">
+                                     <?php if (array_key_exists('1000L', $vuvb)): ?>
+                                        <option  value="<?php  echo  $areaC['1000L']['stock']; ?>"><?php  echo   $vuvb['1000L']['stock']; ?></option>
+                                     <?php endif; ?>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                                &nbsp;
+                                Embalagens
+                                <div class="field">
+                                 <label>Descrição:</label>
+                                 <textarea name="codigo1000[vuvb][descricao]" cols="1" rows="1"><?php if (isset($vuvb))  {if (array_key_exists('1000L',$vuvb)) echo  $vuvb['1000L']['Utilização'];} ?></textarea>
+                              </div>
+                              <div>
+                            </li>
+                           </ul>
+                        </li>
+                        <li style="margin-top:10px">
+                          <input type="hidden"  name="codigo1000[hds][checked]" value="" />
+                           <input type="checkbox" name="codigo1000[hds][checked]" <?php if (isset($hds))  {if (array_key_exists('1000L',$hds)) echo  ' checked ';} ?> value="2"><h4 style="display: inline;">HDS:</h4></input>
+                           <ul>
+                            <li>
+                              <div class="field">
+                                <label >Stock Minimo:</label>
+                                <select name="codigo1000[hds][stock]">
+                                     <?php if (array_key_exists('1000L', $hds)): ?>
+                                        <option  value="<?php  echo  $hds['1000L']['stock']; ?>"><?php  echo   $hds['1000L']['stock']; ?></option>
+                                     <?php endif; ?>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                                &nbsp;
+                                Embalagens
+                              <div>
+                              <div class="field">
+                                 <label>Descrição:</label>
+                                 <textarea name="codigo1000[hds][descricao]"><?php if (isset($hds))  {if (array_key_exists('1000L',$hds)) echo  $hds['1000L']['Utilização'];} ?></textarea>
+                              </div>
+                            </li>
+                           </ul>
+                        </li>
+                    </ul>
+      </div>
+        </div>
+        <div class="wrapper">
+            <input type="submit" onclick="alterar_lub();" name="save" value="ALTERAR" class="submit" />
+        </div>
+    </fieldset>
+</form>
+<?php else: ?>
+  <h1>Acesso não autorizado </h1>
+<?php endif; ?>

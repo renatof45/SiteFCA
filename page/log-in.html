@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html id="main" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <meta name="description" content="FCO gest" />
+    <meta name="keywords" content="fco, sap ,autorizaçoes, trabalhos" />
+    <meta name="author" content="Renato Farreira" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/layout.css" rel="stylesheet" type="text/css" />
+    <script src="js/jquery-1.8.3.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/jquery.form.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+    <style type="text/css">
+    #content {
+        width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    #dvLoading {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: rgba( 255, 255, 255, .8) url('img/ajax-loader.gif') 50% 50% no-repeat;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="dvLoading"></div>
+    <div id="header">
+        <div id="logo">
+            <h1>FCOgest</h1>
+        </div>
+    </div>
+    <hr size=2>
+    <div id="content">
+        <?php if ($flashes): ?>
+        <ul id="flashes">
+            <?php foreach ($flashes as $flash): ?>
+            <li>
+                <?php echo $flash; ?>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+        <?php endif; ?>
+        <?php if (!empty($errors)): ?>
+        <ul class="errors">
+            <?php foreach ($errors as $error): ?>
+            <?php /* @var $error Error */ ?>
+            <li>
+                <?php echo $error->getMessage(); ?></li>
+            <?php endforeach; ?>
+        </ul>
+        <?php endif; ?>
+        <h1>Log-In</h1>
+        <form action="index.php" method="POST">
+            <fieldset>
+                <div class="field">
+                    <label>Nº mec.:</label>
+                    <input type="text" style="width: 68px" name="numero" class="text<?php echo error_field('numero', $errors); ?>" />
+                </div>
+                <div class="field">
+                    <label>PassWord:</label>
+                    <input type="password" style="width: 150px" name="pass" class="text<?php echo error_field('numero', $errors); ?>" />
+                </div>
+                <div class="wrapper">
+                    <input type="submit" name="sub" class="submit" onclick="$('#dvLoading').show();" value="Log-in" style="float:left;" />
+                </div>
+            </fieldset>
+        </form>
+        &nbsp;
+        <h1 style="margin-top: 20px;">Novo Utilizador</h1>
+        <form action="index.php/signin" method="post">
+            <div class="field">
+                <input type="submit" class="submit" onclick="$('#dvLoading').show();" value="Inscrever" style="float:left;" />
+            </div>
+        </form>
+        <h1 style="margin-top: 30px;margin-bottom: 10px;font-size: 20px;">Nota:</h1>
+        Se é a primeira vez que utiliza esta aplicação, mas já usava a 'antiga' para encomendar óleos, deixe a password em branco. Pode adicionar uma password indo a 'perfil'!
+    </div>
+    <div id="footer">
+        <hr size=2>
+        <div> 2014 &copy; Renato Ferreira, Todos direitos reservados</div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+<h1>Estado de equipamento dinamico</h1>
+
+<form id="ajaxform1" method="post">
+    <fieldset>
+
+        <div class="field">
+            <label>Unidade:</label>
+            <select name="unidade" onchange="subChangeEquipamentoUnidaded(this)">
+                <?php foreach ($unidades as $unidade): ?>
+                    <option 
+                    <?php
+                    if (array_key_exists('unidade', $_GET))
+                        if ($_GET['unidade'] == $unidade['id'])
+                            echo ' selected ';
+                    if (array_key_exists('unidade', $_POST)) {
+                        if ($_POST['unidade'] == $unidade['id'])
+                            echo ' selected ';
+                    }
+                    ?> 
+                        value="<?php echo $unidade['id'] ?>"><?php echo $unidade['designacao']; ?>
+                    </option>
+        <?php endforeach; ?>
+            </select>
+        </div>
+
+        <?php foreach ($equipamentos as $equipamento): ?>
+            <?php
+            foreach ($estados as $estado) {
+                if ($equipamento['estado'] == 5)
+                    $servico = true;
+                else
+                    $servico = false;
+                if ($equipamento['estado'] == 12)
+                    $disponibiblidade = true;
+                else
+                    $disponibiblidade = false;
+            }
+            ?>
+            <div class="field">
+                <label><?php echo $equipamento['Equipamento'] . ':' ?></label>
+                <input type="radio" <?php if ($servico) echo 'checked'; ?> onclick="subChangeEquipamentoStatus(<?php echo $equipamento['id'] ?>, this)" name="<?php echo $equipamento['Equipamento']; ?>:servico" style="float: left;margin-top: 2px;"><h4 style="color: #14BD14;width: 60px;float: left;">Serviço</h4></input>
+                <input type="radio" <?php if (!$servico) echo 'checked'; ?> onclick="subChangeEquipamentoStatus(<?php echo $equipamento['id'] ?>, this)" name="<?php echo $equipamento['Equipamento']; ?>:parada" style="float: left;margin-top: 2px;"><h4 style="color: #cd0a0a;width: 60px;float: left;">Parada</h4></input> 
+    <?php if (!$servico): ?>
+                    <select name="disponibiblidade" onchange="subChangeEquipamentoStatus(<?php echo $equipamento['id'] ?>, this)" style="margin-top: -2px;">
+                        <option value=1 <?php if ($disponibiblidade) echo ' selected'; ?>>Disponível</option>
+                        <option value=2 <?php if (!$disponibiblidade) echo ' selected'; ?>>Indisponível</option>
+                    </select>
+                    <?php
+                    if (!$disponibiblidade) {
+                        echo '<input type="button" name="vermais" onclick="subChangeEquipamentoStatus('. $equipamento['id'].',this)" style="margin-left: 20px;" value="Ver Mais" class="submit">';
+                    }
+                    ?>
+
+                    <div id="historico<?php echo $equipamento['id']; ?>" style="display:none;">
+                          <table id="show_history<?php echo $equipamento['id']; ?>" style="width:100%;">
+                            
+                        </table>
+                        <input type="button" name="alterar" onclick="subChangeEquipamentoStatus(<?php echo $equipamento['id'] ?>, this)" style="margin-top: 10px;margin-bottom: 10px;" value="Alterar Estado" class="submit">
+                    </div>
+    <?php endif; ?>
+            </div>
+    <?php endforeach; ?>
+
+
+    </fieldset>
+</form>
+<div id="dialog-indisponibilidade" title="Indique indisponibilidade">
+    <select id="status">           
+        <?php foreach ($estados as $estado): ?>
+            <option 
+                value="<?php echo $estado['id'] ?>"><?php echo $estado['descricao']; ?>
+            </option>
+<?php endforeach ?>
+    </select> 
+</div>
+
+<div id="dialog-disponibilidade" title="Indique indisponibilidade">
+    <select id="halt-status">           
+       <option value="1">Disponível</option>
+       <option value="2">Indisponível</option>
+    </select> 
+</div>

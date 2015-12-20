@@ -1,0 +1,69 @@
+<h1>Manobras Processuais</h1>
+
+<form id="ajaxform1" method="post">
+    <fieldset>
+        <?php if(array_key_exists('type', $_GET)): ?>
+        
+        <div class="field">
+            <label>Unidade:</label>
+            <select name="unidade" id="unidade">
+                <?php foreach ($unidades as $unidade): ?>
+                <option 
+                    <?php 
+                      if(array_key_exists('unidade', $_GET)) if($_GET['unidade']==$unidade['id']) echo ' selected '; 
+                    ?> 
+                    value="<?php echo $unidade['id'] ?>"><?php echo $unidade['designacao'];?>
+                </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+         <div class="field">
+            <label>Manobras:</label>
+            <select name="manobras" id="manobras">
+                <?php foreach ($manobras as $manobra): ?>
+                <option 
+                    value="<?php echo $manobra['id'] ?>"><?php echo $manobra['nome'];?>
+                </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="wrapper">
+            
+            <input type="button" onclick="processo(this);" name="vermanobra" value="Ver manobra" class="submit" />
+        </div>
+    <?php endif; ?>
+
+
+    <?php if(array_key_exists('manobra', $_GET)): ?>
+       <div class="field">
+            <label>Unidade:</label>
+            <p><?php echo $_GET['unidade']; ?>
+       </div>
+       <div class="field">
+            <label>Manobra:</label>
+            <p><?php echo $manobras['nome']; ?>
+       </div>
+       <div class="field">
+            <label>Passos:</label>    
+       </div>
+       <div id="passos">
+       <?php foreach ($manobras['passos'] as $passo): ?>
+       
+       <div class="field" style="margin-bottom:5px">
+            <label>Passo<?php echo $passos_count ?>:</label>
+            <input type="checkbox" name="passo<?php echo $passos_count ?>"  style="float: left;margin-top: 4px;"><p style="float: left;margin-bottom:5px;"><?php echo $passo ?></p>
+       </div>
+       <?php $passos_count++; ?>
+       <?php endforeach; ?>
+       </div>
+       <div class="wrapper">
+            
+            <input type="button" onclick="processo(this);" name="aceitarmanobra" value="Aceitar" class="submit" />
+        </div>
+    <?php endif; ?> 
+     </fieldset>
+  </form>
+
+  <div id="dialog-aceitar-manobra" title="Aceitar">
+    <p style="width: 250px;">Tem de aceitar todos os passos!</p> 
+</div>

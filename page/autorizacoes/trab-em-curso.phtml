@@ -1,0 +1,47 @@
+<?php if ($flashes): ?>
+                <ul id="flashes">
+                    <?php foreach ($flashes as $flash): ?>
+                        <li><?php echo $flash; ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+
+
+
+<form id="ajaxform1" method="post">
+    <fieldset>
+        <?php foreach ($trabalhos as $trabalho): ?>
+            <div class="field">
+                <label style="width: 130px;">Numero:</label>
+                <?php if ($trabalho['tipo'] == 1): ?>
+                    <p style="color: red"><?php echo Utils::stringrpl(3, ' ', Utils::stringAddZero($trabalho['Numero'])); ?></p>
+                <?php endif; ?>
+                <?php if ($trabalho['tipo'] == 2): ?>
+                    <p style="color: gold"><?php echo Utils::stringrpl(3, ' ', Utils::stringAddZero($trabalho['Numero'])); ?></p>
+                <?php endif; ?>
+            </div>
+            <div class="field">
+                <label style="width: 130px;">Descrição:</label>
+                <p><?php echo $trabalho['Descricao'] ?></p>
+            </div>
+            <div class="field">
+                <label style="width: 130px;">Firma:</label>
+                <p><?php echo $trabalho['Firma'] ?></p>
+            </div>
+            <div class="field">
+                <label style="width: 130px;">Data de inicio:</label>
+                <p><?php echo $trabalho['Data inicio'] ?></p>
+            </div>
+            <div class="field">
+                <label style="width: 130px;">Data de fim:</label>
+                <p><?php echo $trabalho['Data fim'] ?></p>
+            </div>
+           
+            &nbsp;
+            <p></p>
+            <hr size=1>
+            &nbsp;
+            <p></p>
+        <?php endforeach; ?>
+    </fieldset>
+</form>

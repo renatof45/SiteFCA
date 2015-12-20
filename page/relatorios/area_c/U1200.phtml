@@ -1,0 +1,285 @@
+ <table style="width: 100%">
+
+                <td style="width:300px;">
+                    <div class="field">
+                        <label style="width: 130px;margin-bottom: 75px;">Unidade:</label>
+                        <ul style="list-style:none;margin-top:-15px">
+                            <li>
+
+                                <input type="radio" onmouseover="if(this.checked){this.checked=false;}" name="1200[Unidade]"   value="1">Serciço</input>
+                            </li>
+                            <li>
+
+                                <input type="radio" onmouseover="if(this.checked){this.checked=false;}" name="1200[Unidade]"   value="2">Parada</input>
+                            </li>
+                            <li>
+
+                                <input type="radio" onmouseover="if(this.checked){this.checked=false;}" name="1200[Unidade]"   value="3">Arranque</input>
+                            </li>
+                            <li>
+
+                                <input type="radio" onmouseover="if(this.checked){this.checked=false;}" name="1200[Unidade]"   value="4">Paragem</input>
+                            </li>
+                            <li>
+
+                                <input type="radio" onmouseover="if(this.checked){this.checked=false;}" name="1200[Unidade]"   value="5">AP ByPass</input>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="field">
+                        <label style="width: 130px;margin-bottom: 0px;">Carga Destilada:</label>
+                        <input type="hidden"  name="1200[Carga-Destilada]" value="" />
+                        <input type="checkbox" name="1200[Carga-Destilada]"   value="true"></input>
+                    </div>
+                    <div class="field">
+                        <label style="width: 130px;margin-bottom: 0px;">Carga Dessulfurada:</label>
+                        <input type="hidden"  name="1200[Carga-Dessulfurada]" value="" />
+                        <input type="checkbox" name="1200[Carga-Dessulfurada]"   value="true"></input>
+                    </div>
+                    <div class="field">
+                        <label style="width: 130px;margin-bottom: 5px;">D-1209 c/ G. Selvagem:</label>
+                        <ul style="list-style:none;margin-top:20px">
+                            <li>
+                                <input type="hidden"  name="1200[selvagem][1400]" value="" />
+                                <input type="checkbox" name="1200[selvagem][1400]"   value="1">da U-1400</input>
+                            </li>
+                            <li>
+                                <input type="hidden"  name="1200[selvagem][3700]" value="" />
+                                <input type="checkbox" name="1200[selvagem][3700]"   value="2">da U-3700</input>
+                            </li>
+                            <li>
+                                <input type="hidden"  name="1200[selvagem][NaftaVB]" value="" />
+                                <input type="checkbox" name="1200[selvagem][NaftaVB]"   value="3">Nafta VB</input>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="field">
+                        <label style="width: 130px;margin-bottom: 55px;">Produção para:</label>
+                        <ul style="list-style:none;margin-top:20px">
+                            <li>
+                                <input type="hidden"  name="1200[producao][1300]" value="" />
+                                <input type="checkbox" name="1200[producao][1300]"   value="1">U-1300</input>
+                            </li>
+                            <li>
+                                <input type="hidden"  name="1200[producao][3300]" value="" />
+                                <input type="checkbox" name="1200[producao][3300]"   value="2">U-3300</input>
+                            </li>
+                            <li>
+                                <input type="hidden"  name="1200[producao][Armazenagem]" value="" />
+                                <input type="checkbox" name="1200[producao][Armazenagem]"   value="3">Armazenagem</input>
+                            </li>
+                            <li>
+                                <input type="hidden"  name="1200[producao][Re-run-parcial]" value="" />
+                                <input type="checkbox" name="1200[producao][Re-run-parcial]"   value="4">Re-run parcial</input>
+                            </li>
+                            <li>
+                                <input type="hidden"  name="1200[producao][Re-run-total]" value="" />
+                                <input type="checkbox" name="1200[producao][Re-run-total]"   value="5">Re-run total</input>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="field">
+                        <label style="width: 130px;margin-bottom: 5px;">Hidrogénio proveniente:</label>
+                        <ul style="list-style:none;margin-top:5px">
+                            <li>
+                                <input type="hidden"  name="1200[h2][1300]" value="" />
+                                <input type="checkbox" name="1200[h2][1300]"   value="true">da U-1300</input>
+                            </li>
+                            <li>
+                                <input type="hidden"  name="1200[h2][Colector]" value="" />
+                                <input type="checkbox" name="1200[h2][Colector]"   value="true">Colector geral</input>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="field">
+                        <label style="width: 110px;padding-bottom: 0px">P-1202:</label>
+                        <ul style="list-style:none">
+                            <li>
+                                <div class="field">
+                                    <label>em serviço:</label>
+                                    <select name="1200[p1202][sercico]">
+                                        <option value="1">sim</option>
+                                        <option value="0">não</option>                                        
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label style="width: 160px;">Se não,motivo e ações:</label>
+                                    <textarea style="width: 250px;height: 30px;" name="1200[p1202][motivo]" cols="1" rows="1"></textarea>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                   
+                   
+                </td>
+
+
+
+ <!-- Segunda coluna 1200 -->
+
+
+                <td>
+                    <div class="field">
+                        <label style="width: 110px;margin-bottom: 5px;">FIC1201:</label>
+                        <input type="text" name="1200[fic1201]" value="" class="text" style="width:50px"/>
+                        m3/h
+                    </div>
+                    <div class="field">
+                        <label style="width: 110px;margin-bottom: 5px;">FIC1212:</label>
+                        <input type="text" name="1200[fic1212]" value="" class="text" style="width:50px"/>
+                        m3/h
+                    </div>
+                    <div class="field">
+                        <label style="width: 110px;margin-bottom: 5px;">RATIO H2/HC:</label>
+                        <input type="text" name="1200[ratio]" value="" class="text" style="width:50px"/>
+                        Nm3/m3
+                    </div>
+                    <div class="field">
+                        <label style="width: 110px;margin-bottom: 5px;">&Delta; R1201:</label>
+                        <input type="text" name="1200[r1201]" value="" class="text" style="width:50px"/>
+                        Kg/cm2
+                    </div>
+                    <div class="field">
+                        <label style="width: 100px;padding-bottom: 0px;">C1201 A:</label>
+                        <ul style="list-style:none">
+                            <li>
+                                <div class="field">
+                                    <label>Make-up:</label>
+                                    <select name="1200[c1201a][makeup]">
+                                        <option value="0"></option>
+                                        <option value="25">25%</option>
+                                        <option value="50">50%</option>
+                                        <option value="75">75%</option>
+                                        <option value="100">100%</option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label>Reciclo:</label>
+                                    <select name="1200[c1201a][reciclo]">
+                                        <option value="0"></option>
+                                        <option value="25">25%</option>
+                                        <option value="50">50%</option>
+                                        <option value="75">75%</option>
+                                        <option value="100">100%</option>
+                                    </select>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="field">
+                        <label style="width: 100px;padding-bottom: 0px;">C1201 B:</label>
+                        <ul style="list-style:none">
+                            <li>
+                                <div class="field">
+                                    <label>Make-up:</label>
+                                    <select name="1200[c1201b][makeup]">
+                                        <option value="0"></option>
+                                        <option value="25">25%</option>
+                                        <option value="50">50%</option>
+                                        <option value="75">75%</option>
+                                        <option value="100">100%</option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label>Reciclo:</label>
+                                    <select name="1200[c1201b][reciclo]">
+                                        <option value="0"></option>
+                                        <option value="25">25%</option>
+                                        <option value="25">25%</option>
+                                        <option value="50">50%</option>
+                                        <option value="75">75%</option>
+                                        <option value="100">100%</option>
+                                    </select>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                     <div class="field" style="margin-top:5px">
+                        <label style="width: 110px;margin-bottom: 0px">P-1203:</label>
+                        <input type="text" name="1200[p1203]" value="" class="text" style="width:50px"/>
+                        cm/mn
+                    </div>
+                     <div class="field">
+                        <label style="padding-bottom:0px">Energia:</label>
+                        <ul style="list-style:none;margin-top:10px">
+                            <li>
+                                <div class="field">
+                                    <label></label>
+                                    <label style="width:50px">Incio</label>
+                                    <label>Fim</label>
+
+                                </div>
+                                <div class="field">
+                                    <label>O2R H1201:</label>
+                                    <input type="text" name="1200[o2r][inicio]" value="" class="text" style="width:50px"/>
+                                    <input type="text" name="1200[o2r][fim]" value="" class="text" style="width:50px"/>
+                                </div>
+                                <div class="field">
+                                    <label>PIC1246:</label>
+                                    <input type="text" name="1200[pic1246][inicio]" value="" class="text" style="width:50px"/>
+                                    <input type="text" name="1200[pic1246][fim]" value="" class="text" style="width:50px"/>
+                                </div>
+                                <div class="field">
+                                    <label>TI1251:</label>
+                                    <input type="text" name="1200[TI1251][inicio]" value="" class="text" style="width:50px"/>
+                                    <input type="text" name="1200[TI1251][fim]" value="" class="text" style="width:50px"/>
+                                </div>
+                                <div class="field">
+                                    <label>Consumo Esp.:</label>
+                                    <input type="text" name="1200[Consumo][inicio]" value="" class="text" style="width:50px"/>
+                                    <input type="text" name="1200[Consumo][fim]" value="" class="text" style="width:50px"/>
+                                </div>
+                                <div class="field">
+                                    <label>Eficiência:</label>
+                                    <input type="text" name="1200[Eficiência][inicio]" value="" class="text" style="width:50px"/>
+                                    <input type="text" name="1200[Eficiência][fim]" value="" class="text" style="width:50px"/>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="field" style="margin-top:20px">
+                        <label style="width: 110px;margin-bottom: 0px">Teste Doctor:</label>
+                        <select name="1200[doctor]">
+                            <option value="1">negativo</option>
+                            <option value="0">positivo</option>                                        
+                        </select>
+                    </div>
+                </td>
+
+
+            </table>
+            <div style="border: 1px solid;height: 120px;padding: 5px;border-top: none;" class="field">
+                <label style="width: 150px">Qualidade de produtos:</label>
+
+                <ul style="list-style:none">
+                    <li>
+                        <div class="field">
+                            <label style="width:110px"></label>
+                            <label style="width:55px">Plano</label>
+                            <label style="width:55px">Lab</label>
+                            <label>Ações</label>
+                        </div>
+                        <div class="field">
+                                    <label style="width: 110px">GPD (S):</label>
+                                    <input type="text" name="1200[gps][plano]" value="" class="text" style="width:50px"/>
+                                    <input type="text" name="1200[gps][lab]" value="" class="text" style="width:50px"/>
+                                    <input type="text" name="1200[gps][acao]" value="" class="text" style="width:400px"/>
+                                </div>
+                        <div class="field">
+                                    <label style="width: 110px">Gas. Leve (TV):</label>
+                                    <input type="text" name="1200[levetv][plano]" value="" class="text" style="width:50px"/>
+                                    <input type="text" name="1200[levetv][lab]" value="" class="text" style="width:50px"/>
+                                    <input type="text" name="1200[levetv][acao]" value="" class="text" style="width:400px"/>
+                                </div>
+                        <div class="field">
+                                    <label style="width: 110px">Gas. Leva (95%):</label>
+                                    <input type="text" name="1200[leve95][plano]" value="" class="text" style="width:50px"/>
+                                    <input type="text" name="1200[leve95][lab]" value="" class="text" style="width:50px"/>
+                                    <input type="text" name="1200[leve95][acao]" value="" class="text" style="width:400px"/>
+                                </div>
+                    </li>
+                </ul>
+            </div>
+            

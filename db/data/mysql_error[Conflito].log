@@ -1,0 +1,96 @@
+2015-05-24 19:16:49 2060 [Note] Plugin 'FEDERATED' is disabled.
+2015-05-24 19:16:50 a6c InnoDB: Warning: Using innodb_additional_mem_pool_size is DEPRECATED. This option may be removed in future releases, together with the option innodb_use_sys_malloc and with the InnoDB's internal memory allocator.
+2015-05-24 19:16:50 2060 [Note] InnoDB: Using atomics to ref count buffer pool pages
+2015-05-24 19:16:50 2060 [Note] InnoDB: The InnoDB memory heap is disabled
+2015-05-24 19:16:50 2060 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2015-05-24 19:16:50 2060 [Note] InnoDB: Memory barrier is not used
+2015-05-24 19:16:50 2060 [Note] InnoDB: Compressed tables use zlib 1.2.3
+2015-05-24 19:16:50 2060 [Note] InnoDB: Not using CPU crc32 instructions
+2015-05-24 19:16:50 2060 [Note] InnoDB: Initializing buffer pool, size = 16.0M
+2015-05-24 19:16:50 2060 [Note] InnoDB: Completed initialization of buffer pool
+2015-05-24 19:16:51 2060 [Note] InnoDB: Highest supported file format is Barracuda.
+2015-05-24 19:17:01 2060 [Note] InnoDB: 128 rollback segment(s) are active.
+2015-05-24 19:17:01 2060 [Note] InnoDB: Waiting for purge to start
+2015-05-24 19:17:01 2060 [Note] InnoDB: 5.6.24 started; log sequence number 1665234
+2015-05-24 19:17:01 2060 [Note] Server hostname (bind-address): '*'; port: 3306
+2015-05-24 19:17:01 2060 [Note] IPv6 is available.
+2015-05-24 19:17:01 2060 [Note]   - '::' resolves to '::';
+2015-05-24 19:17:01 2060 [Note] Server socket created on IP: '::'.
+2015-05-24 19:17:14 2060 [Note] Event Scheduler: Loaded 0 events
+2015-05-24 19:17:14 2060 [Note] c:\xampp\mysql\bin\mysqld.exe: ready for connections.
+Version: '5.6.24'  socket: ''  port: 3306  MySQL Community Server (GPL)
+2015-05-24 20:20:18 4060 [Note] Plugin 'FEDERATED' is disabled.
+2015-05-24 20:20:18 f9c InnoDB: Warning: Using innodb_additional_mem_pool_size is DEPRECATED. This option may be removed in future releases, together with the option innodb_use_sys_malloc and with the InnoDB's internal memory allocator.
+2015-05-24 20:20:18 4060 [Note] InnoDB: Using atomics to ref count buffer pool pages
+2015-05-24 20:20:18 4060 [Note] InnoDB: The InnoDB memory heap is disabled
+2015-05-24 20:20:18 4060 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2015-05-24 20:20:18 4060 [Note] InnoDB: Memory barrier is not used
+2015-05-24 20:20:18 4060 [Note] InnoDB: Compressed tables use zlib 1.2.3
+2015-05-24 20:20:18 4060 [Note] InnoDB: Not using CPU crc32 instructions
+2015-05-24 20:20:18 4060 [Note] InnoDB: Initializing buffer pool, size = 16.0M
+2015-05-24 20:20:18 4060 [Note] InnoDB: Completed initialization of buffer pool
+2015-05-24 20:20:18 4060 [Note] InnoDB: Highest supported file format is Barracuda.
+2015-05-24 20:20:18 4060 [Note] InnoDB: The log sequence numbers 1665234 and 1665234 in ibdata files do not match the log sequence number 1669304 in the ib_logfiles!
+2015-05-24 20:20:18 4060 [Note] InnoDB: Database was not shutdown normally!
+2015-05-24 20:20:18 4060 [Note] InnoDB: Starting crash recovery.
+2015-05-24 20:20:18 4060 [Note] InnoDB: Reading tablespace information from the .ibd files...
+2015-05-24 20:20:18 4060 [Note] InnoDB: Restoring possible half-written data pages 
+2015-05-24 20:20:18 4060 [Note] InnoDB: from the doublewrite buffer...
+2015-05-24 20:20:19 4060 [Note] InnoDB: 128 rollback segment(s) are active.
+2015-05-24 20:20:19 4060 [Note] InnoDB: Waiting for purge to start
+2015-05-24 20:20:19 4060 [Note] InnoDB: 5.6.24 started; log sequence number 1669304
+2015-05-24 20:20:19 4060 [Note] Server hostname (bind-address): '*'; port: 3306
+2015-05-24 20:20:19 4060 [Note] IPv6 is available.
+2015-05-24 20:20:19 4060 [Note]   - '::' resolves to '::';
+2015-05-24 20:20:19 4060 [Note] Server socket created on IP: '::'.
+2015-05-24 20:20:19 4060 [Note] Event Scheduler: Loaded 0 events
+2015-05-24 20:20:19 4060 [Note] c:\xampp\mysql\bin\mysqld.exe: ready for connections.
+Version: '5.6.24'  socket: ''  port: 3306  MySQL Community Server (GPL)
+2015-05-24 20:40:16 5012 [Note] Plugin 'FEDERATED' is disabled.
+2015-05-24 20:40:16 1044 InnoDB: Warning: Using innodb_additional_mem_pool_size is DEPRECATED. This option may be removed in future releases, together with the option innodb_use_sys_malloc and with the InnoDB's internal memory allocator.
+2015-05-24 20:40:16 5012 [Note] InnoDB: Using atomics to ref count buffer pool pages
+2015-05-24 20:40:16 5012 [Note] InnoDB: The InnoDB memory heap is disabled
+2015-05-24 20:40:16 5012 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2015-05-24 20:40:16 5012 [Note] InnoDB: Memory barrier is not used
+2015-05-24 20:40:16 5012 [Note] InnoDB: Compressed tables use zlib 1.2.3
+2015-05-24 20:40:16 5012 [Note] InnoDB: Not using CPU crc32 instructions
+2015-05-24 20:40:16 5012 [Note] InnoDB: Initializing buffer pool, size = 16.0M
+2015-05-24 20:40:16 5012 [Note] InnoDB: Completed initialization of buffer pool
+2015-05-24 20:40:16 5012 [Note] InnoDB: Highest supported file format is Barracuda.
+2015-05-24 20:40:17 5012 [Note] InnoDB: The log sequence numbers 1665234 and 1665234 in ibdata files do not match the log sequence number 1675673 in the ib_logfiles!
+2015-05-24 20:40:17 5012 [Note] InnoDB: Database was not shutdown normally!
+2015-05-24 20:40:17 5012 [Note] InnoDB: Starting crash recovery.
+2015-05-24 20:40:17 5012 [Note] InnoDB: Reading tablespace information from the .ibd files...
+2015-05-24 20:40:17 5012 [Note] InnoDB: Restoring possible half-written data pages 
+2015-05-24 20:40:17 5012 [Note] InnoDB: from the doublewrite buffer...
+2015-05-24 20:40:21 5012 [ERROR] InnoDB: Table galp/unidades in the InnoDB data dictionary has tablespace id 10, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-05-24 20:40:21 5012 [Note] InnoDB: 128 rollback segment(s) are active.
+2015-05-24 20:40:21 5012 [Note] InnoDB: Waiting for purge to start
+2015-05-24 20:40:21 5012 [Note] InnoDB: 5.6.24 started; log sequence number 1675673
+2015-05-24 20:40:21 5012 [Note] Server hostname (bind-address): '*'; port: 3306
+2015-05-24 20:40:21 5012 [Note] IPv6 is available.
+2015-05-24 20:40:21 5012 [Note]   - '::' resolves to '::';
+2015-05-24 20:40:21 5012 [Note] Server socket created on IP: '::'.
+2015-05-24 20:40:21 5012 [Note] Event Scheduler: Loaded 0 events
+2015-05-24 20:40:21 5012 [Note] c:\xampp\mysql\bin\mysqld.exe: ready for connections.
+Version: '5.6.24'  socket: ''  port: 3306  MySQL Community Server (GPL)
+2015-05-24 20:40:54 5012 [ERROR] InnoDB: Failed to find tablespace for table '"galp"."unidades"' in the cache. Attempting to load the tablespace with space id 10.
+2015-05-24 20:40:54 108c  InnoDB: Operating system error number 2 in a file operation.
+InnoDB: Some operating system error numbers are described at
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/operating-system-error-codes.html
+2015-05-24 20:40:54 5012 [ERROR] InnoDB: Could not find a valid tablespace file for 'galp/unidades'. See http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html for how to resolve the issue.
+2015-05-24 20:40:54 108c InnoDB: cannot calculate statistics for table "galp"."unidades" because the .ibd file is missing. For help, please refer to http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting.html
+2015-05-24 20:41:13 108c InnoDB: cannot calculate statistics for table "galp"."unidades" because the .ibd file is missing. For help, please refer to http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting.html
+2015-05-24 20:42:09 108c InnoDB: cannot calculate statistics for table "galp"."unidades" because the .ibd file is missing. For help, please refer to http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting.html
+2015-05-24 20:42:09 108c InnoDB: cannot calculate statistics for table "galp"."unidades" because the .ibd file is missing. For help, please refer to http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting.html
+2015-05-24 20:42:10 278 InnoDB: cannot calculate statistics for table "galp"."unidades" because the .ibd file is missing. For help, please refer to http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting.html
+2015-05-24 20:42:13 278 InnoDB: cannot calculate statistics for table "galp"."unidades" because the .ibd file is missing. For help, please refer to http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting.html
+2015-05-24 20:42:17 108c InnoDB: cannot calculate statistics for table "galp"."unidades" because the .ibd file is missing. For help, please refer to http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting.html
+2015-05-24 20:42:33 278 InnoDB: cannot calculate statistics for table "galp"."unidades" because the .ibd file is missing. For help, please refer to http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting.html
+2015-05-24 20:42:46 278 InnoDB: cannot calculate statistics for table "galp"."unidades" because the .ibd file is missing. For help, please refer to http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting.html
+2015-05-24 20:43:00 93c InnoDB: cannot calculate statistics for table "galp"."unidades" because the .ibd file is missing. For help, please refer to http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting.html
+2015-05-24 20:43:50 93c InnoDB: cannot calculate statistics for table "galp"."unidades" because the .ibd file is missing. For help, please refer to http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting.html
+2015-05-24 20:44:10 93c InnoDB: cannot calculate statistics for table "galp"."unidades" because the .ibd file is missing. For help, please refer to http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting.html

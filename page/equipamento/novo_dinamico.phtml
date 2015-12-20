@@ -1,0 +1,28 @@
+<h1>Novo equipamento dinamico</h1>
+
+<form id="ajaxform1" method="post">
+    <fieldset>
+        
+        <div class="field">
+            <label>Unidade:</label>
+            <select name="unidade">
+                <?php foreach ($unidades as $unidade): ?>
+                <option 
+                    <?php 
+                      if(array_key_exists('unidade', $_GET)) if($_GET['unidade']==$unidade['id']) echo ' selected '; 
+                    ?> 
+                    value="<?php echo $unidade['id'] ?>"><?php echo $unidade['designacao'];?>
+                </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="field">
+            <label>Equipamento:</label>
+            <input type="text" style="width: 200px" name="equipamento"/>
+        </div>
+         <div class="wrapper">
+            
+            <input type="submit" onclick="novo_equipamento();" name="save" value="<?php echo 'ADICIONAR'; ?>" class="submit" />
+        </div>
+     </fieldset>
+  </form>

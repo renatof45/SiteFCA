@@ -1,0 +1,59 @@
+<?php if ($flashes): ?>
+                <ul id="flashes">
+                    <?php foreach ($flashes as $flash): ?>
+                        <li><?php echo $flash; ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+
+
+<h1>Receção de Óleos</h1>
+<form id="ajaxform1"  method="post">
+    <fieldset>
+
+        <?php foreach ($pendentes as $pendente): ?>
+            <div class="field">
+                <label style="width: 130px;">Óleo:</label>
+                <p><?php echo $pendente['Designacao'] ?></p>
+           </div>
+           <div class="field">
+                <label style="width: 130px;">Embalagem:</label>
+                <p><?php echo $pendente['Capacidade'] ?></p>
+           </div>
+           <div class="field">
+                <label style="width: 130px;">Encomendado em:</label>
+                <p><?php echo $pendente['Data_de_encomenda'] ?></p>
+           </div>
+           <div class="field">
+                <label style="width: 130px;">Encomendado por:</label>
+                <p><?php echo $pendente['Nome'] ?></p>
+           </div>
+                <?php if($pendente['Tipo']==1): ?>        
+                        <div class="field">
+                             <label style="width: 130px;">Encomendado para:</label>
+                              <p>Stoks</p>
+                        </div>
+                <?php endif; ?>
+                <?php  if($pendente['Tipo']==2): ?>
+                        <div class="field">
+                             <label style="width: 130px;">Encomendado para:</label>
+                              <p>Trabalho de manutenção</p>
+                        </div>
+                        <div class="field">
+                             <label style="width: 130px;">Trabalho:</label>
+                              <p><?php echo $pendente['Descricao'] ?></p>
+                        </div>
+                <?php endif; ?> 
+                
+                <div class="wrapper">
+                        <input type="button" onclick="rec_oleo(<?php echo $pendente['ID']; ?>);" STYLE="width: 100PX" value="RECECIONAR" class="submit" />
+                </div>
+                &nbsp;
+                <p></p>
+               <hr size=1>
+               &nbsp;
+                <p></p>
+        <?php endforeach; ?>
+   
+        </fieldset>
+</form>
