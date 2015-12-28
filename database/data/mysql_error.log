@@ -7478,3 +7478,134 @@ InnoDB: http://dev.mysql.com/doc/refman/5.6/en/operating-system-error-codes.html
 2015-12-20 18:50:42 4268 [Note] Event Scheduler: Loaded 0 events
 2015-12-20 18:50:42 4268 [Note] c:\xampp\mysql\bin\mysqld.exe: ready for connections.
 Version: '5.6.24'  socket: ''  port: 3306  MySQL Community Server (GPL)
+2015-12-28 17:01:51 3112 [Note] Plugin 'FEDERATED' is disabled.
+2015-12-28 17:01:51 7ac InnoDB: Warning: Using innodb_additional_mem_pool_size is DEPRECATED. This option may be removed in future releases, together with the option innodb_use_sys_malloc and with the InnoDB's internal memory allocator.
+2015-12-28 17:01:51 3112 [Note] InnoDB: Using atomics to ref count buffer pool pages
+2015-12-28 17:01:51 3112 [Note] InnoDB: The InnoDB memory heap is disabled
+2015-12-28 17:01:51 3112 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2015-12-28 17:01:51 3112 [Note] InnoDB: Memory barrier is not used
+2015-12-28 17:01:51 3112 [Note] InnoDB: Compressed tables use zlib 1.2.3
+2015-12-28 17:01:51 3112 [Note] InnoDB: Not using CPU crc32 instructions
+2015-12-28 17:01:51 3112 [Note] InnoDB: Initializing buffer pool, size = 16.0M
+2015-12-28 17:01:51 3112 [Note] InnoDB: Completed initialization of buffer pool
+2015-12-28 17:01:51 3112 [Note] InnoDB: Highest supported file format is Barracuda.
+2015-12-28 17:01:51 3112 [Note] InnoDB: The log sequence numbers 1665234 and 1665234 in ibdata files do not match the log sequence number 1877699 in the ib_logfiles!
+2015-12-28 17:01:51 3112 [Note] InnoDB: Database was not shutdown normally!
+2015-12-28 17:01:51 3112 [Note] InnoDB: Starting crash recovery.
+2015-12-28 17:01:51 3112 [Note] InnoDB: Reading tablespace information from the .ibd files...
+2015-12-28 17:01:51 3112 [Note] InnoDB: Restoring possible half-written data pages 
+2015-12-28 17:01:51 3112 [Note] InnoDB: from the doublewrite buffer...
+2015-12-28 17:01:52 3112 [ERROR] InnoDB: Table galp/status in the InnoDB data dictionary has tablespace id 36, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-12-28 17:01:52 3112 [ERROR] InnoDB: Table galp/status@002dequipamento in the InnoDB data dictionary has tablespace id 38, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-12-28 17:01:52 3112 [ERROR] InnoDB: Table galp/unidades in the InnoDB data dictionary has tablespace id 11, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-12-28 17:01:52 3112 [ERROR] InnoDB: Table mysql/innodb_index_stats in the InnoDB data dictionary has tablespace id 2, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-12-28 17:01:52 3112 [ERROR] InnoDB: Table mysql/innodb_table_stats in the InnoDB data dictionary has tablespace id 1, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-12-28 17:01:52 3112 [ERROR] InnoDB: Table mysql/slave_master_info in the InnoDB data dictionary has tablespace id 4, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-12-28 17:01:52 3112 [ERROR] InnoDB: Table mysql/slave_relay_log_info in the InnoDB data dictionary has tablespace id 3, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-12-28 17:01:52 3112 [ERROR] InnoDB: Table mysql/slave_worker_info in the InnoDB data dictionary has tablespace id 5, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-12-28 17:01:52 3112 [ERROR] InnoDB: Table phpmyadmin/pma_navigationhiding in the InnoDB data dictionary has tablespace id 8, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-12-28 17:01:52 3112 [ERROR] InnoDB: Table phpmyadmin/pma_savedsearches in the InnoDB data dictionary has tablespace id 9, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-12-28 17:01:52 3112 [ERROR] InnoDB: Table phpmyadmin/pma_usergroups in the InnoDB data dictionary has tablespace id 7, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-12-28 17:01:52 3112 [ERROR] InnoDB: Table phpmyadmin/pma_users in the InnoDB data dictionary has tablespace id 6, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-12-28 17:01:52 3112 [Note] InnoDB: 128 rollback segment(s) are active.
+2015-12-28 17:01:52 3112 [Note] InnoDB: Waiting for purge to start
+2015-12-28 17:01:52 3112 [ERROR] InnoDB: Failed to find tablespace for table '"mysql"."innodb_index_stats"' in the cache. Attempting to load the tablespace with space id 2.
+2015-12-28 17:01:52 9e4  InnoDB: Operating system error number 2 in a file operation.
+InnoDB: Some operating system error numbers are described at
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/operating-system-error-codes.html
+2015-12-28 17:01:52 3112 [ERROR] InnoDB: Could not find a valid tablespace file for 'mysql/innodb_index_stats'. See http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html for how to resolve the issue.
+2015-12-28 17:01:52 3112 [ERROR] InnoDB: Failed to find tablespace for table '"mysql"."innodb_table_stats"' in the cache. Attempting to load the tablespace with space id 1.
+2015-12-28 17:01:52 9e4  InnoDB: Operating system error number 2 in a file operation.
+InnoDB: Some operating system error numbers are described at
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/operating-system-error-codes.html
+2015-12-28 17:01:52 3112 [ERROR] InnoDB: Could not find a valid tablespace file for 'mysql/innodb_table_stats'. See http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html for how to resolve the issue.
+2015-12-28 17:01:52 3112 [Note] InnoDB: 5.6.24 started; log sequence number 1877699
+2015-12-28 17:01:52 3112 [Note] Server hostname (bind-address): '*'; port: 3306
+2015-12-28 17:01:52 3112 [Note] IPv6 is available.
+2015-12-28 17:01:52 3112 [Note]   - '::' resolves to '::';
+2015-12-28 17:01:52 3112 [Note] Server socket created on IP: '::'.
+2015-12-28 17:01:52 3112 [Warning] Info table is not ready to be used. Table 'mysql.slave_master_info' cannot be opened.
+2015-12-28 17:01:52 3112 [Warning] Info table is not ready to be used. Table 'mysql.slave_relay_log_info' cannot be opened.
+2015-12-28 17:01:52 3112 [ERROR] Column count of mysql.events_waits_current is wrong. Expected 19, found 16. Created with MySQL 50525, now running 50624. Please use mysql_upgrade to fix this error.
+2015-12-28 17:01:52 3112 [ERROR] Column count of mysql.events_waits_history is wrong. Expected 19, found 16. Created with MySQL 50525, now running 50624. Please use mysql_upgrade to fix this error.
+2015-12-28 17:01:52 3112 [ERROR] Column count of mysql.events_waits_history_long is wrong. Expected 19, found 16. Created with MySQL 50525, now running 50624. Please use mysql_upgrade to fix this error.
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'events_waits_summary_by_host_by_event_name' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Incorrect definition of table performance_schema.events_waits_summary_by_thread_by_event_name: expected column 'THREAD_ID' at position 0 to have type bigint(20), found type int(11).
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'events_waits_summary_by_user_by_event_name' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'events_waits_summary_by_account_by_event_name' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Column count of mysql.file_summary_by_event_name is wrong. Expected 23, found 5. Created with MySQL 50525, now running 50624. Please use mysql_upgrade to fix this error.
+2015-12-28 17:01:52 3112 [ERROR] Column count of mysql.file_summary_by_instance is wrong. Expected 25, found 6. Created with MySQL 50525, now running 50624. Please use mysql_upgrade to fix this error.
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'host_cache' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Incorrect definition of table performance_schema.mutex_instances: expected column 'LOCKED_BY_THREAD_ID' at position 2 to have type bigint(20), found type int(11).
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'objects_summary_global_by_type' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Incorrect definition of table performance_schema.rwlock_instances: expected column 'WRITE_LOCKED_BY_THREAD_ID' at position 2 to have type bigint(20), found type int(11).
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'setup_actors' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'setup_objects' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'table_io_waits_summary_by_index_usage' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'table_io_waits_summary_by_table' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'table_lock_waits_summary_by_table' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Column count of mysql.threads is wrong. Expected 14, found 3. Created with MySQL 50525, now running 50624. Please use mysql_upgrade to fix this error.
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'events_stages_current' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'events_stages_history' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'events_stages_history_long' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'events_stages_summary_by_thread_by_event_name' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'events_stages_summary_by_account_by_event_name' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'events_stages_summary_by_user_by_event_name' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'events_stages_summary_by_host_by_event_name' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'events_stages_summary_global_by_event_name' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'events_statements_current' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'events_statements_history' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'events_statements_history_long' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'events_statements_summary_by_thread_by_event_name' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'events_statements_summary_by_account_by_event_name' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'events_statements_summary_by_user_by_event_name' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'events_statements_summary_by_host_by_event_name' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'events_statements_summary_global_by_event_name' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'events_statements_summary_by_digest' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'users' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'accounts' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'hosts' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'socket_instances' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'socket_summary_by_instance' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'socket_summary_by_event_name' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'session_connect_attrs' has the wrong structure
+2015-12-28 17:01:52 3112 [ERROR] Native table 'performance_schema'.'session_account_connect_attrs' has the wrong structure
+2015-12-28 17:01:52 3112 [Note] Event Scheduler: Loaded 0 events
+2015-12-28 17:01:52 3112 [Note] c:\xampp\mysql\bin\mysqld.exe: ready for connections.
+Version: '5.6.24'  socket: ''  port: 3306  MySQL Community Server (GPL)
