@@ -5,13 +5,41 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!--<link href="css/galpcss.css" rel="stylesheet" type="text/css" />-->
         <link href="css/default.css" rel="stylesheet" type="text/css" />
+        <link href="css/tinyscrollbar.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+        <script src="js/jquery.tinyscrollbar.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('#scrollbar1').tinyscrollbar();
+            });
+            
+            function showscroll(obj){
+                $("#feed").css("overflow", "auto");
+            }
+            
+            function hidescrooll(){
+                $("#feed").css("overflow", "hidden");
+            }
+        </script>
+        <style>
+            #noticias { margin: 0 0 0 20px; clear: both; }
+            #noticias a:link, #noticias a:visited { background-image: url(../img/dotted.jpg); background-repeat: repeat-x; background-position: bottom left; width: 375px; display: block; padding: 10px 0 12px 0; }
+            #noticias a.ultimo:link,  a.ultimo:visited { background-image: none; }
+            #noticias .data { font-weight: bold; color: #333; padding: 0 2px 0 0; }
+            #noticias .cat { font-weight: bold; color: #f37020; text-transform: uppercase; padding: 0 0 0 6px; background: url(../img/li-preto.gif) no-repeat 0 -4px; }
+            #noticias .desc { display: block; line-height: 18px; }
+            #noticias .estilo-link { color: #f37020; float: right; margin: 0 10px 10px 0; }
+            #noticias a:hover { text-decoration: none; background-color: #FAF5F1; }
+
+        </style>
     </head>
     <body>
         <div >
 
             <div id="wrapper" >
                 <div id="topheader">
-                    
+
                     <div id="breadcrumbs">Voc&ecirc; est&aacute; aqui: <a href="login.html" title="In&iacute;cio">In&iacute;cio</a>  &gt; Pagina Principal</div>
                 </div>
                 <div id="main-menu">
@@ -26,44 +54,7 @@
                     <a href="http://www.galpenergia.com" id="logo" onclick="target='_blank'" title="Galp Energia">Galp logo site </a>
                     <h1 class="title"><a href="login.html" title="PortalFCA">PortalFCA</a></h1>
                 </div>
-                <div style="position: absolute;bottom: 30px;overflow: auto;top: 130px;width: 940px;">
-                    <div style="margin-left: 50px;margin-bottom: 10px;width: 400px;height: 600px;float: left;clear: both">
-                        <div style="width: 400px;height: 300px">Apressentação</div>
-                        
-                        <!-- Log in Form -->
-                        
-                        <div style="width: 400px;height: 300px">
-                            <div class="box boxForm">
-                                <h3>Login / Registo</h3>
-                                <div class="inner">
-                                    <form action="index.php/login" method="post" name="loginForm" autocomplete="off" class="loginForm">
-                                        <div>			
-                                            <input type="hidden" value="/web/error.html" name="loginNotOk"/>
-                                            <input type="hidden" value="/web/login.html" name="customLoginPage"/>
-                                        </div>
-                                        <fieldset>
-                                            <label accesskey="u" for="username">Utilizador</label>
-                                            <input type="text" id="username" name="login" size="12" maxlength="255" tabindex="1"/>
-                                            <label accesskey="p" for="password">Senha</label>
-                                            <input type="password" id="password" name="password" size="12" maxlength="255" tabindex="2"/>
-                                            <input type="image" name="submit" id="Enter" alt="Entrar" tabindex="3" src="../img/btnSubmit.gif" class="goButton"/>
-                                        </fieldset>
-                                    </form>
-                                    <ul>
-                                        <li><a href="supplier_qualification.html" title="Clique aqui para se registar!">Clique aqui para se registar!</a></li>
-                                        <li><a href="/esop/guest/go/public/lostPwd?locale=pt_PT" title="Esqueceu-se da sua senha?">Esqueceu-se da sua senha?</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        
-                    </div>
-                    <div style="margin-right: 50px;margin-bottom: 10px;width: 400px;height: 600px;float: right">
-                        <div style="width: 400px;height: 300px;">Feed</div>
-                        <div style="width: 400px;height: 300px;">Grupos de trabalho</div>
-                    </div>
-                </div>
+                <?php require '../layout/intro.html'; ?>
                 <div id="footer" style="position: absolute;width: 940px;bottom: 0px">
 
                     <div class="clear separator"></div>
