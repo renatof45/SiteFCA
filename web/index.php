@@ -35,7 +35,6 @@ require_once('../php-ews/sendmail.php');
 //spl_autoload_register('loadClass');
 session_start();
 
-
 function error_field($title, array $errors) {
     foreach ($errors as $error) {
         /* @var $error Error */
@@ -46,20 +45,99 @@ function error_field($title, array $errors) {
     return '';
 }
 
+function checkLogIn() {
+    if (!array_key_exists('user', $_SESSION)) {
+        $app = \Slim\Slim::getInstance();
+        $app->redirect('/home');
+    }
+}
+
 $app = new \Slim\Slim(array(
-            'templates.path' => './',
+    'templates.path' => './',
         ));
 
 
-$app->get('/', function() use ($app) {
-            $errors = array();
-            $flashes = null;
-            require '../layout/index.phtml';
-        });
+$app->get('/', 'checkLogIn', function() use ($app) {
+    $errors = array();
+    $flashes = null;
+    require '../layout/index.phtml';
+});
 
 
-$app->post('/login',function() use ($app){
-            require '../page/home.html';
+$app->post('/login', function() use ($app) {
+    $errors = array();
+    if (array_key_exists('sub', $_POST)) {
+
+        if ($_POST['numero'] == '' || !is_numeric($_POST['numero'])) {
+
+            $app->redirect('/index.php?error');
+        } else {
+            $dao = new UtilizadorDao();
+            $user = $dao->getUser($_POST['numero']);
+            //print_r($user);
+            if (array_key_exists('id', $user)) {
+                if (($user['id'] == intval($_POST['numero']) && $user['pass'] == $_POST['pass'])) {
+                    reset($user['area']);
+                    $_SESSION['area'] = key($user['area']);
+                    $_SESSION['user'] = $_POST['numero'];
+                    $_SESSION['user_name'] = $user['nome'];
+                    $relatoriodao = new RelatorioDao();
+                    if ($user['tipo'] == 2) {
+                        date_default_timezone_set('Europe/Lisbon');
+                        $hora = date("H:i:s");
+                        if ($hora > "06:00:00" && $hora < "14:00:00") {
+                            if ($hora > "00:00:00") {
+                                $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d'), 1);
+                                if ($relatorio) {
+                                    $_SESSION['relatorio'] = $relatorio;
+                                } else {
+                                    $relatorio = $relatoriodao->insert(1, date('Y-m-d'));
+                                    $_SESSION['relatorio'] = $relatorio;
+                                }
+                            }
+                            $_SESSION['turno'] = 1;
+                        } else if ($hora > "14:00:00" && $hora < "22:00:00") {
+                            if ($hora > "00:00:00") {
+                                $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d'), 2);
+                                if ($relatorio) {
+                                    $_SESSION['relatorio'] = $relatorio;
+                                } else {
+                                    $relatorio = $relatoriodao->insert(2, date('Y-m-d'));
+                                    $_SESSION['relatorio'] = $relatorio;
+                                }
+                            }
+
+                            $_SESSION['turno'] = 2;
+                        } else {
+                            if ($hora > "22:00:00") {
+                                $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d'), 3);
+                                if ($relatorio) {
+                                    $_SESSION['relatorio'] = $relatorio;
+                                } else {
+                                    $relatorio = $relatoriodao->insert(3, date('Y-m-d'));
+                                    $_SESSION['relatorio'] = $relatorio;
+                                }
+                            } else {
+                                $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d', (strtotime('-1 day'))), 3);
+                                if ($relatorio) {
+                                    $_SESSION['relatorio'] = $relatorio;
+                                } else {
+                                    $relatorio = $relatoriodao->insert(3, date('Y-m-d', (strtotime('-1 day'))));
+                                    $_SESSION['relatorio'] = $relatorio;
+                                }
+                            }
+                            $_SESSION['turno'] = 3;
+                        }
+                        //echo $_SESSION['turno'];
+                        require '../layout/layout.phtml';
+                    } else
+                        require '../layout/layout_exterior.phtml';
+                } else
+                    $app->redirect('/index.php?error');
+            } else
+                $app->redirect('/index.php?error');
+        }
+    }
 });
 
 $app->run();
