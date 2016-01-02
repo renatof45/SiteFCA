@@ -4,27 +4,19 @@
     position: relative;
 }
 
-#header {
-    height: 245px;
-    background: url(../img/header-bg.jpg) no-repeat left top;
-}
-#header, #content, #footer {
-    font-size: 0.75em;
-}
 
 .col-1, .col-2, .col-3 {
+    position: absolute;
     float: left;
+    overflow: auto;
 }
 
-#page #content .col-1 {
+.col-1 {
     width: 250px;
     margin-right: 20px;
 }
-#page #content .col-2 {
+.col-2 {
     width: 650px;
-    min-height: 500px;
-}
-
-#footer {
-    height: 89px;
+    left:450px;
+    
 }

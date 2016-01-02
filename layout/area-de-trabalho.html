@@ -1,0 +1,163 @@
+<div style="overflow: auto; position: absolute;bottom: 30px;top: 130px;width: 940px;">
+    <div style="position: absolute; overflow: auto;bottom: 0px;top: 0px;width: 250px;">
+        <ul id="accordion">
+            <li>
+                <h4>Home</h4>
+                <ul>
+                    <li><a href="javascript:home()">Home</a></li>
+                    <li><a href="javascript:perfil()">Perfil</a></li>
+                </ul>
+            </li>
+            <li>
+                <h4>Lubrificantes</h4>
+                <ul>
+                    <li>
+                        <h4>Encomendar</h4>
+                        <ul>
+                            <li><a href="javascript:EncLubrificantes(1)">Stocks</a></li>
+                            <li><a href="javascript:EncLubrificantes(2)">Manutenção</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h4>Rececionar</h4>
+                        <ul>
+                            <li><a href="javascript:recicionar()">Rececionar</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h4>Pesquizar</h4>
+                        <ul>
+                            <li><a href="javascript:pesquizarLub(1)">Por Óleo</a></li>
+                            <li><a href="javascript:pesquizarLub(2)">Entre Datas</a></li>
+                            <li><a href="javascript:pesquizarLub(3)">Encomendas</a></li>
+                            <li><a href="javascript:pesquizarLub(4)">Pontos de Lubrificação</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h4>Óleos</h4>
+                        <ul>
+                            <li><a href="javascript:novoLub();">Novo Óleo</a></li>
+                            <li><a href="javascript:alterarLub();">Alterar Óleo</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <h4>Autorizações</h4>
+                <ul>
+                    <li>
+                        <h4>Inserir</h4>
+                        <ul>
+                            <li> <a href="javascript:iserirAut()">Inserir</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h4>Registar</h4>
+                        <ul>
+                            <li><a href="javascript:regisaut(1)">Vermelhas</a></li>
+                            <li><a href="javascript:regisaut(2)">Amarelas</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h4>Pesquizar</h4>
+                        <ul>
+                            <li><a href="javascript:pesquiaut(1)">Caducadas sem Registo</a></li>
+                            <li><a href="javascript:pesquiaut(2)">Trabalhos em curso</a></li>
+                            <li><a href="javascript:pesquiaut(3)">Trabalhos do dia</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <h4>Pedidos de Trabalho</h4>
+                <ul>
+                    <li><a href="javascript:pedidos_trabalho(1)">Novo</a></li>
+                    <li><a href="javascript:pedidos_trabalho(2)">Sem Nota</a></li>
+                </ul>
+            </li>
+            <li>
+                <h4>Equipamento</h4>
+                <ul>
+                    <li>
+                        <h4>Dinamico</h4>
+                        <ul>
+                            <li><a href="javascript:equipamento_dinamico(1)">Novo</a></li>
+                            <li><a href="javascript:equipamento_dinamico(2)">Status</a></li>
+                            <li><a href="javascript:equipamento_dinamico(3)">Horas de marcha</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h4>Estático</h4>
+                        <ul>
+                            <li><a href="javascript:equipamento_dinamico(1)">Novo</a></li>
+                            <li><a href="javascript:equipamento_estatico(2)">Status</a></li>
+                            <li><a href="javascript:equipamento_estatico(3)">Em Manutenção</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h4>Instrumentos</h4>
+                        <ul>
+                            <li><a href="javascript:equipamento_dinamico(1)">Novo</a></li>
+                            <li><a href="javascript:equipamento_estatico(2)">Status</a></li>
+                            <li><a href="javascript:equipamento_estatico(3)">Em Manutenção</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <h4>Processo</h4>
+                <ul>
+                    <li><a href="javascript:processo(1)">Manobras processuais</a></li>
+                    <li><a href="javascript:processo(2)">Nova manobra</a></li>
+                    <li><a href="javascript:processo(3)">teste</a></li>
+                </ul>
+            </li>
+            <li>
+            <li>
+                <h4>Relatorios</h4>
+                <ul>
+                    <li><a href="javascript:relatorio(1)">Resumo</a></li>
+                    <li><a href="javascript:relatorio(2)">Unidades</a></li>
+                    <li><a href="javascript:area_c()">Produtos</a></li>
+                    <li><a href="javascript:area_c(4)">Trabalhos</a></li>
+                </ul>
+            </li>
+           
+        </ul>
+    </div>
+     <div  style="position: absolute; overflow: auto;bottom: 0px;top: 0px;left: 300px; width: 640px;">
+
+        <p class="p">Bem vindo ao portal - <b>FCO gest</b>.</p>
+        <ul class="p" style="list-style-type: circle;">
+            Com este portal é possivel:
+            <li>Encomendar e pesquizar Ã³leos para a fÃ¡brica</li>
+            <li>Pesquizar e registar os trabalhos em curso</li>
+            <li>Fazer pedidos de trabalho</li>
+        </ul>
+        <p class="p"><b>A area de trabalho no canto superior esquerdo indica a area da FCO onde as irÃ¡ realizar todas as operaÃ§Ãµes neste portal.</b></p>
+        <h1>Importante!</h1>
+        <h4>Antes de fechar o browser clique em 'Sair', para que a sua sessÃ£o nÃ£o fique aberta</h4>
+        <p class="p">Bem vindo ao portal - <b>FCO gest</b>.</p>
+        <ul class="p" style="list-style-type: circle;">
+            Com este portal Ã© possivel:
+            <li>Encomendar e pesquizar Ã³leos para a fÃ¡brica</li>
+            <li>Pesquizar e registar os trabalhos em curso</li>
+            <li>Fazer pedidos de trabalho</li>
+        </ul>
+        <p class="p"><b>A area de trabalho no canto superior esquerdo indica a area da FCO onde as irÃ¡ realizar todas as operaÃ§Ãµes neste portal.</b></p>
+        <h1>Importante!</h1>
+        <h4>Antes de fechar o browser clique em 'Sair', para que a sua sessÃ£o nÃ£o fique aberta</h4>
+        <p class="p">Bem vindo ao portal - <b>FCO gest</b>.</p>
+        <ul class="p" style="list-style-type: circle;">
+            Com este portal Ã© possivel:
+            <li>Encomendar e pesquizar Ã³leos para a fÃ¡brica</li>
+            <li>Pesquizar e registar os trabalhos em curso</li>
+            <li>Fazer pedidos de trabalho</li>
+        </ul>
+        <p class="p"><b>A area de trabalho no canto superior esquerdo indica a area da FCO onde as irÃ¡ realizar todas as operaÃ§Ãµes neste portal.</b></p>
+        <h1>Importante!</h1>
+        <h4>Antes de fechar o browser clique em 'Sair', para que a sua sessÃ£o nÃ£o fique aberta</h4>
+
+    </div>
+</div>

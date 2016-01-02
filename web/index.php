@@ -35,6 +35,17 @@ require_once('../php-ews/sendmail.php');
 //spl_autoload_register('loadClass');
 session_start();
 
+
+function error_field($title, array $errors) {
+    foreach ($errors as $error) {
+        /* @var $error Error */
+        if ($error->getSource() == $title) {
+            return ' error-field';
+        }
+    }
+    return '';
+}
+
 $app = new \Slim\Slim(array(
             'templates.path' => './',
         ));
