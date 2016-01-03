@@ -36,12 +36,11 @@ legend, .hide {
 input{
   color: #868686;
   font-size: 10px;
-  height: 18px;
+  height: 14px;
   line-height:18x;
   border:1px solid #d7d7d7;}
   	
-input, textarea {
-   width: 75%;}
+
 
 h1 {
   padding:5px 0;}
@@ -304,8 +303,7 @@ h3{
 	padding-left:40px;
 	line-height:30px;}
 	
-.bloco h2,  p{
-	margin:10px 0;}
+
 
 .gov1 h2, .gov2 h2, .gov3 h2, .gov4 h2, .gov5 h2, .gov6 h2{
 	background:url(../images/icons2.png) no-repeat 0 0;}

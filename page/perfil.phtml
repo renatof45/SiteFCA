@@ -1,10 +1,10 @@
 <?php if ($flashes): ?>
-                <ul id="flashes">
-                    <?php foreach ($flashes as $flash): ?>
-                        <li><?php echo $flash; ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php endif; ?>
+    <ul id="flashes">
+        <?php foreach ($flashes as $flash): ?>
+            <li><?php echo $flash; ?></li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
 
 
 
@@ -12,18 +12,18 @@
 
 
 <?php if (!empty($errors)): ?>
-<ul class="errors">
-    <?php foreach ($errors as $error): ?>
-        <?php /* @var $error Error */ ?>
-        <li><?php echo $error->getMessage(); ?></li>
-    <?php endforeach; ?>
-</ul>
+    <ul class="errors">
+        <?php foreach ($errors as $error): ?>
+            <?php /* @var $error Error */ ?>
+            <li><?php echo $error->getMessage(); ?></li>
+        <?php endforeach; ?>
+    </ul>
 <?php endif; ?>
 
 <h1>Perfil do Utilizador</h1>
 
 <form  id="perfilForm"  action="index.php/perfil" method="post">
-       <fieldset>
+    <fieldset>
         <div class="field">
             <label>Nome:</label>
             <input type="text" style="width: 200px" name="utilizador[nome]"  value="<?php echo Utils::escape($utilizador->getNome()); ?>" class="text<?php echo error_field('nome', $errors); ?>"/>
@@ -36,26 +36,26 @@
         </div>
         <div class="field">
             <label>PassWord:</label>
-            <input type="password" style="width: 150px" name="utilizador[pass]" value="<?php echo Utils::escape($utilizador->getPass());?>"
-                    class="text<?php echo error_field('pass', $errors); ?>"/>
+            <input type="password" style="width: 150px" name="utilizador[pass]" value="<?php echo Utils::escape($utilizador->getPass()); ?>"
+                   class="text<?php echo error_field('pass', $errors); ?>"/>
         </div>
         <div class="field">
             <label>Area(s):</label>
-            <input type="checkbox" name="option1" value="4" <?php if(array_key_exists('4', $utilizador->getArea())) echo 'checked'?> >Area A</input>
+            <input type="checkbox" name="option1" value="4" <?php if (array_key_exists('4', $utilizador->getArea())) echo 'checked' ?> >Area A</input>
             &nbsp;
-            <input type="checkbox" name="option2" value="3" <?php if(array_key_exists('3', $utilizador->getArea())) echo 'checked'?> >Area B</input>
+            <input type="checkbox" name="option2" value="3" <?php if (array_key_exists('3', $utilizador->getArea())) echo 'checked' ?> >Area B</input>
             &nbsp;
-            <input type="checkbox" name="option3" value="1" <?php if(array_key_exists('1', $utilizador->getArea())) echo 'checked'?> >Area C</input>
+            <input type="checkbox" name="option3" value="1" <?php if (array_key_exists('1', $utilizador->getArea())) echo 'checked' ?> >Area C</input>
             &nbsp;
-            <input type="checkbox" name="option4" value="5" <?php if(array_key_exists('5', $utilizador->getArea())) echo 'checked'?> >VU/VB</input>
+            <input type="checkbox" name="option4" value="5" <?php if (array_key_exists('5', $utilizador->getArea())) echo 'checked' ?> >VU/VB</input>
             &nbsp;
-            <input type="checkbox" name="option5" value="2" <?php if(array_key_exists('2', $utilizador->getArea())) echo 'checked'?> >HDS</input>
+            <input type="checkbox" name="option5" value="2" <?php if (array_key_exists('2', $utilizador->getArea())) echo 'checked' ?> >HDS</input>
         </div>
-       
+
         &nbsp;
         &nbsp;
         <div class="wrapper">
             <input type="submit" name="alterar" onclick="$('#dvLoading').show();" style="width: 95px" id="alt" class="button" value="Alterar"/>
         </div>
-       </feildset>
-    </form>
+        </feildset>
+</form>

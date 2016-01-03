@@ -4,12 +4,14 @@
         <title>PortalFCA</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <!--<link href="css/galpcss.css" rel="stylesheet" type="text/css" />-->
+        <link href="css/style.css" rel="stylesheet" type="text/css" />
         <link href="css/default.css" rel="stylesheet" type="text/css" />
         <!--<link href="css/tinyscrollbar.css" rel="stylesheet" type="text/css" />-->
         <link rel="stylesheet" href="css/jquery-ui.css" />
         <script src="js/jquery-1.8.3.js"></script>
         <script src="js/jquery-ui.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/jquery.form.js"></script>
         <!--<script src="js/jquery.tinyscrollbar.js"></script>-->
         <script type="text/javascript">
             $(document).ready(function(){
@@ -39,12 +41,39 @@
             #noticias a:hover { text-decoration: none; background-color: #FAF5F1; }
 
         </style>
+        <style>
+    .dvLoading {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: rgba( 255, 255, 255, .8) url('img/ajax-loader.gif') 50% 50% no-repeat;
+    }
+    </style>
     </head>
     <body>
+        <div id="dvLoading" class="dvLoading"></div>
         <div id="wrapper" >
             <div id="topheader">
-
-                <div id="breadcrumbs">Voc&ecirc; est&aacute; aqui: <a href="login.html" title="In&iacute;cio">In&iacute;cio</a>  &gt; Pagina Principal</div>
+                <?php if (array_key_exists('error', $_GET)): ?>
+                <?php echo 'Utilizador ou password errada!'; ?>
+                
+                <?php elseif (array_key_exists('user', $_SESSION)): ?>
+                    <form id="ajaxform4" method="post" style="float:left;width: 300px;">
+                                <label style="margin-top: 5px;padding-bottom: 0px;">Area de trabalho:</label>
+                                <select name="area" onchange="submit_area(this)">
+                                    <?php while (list($key, $val) = each($user['area'])): ?>
+                                        <option value="<?php echo $key; ?>" <?php if (array_key_exists('area', $_POST)) if ($_POST['area'] == $key) echo 'selected';  ?>>
+                                            <?php echo $val; ?>
+                                        </option>
+                                    <?php endwhile; ?>
+                                </select>
+                    </form>
+                <?php endif ?>
+                <div style="float: right;"><?php if (array_key_exists('user', $_SESSION)) echo $_SESSION['user_name'].'&nbsp;&nbsp;|&nbsp;&nbsp;<a href="index.php/sair" style="text-decoration: underline;cursor: default;">Sair</a>' ?></div>
             </div>
             <div id="main-menu">
                 <ul>
@@ -58,7 +87,7 @@
                 <a href="http://www.galpenergia.com" id="logo" onclick="target='_blank'" title="Galp Energia">Galp logo site </a>
                 <h1 class="title"><a href="login.html" title="PortalFCA">PortalFCA</a></h1>
             </div>
-            <?php require '../layout/area-de-trabalho.html'; ?>
+            <?php require $template ?>
             <div id="footer" style="position: absolute;width: 940px;bottom: 0px">
 
                 <div class="clear separator"></div>

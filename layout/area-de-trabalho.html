@@ -123,21 +123,17 @@
                     <li><a href="javascript:area_c(4)">Trabalhos</a></li>
                 </ul>
             </li>
-           
+
         </ul>
     </div>
-     <div  style="position: absolute; overflow: auto;bottom: 0px;top: 0px;left: 300px; width: 640px;">
+    <div id="app" style="position: absolute; overflow: auto;bottom: 0px;top: 0px;left: 300px; width: 640px;">
 
-        <p class="p">Bem vindo ao portal - <b>FCO gest</b>.</p>
-        <ul class="p" style="list-style-type: circle;">
-            Com este portal é possivel:
-            <li>Encomendar e pesquizar Ã³leos para a fÃ¡brica</li>
-            <li>Pesquizar e registar os trabalhos em curso</li>
-            <li>Fazer pedidos de trabalho</li>
-        </ul>
-        <p class="p"><b>A area de trabalho no canto superior esquerdo indica a area da FCO onde as irÃ¡ realizar todas as operaÃ§Ãµes neste portal.</b></p>
-        <h1>Importante!</h1>
-        <h4>Antes de fechar o browser clique em 'Sair', para que a sua sessÃ£o nÃ£o fique aberta</h4>
+        <h1><?php if($_SESSION['turno']==1)
+            echo "Bom dia ";
+            else if($_SESSION['turno']==2)
+            echo "Boa tarde ";
+            else echo "Boa noite ";
+            echo $_SESSION['user_name']; ?></h1>
         <p class="p">Bem vindo ao portal - <b>FCO gest</b>.</p>
         <ul class="p" style="list-style-type: circle;">
             Com este portal Ã© possivel:
@@ -148,16 +144,5 @@
         <p class="p"><b>A area de trabalho no canto superior esquerdo indica a area da FCO onde as irÃ¡ realizar todas as operaÃ§Ãµes neste portal.</b></p>
         <h1>Importante!</h1>
         <h4>Antes de fechar o browser clique em 'Sair', para que a sua sessÃ£o nÃ£o fique aberta</h4>
-        <p class="p">Bem vindo ao portal - <b>FCO gest</b>.</p>
-        <ul class="p" style="list-style-type: circle;">
-            Com este portal Ã© possivel:
-            <li>Encomendar e pesquizar Ã³leos para a fÃ¡brica</li>
-            <li>Pesquizar e registar os trabalhos em curso</li>
-            <li>Fazer pedidos de trabalho</li>
-        </ul>
-        <p class="p"><b>A area de trabalho no canto superior esquerdo indica a area da FCO onde as irÃ¡ realizar todas as operaÃ§Ãµes neste portal.</b></p>
-        <h1>Importante!</h1>
-        <h4>Antes de fechar o browser clique em 'Sair', para que a sua sessÃ£o nÃ£o fique aberta</h4>
-
     </div>
 </div>
