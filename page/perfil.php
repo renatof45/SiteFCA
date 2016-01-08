@@ -26,7 +26,7 @@ if (array_key_exists('alterar', $_POST)){
             'numero' => $_POST['utilizador']['numero'],
             'pass'  => $_POST['utilizador']['pass'],
             'nome' => $_POST['utilizador']['nome'],
-            'tipo' => 1,
+            'tipo' => 2,
             'area'=> $areas
         );
     
@@ -42,7 +42,7 @@ if (array_key_exists('alterar', $_POST)){
         Flash::addFlash('Alterados dados do utilizador!');
         $flashes = Flash::getFlashes();
         // redirect
-        header('Location: http://localhost/');
+        header('Location: http://localhost:8080/');
        }
 }
 else{

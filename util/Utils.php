@@ -54,6 +54,25 @@ final class Utils {
      * @param string $page target page
      * @param array $params page parameters
      */
+  public static function stringrpl($x,$r,$str) 
+      { 
+      $out = ""; 
+       $temp = substr($str,$x); 
+      $out = substr_replace($str,"$r",$x); 
+      $out .= $temp; 
+      return $out; 
+     }
+     
+  public static function stringAddZero($str){
+     while($str){
+      if (strlen($str)<6){
+          $str=Utils::stringrpl(0,"0",$str);
+      }
+      else
+          return $str;
+     }
+  }
+    
     public static function createLink($page, array $params = array()) {
         $params = array_merge(array('page' => $page), $params);
         // TODO add support for Apache's module rewrite

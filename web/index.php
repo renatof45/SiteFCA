@@ -312,7 +312,7 @@ $app->get('/home', function() {
         });
 
 $app->post('/login', function() use ($app) {
-            //$login_error="";
+            //print_r($_POST);
             if(array_key_exists('error', $_GET)){
                 $template = '../layout/intro.html';
                 require '../layout/index.phtml';

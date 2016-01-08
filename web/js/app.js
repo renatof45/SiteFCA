@@ -458,7 +458,7 @@
          content = JSON.parse(data);
          console.log(content);
          for (var i = 0; i < content.length; i++) {
-             $("#trab_list").append('<li  style="margin-left: 205px;margin-bottom: 35px";>' + content[i].descricao + '<input type="button" onclick="associate_trab(' + content[i].id + ',\'' + content[i].descricao +
+             $("#trab_list").append('<li  style="margin-bottom: 35px";>' + content[i].descricao + '<input type="button" onclick="associate_trab(' + content[i].id + ',\'' + content[i].descricao +
                  '\')" style="width: 100px;margin-top:1px;margin-left: 200px;" value="Associar" class="submit"/></li>')
          }
          $('#dvLoading').hide();
