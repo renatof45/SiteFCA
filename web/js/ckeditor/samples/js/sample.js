@@ -10,7 +10,7 @@ if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
 
 // The trick to keep the editor in the sample quite small
 // unless user specified own height.
-CKEDITOR.config.height = $(window).height() - 405;
+CKEDITOR.config.height = $(window).height() - 435;
 CKEDITOR.config.width = 'auto';
 
 var initSample = ( function() {

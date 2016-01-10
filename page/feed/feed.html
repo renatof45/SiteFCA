@@ -12,14 +12,18 @@
             <label>Descrição:</label>
             <input type="text" style="width: 400px" name="nome"/>
         </div>
-
+        <div class="field">
+            <label>Texto:</label>
+           
+        </div>
         <div class="wrapper">
 
-            <input type="button" onclick="processo(this);" name="adicionar" value="<?php echo 'ADICIONAR'; ?>" class="submit" />
-        </div>
-        <div  id="editor">
-            <h1>Hello world!</h1>
-            <p>I'm an instance of <a href="http://ckeditor.com">CKEditor</a>.</p>
+
+            <div  id="editor">
+                <h1>Hello world!</h1>
+                <p>I'm an instance of <a href="http://ckeditor.com">CKEditor</a>.</p>
+            </div>
+            <input style="margin-top: 3px" type="button" onclick="feed(this);" name="adicionar" value="Salvar" class="submit" />
         </div>
     </fieldset>
 

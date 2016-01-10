@@ -7,7 +7,7 @@ body
 {
 	/* Font */
 	font-family: sans-serif, Arial, Verdana, "Trebuchet MS";
-	font-size: 12px;
+	font-size: 10px;
 
 	/* Text color */
 	color: #333;
@@ -64,7 +64,7 @@ ol,ul,dl
 h1,h2,h3,h4,h5,h6
 {
 	font-weight: normal;
-	line-height: 1.2;
+	line-height: 1;
 }
 
 hr

@@ -14,8 +14,19 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema galp
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `galp` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `galp-teste` DEFAULT CHARACTER SET utf8 ;
 USE `galp` ;
+
+CREATE TABLE IF NOT EXISTS `galp`.`feed` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `descricao` VARCHAR(200) NULL,
+  `nome` VARCHAR(45) NULL,
+  `data` VARCHAR(45) NULL,
+  `texto` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = MyISAM;
+
+
 
 -- -----------------------------------------------------
 -- Table `galp`.`accoes`
