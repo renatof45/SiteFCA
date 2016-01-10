@@ -618,3 +618,14 @@
          });
      }
  }
+ 
+ 
+ function feed(type){
+      $('#dvLoading').show();
+       if (type == 1) {
+         $.post("index.php/feed", function(data) {
+             document.getElementById("app").innerHTML = data;
+              initSample();
+         });
+     }
+ }

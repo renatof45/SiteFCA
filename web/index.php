@@ -60,6 +60,10 @@ $app->post('/perfil', 'checkLogIn', function() {
     require "../page/perfil.phtml";
 });
 
+$app->post('/feed', 'checkLogIn', function() {
+    require "../page/feed/feed.html";
+});
+
 $app->post('/enclub', 'checkLogIn', function() {
     require "../page/lubrificantes/EncLubrificantes.php";
     require "../page/lubrificantes/EncLubrificantes.phtml";
