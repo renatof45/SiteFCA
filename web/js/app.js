@@ -28,6 +28,9 @@ $(document).ajaxStop(function() {
     }
     $('#ajaxform1').ajaxForm(function(data) {
         document.getElementById("app").innerHTML = data;
+        if($("#editor").length){
+            initSample();
+        }
     });
     $('#ajaxform2').ajaxForm(function(data) {
         document.getElementById("app").innerHTML = data;
@@ -631,7 +634,11 @@ function feed(type) {
     }
     else{
         var editor = CKEDITOR.instances.editor;
-        alert( editor.getData() );
+        $("#texto").val(editor.getData());
+         $('#dvLoading').show();
+        $("#ajaxform1").attr('action', 'index.php/feed');
+        $("#ajaxform1").submit();
+        
     }
 
 }

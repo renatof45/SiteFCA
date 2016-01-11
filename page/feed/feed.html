@@ -1,3 +1,20 @@
+<?php if ($flashes): ?>
+<ul id="flashes">
+    <?php foreach ($flashes as $flash): ?>
+    <li><?php echo $flash; ?></li>
+    <?php endforeach; ?>
+</ul>
+<?php endif; ?>
+
+
+<?php if (!empty($errors)): ?>
+<ul class="errors">
+    <?php foreach ($errors as $error): ?>
+    <?php /* @var $error Error */ ?>
+    <li><?php echo $error->getMessage(); ?></li>
+    <?php endforeach; ?>
+</ul>
+<?php endif; ?>
 
 <h1>Novo Feed</h1>
 
@@ -6,24 +23,23 @@
 
         <div class="field">
             <label>Titulo:</label>
-            <input type="text" style="width: 400px" name="nome"/>
+            <input type="text" style="width: 400px" name="titulo" class="text<?php echo error_field('titulo', $errors); ?>"/>
         </div>
         <div class="field">
             <label>Descrição:</label>
-            <input type="text" style="width: 400px" name="nome"/>
+            <input type="text" style="width: 400px" name="descricao" class="text<?php echo error_field('descricao', $errors); ?>"/>
         </div>
         <div class="field">
             <label>Texto:</label>
-           
+            <input type="hidden" name="texto" id="texto"/>
         </div>
         <div class="wrapper">
 
 
             <div  id="editor">
-                <h1>Hello world!</h1>
-                <p>I'm an instance of <a href="http://ckeditor.com">CKEditor</a>.</p>
+                <?php if(array_key_exists('texto', $_POST)) echo $_POST['texto']; ?>
             </div>
-            <input style="margin-top: 3px" type="button" onclick="feed(this);" name="adicionar" value="Salvar" class="submit" />
+            <input style="margin-top: 3px" type="button" onclick="feed(this);" name="salvar" value="Salvar" class="submit" />
         </div>
     </fieldset>
 
