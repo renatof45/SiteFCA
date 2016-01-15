@@ -1,0 +1,19 @@
+<div style="overflow: auto; position: absolute;bottom: 30px;top: 130px;width: 940px;">
+    <div  style="position: absolute; overflow: auto;bottom: 0px;top: 0px;left:165px; width: 600px;">
+        <h1 style="position:relative; font-size: 18px; color: #333; padding: 0 0 23px 0; margin: -2px 0 20px 0; background-image: url(../img/dotted.jpg);background-repeat: repeat-x;background-position: bottom left;">
+            <?php echo $feed['descricao']; ?>
+        </h1>
+        <ul class="noticia-detalhes">
+            <li class="data primeiro"><?php echo $feed['data'] ?></li>
+            <li class="cat"><?php echo $feed['titulo'] ?></li>
+
+        </ul>
+        <?php echo $feed['texto'] ?>
+        <br>
+        <br>
+            <a style="margin-top: 10px;margin-bottom: 10px" href="javascript:history.back();">« voltar</a>
+    </div>
+
+</div>
+
+

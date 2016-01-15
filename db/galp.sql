@@ -27,6 +27,12 @@ CREATE TABLE IF NOT EXISTS `galp`.`feed` (
 ENGINE = MyISAM;
 
 
+ALTER TABLE `galp`.`feed` 
+CHANGE COLUMN `nome` `titulo` VARCHAR(45) NULL DEFAULT NULL ,
+CHANGE COLUMN `data` `data` DATE NULL DEFAULT NULL ,
+CHANGE COLUMN `texto` `texto` LONGTEXT NULL DEFAULT NULL ,
+ADD COLUMN `publicar` INT NULL AFTER `texto`;
+
 
 -- -----------------------------------------------------
 -- Table `galp`.`accoes`

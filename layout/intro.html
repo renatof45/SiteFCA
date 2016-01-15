@@ -37,12 +37,14 @@
                   $feeds= $dao->getAll();
             ?>
             <?php foreach ($feeds as $feed): ?>
-            <ul id="noticias"><li><a href="" title="<?php echo $feed['descricao']; ?>" tabindex="48">        
+            <?php if($feed['publicar']==1): ?>
+            <ul id="noticias"><li><a href="index.php?noticia=<?php echo $feed['id'] ?>" title="<?php echo $feed['descricao']; ?>" tabindex="48">        
                         <span class="data"><?php echo $feed['data']; ?></span>        
                         <span class="cat"><?php echo $feed['titulo']; ?></span>        
                         <span class="desc"><?php echo $feed['descricao']; ?></span>
                     </a></li>
             </ul>
+           <?php endif; ?>
            <?php endforeach; ?>
 
         </div>

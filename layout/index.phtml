@@ -6,7 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <link href="css/style.css" rel="stylesheet" type="text/css" />
         <link href="css/default.css" rel="stylesheet" type="text/css" />
-        
+
         <!--<link href="css/tinyscrollbar.css" rel="stylesheet" type="text/css" />-->
         <link rel="stylesheet" href="css/jquery-ui.css" />
         <script src="js/jquery-1.8.3.js"></script>
@@ -44,7 +44,15 @@
             #noticias .estilo-link { color: #f37020; float: right; margin: 0 10px 10px 0; }
             #noticias a:hover { text-decoration: none; background-color: #FAF5F1; }
 
+            .noticia-detalhes { position: relative; top: -7px; }
+            .noticia-detalhes li { float: left; background: url(../img/li-laranja.gif) no-repeat 6px 0px; color: #000; font-weight: bold; }
+            .noticia-detalhes li.primeiro { background: none; padding: 0; }
+            .noticia-detalhes li.cat a:link, .noticia-detalhes li.cat a:visited { text-transform: uppercase; text-decoration: none; color: #666; }
+            .noticia-detalhes li.cat a:hover { text-decoration: underline; }
+            .noticia-detalhes li.cat { font-weight: normal; padding-left: 14px}
+             .noticia-detalhes li.data { color: #F37020; }
         </style>
+
         <style>
             .dvLoading {
                 display: none;
@@ -70,7 +78,7 @@
                         <label style="margin-top: 5px;padding-bottom: 0px;">Area de trabalho:</label>
                         <select name="area" onchange="submit_area(this)">
                             <?php while (list($key, $val) = each($user['area'])): ?>
-                                <option value="<?php echo $key; ?>" <?php if (array_key_exists('area', $_POST)) if ($_POST['area'] == $key) echo 'selected';  ?>>
+                                <option value="<?php echo $key; ?>" <?php if (array_key_exists('area', $_POST)) if ($_POST['area'] == $key) echo 'selected'; ?>>
                                     <?php echo $val; ?>
                                 </option>
                             <?php endwhile; ?>

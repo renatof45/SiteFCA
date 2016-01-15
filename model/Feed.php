@@ -7,7 +7,9 @@ final class Feed{
     /** @var DateTime */
     private $data;
     private $texto;
-    
+    private $publicar;
+
+
     public function __construct() {
         $now = new DateTime();
         $this->data = $now;
@@ -44,6 +46,14 @@ final class Feed{
 
     public function setData($data) {
         $this->dataInicio = $data;
+    }
+    
+    public function getPublicar() {
+        return $this->publicar;
+    }
+
+    public function setPublicar($publicar) {
+        $this->publicar = $publicar;
     }
 }
 

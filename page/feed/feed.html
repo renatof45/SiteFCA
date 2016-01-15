@@ -16,6 +16,8 @@
 </ul>
 <?php endif; ?>
 
+
+
 <h1>Novo Feed</h1>
 
 <form style="margin-bottom:  10px" id="ajaxform1" method="post">
@@ -23,11 +25,18 @@
 
         <div class="field">
             <label>Titulo:</label>
-            <input type="text" style="width: 400px" name="titulo" class="text<?php echo error_field('titulo', $errors); ?>"/>
+            <input type="text" style="width: 400px" value="<?php if (array_key_exists("edit", $_GET)) echo $feed['titulo']; ?>" name="titulo" class="text<?php echo error_field('titulo', $errors); ?>"/>
         </div>
         <div class="field">
             <label>Descrição:</label>
-            <input type="text" style="width: 400px" name="descricao" class="text<?php echo error_field('descricao', $errors); ?>"/>
+            <input type="text" style="width: 400px" value="<?php if (array_key_exists("edit", $_GET)) echo $feed['descricao']; ?>" name="descricao" class="text<?php echo error_field('descricao', $errors); ?>"/>
+        </div>
+         <div class="field">
+            <label>Publicar:</label>
+            <select name="publicar">
+                <option <?php if (array_key_exists("edit", $_GET)){if ($feed['publicar']==0) echo "selected";} ?> value="0">Não</option>
+                <option <?php if (array_key_exists("edit", $_GET)){if ($feed['publicar']==1) echo "selected";} ?> value="1">Sim</option>
+            </select>
         </div>
         <div class="field">
             <label>Texto:</label>
@@ -37,9 +46,10 @@
 
 
             <div  id="editor">
-                <?php if(array_key_exists('texto', $_POST)) echo $_POST['texto']; ?>
+                
+                <?php if (array_key_exists("edit", $_GET)) echo $feed['texto']; ?>
             </div>
-            <input style="margin-top: 3px" type="button" onclick="feed(this);" name="salvar" value="Salvar" class="submit" />
+            <input style="margin-top: 3px" type="button" onclick="feed(<?php if (array_key_exists("edit", $_GET)) echo "3"; else echo "4"; ?>,<?php if (array_key_exists("edit", $_GET)) echo $feed['id']; else echo "0"; ?>);" name="salvar" value="Salvar" class="submit" />
         </div>
     </fieldset>
 

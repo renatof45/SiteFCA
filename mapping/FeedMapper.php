@@ -13,6 +13,9 @@ final class FeedMapper {
         if (array_key_exists('texto', $properties)) {
             $feed->setTexto($properties['texto']);
         }
+        if (array_key_exists('publicar', $properties)) {
+            $feed->setPublicar($properties['publicar']);
+        }
         
     }
 

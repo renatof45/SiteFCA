@@ -623,20 +623,43 @@ function relatorio(type) {
 }
 
 
-function feed(type) {
+function feed(type,id) {
 
-    if (type == 1) {
+    if (type === 1) {
         $('#dvLoading').show();
-        $.post("index.php/feed", function(data) {
+        $.post("index.php/feed?type=1", function(data) {
             document.getElementById("app").innerHTML = data;
             initSample();
         });
     }
-    else{
+    else if(type===2){
+        $('#dvLoading').show();
+        $.post("index.php/feed?type=2", function(data) {
+            document.getElementById("app").innerHTML = data;
+            //initSample();
+            //$('#dvLoading').hide();
+        });
+    }
+    else if(type.name==='editar'){
+        $('#dvLoading').show();
+        $("#ajaxform1").attr('action', 'index.php/feed?edit=true&id='+id);
+        $("#ajaxform1").submit();
+    }
+    else if(type===3){
+        
         var editor = CKEDITOR.instances.editor;
         $("#texto").val(editor.getData());
          $('#dvLoading').show();
-        $("#ajaxform1").attr('action', 'index.php/feed');
+        $("#ajaxform1").attr('action', 'index.php/feed?type=3&id='+id);
+        $("#ajaxform1").submit();
+        
+    }
+    else if(type===4){
+        
+        var editor = CKEDITOR.instances.editor;
+        $("#texto").val(editor.getData());
+         $('#dvLoading').show();
+        $("#ajaxform1").attr('action', 'index.php/feed?type=4');
         $("#ajaxform1").submit();
         
     }
