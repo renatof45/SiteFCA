@@ -107,6 +107,7 @@ $app->post('/feed', 'checkLogIn', function() {
         } else {
             $dao = new FeedDao();
             $feeds = $dao->getAll();
+            
             $flashes = Flash::getFlashes();
             require "../page/feed/edit.html";
         }
