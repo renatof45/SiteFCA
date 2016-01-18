@@ -620,6 +620,12 @@ function relatorio(type) {
             document.getElementById("app").innerHTML = data;
         });
     }
+    else if (type == 3) {
+        $.post("index.php/relatorio?type=" + type, function(data) {
+            document.getElementById("app").innerHTML = data;
+            //$("#app").css('border','1px solid');
+        });
+    }
 }
 
 

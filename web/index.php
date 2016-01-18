@@ -107,7 +107,7 @@ $app->post('/feed', 'checkLogIn', function() {
         } else {
             $dao = new FeedDao();
             $feeds = $dao->getAll();
-            
+
             $flashes = Flash::getFlashes();
             require "../page/feed/edit.html";
         }
@@ -163,6 +163,9 @@ $app->post('/relatorio', 'checkLogIn', function() use ($app) {
     } elseif ($type == 1) {
 
         require "../page/relatorios/resumo.phtml";
+    } elseif ($type == 3) {
+
+        require "../page/relatorios/novo.phtml";
     }
 });
 

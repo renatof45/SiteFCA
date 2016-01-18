@@ -1,10 +1,19 @@
 <?php if ($flashes): ?>
-                <ul id="flashes">
-                    <?php foreach ($flashes as $flash): ?>
-                        <li><?php echo $flash; ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php endif; ?>
+    <ul id="flashes">
+        <?php foreach ($flashes as $flash): ?>
+            <li><?php echo $flash; ?></li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
+
+<?php if (!empty($errors)): ?>
+    <ul class="errors">
+        <?php foreach ($errors as $error): ?>
+            <?php /* @var $error Error */ ?>
+            <li><?php echo $error->getMessage(); ?></li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
 
 <h1>
     <?php if ($_GET['tipo'] == 1): ?>
@@ -17,7 +26,7 @@
 
 <form id="change-status-form"  method="post">
     <fieldset>
-        
+
         <div class="field">
             <label>Óleo:</label>
             <select name="oleo" id="oleo" onchange="sub(this)">
@@ -58,7 +67,7 @@
         </div>
     </fieldset>
     <input type="hidden" name="palavra" id="palavra"/>
-    
+
 </form>
 
 <div id="dialog-form" title="Insira a password do Email">

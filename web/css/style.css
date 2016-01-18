@@ -113,6 +113,7 @@ form label {
 input.text {
     width: 170px;
     padding: 1px 0 1px 3px;
+    margin-top: 0px;
     border: 1px solid #d6d6d6;
     color: #414141;
     float: left;
@@ -132,6 +133,7 @@ form input.submit {
     float: right;
     color: black;
     margin-left: 5px;
+    margin-top: 0px;
     width: 80px;
     background: transparent;
     border-radius: 4px;
@@ -139,7 +141,7 @@ form input.submit {
 }
 
 form input.submit:hover {
-    border: 1px solid ;
+    border: 1px solid #F37020;
     
 }
 form input.button {
@@ -147,13 +149,14 @@ form input.button {
     float: right;
     color: black;
     margin-left: 5px;
+    margin-top: 0px;
     width: 80px;
     background: transparent;
     border-radius: 4px;
     height: 18px;
 }
 form input.button:hover {
-    border: 1px solid ;
+    border: 1px solid #F37020;
     
 }
 .errors {

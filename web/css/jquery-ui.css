@@ -96,6 +96,7 @@
 
 
 .ui-accordion .ui-accordion-icons {
+       border: 1px solid #F37020;
 	padding-left: 2.2em;
 	background:rgba(245, 245, 245, 0.53);
 }
@@ -120,6 +121,7 @@
 }
 
 .ui-accordion .ui-accordion-content {
+        border: 1px solid #F37020;
 	padding: 1em 2.2em;
 	border-top: 0;
 	overflow: auto;

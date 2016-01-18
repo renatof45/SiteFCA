@@ -4,6 +4,7 @@ $encOleos = new EncOleos();
 $edit=null;
 $oleoID=0;
 $flashes = null;
+$errors = array();
 //print_r($_GET);
 
 
@@ -129,13 +130,9 @@ if (array_key_exists('encomendar', $_GET) && $_GET['encomendar']==1) {
           new EwsSendEmail($_POST['palavra'],$mails);
      }
      catch(SoapFault $ex) {
-         
-          Flash::addFlash('Erro ao enviar o Email');
-           Flash::addFlash('A encomenda não foi realizada, tente outra vez!');
+           $errors[] = new Error('numero', 'Erro ao enviar o Email');
+           $errors[] = new Error('numero', 'A encomenda não foi realizada, tente outra vez!');
            
-           if (Flash::hasFlashes()) {
-                $flashes = Flash::getFlashes();
-            }
           $erromail=true;
      }
      if(!$erromail){

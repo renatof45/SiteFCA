@@ -10,6 +10,10 @@ body{
   //color:#686868;
   font: 11px arial,verdana,sans-serif;}  
 
+input{
+    margin-top: 2px;
+}
+
 *{
   padding:0;
   margin:0;}
@@ -50,7 +54,9 @@ h1, h2 {
  
 h3{
  font-size: 11px;}
- 
+h4{
+    margin-top: 2px;
+}
 #wrapper{
   width:940px;
   margin:auto;}

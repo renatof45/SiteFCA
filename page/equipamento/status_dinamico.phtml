@@ -19,7 +19,7 @@
                     ?> 
                         value="<?php echo $unidade['id'] ?>"><?php echo $unidade['designacao']; ?>
                     </option>
-        <?php endforeach; ?>
+                <?php endforeach; ?>
             </select>
         </div>
 
@@ -40,26 +40,26 @@
                 <label><?php echo $equipamento['Equipamento'] . ':' ?></label>
                 <input type="radio" <?php if ($servico) echo 'checked'; ?> onclick="subChangeEquipamentoStatus(<?php echo $equipamento['id'] ?>, this)" name="<?php echo $equipamento['Equipamento']; ?>:servico" style="float: left;margin-top: 2px;"><h4 style="color: #14BD14;width: 60px;float: left;">Serviço</h4></input>
                 <input type="radio" <?php if (!$servico) echo 'checked'; ?> onclick="subChangeEquipamentoStatus(<?php echo $equipamento['id'] ?>, this)" name="<?php echo $equipamento['Equipamento']; ?>:parada" style="float: left;margin-top: 2px;"><h4 style="color: #cd0a0a;width: 60px;float: left;">Parada</h4></input> 
-    <?php if (!$servico): ?>
-                    <select name="disponibiblidade" onchange="subChangeEquipamentoStatus(<?php echo $equipamento['id'] ?>, this)" style="margin-top: -2px;">
+                <?php if (!$servico): ?>
+                    <select name="disponibiblidade" onchange="subChangeEquipamentoStatus(<?php echo $equipamento['id'] ?>, this)">
                         <option value=1 <?php if ($disponibiblidade) echo ' selected'; ?>>Disponível</option>
                         <option value=2 <?php if (!$disponibiblidade) echo ' selected'; ?>>Indisponível</option>
                     </select>
                     <?php
                     if (!$disponibiblidade) {
-                        echo '<input type="button" name="vermais" onclick="subChangeEquipamentoStatus('. $equipamento['id'].',this)" style="margin-left: 20px;" value="Ver Mais" class="submit">';
+                        echo '<input type="button" name="vermais" onclick="subChangeEquipamentoStatus(' . $equipamento['id'] . ',this)" style="margin-left: 20px;" value="Ver Mais" class="submit">';
                     }
                     ?>
 
                     <div id="historico<?php echo $equipamento['id']; ?>" style="display:none;">
-                          <table id="show_history<?php echo $equipamento['id']; ?>" style="width:100%;">
-                            
+                        <table id="show_history<?php echo $equipamento['id']; ?>" style="width:100%;">
+
                         </table>
                         <input type="button" name="alterar" onclick="subChangeEquipamentoStatus(<?php echo $equipamento['id'] ?>, this)" style="margin-top: 10px;margin-bottom: 10px;" value="Alterar Estado" class="submit">
                     </div>
-    <?php endif; ?>
+                <?php endif; ?>
             </div>
-    <?php endforeach; ?>
+        <?php endforeach; ?>
 
 
     </fieldset>
@@ -70,13 +70,13 @@
             <option 
                 value="<?php echo $estado['id'] ?>"><?php echo $estado['descricao']; ?>
             </option>
-<?php endforeach ?>
+        <?php endforeach ?>
     </select> 
 </div>
 
 <div id="dialog-disponibilidade" title="Indique indisponibilidade">
     <select id="halt-status">           
-       <option value="1">Disponível</option>
-       <option value="2">Indisponível</option>
+        <option value="1">Disponível</option>
+        <option value="2">Indisponível</option>
     </select> 
 </div>

@@ -1,21 +1,21 @@
 <div style="overflow: auto; position: absolute;bottom: 30px;top: 130px;width: 940px;">
-    <div style="position: absolute; overflow: auto;bottom: 0px;top: 0px;width: 250px;">
+    <div style="position: absolute; overflow: auto;bottom: 0px;top: 0px;width: 200px;">
         <ul id="accordion">
-            <li>
+            <li style="margin-left: 0px;">
                 <h4>Home</h4>
                 <ul>
                     <li><a href="javascript:home()">Home</a></li>
                     <li><a href="javascript:perfil()">Perfil</a></li>
                 </ul>
             </li>
-            <li>
+            <li style="margin-left: 0px;">
                 <h4>Feed</h4>
                 <ul>
                     <li><a href="javascript:feed(1)">Novo</a></li>
                     <li><a href="javascript:feed(2)">Editar</a></li>
                 </ul>
             </li>
-            <li>
+            <li style="margin-left: 0px;">
                 <h4>Lubrificantes</h4>
                 <ul>
                     <li>
@@ -49,7 +49,7 @@
                     </li>
                 </ul>
             </li>
-            <li>
+            <li style="margin-left: 0px;">
                 <h4>Autorizações</h4>
                 <ul>
                     <li>
@@ -76,14 +76,14 @@
                 </ul>
             </li>
 
-            <li>
+            <li style="margin-left: 0px;">
                 <h4>Pedidos de Trabalho</h4>
                 <ul>
                     <li><a href="javascript:pedidos_trabalho(1)">Novo</a></li>
                     <li><a href="javascript:pedidos_trabalho(2)">Sem Nota</a></li>
                 </ul>
             </li>
-            <li>
+            <li style="margin-left: 0px;">
                 <h4>Equipamento</h4>
                 <ul>
                     <li>
@@ -112,7 +112,7 @@
                     </li>
                 </ul>
             </li>
-            <li>
+            <li style="margin-left: 0px;">
                 <h4>Processo</h4>
                 <ul>
                     <li>
@@ -126,20 +126,20 @@
                     <li>
                         <h4>Rotinas</h4>
                         <ul>
-                            <li><a href="javascript:equipamento_dinamico(1)">Novo</a></li>
-                            <li><a href="javascript:equipamento_estatico(2)">Status</a></li>
-                            <li><a href="javascript:equipamento_estatico(3)">Em Manutenção</a></li>
-                        </ul>
+                            <li><a href="javascript:processo(4)">Nova</a></li>
+                            <li><a href="javascript:processo(5)">Editar</a></li>
+                       </ul>
                     </li>
 
                 </ul>
             </li>
-            <li>
-            <li>
+            
+            <li style="margin-left: 0px;">
                 <h4>Relatorios</h4>
                 <ul>
                     <li><a href="javascript:relatorio(1)">Resumo</a></li>
                     <li><a href="javascript:relatorio(2)">Unidades</a></li>
+                    <li><a href="javascript:relatorio(3)">Novo</a></li>
                     <li><a href="javascript:area_c()">Produtos</a></li>
                     <li><a href="javascript:area_c(4)">Trabalhos</a></li>
                 </ul>
@@ -147,7 +147,7 @@
 
         </ul>
     </div>
-    <div id="app" style="position: absolute; overflow: auto;bottom: 0px;top: 0px;left: 300px; width: 640px;">
+    <div id="app" style="position: absolute; overflow: auto;bottom: 0px;top: 0px;left: 220px; width: 715px;">
 
         <h1><?php if($_SESSION['turno']==1)
             echo "Bom dia ";
