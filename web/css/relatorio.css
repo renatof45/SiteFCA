@@ -1,0 +1,19 @@
+/* 
+    Document   : relatorio
+    Created on : 20/Jan/2016, 23:09:12
+    Author     : renato
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.celula{
+    background-color: transparent;
+}
+.celula:hover{
+    background-color: red;
+}
+
+#draggable { width: 150px; height: 150px; padding: 0.5em; float: left}
+#draggable label{line-height: 18px;padding-bottom: 8px;font-weight: bold;color: black;}
+#containment-wrapper { width: 95%; height:1150px; border:2px solid #ccc;margin-top: 30px; padding: 10px; }
+

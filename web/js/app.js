@@ -26,6 +26,7 @@ $(document).ajaxStop(function() {
     } else {
         detach = true;
     }
+    $( "#draggable" ).draggable({ containment: "#containment-wrapper", scroll: false });
     $('#ajaxform1').ajaxForm(function(data) {
         document.getElementById("app").innerHTML = data;
         if($("#editor").length){
@@ -626,6 +627,19 @@ function relatorio(type) {
             //$("#app").css('border','1px solid');
         });
     }
+    else if (type == 'novo') {
+        $('#dvLoading').hide();
+        var restore=document.body.innerHTML;
+        var printarea=document.getElementById('containment-wrapper').innerHTML;
+        document.body.innerHTML=printarea;
+        window.print();
+        document.body.innerHTML=restore;
+        $.post("index.php/relatorio?type=3", function(data) {
+            document.getElementById("app").innerHTML = data;
+            //$("#app").css('border','1px solid');
+        });
+        //
+    }
 }
 
 
@@ -670,4 +684,8 @@ function feed(type,id) {
         
     }
 
+}
+
+function creategrid(){
+    
 }

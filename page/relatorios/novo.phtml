@@ -1,6 +1,40 @@
-<?php
+<?php ?>
+<form id="ajaxform1" method="post">
+    <fieldset style="z-index: 1000; position: fixed;background-color: rgb(243,243,243);width: 698px;">
+        <div class="field">
+            <input type="button" name="alterar" onclick="" style="margin-top: 5px;margin-bottom: 5px;float: left" value="Novo Bloco" class="button">
+            <input type="button" name="alterar" onclick="" style="margin-top: 5px;float: left" value="Separador" class="button">
+            <input type="button" name="alterar" onclick="" style="margin-top: 5px;float: left" value="Salvar" class="button">
+            <input type="button" name="alterar" onclick="relatorio('novo')" style="margin-top: 5px;float: left;" value="Imprimir" class="button">
+        </div> 
+    </fieldset>
+</form>
+<div id="containment-wrapper">
+    <div id="draggable" >
+        <div class="field">
+            <label style="width: 130px;margin-bottom: 75px;">Unidade:</label>
+            <ul style="list-style:none;">
+                <li>
 
+                    <input type="radio" onmouseover="if(this.checked){this.checked=false;}" name="1200[Unidade]"   value="1">Serciço</input>
+                </li>
+                <li>
 
+                    <input type="radio" onmouseover="if(this.checked){this.checked=false;}" name="1200[Unidade]"   value="2">Parada</input>
+                </li>
+                <li>
 
+                    <input type="radio" onmouseover="if(this.checked){this.checked=false;}" name="1200[Unidade]"   value="3">Arranque</input>
+                </li>
+                <li>
 
-?>
+                    <input type="radio" onmouseover="if(this.checked){this.checked=false;}" name="1200[Unidade]"   value="4">Paragem</input>
+                </li>
+                <li>
+
+                    <input type="radio" onmouseover="if(this.checked){this.checked=false;}" name="1200[Unidade]"   value="5">AP ByPass</input>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
