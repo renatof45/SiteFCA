@@ -7,7 +7,7 @@ $(document).ready(function() {
     $('#ajaxform4').ajaxForm(function(data) {
         document.getElementById("area_id").innerHTML = data;
         document.getElementById("app").innerHTML = '<h2>Se esta a ler isto, é porque mudou de area!</h2>' +
-                '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
+    '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
     });
 });
 
@@ -26,7 +26,12 @@ $(document).ajaxStop(function() {
     } else {
         detach = true;
     }
-    $("#draggable1").draggable({containment: "#containment-wrapper", scroll: false});
+    
+    
+    $("#draggable1").draggable({
+        containment: "#containment-wrapper", 
+        scroll: false
+    });
     $('#ajaxform1').ajaxForm(function(data) {
         document.getElementById("app").innerHTML = data;
         if ($("#editor").length) {
@@ -43,7 +48,7 @@ $(document).ajaxStop(function() {
     $('#ajaxform4').ajaxForm(function(data) {
         document.getElementById("area_id").innerHTML = data;
         document.getElementById("app").innerHTML = '<h2>Se esta a ler isto, é porque mudou de area!</h2>' +
-                '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
+    '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
     });
 
     $('#perfilForm').ajaxForm(function(data) {
@@ -88,8 +93,8 @@ $(document).ajaxStop(function() {
 
     $("#hora").val(' ')
     var password = $("#password"),
-            submit = $("#change-status-form"),
-            allFields = $([]).add(password);
+    submit = $("#change-status-form"),
+    allFields = $([]).add(password);
 
     $("#dialog-form").dialog({
         autoOpen: false,
@@ -111,12 +116,12 @@ $(document).ajaxStop(function() {
     });
 
     $("#login")
-            .click(function() {
-                $("#change-status-form").attr('action', 'index.php/enclub?encomendar=1&tipo=1');
-                //console.log($("#change-status-form"));
-                $("#enc").attr('value', '1');
-                $("#dialog-form").dialog("open");
-            });
+    .click(function() {
+        $("#change-status-form").attr('action', 'index.php/enclub?encomendar=1&tipo=1');
+        //console.log($("#change-status-form"));
+        $("#enc").attr('value', '1');
+        $("#dialog-form").dialog("open");
+    });
 
 
     $("#dialog-nova-firma").dialog({
@@ -179,9 +184,9 @@ $(document).ajaxStop(function() {
                 if ($("#halt-status").val() == 2) {
                     $(this).dialog("close");
                     $("#dialog-indisponibilidade")
-                            .data('equipamento', $(this).data('equipamento'))
-                            .data('inst', $(this).data("inst"))
-                            .dialog("open");
+                    .data('equipamento', $(this).data('equipamento'))
+                    .data('inst', $(this).data("inst"))
+                    .dialog("open");
                 } else {
                     $('#dvLoading').show();
                     $("#ajaxform1").attr('action', 'index.php/equipamento?change_satus_dinamico=0&equipamento=' + $(this).data('equipamento') + '&status=' + 12);
@@ -270,7 +275,7 @@ function regisaut_dialog(id1, tipo) {
     console.log('hora:' + $("#hora").val());
     aut_type = tipo;
     $("#dialog-regis-aut").dialog("open");
-    //console.log("teste");
+//console.log("teste");
 }
 
 
@@ -299,7 +304,7 @@ function app() {
     $.post("index.php/home", function(data) {
         document.getElementById("app").innerHTML = data;
     });
-    /*.done(function() {
+/*.done(function() {
      $.post("index.php/header", function(data) {
      document.getElementById("area_id").innerHTML = data;
      });
@@ -477,7 +482,7 @@ function show_pedidos(inst) {
         console.log(content);
         for (var i = 0; i < content.length; i++) {
             $("#trab_list").append('<li  style="margin-bottom: 35px";>' + content[i].descricao + '<input type="button" onclick="associate_trab(' + content[i].id + ',\'' + content[i].descricao +
-                    '\')" style="width: 100px;margin-top:1px;margin-left: 200px;" value="Associar" class="submit"/></li>')
+                '\')" style="width: 100px;margin-top:1px;margin-left: 200px;" value="Associar" class="submit"/></li>')
         }
         $('#dvLoading').hide();
         $(".hiddenbox").slideDown();
@@ -520,10 +525,10 @@ function subChangeEquipamentoStatus(equipamento, inst) {
             $("#ajaxform1").submit();
         } else {
             $("#dialog-indisponibilidade")
-                    .data('status', document.getElementById("status").value)
-                    .data('inst', inst)
-                    .data('equipamento', equipamento)
-                    .dialog("open");
+            .data('status', document.getElementById("status").value)
+            .data('inst', inst)
+            .data('equipamento', equipamento)
+            .dialog("open");
         }
     } else if (inst.name == "vermais") {
         $('#historico' + last_equipamento).hide();
@@ -534,19 +539,19 @@ function subChangeEquipamentoStatus(equipamento, inst) {
             document.getElementById("show_history" + equipamento).innerHTML = '<tr><th>Data</th><th>Turno</th><th style="width: 300px;">Status</th></tr>'
             for (var i = 0; i < history_data.length; i++) {
                 document.getElementById("show_history" + equipamento).innerHTML += "<tr><td>" + history_data[i].data + "</td><td>" + history_data[i].turno + "</td><td>" + history_data[i].descricao + "</td></tr>";
-                //$("#show_history" + equipamento).append("<tr><td>" + history_data[i].data + "</td><td>" + history_data[i].turno + "</td><td>" + history_data[i].descricao + "</td></tr>");
+            //$("#show_history" + equipamento).append("<tr><td>" + history_data[i].data + "</td><td>" + history_data[i].turno + "</td><td>" + history_data[i].descricao + "</td></tr>");
             }
 
             $('#historico' + equipamento).show();
             last_equipamento = equipamento;
         });
-        //$('#historico' + equipamento).show();
+    //$('#historico' + equipamento).show();
 
     } else if (inst.name == "alterar") {
         $("#dialog-indisponibilidade")
-                .data('equipamento', equipamento)
-                .data('inst', inst)
-                .dialog("open");
+        .data('equipamento', equipamento)
+        .data('inst', inst)
+        .dialog("open");
     } else {
         stat = inst.name.split(":");
         console.log(stat[0]);
@@ -557,9 +562,9 @@ function subChangeEquipamentoStatus(equipamento, inst) {
         } else {
             //$("#ajaxform1").attr('action', 'index.php/equipamento?change_satus_dinamico=0&equipamento=' + equipamento + '&status=' + 12);
             $("#dialog-disponibilidade")
-                    .data('equipamento', equipamento)
-                    .data('inst', inst)
-                    .dialog("open");
+            .data('equipamento', equipamento)
+            .data('inst', inst)
+            .dialog("open");
         }
 
     }
@@ -637,15 +642,39 @@ function relatorio(type) {
     else if (type === 3) {
         $.post("index.php/relatorio?type=" + type, function(data) {
             document.getElementById("app").innerHTML = data;
-            //$("#app").css('border','1px solid');
+        //$("#app").css('border','1px solid');
         });
     }
     else if (type === 'novobloco') {
+        
         $('#dvLoading').hide();
         $("#dialog-novobloco").dialog("open");
+        tableresize();
         var elems = $("#containment-wrapper").children().size();
         $("#containment-wrapper").append('<div id="draggable' + (elems + 1) + '" class="draggable"></div>');
-        $("#draggable" + (elems + 1)).draggable({containment: "#containment-wrapper", scroll: false});
+        $("#draggable" + (elems + 1)).draggable({
+            containment: "#containment-wrapper", 
+            scroll: false
+        });
+    }
+    else if (type.id==='linhas'){
+        $('#dvLoading').hide();
+        var linha=$("#MatrixTableBody").children()[1].innerHTML;
+        console.log();
+        if($('#MatrixTable tr').length<type.value){
+        
+            //console.log($("#MatrixTableBody").children()[1].cells.length);
+            if($('#MatrixTable tr').length<type.value){
+                var cells=$("#MatrixTableBody").children()[1].cells.length;
+                var insert=  type.value-$('#MatrixTable tr').length;
+                //var linha;
+                for(var i=0;i<insert;i++){
+                    $('#MatrixTableBody').append('<tr>'+linha+'</tr>');
+                }
+            }
+            //tableresize();
+        
+        }
     }
     else if (type === 'imprimir') {
 
@@ -656,9 +685,9 @@ function relatorio(type) {
         document.body.innerHTML = restore;
         $.post("index.php/relatorio?type=3", function(data) {
             document.getElementById("app").innerHTML = data;
-            //$("#app").css('border','1px solid');
+        //$("#app").css('border','1px solid');
         });
-        //
+    //
     }
     else if(type.name==="tipo"){
         
@@ -670,13 +699,24 @@ function relatorio(type) {
         $('#dvLoading').hide();
         var elems = $("#multipla").children().size();
         $("#multipla").append('<div class="field">' +
-                '<label>Escolha'+(elems+1)+':</label>' +
-                '<input type="text" style="width: 250px" name="escolha'+(elems+1)+')"/>' +
-                '<input type="button" name="adicionar" onclick="relatorio(this);" style="font-weight: bolder;width: 20px;height: 16px;margin-top: 2px;padding-bottom: 1px;"  value="+" class="button">' +
-                '</div>');
+            '<label>Escolha'+(elems+1)+':</label>' +
+            '<input type="text" style="width: 250px" name="escolha'+(elems+1)+')"/>' +
+            '<input type="button" name="adicionar" onclick="relatorio(this);" style="font-weight: bolder;width: 20px;height: 16px;margin-top: 2px;padding-bottom: 1px;"  value="+" class="button">' +
+            '</div>');
     }
 }
 
+function tableresize(){
+    
+	
+    $("#MatrixTable").colResizable({
+        liveDrag:true, 
+        gripInnerHtml:"<div class='grip'></div>", 
+        draggingClass:"dragging", 
+        fixed:false,
+    });	
+			
+}
 
 function feed(type, id) {
 
@@ -691,8 +731,8 @@ function feed(type, id) {
         $('#dvLoading').show();
         $.post("index.php/feed?type=2", function(data) {
             document.getElementById("app").innerHTML = data;
-            //initSample();
-            //$('#dvLoading').hide();
+        //initSample();
+        //$('#dvLoading').hide();
         });
     }
     else if (type.name === 'editar') {

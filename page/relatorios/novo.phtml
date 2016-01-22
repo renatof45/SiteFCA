@@ -78,36 +78,21 @@ $unidades = $unidadesdao->findUnidades($_SESSION['area']);
                         <option value="6">6</option>
                     </select>
                 </div>
-                <div style="padding: 5px" class="field">
-                    <ul style="list-style:none">
-                        <li>
-                            <div class="field" id="colsnames">
-                                <span style="margin-left: 200px"></span>
-                                <input type="text" style="width: 100px" name="col1_name"/>
-                                <input type="text" style="width: 100px" name="col1_name"/>
-                                <input type="text" style="width: 100px" name="col1_name"/>
-                                
-                            </div>
-                            <div class="field">
-                                <label style="width: 110px">GPD (S):</label>
-                                <input type="text" name="1200[gps][plano]" value="" class="text" style="width:50px"/>
-                                <input type="text" name="1200[gps][lab]" value="" class="text" style="width:50px"/>
-                                <input type="text" name="1200[gps][acao]" value="" class="text" style="width:400px"/>
-                            </div>
-                            <div class="field">
-                                <label style="width: 110px">Gas. Leve (TV):</label>
-                                <input type="text" name="1200[levetv][plano]" value="" class="text" style="width:50px"/>
-                                <input type="text" name="1200[levetv][lab]" value="" class="text" style="width:50px"/>
-                                <input type="text" name="1200[levetv][acao]" value="" class="text" style="width:400px"/>
-                            </div>
-                            <div class="field">
-                                <label style="width: 110px">Gas. Leva (95%):</label>
-                                <input type="text" name="1200[leve95][plano]" value="" class="text" style="width:50px"/>
-                                <input type="text" name="1200[leve95][lab]" value="" class="text" style="width:50px"/>
-                                <input type="text" name="1200[leve95][acao]" value="" class="text" style="width:400px"/>
-                            </div>
-                        </li>
-                    </ul>
+                <div class="field">
+
+                    <table id="MatrixTable"  width="500" border="0" cellpadding="0" cellspacing="0">
+                        <tbody id="MatrixTableBody">
+                        <tr>
+                            <td ></td><td><input type="text"/></td><td ><input type="text"/></td>
+                        </tr>
+                        <tr>
+                            <td ><input type="text"/></td><td>cell</td><td c>cell</td>
+                        </tr>
+                        <tr>
+                            <td><input type="text"/></td><td>cell</td><td>cell</td>
+                        </tr>			
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </fieldset>

@@ -13,6 +13,10 @@
     background-color: red;
 }
 
+#MatrixTable input{
+    width: 50px;
+}
+noBorder  {border: 0; }
 .draggable {border: 1px solid; width: 150px; height: 150px; padding: 0.5em; float: left}
 .draggable label{line-height: 18px;padding-bottom: 8px;font-weight: bold;color: black;}
 #containment-wrapper { width: 95%; height:1150px; border:2px solid #ccc;margin-top: 30px; padding: 10px; }
