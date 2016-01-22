@@ -26,10 +26,10 @@ $(document).ajaxStop(function() {
     } else {
         detach = true;
     }
-    $( "#draggable" ).draggable({ containment: "#containment-wrapper", scroll: false });
+    $("#draggable1").draggable({containment: "#containment-wrapper", scroll: false});
     $('#ajaxform1').ajaxForm(function(data) {
         document.getElementById("app").innerHTML = data;
-        if($("#editor").length){
+        if ($("#editor").length) {
             initSample();
         }
     });
@@ -228,6 +228,20 @@ $(document).ajaxStop(function() {
         autoOpen: false,
         height: 150,
         width: 300,
+        modal: true,
+        buttons: {
+            "OK": function() {
+                $(this).dialog("close");
+            }
+        },
+        close: function() {
+            allFields.val("").removeClass("ui-state-error");
+        }
+    });
+    $("#dialog-novobloco").dialog({
+        autoOpen: false,
+        height: 350,
+        width: 900,
         modal: true,
         buttons: {
             "OK": function() {
@@ -565,7 +579,6 @@ function processo(type) {
         $("#passos").append('<div class="field"><label>Passo ' + ($("#passos").children().size() + 1) + ':</label><textarea rows="4" cols="60" name="passos[passo' + ($("#passos").children().size() + 1) + ']"></textarea></div>');
     }
     if (type.name == "aceitarmanobra") {
-        console.log($("#passos").children()[1].children[1].checked);
         for (var i = 0; i < $("#passos").children().size(); i++) {
             if (!($("#passos").children()[i].children[1].checked)) {
                 $("#dialog-aceitar-manobra").dialog("open");
@@ -612,38 +625,60 @@ function processo(type) {
 
 function relatorio(type) {
     $('#dvLoading').show();
-    if (type == 1) {
+    if (type === 1) {
         $.post("index.php/relatorio?type=" + type, function(data) {
             document.getElementById("app").innerHTML = data;
         });
-    } else if (type == 2) {
+    } else if (type === 2) {
         $.post("index.php/relatorio?type=" + type, function(data) {
             document.getElementById("app").innerHTML = data;
         });
     }
-    else if (type == 3) {
+    else if (type === 3) {
         $.post("index.php/relatorio?type=" + type, function(data) {
             document.getElementById("app").innerHTML = data;
             //$("#app").css('border','1px solid');
         });
     }
-    else if (type == 'novo') {
+    else if (type === 'novobloco') {
         $('#dvLoading').hide();
-        var restore=document.body.innerHTML;
-        var printarea=document.getElementById('containment-wrapper').innerHTML;
-        document.body.innerHTML=printarea;
+        $("#dialog-novobloco").dialog("open");
+        var elems = $("#containment-wrapper").children().size();
+        $("#containment-wrapper").append('<div id="draggable' + (elems + 1) + '" class="draggable"></div>');
+        $("#draggable" + (elems + 1)).draggable({containment: "#containment-wrapper", scroll: false});
+    }
+    else if (type === 'imprimir') {
+
+        var restore = document.body.innerHTML;
+        var printarea = document.getElementById('containment-wrapper').innerHTML;
+        document.body.innerHTML = printarea;
         window.print();
-        document.body.innerHTML=restore;
+        document.body.innerHTML = restore;
         $.post("index.php/relatorio?type=3", function(data) {
             document.getElementById("app").innerHTML = data;
             //$("#app").css('border','1px solid');
         });
         //
     }
+    else if(type.name==="tipo"){
+        
+    }
+    else if (type.name==='linhas'){
+        
+    }
+    else if (type.name === "adicionar") {
+        $('#dvLoading').hide();
+        var elems = $("#multipla").children().size();
+        $("#multipla").append('<div class="field">' +
+                '<label>Escolha'+(elems+1)+':</label>' +
+                '<input type="text" style="width: 250px" name="escolha'+(elems+1)+')"/>' +
+                '<input type="button" name="adicionar" onclick="relatorio(this);" style="font-weight: bolder;width: 20px;height: 16px;margin-top: 2px;padding-bottom: 1px;"  value="+" class="button">' +
+                '</div>');
+    }
 }
 
 
-function feed(type,id) {
+function feed(type, id) {
 
     if (type === 1) {
         $('#dvLoading').show();
@@ -652,7 +687,7 @@ function feed(type,id) {
             initSample();
         });
     }
-    else if(type===2){
+    else if (type === 2) {
         $('#dvLoading').show();
         $.post("index.php/feed?type=2", function(data) {
             document.getElementById("app").innerHTML = data;
@@ -660,32 +695,32 @@ function feed(type,id) {
             //$('#dvLoading').hide();
         });
     }
-    else if(type.name==='editar'){
+    else if (type.name === 'editar') {
         $('#dvLoading').show();
-        $("#ajaxform1").attr('action', 'index.php/feed?edit=true&id='+id);
+        $("#ajaxform1").attr('action', 'index.php/feed?edit=true&id=' + id);
         $("#ajaxform1").submit();
     }
-    else if(type===3){
-        
+    else if (type === 3) {
+
         var editor = CKEDITOR.instances.editor;
         $("#texto").val(editor.getData());
-         $('#dvLoading').show();
-        $("#ajaxform1").attr('action', 'index.php/feed?type=3&id='+id);
+        $('#dvLoading').show();
+        $("#ajaxform1").attr('action', 'index.php/feed?type=3&id=' + id);
         $("#ajaxform1").submit();
-        
+
     }
-    else if(type===4){
-        
+    else if (type === 4) {
+
         var editor = CKEDITOR.instances.editor;
         $("#texto").val(editor.getData());
-         $('#dvLoading').show();
+        $('#dvLoading').show();
         $("#ajaxform1").attr('action', 'index.php/feed?type=4');
         $("#ajaxform1").submit();
-        
+
     }
 
 }
 
-function creategrid(){
-    
+function creategrid() {
+
 }

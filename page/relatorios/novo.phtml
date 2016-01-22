@@ -1,40 +1,116 @@
-<?php ?>
+<?php
+$unidadesdao = new UnidadesDao();
+$unidades = $unidadesdao->findUnidades($_SESSION['area']);
+?>
 <form id="ajaxform1" method="post">
-    <fieldset style="z-index: 1000; position: fixed;background-color: rgb(243,243,243);width: 698px;">
+    <fieldset style="z-index: 100; position: fixed;background-color: rgb(243,243,243);width: 698px;">
         <div class="field">
-            <input type="button" name="alterar" onclick="" style="margin-top: 5px;margin-bottom: 5px;float: left" value="Novo Bloco" class="button">
+            <input type="button" name="alterar" onclick="relatorio('novobloco');" style="margin-top: 5px;margin-bottom: 5px;float: left" value="Novo Bloco" class="button">
             <input type="button" name="alterar" onclick="" style="margin-top: 5px;float: left" value="Separador" class="button">
             <input type="button" name="alterar" onclick="" style="margin-top: 5px;float: left" value="Salvar" class="button">
-            <input type="button" name="alterar" onclick="relatorio('novo')" style="margin-top: 5px;float: left;" value="Imprimir" class="button">
+            <input type="button" name="alterar" onclick="relatorio('imprimir');" style="margin-top: 5px;float: left;" value="Imprimir" class="button">
         </div> 
     </fieldset>
 </form>
 <div id="containment-wrapper">
-    <div id="draggable" >
-        <div class="field">
-            <label style="width: 130px;margin-bottom: 75px;">Unidade:</label>
-            <ul style="list-style:none;">
-                <li>
 
-                    <input type="radio" onmouseover="if(this.checked){this.checked=false;}" name="1200[Unidade]"   value="1">Serciço</input>
-                </li>
-                <li>
-
-                    <input type="radio" onmouseover="if(this.checked){this.checked=false;}" name="1200[Unidade]"   value="2">Parada</input>
-                </li>
-                <li>
-
-                    <input type="radio" onmouseover="if(this.checked){this.checked=false;}" name="1200[Unidade]"   value="3">Arranque</input>
-                </li>
-                <li>
-
-                    <input type="radio" onmouseover="if(this.checked){this.checked=false;}" name="1200[Unidade]"   value="4">Paragem</input>
-                </li>
-                <li>
-
-                    <input type="radio" onmouseover="if(this.checked){this.checked=false;}" name="1200[Unidade]"   value="5">AP ByPass</input>
-                </li>
-            </ul>
-        </div>
-    </div>
 </div>
+
+<div id="dialog-novobloco" title="Novo Bloco">
+    <form>
+        <fieldset>
+            <div class="field">
+                <label>Unidade:</label>
+                <select name="unidade">
+                    <?php foreach ($unidades as $unidade): ?>
+                        <option value="<?php echo $unidade['id'] ?>">
+                            <?php echo $unidade['designacao']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="field">
+                <label>Tipo:</label>
+                <select name="tipo" onchange="relatorio(this);">
+                    <option value="1">
+                        Escolha multipla
+                    </option>
+                    <option value="2">
+                        Introdução de valores simples
+                    </option>
+                    <option value="3">
+                        Introdução de valores multiplos
+                    </option>
+                    <option value="4">
+                        Tabela
+                    </option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Titulo:</label>
+                <input type="text" style="width: 250px" name="equipamento"/>
+            </div>
+            <div id="multipla" style="display: none;">
+                <div class="field">
+                    <label>Escolha1:</label>
+                    <input type="text" style="width: 250px" name="escolha1"/>
+                    <input type="button" name="adicionar" onclick="relatorio(this);" style="font-weight: bolder;width: 20px;height: 16px;margin-top: 2px;padding-bottom: 1px;"  value="+" class="button">
+                </div>
+            </div>
+            <div id="tabela" style="dysplay:block;">
+                <div class="field">
+                    <label>Linhas:</label>
+                    <select id="linhas" onchange="relatorio(this)">
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Colunas:</label>
+                    <select id="colunas" onchange="relatorio(this)">
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </div>
+                <div style="padding: 5px" class="field">
+                    <ul style="list-style:none">
+                        <li>
+                            <div class="field" id="colsnames">
+                                <span style="margin-left: 200px"></span>
+                                <input type="text" style="width: 100px" name="col1_name"/>
+                                <input type="text" style="width: 100px" name="col1_name"/>
+                                <input type="text" style="width: 100px" name="col1_name"/>
+                                
+                            </div>
+                            <div class="field">
+                                <label style="width: 110px">GPD (S):</label>
+                                <input type="text" name="1200[gps][plano]" value="" class="text" style="width:50px"/>
+                                <input type="text" name="1200[gps][lab]" value="" class="text" style="width:50px"/>
+                                <input type="text" name="1200[gps][acao]" value="" class="text" style="width:400px"/>
+                            </div>
+                            <div class="field">
+                                <label style="width: 110px">Gas. Leve (TV):</label>
+                                <input type="text" name="1200[levetv][plano]" value="" class="text" style="width:50px"/>
+                                <input type="text" name="1200[levetv][lab]" value="" class="text" style="width:50px"/>
+                                <input type="text" name="1200[levetv][acao]" value="" class="text" style="width:400px"/>
+                            </div>
+                            <div class="field">
+                                <label style="width: 110px">Gas. Leva (95%):</label>
+                                <input type="text" name="1200[leve95][plano]" value="" class="text" style="width:50px"/>
+                                <input type="text" name="1200[leve95][lab]" value="" class="text" style="width:50px"/>
+                                <input type="text" name="1200[leve95][acao]" value="" class="text" style="width:400px"/>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
