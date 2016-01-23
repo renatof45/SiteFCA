@@ -32,6 +32,9 @@ $unidades = $unidadesdao->findUnidades($_SESSION['area']);
             <div class="field">
                 <label>Tipo:</label>
                 <select name="tipo" onchange="relatorio(this);">
+                    <option value="4">
+                        Tabela
+                    </option>
                     <option value="1">
                         Escolha multipla
                     </option>
@@ -41,61 +44,69 @@ $unidades = $unidadesdao->findUnidades($_SESSION['area']);
                     <option value="3">
                         Introdução de valores multiplos
                     </option>
-                    <option value="4">
-                        Tabela
-                    </option>
+
                 </select>
             </div>
             <div class="field">
                 <label>Titulo:</label>
-                <input type="text" style="width: 250px" name="equipamento"/>
+                <input type="text" style="width: 250px" id="titulo" name="titulo"/>
             </div>
-            <div id="multipla" style="display: none;">
-                <div class="field">
-                    <label>Escolha1:</label>
-                    <input type="text" style="width: 250px" name="escolha1"/>
-                    <input type="button" name="adicionar" onclick="relatorio(this);" style="font-weight: bolder;width: 20px;height: 16px;margin-top: 2px;padding-bottom: 1px;"  value="+" class="button">
+            <div id="bloco">
+                <div id="multipla" style="display:none ;">
+                    <div class="field">
+                        <label>Escolha1:</label>
+                        <input type="text" style="width: 250px" name="escolha1"/>
+                        <input type="button" name="adicionar" onclick="relatorio(this);" style="font-weight: bolder;width: 20px;height: 16px;margin-top: 2px;padding-bottom: 1px;"  value="+" class="button">
+                    </div>
                 </div>
-            </div>
-            <div id="tabela" style="dysplay:block;">
-                <div class="field">
-                    <label>Linhas:</label>
-                    <select id="linhas" onchange="relatorio(this)">
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                    </select>
-                </div>
-                <div class="field">
-                    <label>Colunas:</label>
-                    <select id="colunas" onchange="relatorio(this)">
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                    </select>
-                </div>
-                <div class="field">
-
-                    <table id="MatrixTable"  width="500" border="0" cellpadding="0" cellspacing="0">
-                        <tbody id="MatrixTableBody">
-                        <tr>
-                            <td ></td><td><input type="text"/></td><td ><input type="text"/></td>
-                        </tr>
-                        <tr>
-                            <td ><input type="text"/></td><td>cell</td><td c>cell</td>
-                        </tr>
-                        <tr>
-                            <td><input type="text"/></td><td>cell</td><td>cell</td>
-                        </tr>			
-                        </tbody>
-                    </table>
+                <div id="tabela" style="display:block;">
+                    <div class="field">
+                        <label>Linhas:</label>
+                        <select id="linhas" onchange="relatorio(this)">
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Colunas:</label>
+                        <select id="colunas" onchange="relatorio(this)">
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                        </select>
+                    </div>
+                    <div id="tabelabloco" class="field">
+                        <table id="MatrixTable"  width="500" border="0" cellpadding="0" cellspacing="0">
+                            <tbody id="MatrixTableBody">
+                                <tr style="height:  25px" >
+                                    <td></td><td onclick="relatorio(this)" style="">ClickMe</td><td onclick="relatorio(this)" style="">ClickMe</td>
+                                </tr>
+                                <tr style="height:  25px">
+                                    <td onclick="relatorio(this)">ClickMe</td><td></td><td ></td>
+                                </tr>
+                                <tr style="height:  25px">
+                                    <td onclick="relatorio(this)">ClickMe</td><td></td><td></td>
+                                </tr>			
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </fieldset>
     </form>
 </div>
-
+<div id="dialog-inserirnomestabbela" title="Novo Bloco">
+    <form>
+        <fieldset>
+            <div class="field">
+                <label>Nome do campo:</label>
+                <input id="nomecampo" type="text"/>
+            </div>
+        </fieldset>
+    </form>
+</div>
