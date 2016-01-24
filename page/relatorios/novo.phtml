@@ -60,41 +60,7 @@ $unidades = $unidadesdao->findUnidades($_SESSION['area']);
                     </div>
                 </div>
                 <div id="tabela" style="display:block;">
-                    <div class="field">
-                        <label>Linhas:</label>
-                        <select id="linhas" onchange="relatorio(this)">
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                        </select>
-                    </div>
-                    <div class="field">
-                        <label>Colunas:</label>
-                        <select id="colunas" onchange="relatorio(this)">
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                        </select>
-                    </div>
-                    <div id="tabelabloco" class="field">
-                        <table id="MatrixTable"  width="500" border="0" cellpadding="0" cellspacing="0">
-                            <tbody id="MatrixTableBody">
-                                <tr style="height:  25px" >
-                                    <td></td><td onclick="relatorio(this)" style="">ClickMe</td><td onclick="relatorio(this)" style="">ClickMe</td>
-                                </tr>
-                                <tr style="height:  25px">
-                                    <td onclick="relatorio(this)">ClickMe</td><td></td><td ></td>
-                                </tr>
-                                <tr style="height:  25px">
-                                    <td onclick="relatorio(this)">ClickMe</td><td></td><td></td>
-                                </tr>			
-                            </tbody>
-                        </table>
-                    </div>
+                    
                 </div>
             </div>
         </fieldset>

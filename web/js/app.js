@@ -3,11 +3,53 @@ var count = 0;
 var aut_type = 0;
 var detach = true;
 
+var matrix_table = '<div class="field">' +
+        '<label>Linhas:</label>' +
+        '<select id="linhas" onchange="relatorio(this)">' +
+        '<option value="2">2</option>' +
+        '<option value="3">3</option>' +
+        '<option value="4">4</option>' +
+        '<option value="5">5</option>' +
+        '<option value="6">6</option>' +
+        '</select>' +
+        '</div>' +
+        '<div class="field">' +
+        '<label>Colunas:</label>' +
+        '<select id="colunas" onchange="relatorio(this)">' +
+        '<option value="2">2</option>' +
+        '<option value="3">3</option>' +
+        '<option value="4">4</option>' +
+        '<option value="5">5</option>' +
+        '<option value="6">6</option>' +
+        '</select>' +
+        '</div>' +
+        '<div id="tabelabloco" class="field">' +
+        '<table id="MatrixTable"  width="500" border="0" cellpadding="0" cellspacing="0">' +
+        '<tbody id="MatrixTableBody">' +
+        '<tr style="height:  25px" >' +
+        '<td></td><td onclick="relatorio(this)" style="">ClickMe</td><td onclick="relatorio(this)" style="">ClickMe</td>' +
+        '</tr>' +
+        '<tr style="height:  25px">' +
+        '<td onclick="relatorio(this)">ClickMe</td><td></td><td ></td>' +
+        '</tr>' +
+        '<tr style="height:  25px">' +
+        '<td onclick="relatorio(this)">ClickMe</td><td></td><td></td>' +
+        '</tr>			' +
+        '</tbody>' +
+        '</table>' +
+        '</div>';
+
+var escolha_multipla = '<div class="field">' +
+        '<label>Escolha1:</label>' +
+        '<input type="text" style="width: 250px" name="escolha1"/>' +
+        '<input type="button" name="adicionar" onclick="relatorio(this);" style="font-weight: bolder;width: 20px;height: 16px;margin-top: 2px;padding-bottom: 1px;"  value="+" class="button">' +
+        '</div>';
+
 $(document).ready(function() {
     $('#ajaxform4').ajaxForm(function(data) {
         document.getElementById("area_id").innerHTML = data;
         document.getElementById("app").innerHTML = '<h2>Se esta a ler isto, é porque mudou de area!</h2>' +
-    '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
+                '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
     });
 });
 
@@ -26,10 +68,10 @@ $(document).ajaxStop(function() {
     } else {
         detach = true;
     }
-    
-    
+
+
     $("#draggable1").draggable({
-        containment: "#containment-wrapper", 
+        containment: "#containment-wrapper",
         scroll: false
     });
     $('#ajaxform1').ajaxForm(function(data) {
@@ -48,7 +90,7 @@ $(document).ajaxStop(function() {
     $('#ajaxform4').ajaxForm(function(data) {
         document.getElementById("area_id").innerHTML = data;
         document.getElementById("app").innerHTML = '<h2>Se esta a ler isto, é porque mudou de area!</h2>' +
-    '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
+                '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
     });
 
     $('#perfilForm').ajaxForm(function(data) {
@@ -93,8 +135,8 @@ $(document).ajaxStop(function() {
 
     $("#hora").val(' ')
     var password = $("#password"),
-    submit = $("#change-status-form"),
-    allFields = $([]).add(password);
+            submit = $("#change-status-form"),
+            allFields = $([]).add(password);
 
     $("#dialog-form").dialog({
         autoOpen: false,
@@ -116,12 +158,12 @@ $(document).ajaxStop(function() {
     });
 
     $("#login")
-    .click(function() {
-        $("#change-status-form").attr('action', 'index.php/enclub?encomendar=1&tipo=1');
-        //console.log($("#change-status-form"));
-        $("#enc").attr('value', '1');
-        $("#dialog-form").dialog("open");
-    });
+            .click(function() {
+                $("#change-status-form").attr('action', 'index.php/enclub?encomendar=1&tipo=1');
+                //console.log($("#change-status-form"));
+                $("#enc").attr('value', '1');
+                $("#dialog-form").dialog("open");
+            });
 
 
     $("#dialog-nova-firma").dialog({
@@ -184,9 +226,9 @@ $(document).ajaxStop(function() {
                 if ($("#halt-status").val() == 2) {
                     $(this).dialog("close");
                     $("#dialog-indisponibilidade")
-                    .data('equipamento', $(this).data('equipamento'))
-                    .data('inst', $(this).data("inst"))
-                    .dialog("open");
+                            .data('equipamento', $(this).data('equipamento'))
+                            .data('inst', $(this).data("inst"))
+                            .dialog("open");
                 } else {
                     $('#dvLoading').show();
                     $("#ajaxform1").attr('action', 'index.php/equipamento?change_satus_dinamico=0&equipamento=' + $(this).data('equipamento') + '&status=' + 12);
@@ -250,21 +292,29 @@ $(document).ajaxStop(function() {
         modal: true,
         buttons: {
             "OK": function() {
-                var bloco='<label>'+$("#titulo").val()+'</label>';
+                var bloco = '<label>' + $("#titulo").val() + '</label>';
                 var elems = $("#containment-wrapper").children().size();
-                $("#bloco").children().each(function(){
-                   if($(this)[0].style.display==='block'){
-                       if($(this)[0].id=='tabela'){
-                         //$("#tabelabloco").removeClass('JColResizer JCLRFlex');
-                         $("#tabelabloco").children()[0].remove();
-                         bloco+=$("#tabelabloco").html();
-                       }
-                   } 
+                var tablewith = 0;
+                $("#bloco").children().each(function() {
+                    if ($(this)[0].style.display === 'block') {
+                        if ($(this)[0].id === 'tabela') {
+                            $("#tabelabloco").children()[0].remove();
+                            $("#MatrixTable").find('tr').each(function() {
+                                $(this).find('td').each(function() {
+                                    tablewith += $(this).outerWidth();
+                                });
+                                return false;
+                            });
+                            bloco += $("#tabelabloco").html();
+                        }
+                    }
                 });
-                //$("#draggable").height(val)
-                $("#containment-wrapper").append('<div id="draggable' + (elems + 1) + '" class="draggable">'+bloco+'</div>');
+                $("#containment-wrapper").append('<div id="draggable' + (elems + 1) + '" class="draggable">' + bloco + '</div>');
+                $("#draggable" + (elems + 1)).css('width', tablewith);
+                $("#draggable" + (elems + 1)).css('hieght', $("#MatrixTable").height());
+                $("#draggable" + (elems + 1)).append('<div class="picker"></div>');
                 $("#draggable" + (elems + 1)).draggable({
-                    containment: "#containment-wrapper", 
+                    containment: "#containment-wrapper",
                     scroll: false
                 });
                 $(this).dialog("close");
@@ -281,17 +331,14 @@ $(document).ajaxStop(function() {
         modal: true,
         buttons: {
             "OK": function() {
-                var that=$(this);
-                $('#MatrixTableBody').find('tr').each(function(){
-                    $(this).find('td').each(function(){
-                        var rowIndex=$(this)[0].parentNode.rowIndex;
-                        var cellIndex=$(this)[0].cellIndex;
-                        if(rowIndex===that.data('rowIndex') && cellIndex===that.data('cellIndex'))
-                            $(this).html('<label>'+$("#nomecampo").val()+'</label>');
-                    //console.log(rowIndex);
+                var that = $(this);
+                $('#MatrixTableBody').find('tr').each(function() {
+                    $(this).find('td').each(function() {
+                        var rowIndex = $(this)[0].parentNode.rowIndex;
+                        var cellIndex = $(this)[0].cellIndex;
+                        if (rowIndex === that.data('rowIndex') && cellIndex === that.data('cellIndex'))
+                            $(this).html('<label>' + $("#nomecampo").val() + '</label>');
                     });
-                //if(rowIndex===$(this).data('rowIndex') || cellIndex===$(this).data('cellIndex'))
-                    
                 });
                 $(this).dialog("close");
             }
@@ -300,7 +347,7 @@ $(document).ajaxStop(function() {
             allFields.val("").removeClass("ui-state-error");
         }
     });
-    
+
 });
 
 function set_hora(hora) {
@@ -348,7 +395,7 @@ function app() {
     $.post("index.php/home", function(data) {
         document.getElementById("app").innerHTML = data;
     });
-/*.done(function() {
+    /*.done(function() {
      $.post("index.php/header", function(data) {
      document.getElementById("area_id").innerHTML = data;
      });
@@ -526,7 +573,7 @@ function show_pedidos(inst) {
         console.log(content);
         for (var i = 0; i < content.length; i++) {
             $("#trab_list").append('<li  style="margin-bottom: 35px";>' + content[i].descricao + '<input type="button" onclick="associate_trab(' + content[i].id + ',\'' + content[i].descricao +
-                '\')" style="width: 100px;margin-top:1px;margin-left: 200px;" value="Associar" class="submit"/></li>')
+                    '\')" style="width: 100px;margin-top:1px;margin-left: 200px;" value="Associar" class="submit"/></li>')
         }
         $('#dvLoading').hide();
         $(".hiddenbox").slideDown();
@@ -569,10 +616,10 @@ function subChangeEquipamentoStatus(equipamento, inst) {
             $("#ajaxform1").submit();
         } else {
             $("#dialog-indisponibilidade")
-            .data('status', document.getElementById("status").value)
-            .data('inst', inst)
-            .data('equipamento', equipamento)
-            .dialog("open");
+                    .data('status', document.getElementById("status").value)
+                    .data('inst', inst)
+                    .data('equipamento', equipamento)
+                    .dialog("open");
         }
     } else if (inst.name == "vermais") {
         $('#historico' + last_equipamento).hide();
@@ -583,19 +630,19 @@ function subChangeEquipamentoStatus(equipamento, inst) {
             document.getElementById("show_history" + equipamento).innerHTML = '<tr><th>Data</th><th>Turno</th><th style="width: 300px;">Status</th></tr>'
             for (var i = 0; i < history_data.length; i++) {
                 document.getElementById("show_history" + equipamento).innerHTML += "<tr><td>" + history_data[i].data + "</td><td>" + history_data[i].turno + "</td><td>" + history_data[i].descricao + "</td></tr>";
-            //$("#show_history" + equipamento).append("<tr><td>" + history_data[i].data + "</td><td>" + history_data[i].turno + "</td><td>" + history_data[i].descricao + "</td></tr>");
+                //$("#show_history" + equipamento).append("<tr><td>" + history_data[i].data + "</td><td>" + history_data[i].turno + "</td><td>" + history_data[i].descricao + "</td></tr>");
             }
 
             $('#historico' + equipamento).show();
             last_equipamento = equipamento;
         });
-    //$('#historico' + equipamento).show();
+        //$('#historico' + equipamento).show();
 
     } else if (inst.name == "alterar") {
         $("#dialog-indisponibilidade")
-        .data('equipamento', equipamento)
-        .data('inst', inst)
-        .dialog("open");
+                .data('equipamento', equipamento)
+                .data('inst', inst)
+                .dialog("open");
     } else {
         stat = inst.name.split(":");
         console.log(stat[0]);
@@ -606,9 +653,9 @@ function subChangeEquipamentoStatus(equipamento, inst) {
         } else {
             //$("#ajaxform1").attr('action', 'index.php/equipamento?change_satus_dinamico=0&equipamento=' + equipamento + '&status=' + 12);
             $("#dialog-disponibilidade")
-            .data('equipamento', equipamento)
-            .data('inst', inst)
-            .dialog("open");
+                    .data('equipamento', equipamento)
+                    .data('inst', inst)
+                    .dialog("open");
         }
 
     }
@@ -674,14 +721,14 @@ function processo(type) {
 
 function relatorio(type) {
     //$('#dvLoading').show();
-    if(type.nodeName == "TD"){
-        console.log(type.cellIndex+' , '+type.parentNode.rowIndex);
+    if (type.nodeName === "TD") {
+        console.log(type.cellIndex + ' , ' + type.parentNode.rowIndex);
         $("#dialog-inserirnomestabbela")
-        .data('cellIndex', type.cellIndex)
-        .data('rowIndex', type.parentNode.rowIndex)
-        .dialog("open");
+                .data('cellIndex', type.cellIndex)
+                .data('rowIndex', type.parentNode.rowIndex)
+                .dialog("open");
     }
-    
+
     if (type === 1) {
         $.post("index.php/relatorio?type=" + type, function(data) {
             document.getElementById("app").innerHTML = data;
@@ -694,61 +741,65 @@ function relatorio(type) {
     else if (type === 3) {
         $.post("index.php/relatorio?type=" + type, function(data) {
             document.getElementById("app").innerHTML = data;
-        //$("#app").css('border','1px solid');
+            //$("#app").css('border','1px solid');
         });
     }
     else if (type === 'novobloco') {
-        
+
         $('#dvLoading').hide();
         $("#dialog-novobloco").dialog("open");
+        $("#multipla").hide();
+        $("#tabela").html(matrix_table);
+        $("#tabela").show();
         tableresize();
-       
+        
+
     }
-    else if (type.id==='linhas'){
+    else if (type.id === 'linhas') {
         $('#dvLoading').hide();
         $("#MatrixTable").colResizable({
-            disable:true
+            disable: true
         });
-        var linha=$("#MatrixTableBody").children()[1].innerHTML;
+        var linha = $("#MatrixTableBody").children()[1].innerHTML;
         console.log($("#MatrixTableBody").children());
-        if(($('#MatrixTable tr').length-1)<type.value){
-            var insert=  type.value-($('#MatrixTable tr').length-1);
-            for(var i=0;i<insert;i++){
-                $('#MatrixTableBody').append('<tr style="height:  25px">'+linha+'</tr>');
+        if (($('#MatrixTable tr').length - 1) < type.value) {
+            var insert = type.value - ($('#MatrixTable tr').length - 1);
+            for (var i = 0; i < insert; i++) {
+                $('#MatrixTableBody').append('<tr style="height:  25px">' + linha + '</tr>');
             }
         }
-        else{
-            var remove= ($('#MatrixTable tr').length-1)-type.value;
-            for(i=0;i<remove;i++){
-                $("#MatrixTableBody").children()[$('#MatrixTable tr').length-1].remove();
+        else {
+            var remove = ($('#MatrixTable tr').length - 1) - type.value;
+            for (i = 0; i < remove; i++) {
+                $("#MatrixTableBody").children()[$('#MatrixTable tr').length - 1].remove();
             }
         }
         tableresize();
     }
-    else if(type.id==='colunas'){
+    else if (type.id === 'colunas') {
         $("#MatrixTable").colResizable({
-            disable:true
+            disable: true
         });
         $('#dvLoading').hide();
-        var length=$('#MatrixTableBody').children()[0].children.length;
-        if(length-1<type.value){
-            var insert=  type.value-(length-1);
-            for(var i=0;i<insert;i++){
-                length=$('#MatrixTableBody').children()[0].children.length;
-                $('#MatrixTableBody').find('tr').each(function(){
-                    if($(this).find('td').eq(length-1)[0].parentNode.rowIndex===0)
-                        $(this).find('td').eq(length-1).after('<td onclick="relatorio(this)" style="width: 50px">Click Me</td>');
+        var length = $('#MatrixTableBody').children()[0].children.length;
+        if (length - 1 < type.value) {
+            var insert = type.value - (length - 1);
+            for (var i = 0; i < insert; i++) {
+                length = $('#MatrixTableBody').children()[0].children.length;
+                $('#MatrixTableBody').find('tr').each(function() {
+                    if ($(this).find('td').eq(length - 1)[0].parentNode.rowIndex === 0)
+                        $(this).find('td').eq(length - 1).after('<td onclick="relatorio(this)" style="width: 50px">Click Me</td>');
                     else
-                        $(this).find('td').eq(length-1).after('<td ></td>');
+                        $(this).find('td').eq(length - 1).after('<td ></td>');
                 });
             }
         }
-        else{
-            var remove= (length-1)-type.value;
-            for(i=0;i<remove;i++){
-                length=$('#MatrixTableBody').children()[0].children.length;
-                $('#MatrixTableBody').find('tr').each(function(){
-                    $(this).find('td').eq(length-1).remove();
+        else {
+            var remove = (length - 1) - type.value;
+            for (i = 0; i < remove; i++) {
+                length = $('#MatrixTableBody').children()[0].children.length;
+                $('#MatrixTableBody').find('tr').each(function() {
+                    $(this).find('td').eq(length - 1).remove();
                 });
             }
         }
@@ -763,42 +814,47 @@ function relatorio(type) {
         document.body.innerHTML = restore;
         $.post("index.php/relatorio?type=3", function(data) {
             document.getElementById("app").innerHTML = data;
-        //$("#app").css('border','1px solid');
+            //$("#app").css('border','1px solid');
         });
-    //
+        //
     }
-    else if(type.name==="tipo"){
-        if(type.value=='1'){
+    else if (type.name === "tipo") {
+        if (type.value === '1') {
+            $("#multipla").html(escolha_multipla);
             $("#multipla").show();
             $("#tabela").hide();
         }
-        else if(type.value==='4'){
+        else if (type.value === '4') {
+            $("#MatrixTable").colResizable({
+                disable: true
+            });
             $("#multipla").hide();
+            $("#tabela").html(matrix_table);
             $("#tabela").show();
-            tableresize()
+            tableresize();
         }
     }
-   
+
     else if (type.name === "adicionar") {
         $('#dvLoading').hide();
         var elems = $("#multipla").children().size();
         $("#multipla").append('<div class="field">' +
-            '<label>Escolha'+(elems+1)+':</label>' +
-            '<input type="text" style="width: 250px" name="escolha'+(elems+1)+')"/>' +
-            '<input type="button" name="adicionar" onclick="relatorio(this);" style="font-weight: bolder;width: 20px;height: 16px;margin-top: 2px;padding-bottom: 1px;"  value="+" class="button">' +
-            '</div>');
+                '<label>Escolha' + (elems + 1) + ':</label>' +
+                '<input type="text" style="width: 250px" name="escolha' + (elems + 1) + ')"/>' +
+                '<input type="button" name="adicionar" onclick="relatorio(this);" style="font-weight: bolder;width: 20px;height: 16px;margin-top: 2px;padding-bottom: 1px;"  value="+" class="button">' +
+                '</div>');
     }
 }
 
-function tableresize(){
-   
+function tableresize() {
+
     $("#MatrixTable").colResizable({
-        liveDrag:true, 
-        gripInnerHtml:"<div class='grip'></div>", 
-        draggingClass:"dragging", 
-        fixed:false,
-    });	
-			
+        liveDrag: true,
+        gripInnerHtml: "<div class='grip'></div>",
+        draggingClass: "dragging",
+        fixed: false,
+    });
+
 }
 
 function feed(type, id) {
@@ -814,8 +870,8 @@ function feed(type, id) {
         $('#dvLoading').show();
         $.post("index.php/feed?type=2", function(data) {
             document.getElementById("app").innerHTML = data;
-        //initSample();
-        //$('#dvLoading').hide();
+            //initSample();
+            //$('#dvLoading').hide();
         });
     }
     else if (type.name === 'editar') {
