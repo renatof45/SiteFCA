@@ -256,7 +256,7 @@ $(document).ajaxStop(function() {
                     
                 });
                 console.log(selected_elem_top);
-      
+               $("#draggable" + selected_elem).draggable().css("position", "absolute");
                $("#draggable" + selected_elem).css({'top':selected_elem_top, 'left' : selected_elem_left});
                 $(this).dialog("close");
                 //$('.ui-dialog').detach();

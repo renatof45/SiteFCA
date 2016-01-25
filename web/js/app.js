@@ -451,6 +451,7 @@ function relatorio(type,obj) {
         selected_elem_left=$("#draggable"+selected_elem).css('left');
         //console.log($("#draggable"+selected_elem).position().top);
         var html=$("#containment-wrapper").find('#draggable'+selected_elem)[0].childNodes[1].outerHTML;
+        $('#draggable'+selected_elem).draggable({ disabled: true });  
         $("#containment-wrapper").find('#draggable'+selected_elem).remove();
         //console.log('MatrixTable'+selected_elem);
         $('#dvLoading').hide();
@@ -480,6 +481,7 @@ function relatorio(type,obj) {
         });
     }
     else if (type === 'novobloco') {
+        console.log($("#containment-wrapper"));
         var elems = $("#containment-wrapper").children().size();
         $('#dvLoading').hide();
         $("#dialog-novobloco").dialog("open");
@@ -489,6 +491,8 @@ function relatorio(type,obj) {
         $("#MatrixTableBody").attr('id', 'MatrixTableBody'+(elems+1));
         $("#tabelabloco").attr('id', 'tabelabloco'+(elems+1));
         $("#tabela").show();
+        selected_elem_top=0;
+        selected_elem_left=0;
         selected_elem=(elems+1);
         tableresize('MatrixTable'+(elems+1));
     }
