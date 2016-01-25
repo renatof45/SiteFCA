@@ -230,6 +230,7 @@ $(document).ajaxStop(function() {
             "OK": function() {
                 var bloco = '<label>' + $("#titulo").val() + '</label>';
                 var tablewith = 0;
+                
                 $("#bloco").children().each(function() {
                     if ($(this)[0].style.display === 'block') {
                         if ($(this)[0].id === 'tabela') {
@@ -244,8 +245,14 @@ $(document).ajaxStop(function() {
                             });
                             bloco += $("#tabelabloco"+selected_elem).html();   
                         }
+                        else if($(this)[0].id === 'multipla'){
+                            $("#escolhas_multiplas"+selected_elem).children().each(function(){
+                                console.log($(this)[0].childNodes[1].value)
+                            });
+                        }
                     }
                 });
+                relatorio_array[selected_elem]=$("#titulo").val();
                 $("#containment-wrapper").append('<div id="draggable' + selected_elem + '" class="draggable">' + bloco + '</div>');
                 $("#draggable" + selected_elem).css('width', tablewith);
                 $("#draggable" + selected_elem).css('hieght', $("#MatrixTable"+selected_elem).height());
@@ -255,11 +262,12 @@ $(document).ajaxStop(function() {
                     scroll: false
                     
                 });
-                console.log(selected_elem_top);
-               $("#draggable" + selected_elem).draggable().css("position", "absolute");
-               $("#draggable" + selected_elem).css({'top':selected_elem_top, 'left' : selected_elem_left});
+                $("#draggable" + selected_elem).draggable().css("position", "absolute");
+                $("#draggable" + selected_elem).css({
+                    'top':selected_elem_top, 
+                    'left' : selected_elem_left
+                });
                 $(this).dialog("close");
-                //$('.ui-dialog').detach();
             }
         },
         close: function() {
