@@ -31,7 +31,7 @@
 }
 
 noBorder  {border: 0; }
-.draggable {z-index: 90;  padding: 0.5em; float: left}
+.draggable {z-index: 90;  padding: 0.5em;}
 .draggable:hover{cursor: move;border: 1px solid #ccc}
 .draggable label{line-height: 18px;padding-bottom: 8px;font-weight: bold;color: black;}
 #containment-wrapper { width: 95%; height:1150px; border:2px solid #ccc;margin-top: 30px; padding: 10px; }

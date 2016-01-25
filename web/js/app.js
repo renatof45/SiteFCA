@@ -2,54 +2,56 @@ var id = 0;
 var count = 0;
 var aut_type = 0;
 var detach = true;
-
+var selected_elem;
+var selected_elem_top;
+var selected_elem_left;
 var matrix_table = '<div class="field">' +
-        '<label>Linhas:</label>' +
-        '<select id="linhas" onchange="relatorio(this)">' +
-        '<option value="2">2</option>' +
-        '<option value="3">3</option>' +
-        '<option value="4">4</option>' +
-        '<option value="5">5</option>' +
-        '<option value="6">6</option>' +
-        '</select>' +
-        '</div>' +
-        '<div class="field">' +
-        '<label>Colunas:</label>' +
-        '<select id="colunas" onchange="relatorio(this)">' +
-        '<option value="2">2</option>' +
-        '<option value="3">3</option>' +
-        '<option value="4">4</option>' +
-        '<option value="5">5</option>' +
-        '<option value="6">6</option>' +
-        '</select>' +
-        '</div>' +
-        '<div id="tabelabloco" class="field">' +
-        '<table id="MatrixTable"  width="500" border="0" cellpadding="0" cellspacing="0">' +
-        '<tbody id="MatrixTableBody">' +
-        '<tr style="height:  25px" >' +
-        '<td></td><td onclick="relatorio(this)" style="">ClickMe</td><td onclick="relatorio(this)" style="">ClickMe</td>' +
-        '</tr>' +
-        '<tr style="height:  25px">' +
-        '<td onclick="relatorio(this)">ClickMe</td><td></td><td ></td>' +
-        '</tr>' +
-        '<tr style="height:  25px">' +
-        '<td onclick="relatorio(this)">ClickMe</td><td></td><td></td>' +
-        '</tr>			' +
-        '</tbody>' +
-        '</table>' +
-        '</div>';
+'<label>Linhas:</label>' +
+'<select id="linhas" onchange="relatorio(this)">' +
+'<option value="2">2</option>' +
+'<option value="3">3</option>' +
+'<option value="4">4</option>' +
+'<option value="5">5</option>' +
+'<option value="6">6</option>' +
+'</select>' +
+'</div>' +
+'<div class="field">' +
+'<label>Colunas:</label>' +
+'<select id="colunas" onchange="relatorio(this)">' +
+'<option value="2">2</option>' +
+'<option value="3">3</option>' +
+'<option value="4">4</option>' +
+'<option value="5">5</option>' +
+'<option value="6">6</option>' +
+'</select>' +
+'</div>' +
+'<div id="tabelabloco" class="field">' +
+'<table id="MatrixTable"  width="500" border="0" cellpadding="0" cellspacing="0">' +
+'<tbody id="MatrixTableBody">' +
+'<tr style="height:  25px" >' +
+'<td></td><td onclick="relatorio(this)" style="">ClickMe</td><td onclick="relatorio(this)" style="">ClickMe</td>' +
+'</tr>' +
+'<tr style="height:  25px">' +
+'<td onclick="relatorio(this)">ClickMe</td><td></td><td ></td>' +
+'</tr>' +
+'<tr style="height:  25px">' +
+'<td onclick="relatorio(this)">ClickMe</td><td></td><td></td>' +
+'</tr>			' +
+'</tbody>' +
+'</table>' +
+'</div>';
 
 var escolha_multipla = '<div class="field">' +
-        '<label>Escolha1:</label>' +
-        '<input type="text" style="width: 250px" name="escolha1"/>' +
-        '<input type="button" name="adicionar" onclick="relatorio(this);" style="font-weight: bolder;width: 20px;height: 16px;margin-top: 2px;padding-bottom: 1px;"  value="+" class="button">' +
-        '</div>';
+'<label>Escolha1:</label>' +
+'<input type="text" style="width: 250px" name="escolha1"/>' +
+'<input type="button" name="adicionar" onclick="relatorio(this);" style="font-weight: bolder;width: 20px;height: 16px;margin-top: 2px;padding-bottom: 1px;"  value="+" class="button">' +
+'</div>';
 
 $(document).ready(function() {
     $('#ajaxform4').ajaxForm(function(data) {
         document.getElementById("area_id").innerHTML = data;
         document.getElementById("app").innerHTML = '<h2>Se esta a ler isto, é porque mudou de area!</h2>' +
-                '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
+    '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
     });
 });
 
@@ -62,293 +64,6 @@ $(document).keypress(function(event) {
 
 });
 
-$(document).ajaxStop(function() {
-    if (detach) {
-        $('.ui-dialog').detach();
-    } else {
-        detach = true;
-    }
-
-
-    $("#draggable1").draggable({
-        containment: "#containment-wrapper",
-        scroll: false
-    });
-    $('#ajaxform1').ajaxForm(function(data) {
-        document.getElementById("app").innerHTML = data;
-        if ($("#editor").length) {
-            initSample();
-        }
-    });
-    $('#ajaxform2').ajaxForm(function(data) {
-        document.getElementById("app").innerHTML = data;
-    });
-    $('#ajaxform3').ajaxForm(function(data) {
-        document.getElementById("app").innerHTML = data;
-    });
-
-    $('#ajaxform4').ajaxForm(function(data) {
-        document.getElementById("area_id").innerHTML = data;
-        document.getElementById("app").innerHTML = '<h2>Se esta a ler isto, é porque mudou de area!</h2>' +
-                '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
-    });
-
-    $('#perfilForm').ajaxForm(function(data) {
-        window.location = 'index.php?userchange'
-    });
-
-    $('#change-status-form').ajaxForm(function(data) {
-        document.getElementById("app").innerHTML = data;
-        $('#dvLoading').hide();
-    });
-
-    var flashes = $("#flashes");
-    setTimeout(function() {
-        flashes.slideUp("slow");
-    }, 3000);
-
-    $(".datepicker").datepicker({
-        changeMonth: true,
-        changeYear: true,
-        dateFormat: 'yy-mm-dd',
-        beforeShow: function(input, inst) {
-            if (inst.id == 'datafim' && $('#datainicio').val() == '') {
-                alert('Preencha a data de inicio primeiro');
-                $("#datafim").datepicker("close");
-            }
-            var rect = input.getBoundingClientRect();
-            console.log(input);
-
-        },
-        onClose: function(dateText, inst) {
-            if ($('#datafim').val() < $('#datainicio').val() && inst.id == 'datafim') {
-                alert("A data de fim não pode ser inferior à de inicio!")
-                $('#datafim').val('');
-            }
-        }
-
-    });
-
-    $("#tabs").tabs();
-
-    $('#dvLoading').hide();
-
-    $("#hora").val(' ')
-    var password = $("#password"),
-            submit = $("#change-status-form"),
-            allFields = $([]).add(password);
-
-    $("#dialog-form").dialog({
-        autoOpen: false,
-        height: 180,
-        width: 350,
-        modal: true,
-        buttons: {
-            "OK": function() {
-                //console.log($("#change-status-form")[0].action);
-                $("#palavra").attr('value', password.val());
-                $('#dvLoading').show();
-                $("#change-status-form").submit();
-                $(this).dialog("close");
-            }
-        },
-        close: function() {
-            allFields.val("").removeClass("ui-state-error");
-        }
-    });
-
-    $("#login")
-            .click(function() {
-                $("#change-status-form").attr('action', 'index.php/enclub?encomendar=1&tipo=1');
-                //console.log($("#change-status-form"));
-                $("#enc").attr('value', '1');
-                $("#dialog-form").dialog("open");
-            });
-
-
-    $("#dialog-nova-firma").dialog({
-        autoOpen: false,
-        height: 180,
-        width: 350,
-        modal: true,
-        buttons: {
-            "OK": function() {
-                $("#ajaxform1").attr('action', 'index.php/add-edit-aut?firma=' + $("#firma").val());
-                $('#dvLoading').show();
-                $("#ajaxform1").submit();
-                $(this).dialog("close");
-            }
-        },
-        close: function() {
-            allFields.val("").removeClass("ui-state-error");
-        }
-    });
-
-
-    $("#dialog-indisponibilidade").dialog({
-        autoOpen: false,
-        height: 180,
-        width: 350,
-        modal: true,
-        buttons: {
-            "OK": function() {
-
-                $('#dvLoading').show();
-                $("#ajaxform1").attr('action', 'index.php/equipamento?change_satus_dinamico=0&equipamento=' + $(this).data('equipamento') + '&status=' + $("#status").val());
-                $("#ajaxform1").submit();
-                $(this).dialog("close");
-            },
-            "Cancel": function() {
-                console.log($(this).data("inst").name);
-                if ($(this).data("inst").name == "disponibiblidade") {
-                    $(this).data("inst").selectedIndex = "0";
-                }
-                if ($(this).data("inst").name.split(":")[1] == "parada") {
-                    $(this).data("inst").checked = false;
-                }
-
-                $(this).dialog("close");
-            }
-        },
-        close: function() {
-            allFields.val("").removeClass("ui-state-error");
-        }
-    });
-
-    $("#dialog-disponibilidade").dialog({
-        autoOpen: false,
-        height: 180,
-        width: 350,
-        modal: true,
-        buttons: {
-            "OK": function() {
-                console.log($("#halt-status").val())
-                if ($("#halt-status").val() == 2) {
-                    $(this).dialog("close");
-                    $("#dialog-indisponibilidade")
-                            .data('equipamento', $(this).data('equipamento'))
-                            .data('inst', $(this).data("inst"))
-                            .dialog("open");
-                } else {
-                    $('#dvLoading').show();
-                    $("#ajaxform1").attr('action', 'index.php/equipamento?change_satus_dinamico=0&equipamento=' + $(this).data('equipamento') + '&status=' + 12);
-                    $("#ajaxform1").submit();
-                    $(this).dialog("close");
-                }
-            },
-            "Cancel": function() {
-                console.log($(this).data("inst").name);
-                if ($(this).data("inst").name.split(":")[1] == "parada") {
-                    $(this).data("inst").checked = false;
-                }
-                $(this).dialog("close");
-            }
-        },
-        close: function() {
-            allFields.val("").removeClass("ui-state-error");
-        }
-    });
-
-
-    $("#nova_firma").click(function() {
-        $("#dialog-nova-firma").dialog("open");
-    });
-
-    $("#dialog-regis-aut").dialog({
-        autoOpen: false,
-        height: 350,
-        width: 250,
-        modal: true,
-        buttons: {
-            "OK": function() {
-                $("#ajaxform1").attr('action', 'index.php/regis-aut?tipo=' + aut_type + '&hora=' + $("#hora").val() + '&id=' + id);
-                $('#dvLoading').show();
-                $("#ajaxform1").submit();
-                $(this).dialog("close");
-            }
-        },
-        close: function() {
-            allFields.val("").removeClass("ui-state-error");
-        }
-    });
-    $("#dialog-aceitar-manobra").dialog({
-        autoOpen: false,
-        height: 150,
-        width: 300,
-        modal: true,
-        buttons: {
-            "OK": function() {
-                $(this).dialog("close");
-            }
-        },
-        close: function() {
-            allFields.val("").removeClass("ui-state-error");
-        }
-    });
-    $("#dialog-novobloco").dialog({
-        autoOpen: false,
-        height: 350,
-        width: 900,
-        modal: true,
-        buttons: {
-            "OK": function() {
-                var bloco = '<label>' + $("#titulo").val() + '</label>';
-                var elems = $("#containment-wrapper").children().size();
-                var tablewith = 0;
-                $("#bloco").children().each(function() {
-                    if ($(this)[0].style.display === 'block') {
-                        if ($(this)[0].id === 'tabela') {
-                            $("#tabelabloco").children()[0].remove();
-                            $("#MatrixTable").find('tr').each(function() {
-                                $(this).find('td').each(function() {
-                                    tablewith += $(this).outerWidth();
-                                });
-                                return false;
-                            });
-                            bloco += $("#tabelabloco").html();
-                        }
-                    }
-                });
-                $("#containment-wrapper").append('<div id="draggable' + (elems + 1) + '" class="draggable">' + bloco + '</div>');
-                $("#draggable" + (elems + 1)).css('width', tablewith);
-                $("#draggable" + (elems + 1)).css('hieght', $("#MatrixTable").height());
-                $("#draggable" + (elems + 1)).append('<div class="picker"></div>');
-                $("#draggable" + (elems + 1)).draggable({
-                    containment: "#containment-wrapper",
-                    scroll: false
-                });
-                $(this).dialog("close");
-            }
-        },
-        close: function() {
-            allFields.val("").removeClass("ui-state-error");
-        }
-    });
-    $("#dialog-inserirnomestabbela").dialog({
-        autoOpen: false,
-        height: 150,
-        width: 200,
-        modal: true,
-        buttons: {
-            "OK": function() {
-                var that = $(this);
-                $('#MatrixTableBody').find('tr').each(function() {
-                    $(this).find('td').each(function() {
-                        var rowIndex = $(this)[0].parentNode.rowIndex;
-                        var cellIndex = $(this)[0].cellIndex;
-                        if (rowIndex === that.data('rowIndex') && cellIndex === that.data('cellIndex'))
-                            $(this).html('<label>' + $("#nomecampo").val() + '</label>');
-                    });
-                });
-                $(this).dialog("close");
-            }
-        },
-        close: function() {
-            allFields.val("").removeClass("ui-state-error");
-        }
-    });
-
-});
 
 function set_hora(hora) {
 
@@ -395,7 +110,7 @@ function app() {
     $.post("index.php/home", function(data) {
         document.getElementById("app").innerHTML = data;
     });
-    /*.done(function() {
+/*.done(function() {
      $.post("index.php/header", function(data) {
      document.getElementById("area_id").innerHTML = data;
      });
@@ -573,7 +288,7 @@ function show_pedidos(inst) {
         console.log(content);
         for (var i = 0; i < content.length; i++) {
             $("#trab_list").append('<li  style="margin-bottom: 35px";>' + content[i].descricao + '<input type="button" onclick="associate_trab(' + content[i].id + ',\'' + content[i].descricao +
-                    '\')" style="width: 100px;margin-top:1px;margin-left: 200px;" value="Associar" class="submit"/></li>')
+                '\')" style="width: 100px;margin-top:1px;margin-left: 200px;" value="Associar" class="submit"/></li>')
         }
         $('#dvLoading').hide();
         $(".hiddenbox").slideDown();
@@ -616,10 +331,10 @@ function subChangeEquipamentoStatus(equipamento, inst) {
             $("#ajaxform1").submit();
         } else {
             $("#dialog-indisponibilidade")
-                    .data('status', document.getElementById("status").value)
-                    .data('inst', inst)
-                    .data('equipamento', equipamento)
-                    .dialog("open");
+            .data('status', document.getElementById("status").value)
+            .data('inst', inst)
+            .data('equipamento', equipamento)
+            .dialog("open");
         }
     } else if (inst.name == "vermais") {
         $('#historico' + last_equipamento).hide();
@@ -630,19 +345,19 @@ function subChangeEquipamentoStatus(equipamento, inst) {
             document.getElementById("show_history" + equipamento).innerHTML = '<tr><th>Data</th><th>Turno</th><th style="width: 300px;">Status</th></tr>'
             for (var i = 0; i < history_data.length; i++) {
                 document.getElementById("show_history" + equipamento).innerHTML += "<tr><td>" + history_data[i].data + "</td><td>" + history_data[i].turno + "</td><td>" + history_data[i].descricao + "</td></tr>";
-                //$("#show_history" + equipamento).append("<tr><td>" + history_data[i].data + "</td><td>" + history_data[i].turno + "</td><td>" + history_data[i].descricao + "</td></tr>");
+            //$("#show_history" + equipamento).append("<tr><td>" + history_data[i].data + "</td><td>" + history_data[i].turno + "</td><td>" + history_data[i].descricao + "</td></tr>");
             }
 
             $('#historico' + equipamento).show();
             last_equipamento = equipamento;
         });
-        //$('#historico' + equipamento).show();
+    //$('#historico' + equipamento).show();
 
     } else if (inst.name == "alterar") {
         $("#dialog-indisponibilidade")
-                .data('equipamento', equipamento)
-                .data('inst', inst)
-                .dialog("open");
+        .data('equipamento', equipamento)
+        .data('inst', inst)
+        .dialog("open");
     } else {
         stat = inst.name.split(":");
         console.log(stat[0]);
@@ -653,9 +368,9 @@ function subChangeEquipamentoStatus(equipamento, inst) {
         } else {
             //$("#ajaxform1").attr('action', 'index.php/equipamento?change_satus_dinamico=0&equipamento=' + equipamento + '&status=' + 12);
             $("#dialog-disponibilidade")
-                    .data('equipamento', equipamento)
-                    .data('inst', inst)
-                    .dialog("open");
+            .data('equipamento', equipamento)
+            .data('inst', inst)
+            .dialog("open");
         }
 
     }
@@ -719,17 +434,37 @@ function processo(type) {
     }
 }
 
-function relatorio(type) {
+function relatorio(type,obj) {
     //$('#dvLoading').show();
+    console.log(type);
     if (type.nodeName === "TD") {
         console.log(type.cellIndex + ' , ' + type.parentNode.rowIndex);
         $("#dialog-inserirnomestabbela")
-                .data('cellIndex', type.cellIndex)
-                .data('rowIndex', type.parentNode.rowIndex)
-                .dialog("open");
+        .data('cellIndex', type.cellIndex)
+        .data('rowIndex', type.parentNode.rowIndex)
+        .dialog("open");
+    }
+    
+    else if(type=='picker'){
+        selected_elem=obj.getAttribute('name');
+        selected_elem_top=$("#draggable"+selected_elem).css('top');
+        selected_elem_left=$("#draggable"+selected_elem).css('left');
+        //console.log($("#draggable"+selected_elem).position().top);
+        var html=$("#containment-wrapper").find('#draggable'+selected_elem)[0].childNodes[1].outerHTML;
+        $("#containment-wrapper").find('#draggable'+selected_elem).remove();
+        //console.log('MatrixTable'+selected_elem);
+        $('#dvLoading').hide();
+        $("#dialog-novobloco").dialog("open");
+        $("#multipla").hide();
+        $("#tabela").html('<div id="tabelabloco" class="field">'+html+'<div>');
+        $("#MatrixTable").attr('id', 'MatrixTable'+selected_elem);
+        $("#MatrixTableBody").attr('id', 'MatrixTableBody'+selected_elem);
+        $("#tabelabloco").attr('id', 'tabelabloco'+selected_elem);
+        $("#tabela").show();
+        tableresize('MatrixTable'+selected_elem);
     }
 
-    if (type === 1) {
+    else if (type === 1) {
         $.post("index.php/relatorio?type=" + type, function(data) {
             document.getElementById("app").innerHTML = data;
         });
@@ -741,52 +476,54 @@ function relatorio(type) {
     else if (type === 3) {
         $.post("index.php/relatorio?type=" + type, function(data) {
             document.getElementById("app").innerHTML = data;
-            //$("#app").css('border','1px solid');
+        //$("#app").css('border','1px solid');
         });
     }
     else if (type === 'novobloco') {
-
+        var elems = $("#containment-wrapper").children().size();
         $('#dvLoading').hide();
         $("#dialog-novobloco").dialog("open");
         $("#multipla").hide();
         $("#tabela").html(matrix_table);
+        $("#MatrixTable").attr('id', 'MatrixTable'+(elems+1));
+        $("#MatrixTableBody").attr('id', 'MatrixTableBody'+(elems+1));
+        $("#tabelabloco").attr('id', 'tabelabloco'+(elems+1));
         $("#tabela").show();
-        tableresize();
-        
-
+        selected_elem=(elems+1);
+        tableresize('MatrixTable'+(elems+1));
     }
     else if (type.id === 'linhas') {
         $('#dvLoading').hide();
-        $("#MatrixTable").colResizable({
+        $("#MatrixTable"+selected_elem).colResizable({
             disable: true
         });
-        var linha = $("#MatrixTableBody").children()[1].innerHTML;
-        console.log($("#MatrixTableBody").children());
-        if (($('#MatrixTable tr').length - 1) < type.value) {
-            var insert = type.value - ($('#MatrixTable tr').length - 1);
+        var linha = $("#MatrixTableBody"+selected_elem).children()[1].innerHTML;
+        console.log($("#MatrixTableBody"+selected_elem).children());
+        if (($('#MatrixTable'+selected_elem+' tr').length - 1) < type.value) {
+            var insert = type.value - ($('#MatrixTable'+selected_elem+' tr').length - 1);
             for (var i = 0; i < insert; i++) {
-                $('#MatrixTableBody').append('<tr style="height:  25px">' + linha + '</tr>');
+                $('#MatrixTableBody'+selected_elem).append('<tr style="height:  25px">' + linha + '</tr>');
             }
         }
         else {
             var remove = ($('#MatrixTable tr').length - 1) - type.value;
             for (i = 0; i < remove; i++) {
-                $("#MatrixTableBody").children()[$('#MatrixTable tr').length - 1].remove();
+                $("#MatrixTableBody"+selected_elem).children()[$('#MatrixTable'+selected_elem+' tr').length - 1].remove();
             }
         }
         tableresize();
     }
     else if (type.id === 'colunas') {
-        $("#MatrixTable").colResizable({
+        $("#MatrixTable"+selected_elem).colResizable({
             disable: true
         });
         $('#dvLoading').hide();
-        var length = $('#MatrixTableBody').children()[0].children.length;
+        var length = $('#MatrixTableBody'+selected_elem).children()[0].children.length;
         if (length - 1 < type.value) {
             var insert = type.value - (length - 1);
             for (var i = 0; i < insert; i++) {
-                length = $('#MatrixTableBody').children()[0].children.length;
-                $('#MatrixTableBody').find('tr').each(function() {
+                length = $('#MatrixTableBody'+selected_elem).children()[0].children.length;
+                $('#MatrixTableBody'+selected_elem).find('tr').each(function() {
                     if ($(this).find('td').eq(length - 1)[0].parentNode.rowIndex === 0)
                         $(this).find('td').eq(length - 1).after('<td onclick="relatorio(this)" style="width: 50px">Click Me</td>');
                     else
@@ -797,13 +534,13 @@ function relatorio(type) {
         else {
             var remove = (length - 1) - type.value;
             for (i = 0; i < remove; i++) {
-                length = $('#MatrixTableBody').children()[0].children.length;
-                $('#MatrixTableBody').find('tr').each(function() {
+                length = $('#MatrixTableBody'+selected_elem).children()[0].children.length;
+                $('#MatrixTableBody'+selected_elem).find('tr').each(function() {
                     $(this).find('td').eq(length - 1).remove();
                 });
             }
         }
-        tableresize();
+        tableresize(selected_elem);
     }
     else if (type === 'imprimir') {
 
@@ -814,9 +551,9 @@ function relatorio(type) {
         document.body.innerHTML = restore;
         $.post("index.php/relatorio?type=3", function(data) {
             document.getElementById("app").innerHTML = data;
-            //$("#app").css('border','1px solid');
+        //$("#app").css('border','1px solid');
         });
-        //
+    //
     }
     else if (type.name === "tipo") {
         if (type.value === '1') {
@@ -825,13 +562,13 @@ function relatorio(type) {
             $("#tabela").hide();
         }
         else if (type.value === '4') {
-            $("#MatrixTable").colResizable({
+            $("#MatrixTable"+selected_elem).colResizable({
                 disable: true
             });
             $("#multipla").hide();
             $("#tabela").html(matrix_table);
             $("#tabela").show();
-            tableresize();
+            tableresize(selected_elem);
         }
     }
 
@@ -839,16 +576,16 @@ function relatorio(type) {
         $('#dvLoading').hide();
         var elems = $("#multipla").children().size();
         $("#multipla").append('<div class="field">' +
-                '<label>Escolha' + (elems + 1) + ':</label>' +
-                '<input type="text" style="width: 250px" name="escolha' + (elems + 1) + ')"/>' +
-                '<input type="button" name="adicionar" onclick="relatorio(this);" style="font-weight: bolder;width: 20px;height: 16px;margin-top: 2px;padding-bottom: 1px;"  value="+" class="button">' +
-                '</div>');
+            '<label>Escolha' + (elems + 1) + ':</label>' +
+            '<input type="text" style="width: 250px" name="escolha' + (elems + 1) + ')"/>' +
+            '<input type="button" name="adicionar" onclick="relatorio(this);" style="font-weight: bolder;width: 20px;height: 16px;margin-top: 2px;padding-bottom: 1px;"  value="+" class="button">' +
+            '</div>');
     }
 }
 
-function tableresize() {
+function tableresize(id) {
 
-    $("#MatrixTable").colResizable({
+    $("#"+id).colResizable({
         liveDrag: true,
         gripInnerHtml: "<div class='grip'></div>",
         draggingClass: "dragging",
@@ -870,8 +607,8 @@ function feed(type, id) {
         $('#dvLoading').show();
         $.post("index.php/feed?type=2", function(data) {
             document.getElementById("app").innerHTML = data;
-            //initSample();
-            //$('#dvLoading').hide();
+        //initSample();
+        //$('#dvLoading').hide();
         });
     }
     else if (type.name === 'editar') {
