@@ -7,13 +7,18 @@ $unidades = $unidadesdao->findUnidades($_SESSION['area']);
         <div class="field">
             <input type="button" name="alterar" onclick="relatorio('novobloco');" style="margin-top: 5px;margin-bottom: 5px;float: left" value="Novo Bloco" class="button">
             <input type="button" name="alterar" onclick="" style="margin-top: 5px;float: left" value="Separador" class="button">
-            <input type="button" name="alterar" onclick="" style="margin-top: 5px;float: left" value="Salvar" class="button">
+            <input type="button" name="alterar" onclick="relatorio('salvar');" style="margin-top: 5px;float: left" value="Salvar" class="button">
             <input type="button" name="alterar" onclick="relatorio('imprimir');" style="margin-top: 5px;float: left;" value="Imprimir" class="button">
         </div> 
     </fieldset>
 </form>
 <div id="containment-wrapper">
-
+    <?php for ($i = 0; $i < count($relatorio); $i++) : ?>
+        <?php if (json_encode($relatorio[$i]) != 'null'): ?>
+            <?php $t = object_to_array($relatorio[$i]); ?>
+            <div id="draggable<?php echo $i; ?>" style="width:<?php echo $t['dimetions']['with'];?>px; position: absolute;left:<?php echo $t['location']['x'];?>px;top:<?php echo $t['location']['y'];?>px" class="draggable"><?php print_r($t['bloco']); ?></div>
+        <?php endif; ?>
+    <?php endfor; ?>
 </div>
 
 <div id="dialog-novobloco" title="Novo Bloco">
@@ -21,7 +26,7 @@ $unidades = $unidadesdao->findUnidades($_SESSION['area']);
         <fieldset>
             <div class="field">
                 <label>Unidade:</label>
-                <select name="unidade">
+                <select id="unidade" name="unidade">
                     <?php foreach ($unidades as $unidade): ?>
                         <option value="<?php echo $unidade['id'] ?>">
                             <?php echo $unidade['designacao']; ?>
@@ -31,7 +36,7 @@ $unidades = $unidadesdao->findUnidades($_SESSION['area']);
             </div>
             <div class="field">
                 <label>Tipo:</label>
-                <select name="tipo" onchange="relatorio(this);">
+                <select id="tipo" name="tipo" onchange="relatorio(this);">
                     <option value="4">
                         Tabela
                     </option>
@@ -39,11 +44,9 @@ $unidades = $unidadesdao->findUnidades($_SESSION['area']);
                         Escolha multipla
                     </option>
                     <option value="2">
-                        Introdução de valores simples
+                        Introdução de valores
                     </option>
-                    <option value="3">
-                        Introdução de valores multiplos
-                    </option>
+
 
                 </select>
             </div>
@@ -53,10 +56,13 @@ $unidades = $unidadesdao->findUnidades($_SESSION['area']);
             </div>
             <div id="bloco">
                 <div id="multipla" style="display:none;">
-                    
+
+                </div>
+                <div id="valores" style="display:none;">
+
                 </div>
                 <div id="tabela" style="display:block;">
-                    
+
                 </div>
             </div>
         </fieldset>

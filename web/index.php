@@ -49,6 +49,20 @@ function error_field($title, array $errors) {
     return '';
 }
 
+function object_to_array($data)
+{
+    if (is_array($data) || is_object($data))
+    {
+        $result = array();
+        foreach ($data as $key => $value)
+        {
+            $result[$key] = object_to_array($value);
+        }
+        return $result;
+    }
+    return $data;
+}
+
 function checkLogIn() {
     if (!array_key_exists('user', $_SESSION)) {
         $app = \Slim\Slim::getInstance();
@@ -157,6 +171,7 @@ $app->post('/novo-lub', 'checkLogIn', function() {
 
 $app->post('/relatorio', 'checkLogIn', function() use ($app) {
     $type = $app->request()->get('type');
+    //$salvar=$app->request()->get('salvar');
     if ($type == 2) {
         require "../page/relatorios/area_c.phtml";
         require "../page/relatorios/area_c.php";
@@ -164,8 +179,18 @@ $app->post('/relatorio', 'checkLogIn', function() use ($app) {
 
         require "../page/relatorios/resumo.phtml";
     } elseif ($type == 3) {
-
+        $relatoriodao = new RelatorioDao();
+        $template = $relatoriodao->getRelatorio();
+        $relatorio = json_decode($template['template']);
+        //print_r(count($relatorio));
+        
         require "../page/relatorios/novo.phtml";
+    }
+    elseif (array_key_exists('salvar', $_GET)) {
+        //print_r(($_POST['content']));
+        //echo "teste";
+        $relatoriodao = new RelatorioDao();
+        $relatoriodao->guardarRelatorio($_POST['content']);
     }
 });
 

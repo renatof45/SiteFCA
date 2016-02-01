@@ -17,6 +17,15 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 CREATE SCHEMA IF NOT EXISTS `galp-teste` DEFAULT CHARACTER SET utf8 ;
 USE `galp` ;
 
+
+CREATE TABLE `galp`.`relatorios-templates` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `template` MEDIUMTEXT NULL,
+  `area` INT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = MyISAM;
+
+
 CREATE TABLE IF NOT EXISTS `galp`.`feed` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `descricao` VARCHAR(200) NULL,
@@ -26,6 +35,10 @@ CREATE TABLE IF NOT EXISTS `galp`.`feed` (
   PRIMARY KEY (`id`))
 ENGINE = MyISAM;
 
+ALTER TABLE `galp`.`relatorios-templates` 
+ADD COLUMN `versao` INT NULL AFTER `area`,
+ADD COLUMN `utilizador` INT NULL AFTER `versao`,
+ADD COLUMN `data` date NULL AFTER `utilizador`;
 
 ALTER TABLE `galp`.`feed` 
 CHANGE COLUMN `nome` `titulo` VARCHAR(45) NULL DEFAULT NULL ,

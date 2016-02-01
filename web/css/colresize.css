@@ -6,11 +6,12 @@
 }
 
 th{
-   background-image:url('../img/th.png');
-   height:30px;
+   //background-image:url('../img/th.png');
+   //height:30px;
+   background-color:#F37020;
    background-repeat:no-repeat;
    color:white;
-   text-shadow: #012b4d 2px 2px 2px;
+   //text-shadow: #012b4d 2px 2px 2px;
    text-align: center;   
 }
 
