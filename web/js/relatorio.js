@@ -59,15 +59,17 @@ var valores_simples =
 
 
 function relatorio(type, obj) {
-    if (type==="salvar"){
-         $.post("index.php/relatorio?salvar=true",{"content": JSON.stringify(relatorio_array)}, function (data) {
+    if (type === "salvar") {
+        $.post("index.php/relatorio?salvar=true", {"content": JSON.stringify(relatorio_array)}, function (data) {
+            detach=false;
             //document.getElementById("app").innerHTML = data;
-            data=JSON.parse(data);
-            console.log(JSON.parse(data['template']));
+            //data = JSON.parse(data);
+            //console.log(relatorio_array);
+            alert("Gravada nova versão do template!")
         });
     }
-    
-    
+
+
     if (type.nodeName === "TD") {
         $("#dialog-inserirnomestabbela")
                 .data('cellIndex', type.cellIndex)
@@ -79,6 +81,7 @@ function relatorio(type, obj) {
         $("#tipo").prop("disabled", true);
         var tipo = obj.getAttribute('tipo');
         selected_block = obj.getAttribute('name');
+        console.log(selected_block);
         $("#titulo").val(relatorio_array[parseInt(selected_block)].titulo);
         selected_block_top = $("#draggable" + selected_block).css('top');
         selected_block_left = $("#draggable" + selected_block).css('left');
@@ -91,7 +94,7 @@ function relatorio(type, obj) {
         $('#dvLoading').hide();
         $("#dialog-novobloco")
                 .data("original", original_block)
-                .data("novo","false")
+                .data("novo", "false")
                 .dialog("open");
         if (tipo === '4') {
             $("#tipo").val((tipo)).change();
@@ -129,7 +132,7 @@ function relatorio(type, obj) {
             $("#tipo").val((tipo)).change();
             $("#tabela").hide();
             $("#multipla").hide();
-            $("#multipla").html(escolha_multipla);
+            $("#valores").html(valores_simples);
             $("#valores_simples").attr('id', 'valores_simples' + selected_block);
             $("#select_unidades option:selected").text(valores[0].textContent);
         }
@@ -143,7 +146,7 @@ function relatorio(type, obj) {
         $('#dvLoading').hide();
         $("#tipo").val('4').change();
         $("#dialog-novobloco")
-                .data("novo","true")
+                .data("novo", "true")
                 .dialog("open");
         $("#multipla").hide();
         $("#tabela").html(matrix_table_choose + matrix_table);
@@ -267,10 +270,47 @@ function relatorio(type, obj) {
         });
     }
     else if (type === 3) {
-        $.post("index.php/relatorio?type=" + type, function (data) {
+        $.post("index.php/relatorio?getteemplate=" + type, function (data) {
+            
             document.getElementById("app").innerHTML = data;
-            console.log((data));
+            $.post("index.php/relatorio?type=" + type, function (data) {
+                //console.log(data);
+                if (data !== 'null') {
+                    number_of_blocks=0;
+                    relatorio_array = (JSON.parse((JSON.parse(data)['template'])));
+
+                    //console
+                    for (var i = 0; i < relatorio_array.length; i++) {
+                        //console.log(relatorio_array[i]);
+                        number_of_blocks++;
+                        if (relatorio_array[i] !== null) {
+                            
+                            $("#containment-wrapper").append('<div id="draggable' + i + '" class="draggable">' + relatorio_array[i]['bloco'] + '</div>');
+                            $("#draggable" + i).css('width', relatorio_array[i]['dimetions']['with']);
+                            //$("#draggable" + selected_block).css('hieght', pickerheight);
+                            $("#draggable" + i).append('<div  name="' + i + '" tipo="' + relatorio_array[i]['tipo'] + '" ondblclick="relatorio(\'picker\',this)"  class="picker"></div>');
+                            $("#draggable" + i).draggable({
+                                containment: "#containment-wrapper",
+                                scroll: false,
+                                stop: function (event, ui) {
+                                    console.log(ui);
+                                    var index = parseInt(ui.helper[0].lastChild.attributes[0].value);
+                                    relatorio_array[index].location.x = ui.position.left;
+                                    relatorio_array[index].location.y = ui.position.top;
+                                    //console.log(relatorio_array[index]);
+                                }
+                            });
+                            $("#draggable" + i).draggable().css("position", "absolute");
+                            $("#draggable" + i).css({
+                                'top': relatorio_array[i]['location']['y'],
+                                'left': relatorio_array[i]['location']['x'],
+                            });
+                        }
+                    }
+                }
+            });
         });
+
     }
 }
 

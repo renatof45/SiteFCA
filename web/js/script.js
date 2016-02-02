@@ -280,7 +280,7 @@ $(document).ajaxStop(function () {
                         }
                     }
                 });
-                relatorio_array[selected_block] = {"dimetions":{"with":pickerwith,"hieght":pickerheight},"titulo": $("#titulo").val(), "bloco": bloco, "unidade": $("#unidade option:selected").text().trim(), "location": {"x": selected_block_left, "y": selected_block_top}};
+                relatorio_array[selected_block] = {"tipo": tipo, "dimetions": {"with": pickerwith, "hieght": pickerheight}, "titulo": $("#titulo").val(), "bloco": bloco, "unidade": $("#unidade option:selected").text().trim(), "location": {"x": selected_block_left, "y": selected_block_top}};
                 $("#containment-wrapper").append('<div id="draggable' + selected_block + '" class="draggable">' + bloco + '</div>');
                 $("#draggable" + selected_block).css('width', pickerwith);
                 $("#draggable" + selected_block).css('hieght', pickerheight);
@@ -320,7 +320,12 @@ $(document).ajaxStop(function () {
                 $(this).dialog("close");
             },
             "Apagar": function () {
+                if (selected_block > -1) {
+                    relatorio_array[selected_block]=null;
+                    
+                }
                 $("#tipo").prop("disabled", false);
+                console.log(relatorio_array);
                 allFields.val("").removeClass("ui-state-error");
                 $(this).dialog("close");
             }

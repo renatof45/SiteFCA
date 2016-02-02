@@ -5,7 +5,7 @@
         
         <div class="field">
             <label>Unidade:</label>
-            <select name="unidade">
+            <select id="unidade" name="unidade">
                 <?php foreach ($unidades as $unidade): ?>
                 <option 
                     <?php 
@@ -37,8 +37,8 @@
          <div class="field">
         <input type="button" style="float: left;width: 100px;margin-top: 10px;margin-bottom: 10px;" onclick="processo(this);" id="ocultar" name="ocultar" value="Ocultar relatório" class="submit" />
     </div>
-         <div id="relatorio">
-         <?php require "../page/relatorios/area_c/U1200.phtml"; ?>
+         <div id="relatorio" style="width: 690px;border: 1px solid;height: 400px;position: relative;">
+         
          </div>
          <div class="wrapper">
             

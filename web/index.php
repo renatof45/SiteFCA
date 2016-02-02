@@ -49,13 +49,10 @@ function error_field($title, array $errors) {
     return '';
 }
 
-function object_to_array($data)
-{
-    if (is_array($data) || is_object($data))
-    {
+function object_to_array($data) {
+    if (is_array($data) || is_object($data)) {
         $result = array();
-        foreach ($data as $key => $value)
-        {
+        foreach ($data as $key => $value) {
             $result[$key] = object_to_array($value);
         }
         return $result;
@@ -182,11 +179,12 @@ $app->post('/relatorio', 'checkLogIn', function() use ($app) {
         $relatoriodao = new RelatorioDao();
         $template = $relatoriodao->getRelatorio();
         $relatorio = json_decode($template['template']);
-        //print_r(count($relatorio));
-        
+        echo json_encode(($template));
+
+        //require "../page/relatorios/novo.phtml";
+    } elseif (array_key_exists('getteemplate', $_GET)) {
         require "../page/relatorios/novo.phtml";
-    }
-    elseif (array_key_exists('salvar', $_GET)) {
+    } elseif (array_key_exists('salvar', $_GET)) {
         //print_r(($_POST['content']));
         //echo "teste";
         $relatoriodao = new RelatorioDao();
@@ -217,7 +215,12 @@ $app->post('/processo', 'checkLogIn', function() use ($app) {
         require "../page/processo/manobras.phtml";
         //require "../page/relatorios/area_c.php";    
     } elseif ($type == 2) {
-
+        $relatoriodao = new RelatorioDao();
+        $template = $relatoriodao->getRelatorio();
+        $relatorio = json_decode($template['template']);
+        echo json_encode(($template));
+        //require "../page/processo/nova_manobra.phtml";
+    } elseif (array_key_exists('novamanobra', $_GET)) {
         require "../page/processo/nova_manobra.phtml";
     } elseif ($type == 3) {
 

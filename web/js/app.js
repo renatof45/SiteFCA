@@ -381,7 +381,34 @@ function processo(type) {
     }
     if (type == 2) {
         $.post("index.php/processo?type=" + type, function (data) {
-            document.getElementById("app").innerHTML = data;
+            //document.getElementById("app").innerHTML = data;
+            var content = (JSON.parse((JSON.parse(data)['template'])))
+            $.post("index.php/processo?novamanobra=" + type, function (data) {
+                document.getElementById("app").innerHTML = data;
+                console.log($("#unidade option:selected").text().trim());
+
+                for (var i = 0; i < content.length; i++) {
+
+                    if (content[i] !== null) {
+
+                        if (content[i]['unidade'] === $("#unidade option:selected").text().trim()) {
+                            console.log(content[i]['bloco']);
+                            $("#relatorio").append('<div class="draggable" id=div' + i + '></div>')
+                            $("#div" + i).css('width', content[i]['dimetions']['with']);
+                            
+                            $("#div" + i).css({
+                                'top': content[i]['location']['y'],
+                                'left': content[i]['location']['x'],
+                            });
+                            $("#draggable" + i).draggable({
+                                
+                            });
+                            $("#div" + i).draggable().css("position", "absolute");
+                            $("#div" + i).append(content[i]['bloco']);
+                        }
+                    }
+                }
+            });
         });
     }
     if (type == 3) {

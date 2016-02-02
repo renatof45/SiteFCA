@@ -13,12 +13,7 @@ $unidades = $unidadesdao->findUnidades($_SESSION['area']);
     </fieldset>
 </form>
 <div id="containment-wrapper">
-    <?php for ($i = 0; $i < count($relatorio); $i++) : ?>
-        <?php if (json_encode($relatorio[$i]) != 'null'): ?>
-            <?php $t = object_to_array($relatorio[$i]); ?>
-            <div id="draggable<?php echo $i; ?>" style="width:<?php echo $t['dimetions']['with'];?>px; position: absolute;left:<?php echo $t['location']['x'];?>px;top:<?php echo $t['location']['y'];?>px" class="draggable"><?php print_r($t['bloco']); ?></div>
-        <?php endif; ?>
-    <?php endfor; ?>
+    
 </div>
 
 <div id="dialog-novobloco" title="Novo Bloco">
