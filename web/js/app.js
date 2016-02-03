@@ -371,8 +371,8 @@ function processo(type) {
     }
     if (type.name == "adicionar") {
         $('#dvLoading').show();
-        $("#ajaxform1").attr('action', 'index.php/processo?adicionar=true');
-        $("#ajaxform1").submit();
+        $("#adicionarManobraForm").attr('action', 'index.php/processo?adicionar=true');
+        $("#adicionarManobraForm").submit();
     }
     if (type == 1) {
         $.post("index.php/processo?type=" + type, function (data) {
@@ -385,14 +385,14 @@ function processo(type) {
             var content = (JSON.parse((JSON.parse(data)['template'])))
             $.post("index.php/processo?novamanobra=" + type, function (data) {
                 document.getElementById("app").innerHTML = data;
-                console.log($("#unidade option:selected").text().trim());
+                //console.log($("#unidade option:selected").text().trim());
 
                 for (var i = 0; i < content.length; i++) {
 
                     if (content[i] !== null) {
 
                         if (content[i]['unidade'] === $("#unidade option:selected").text().trim()) {
-                            console.log(content[i]['bloco']);
+                            //console.log(content[i]['bloco']);
                             $("#relatorio").append('<div class="relatrio-manobra"  id=div' + i + '></div>')
                             $("#div" + i).css('width', content[i]['dimetions']['with']);
                             
