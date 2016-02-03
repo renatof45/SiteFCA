@@ -344,7 +344,7 @@ function subChangeEquipamentoUnidaded(inst) {
 function processo(type) {
     //console.log($("#passos").children().size());
     if (type.name == "nova_manobra") {
-        $("#passos").append('<div class="field"><label>Passo ' + ($("#passos").children().size() + 1) + ':</label><textarea rows="4" cols="60" name="passos[passo' + ($("#passos").children().size() + 1) + ']"></textarea></div>');
+        $("#passos").append('<div class="field"><label>Passo ' + ($("#passos").children().size() + 1) + ':</label><textarea rows="4" cols="60" name="manobra[passos][passo' + ($("#passos").children().size() + 1) + ']"></textarea></div>');
     }
     if (type.name == "aceitarmanobra") {
         for (var i = 0; i < $("#passos").children().size(); i++) {
@@ -381,16 +381,16 @@ function processo(type) {
     }
     if (type == 2) {
         $.post("index.php/processo?type=" + type, function (data) {
-            //document.getElementById("app").innerHTML = data;
+            console.log(JSON.parse((JSON.parse(data)['template'])));
             var content = (JSON.parse((JSON.parse(data)['template'])))
             $.post("index.php/processo?novamanobra=" + type, function (data) {
                 document.getElementById("app").innerHTML = data;
                 //console.log($("#unidade option:selected").text().trim());
 
                 for (var i = 0; i < content.length; i++) {
-
+                    
                     if (content[i] !== null) {
-
+                        console.log(content[i].unidade)
                         if (content[i]['unidade'] === $("#unidade option:selected").text().trim()) {
                             //console.log(content[i]['bloco']);
                             $("#relatorio").append('<div class="relatrio-manobra"  id=div' + i + '></div>')

@@ -26,7 +26,7 @@ $(document).ajaxStop(function () {
     $('#ajaxform4').ajaxForm(function (data) {
         document.getElementById("area_id").innerHTML = data;
         document.getElementById("app").innerHTML = '<h2>Se esta a ler isto, é porque mudou de area!</h2>' +
-                '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
+    '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
     });
 
     $('#perfilForm').ajaxForm(function (data) {
@@ -35,10 +35,68 @@ $(document).ajaxStop(function () {
 
     $('#adicionarManobraForm').ajaxForm(function (data) {
         var relatrio = (JSON.parse(data));
-        for (var key in relatrio) {
+        console.log(relatrio);
+        $.post("index.php/processo?type=2", function (data) {
+            //document.getElementById("app").innerHTML = data;
+            var content = (JSON.parse((JSON.parse(data)['template'])))
+            $.post("index.php/processo?novamanobra=0", function (data) {
+                document.getElementById("app").innerHTML = data;
+                //console.log($("#unidade option:selected").text().trim());
+
+                for (var i = 0; i < content.length; i++) {
+
+                    if (content[i] !== null) {
+
+                        if (content[i]['unidade'] === $("#unidade option:selected").text().trim()) {
+                            //console.log(content[i]['bloco']);
+                            $("#relatorio").append('<div class="relatrio-manobra"  id=div' + i + '></div>')
+                            $("#div" + i).css('width', content[i]['dimetions']['with']);
+                            
+                            $("#div" + i).css({
+                                'top': content[i]['location']['y'],
+                                'left': content[i]['location']['x'],
+                            });
+                           
+                            $("#div" + i).css("position", "absolute");
+                            $("#div" + i).append(content[i]['bloco']);
+                        }
+                    }
+                }
+                var element_1='';
+                var element_2='';
+                for (var key in relatrio) {
+                    //console.log(relatrio[key]);
+                    if(key!=='manobra'){
+                        element_1=key;
+                        for (var key1 in relatrio[key]) {
+                            
+                            if($('[name="'+element_1+'['+key1+']"]').length>0){
+                                
+                                $('[name="'+element_1+'['+key1+']"]').val(relatrio[key][key1]);
+                            }
+                            else{
+                                element_2='['+key1+']';
+                            }
+                            for (var key2 in relatrio[key][key1]) {
+                                if(jQuery.type(relatrio[key][key1])=='object'){
+                                    if($('[name="'+element_1+element_2+'['+key2+']"]')[0].type==='checkbox'){
+                                        $('[name="'+element_1+element_2+'['+key2+']"]').prop("checked", true );
+                                    }
+                                    else{
+                                        $('[name="'+element_1+element_2+'['+key2+']"]').val(relatrio[key][key1][key2]);
+                                    }
+                                   
+                                }
+                            }
+                        }
+                
+                    }
             
-            console.log(relatrio[key]);
-        }
+                }
+            });
+        });
+       
+        
     });
 
     $('#change-status-form').ajaxForm(function (data) {
@@ -79,8 +137,8 @@ $(document).ajaxStop(function () {
 
     $("#hora").val(' ')
     var password = $("#password"),
-            submit = $("#change-status-form"),
-            allFields = $([]).add(password);
+    submit = $("#change-status-form"),
+    allFields = $([]).add(password);
 
     $("#dialog-form").dialog({
         autoOpen: false,
@@ -102,12 +160,12 @@ $(document).ajaxStop(function () {
     });
 
     $("#login")
-            .click(function () {
-                $("#change-status-form").attr('action', 'index.php/enclub?encomendar=1&tipo=1');
-                //console.log($("#change-status-form"));
-                $("#enc").attr('value', '1');
-                $("#dialog-form").dialog("open");
-            });
+    .click(function () {
+        $("#change-status-form").attr('action', 'index.php/enclub?encomendar=1&tipo=1');
+        //console.log($("#change-status-form"));
+        $("#enc").attr('value', '1');
+        $("#dialog-form").dialog("open");
+    });
 
 
     $("#dialog-nova-firma").dialog({
@@ -170,9 +228,9 @@ $(document).ajaxStop(function () {
                 if ($("#halt-status").val() == 2) {
                     $(this).dialog("close");
                     $("#dialog-indisponibilidade")
-                            .data('equipamento', $(this).data('equipamento'))
-                            .data('inst', $(this).data("inst"))
-                            .dialog("open");
+                    .data('equipamento', $(this).data('equipamento'))
+                    .data('inst', $(this).data("inst"))
+                    .dialog("open");
                 } else {
                     $('#dvLoading').show();
                     $("#ajaxform1").attr('action', 'index.php/equipamento?change_satus_dinamico=0&equipamento=' + $(this).data('equipamento') + '&status=' + 12);
@@ -253,12 +311,12 @@ $(document).ajaxStop(function () {
                                 $(this).find('td').each(function () {
                                     if ($(this)[0].cellIndex > 0 && $(this)[0].parentNode.rowIndex > 0) {
                                         console.log($("#titulo").val().trim());
-                                        $(this).html('<input type="text" style="width:' + ($(this).outerWidth() - 10) + 'px;border: none;" name=' + $("#unidade option:selected").text().trim() + '[' + $("#titulo").val().replace(/ /g, '') + '][' + $(this)[0].parentNode.rowIndex + $(this)[0].cellIndex + "]" + '" />')
+                                        $(this).html('<input type="text" style="width:' + ($(this).outerWidth() - 10) + 'px;border: none;" name="' + $("#unidade option:selected").text().trim() + '[' + $("#titulo").val().replace(/ /g, '') + '][' + $(this)[0].parentNode.rowIndex + $(this)[0].cellIndex + ']" />')
                                     }
                                     pickerwith += $(this).outerWidth();
-                                    //console.log($(this));
+                                //console.log($(this));
                                 });
-                                //return false;
+                            //return false;
                             });
                             bloco += $("#tabelabloco" + selected_block).html();
                             pickerheight = $("#MatrixTable" + selected_block).height();
@@ -276,7 +334,7 @@ $(document).ajaxStop(function () {
                                 index++;
                             });
                             bloco += '</ul>'
-                            //console.log(bloco);
+                        //console.log(bloco);
                         }
                         else {
                             tipo = 2;
@@ -317,7 +375,7 @@ $(document).ajaxStop(function () {
                         var index = parseInt(ui.helper[0].lastChild.attributes[0].value);
                         relatorio_array[index].location.x = ui.position.left;
                         relatorio_array[index].location.y = ui.position.top;
-                        //console.log(relatorio_array[index]);
+                    //console.log(relatorio_array[index]);
                     }
                 });
                 $("#draggable" + selected_block).draggable().css("position", "absolute");
