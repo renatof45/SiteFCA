@@ -26,7 +26,7 @@ $(document).ajaxStop(function () {
     $('#ajaxform4').ajaxForm(function (data) {
         document.getElementById("area_id").innerHTML = data;
         document.getElementById("app").innerHTML = '<h2>Se esta a ler isto, é porque mudou de area!</h2>' +
-                '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
+    '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
     });
 
     $('#perfilForm').ajaxForm(function (data) {
@@ -71,8 +71,8 @@ $(document).ajaxStop(function () {
 
     $("#hora").val(' ')
     var password = $("#password"),
-            submit = $("#change-status-form"),
-            allFields = $([]).add(password);
+    submit = $("#change-status-form"),
+    allFields = $([]).add(password);
 
     $("#dialog-form").dialog({
         autoOpen: false,
@@ -94,12 +94,12 @@ $(document).ajaxStop(function () {
     });
 
     $("#login")
-            .click(function () {
-                $("#change-status-form").attr('action', 'index.php/enclub?encomendar=1&tipo=1');
-                //console.log($("#change-status-form"));
-                $("#enc").attr('value', '1');
-                $("#dialog-form").dialog("open");
-            });
+    .click(function () {
+        $("#change-status-form").attr('action', 'index.php/enclub?encomendar=1&tipo=1');
+        //console.log($("#change-status-form"));
+        $("#enc").attr('value', '1');
+        $("#dialog-form").dialog("open");
+    });
 
 
     $("#dialog-nova-firma").dialog({
@@ -162,9 +162,9 @@ $(document).ajaxStop(function () {
                 if ($("#halt-status").val() == 2) {
                     $(this).dialog("close");
                     $("#dialog-indisponibilidade")
-                            .data('equipamento', $(this).data('equipamento'))
-                            .data('inst', $(this).data("inst"))
-                            .dialog("open");
+                    .data('equipamento', $(this).data('equipamento'))
+                    .data('inst', $(this).data("inst"))
+                    .dialog("open");
                 } else {
                     $('#dvLoading').show();
                     $("#ajaxform1").attr('action', 'index.php/equipamento?change_satus_dinamico=0&equipamento=' + $(this).data('equipamento') + '&status=' + 12);
@@ -243,12 +243,13 @@ $(document).ajaxStop(function () {
                                 pickerwith = 0;
                                 $(this).find('td').each(function () {
                                     if ($(this)[0].cellIndex > 0 && $(this)[0].parentNode.rowIndex > 0) {
-                                        $(this).attr("name", $("#unidade option:selected").text().trim() + '[' + $("#titulo").val() + "][" + $(this)[0].parentNode.rowIndex + $(this)[0].cellIndex + "]");
+                                        //$(this).attr('contenteditable','true');
+                                        $(this).html('<input type="text" style="width:'+($(this).outerWidth()-10)+'px;border: none;" name='+$("#unidade option:selected").text().trim() + '[' + $("#titulo").val() + "][" + $(this)[0].parentNode.rowIndex + $(this)[0].cellIndex + "]"+'" />')
                                     }
                                     pickerwith += $(this).outerWidth();
-                                    //console.log($(this));
+                                //console.log($(this));
                                 });
-                                //return false;
+                            //return false;
                             });
                             bloco += $("#tabelabloco" + selected_block).html();
                             pickerheight = $("#MatrixTable" + selected_block).height();
@@ -264,23 +265,36 @@ $(document).ajaxStop(function () {
                                 bloco += '<li><input type="checkbox" name="' + $("#unidade option:selected").text().trim() + '[' + $("#titulo").val() + '][' + $(this)[0].childNodes[1].value + ']"   value="1">' + $(this)[0].childNodes[1].value + '</input></li>';
                             });
                             bloco += '</ul>'
-                            //console.log(bloco);
+                        //console.log(bloco);
                         }
                         else {
                             tipo = 2;
-                            pickerwith = $.fn.textWidth($("#titulo").val(), '11px arial') + 125;
+                            pickerwith = $.fn.textWidth($("#titulo").val(), '11px arial') + 128;
                             $(this).children().each(function () {
                                 $(this).children().each(function () {
                                     if ($(this)[0].nodeName === "SELECT") {
                                         pickerwith += $.fn.textWidth($(this)[0].value, '11px arial');
-                                        bloco += '<div class="feild"  style="float:right;line-height: 18px;">' + $(this)[0].value + '</div><div style="margin-right:5px;float: right;width: 100px;height: 18px;border: 1px solid;"></div>';
+                                        bloco += '<div class="feild"  style="float:right;line-height: 18px;">' + $(this)[0].value + '<input type="text" style="float: left;" name="nome"></div>';
                                     }
                                 });
                             });
                         }
                     }
                 });
-                relatorio_array[selected_block] = {"tipo": tipo, "dimetions": {"with": pickerwith, "hieght": pickerheight}, "titulo": $("#titulo").val(), "bloco": bloco, "unidade": $("#unidade option:selected").text().trim(), "location": {"x": selected_block_left, "y": selected_block_top}};
+                relatorio_array[selected_block] = {
+                    "tipo": tipo, 
+                    "dimetions": {
+                        "with": pickerwith, 
+                        "hieght": pickerheight
+                    }, 
+                    "titulo": $("#titulo").val(), 
+                    "bloco": bloco, 
+                    "unidade": $("#unidade option:selected").text().trim(), 
+                    "location": {
+                        "x": selected_block_left, 
+                        "y": selected_block_top
+                    }
+                };
                 $("#containment-wrapper").append('<div id="draggable' + selected_block + '" class="draggable">' + bloco + '</div>');
                 $("#draggable" + selected_block).css('width', pickerwith);
                 $("#draggable" + selected_block).css('hieght', pickerheight);
@@ -292,7 +306,7 @@ $(document).ajaxStop(function () {
                         var index = parseInt(ui.helper[0].lastChild.attributes[0].value);
                         relatorio_array[index].location.x = ui.position.left;
                         relatorio_array[index].location.y = ui.position.top;
-                        //console.log(relatorio_array[index]);
+                    //console.log(relatorio_array[index]);
                     }
                 });
                 $("#draggable" + selected_block).draggable().css("position", "absolute");

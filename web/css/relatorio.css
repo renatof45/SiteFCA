@@ -20,6 +20,10 @@
     margin:0px;
     padding: 0px;
 }
+
+td{
+    padding: 0px;
+}
 td label{
     width: 0px;
     padding: 0px;
@@ -51,6 +55,7 @@ td label{
 noBorder  {border: 0; }
 .draggable {z-index: 90;  }
 .draggable:hover{cursor: move;border: 1px solid #ccc}
-.draggable label{line-height: 18px;padding-bottom: 8px;font-weight: bold;color: black;}
-#containment-wrapper { width: 95%; height:1150px; border:2px solid #ccc;margin-top: 30px;  }
+.draggable label{float:none;line-height: 18px;padding-bottom: 8px;font-weight: bold;color: black;}
+.relatrio-manobra label{float:none;line-height: 18px;padding-bottom: 8px;font-weight: bold;color: black;}
+#containment-wrapper { width: 750px; height:1150px; border:2px solid #ccc;margin-top: 30px;  }
 

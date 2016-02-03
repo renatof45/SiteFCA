@@ -393,17 +393,15 @@ function processo(type) {
 
                         if (content[i]['unidade'] === $("#unidade option:selected").text().trim()) {
                             console.log(content[i]['bloco']);
-                            $("#relatorio").append('<div class="draggable" id=div' + i + '></div>')
+                            $("#relatorio").append('<div class="relatrio-manobra"  id=div' + i + '></div>')
                             $("#div" + i).css('width', content[i]['dimetions']['with']);
                             
                             $("#div" + i).css({
                                 'top': content[i]['location']['y'],
                                 'left': content[i]['location']['x'],
                             });
-                            $("#draggable" + i).draggable({
-                                
-                            });
-                            $("#div" + i).draggable().css("position", "absolute");
+                           
+                            $("#div" + i).css("position", "absolute");
                             $("#div" + i).append(content[i]['bloco']);
                         }
                     }
