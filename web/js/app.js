@@ -381,28 +381,48 @@ function processo(type) {
     }
     if (type == 2) {
         $.post("index.php/processo?type=" + type, function (data) {
-            console.log(JSON.parse((JSON.parse(data)['template'])));
+            //console.log(JSON.parse((JSON.parse(data)['template'])));
             var content = (JSON.parse((JSON.parse(data)['template'])))
             $.post("index.php/processo?novamanobra=" + type, function (data) {
                 document.getElementById("app").innerHTML = data;
+                TABS.CreateTabs();
+                var unidade = [];
+                unidade.push(content[0]['unidade']);
                 //console.log($("#unidade option:selected").text().trim());
+                //$("#relatorio").append('<ul></ul>');
+                for (var j = 0; j < content.length; j++) {
+                    var element = $("<div></div>");
+                    //for(var x=0;x<)
+                    if (content[j] !== null) {
+                        if (unidade !== content[j]['unidade']) {
+                            unidade = content[j]['unidade'];
+                            for (var i = 0; i < content.length; i++) {
 
-                for (var i = 0; i < content.length; i++) {
-                    
-                    if (content[i] !== null) {
-                        console.log(content[i].unidade)
-                        if (content[i]['unidade'] === $("#unidade option:selected").text().trim()) {
-                            //console.log(content[i]['bloco']);
-                            $("#relatorio").append('<div class="relatrio-manobra"  id=div' + i + '></div>')
-                            $("#div" + i).css('width', content[i]['dimetions']['with']);
-                            
-                            $("#div" + i).css({
-                                'top': content[i]['location']['y'],
-                                'left': content[i]['location']['x'],
-                            });
-                           
-                            $("#div" + i).css("position", "absolute");
-                            $("#div" + i).append(content[i]['bloco']);
+                                //var unidade=$("#unidade option:selected").text().trim();
+                                if (content[i] !== null) {
+                                    //console.log(content[i].unidade);
+                                    if (content[i]['unidade'] === unidade) {
+                                        //$("#"+unidade).addClass('tabs_content');
+                                        var bloco = $('<div class="relatrio-manobra"  id="div' + i + '"></div>');
+                                        bloco.css('width', content[i]['dimetions']['with']);
+
+                                        bloco.css({
+                                            'top': content[i]['location']['y'],
+                                            'left': content[i]['location']['x'],
+                                        });
+
+                                        bloco.css("position", "absolute");
+                                        bloco.append(content[i]['bloco']);
+                                        element.append(bloco[0].outerHTML);
+                                        $("#div" + i).remove();
+                                    }
+                                }
+                            }
+                            //console.log(element);
+                            if (unidade === $("#unidade option:selected").text().trim())
+                                TABS.AddTab(unidade, true, element[0].innerHTML);
+                            else
+                                TABS.AddTab(unidade, false, element[0].innerHTML);
                         }
                     }
                 }

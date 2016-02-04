@@ -1,0 +1,44 @@
+.tabs_headers{
+    width: 100px;
+    height: 20px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    //background-color:  white;
+    text-align: center;
+    //border-bottom: none;
+    z-index: 10;
+}
+
+.tabs_headers label:hover{
+    color:#F37020;
+}
+
+.tabs_headers_slected{
+    width: 100px;
+    height: 20px;
+    border: 1px solid #F37020;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    background-color:  white;
+    text-align: center;
+    border-bottom: none;
+    z-index: 10;
+}
+
+.tabs_headers label{
+    padding:0px;
+}
+.tabs{
+    display: inline-flex;
+    
+}
+.tabs_content{
+    margin-bottom: 5px;
+    width: 690px;
+    height: 300px;
+    position: relative;
+    border-top: 1px solid #F37020;
+    margin-top: -3px;
+    
+}
+
