@@ -30,15 +30,14 @@
 }
 .tabs{
     display: inline-flex;
-    
+
 }
 .tabs_content{
     margin-bottom: 5px;
     width: 690px;
-    height: 300px;
     position: relative;
     border-top: 1px solid #F37020;
     margin-top: -3px;
-    
+     min-height: 30rem;
 }
 

@@ -35,7 +35,6 @@ $(document).ajaxStop(function () {
 
     $('#adicionarManobraForm').ajaxForm(function (data) {
         var relatrio = (JSON.parse(data));
-        console.log(relatrio);
         $.post("index.php/processo?type=2", function (data) {
             //document.getElementById("app").innerHTML = data;
             var content = (JSON.parse((JSON.parse(data)['template'])))

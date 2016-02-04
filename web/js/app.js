@@ -8,7 +8,7 @@ $(document).ready(function () {
     $('#ajaxform4').ajaxForm(function (data) {
         document.getElementById("area_id").innerHTML = data;
         document.getElementById("app").innerHTML = '<h2>Se esta a ler isto, é porque mudou de area!</h2>' +
-                '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
+    '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
     });
 });
 
@@ -67,7 +67,7 @@ function app() {
     $.post("index.php/home", function (data) {
         document.getElementById("app").innerHTML = data;
     });
-    /*.done(function() {
+/*.done(function() {
      $.post("index.php/header", function(data) {
      document.getElementById("area_id").innerHTML = data;
      });
@@ -245,7 +245,7 @@ function show_pedidos(inst) {
         console.log(content);
         for (var i = 0; i < content.length; i++) {
             $("#trab_list").append('<li  style="margin-bottom: 35px";>' + content[i].descricao + '<input type="button" onclick="associate_trab(' + content[i].id + ',\'' + content[i].descricao +
-                    '\')" style="width: 100px;margin-top:1px;margin-left: 200px;" value="Associar" class="submit"/></li>')
+                '\')" style="width: 100px;margin-top:1px;margin-left: 200px;" value="Associar" class="submit"/></li>')
         }
         $('#dvLoading').hide();
         $(".hiddenbox").slideDown();
@@ -288,10 +288,10 @@ function subChangeEquipamentoStatus(equipamento, inst) {
             $("#ajaxform1").submit();
         } else {
             $("#dialog-indisponibilidade")
-                    .data('status', document.getElementById("status").value)
-                    .data('inst', inst)
-                    .data('equipamento', equipamento)
-                    .dialog("open");
+            .data('status', document.getElementById("status").value)
+            .data('inst', inst)
+            .data('equipamento', equipamento)
+            .dialog("open");
         }
     } else if (inst.name == "vermais") {
         $('#historico' + last_equipamento).hide();
@@ -302,19 +302,19 @@ function subChangeEquipamentoStatus(equipamento, inst) {
             document.getElementById("show_history" + equipamento).innerHTML = '<tr><th>Data</th><th>Turno</th><th style="width: 300px;">Status</th></tr>'
             for (var i = 0; i < history_data.length; i++) {
                 document.getElementById("show_history" + equipamento).innerHTML += "<tr><td>" + history_data[i].data + "</td><td>" + history_data[i].turno + "</td><td>" + history_data[i].descricao + "</td></tr>";
-                //$("#show_history" + equipamento).append("<tr><td>" + history_data[i].data + "</td><td>" + history_data[i].turno + "</td><td>" + history_data[i].descricao + "</td></tr>");
+            //$("#show_history" + equipamento).append("<tr><td>" + history_data[i].data + "</td><td>" + history_data[i].turno + "</td><td>" + history_data[i].descricao + "</td></tr>");
             }
 
             $('#historico' + equipamento).show();
             last_equipamento = equipamento;
         });
-        //$('#historico' + equipamento).show();
+    //$('#historico' + equipamento).show();
 
     } else if (inst.name == "alterar") {
         $("#dialog-indisponibilidade")
-                .data('equipamento', equipamento)
-                .data('inst', inst)
-                .dialog("open");
+        .data('equipamento', equipamento)
+        .data('inst', inst)
+        .dialog("open");
     } else {
         stat = inst.name.split(":");
         console.log(stat[0]);
@@ -325,9 +325,9 @@ function subChangeEquipamentoStatus(equipamento, inst) {
         } else {
             //$("#ajaxform1").attr('action', 'index.php/equipamento?change_satus_dinamico=0&equipamento=' + equipamento + '&status=' + 12);
             $("#dialog-disponibilidade")
-                    .data('equipamento', equipamento)
-                    .data('inst', inst)
-                    .dialog("open");
+            .data('equipamento', equipamento)
+            .data('inst', inst)
+            .dialog("open");
         }
 
     }
@@ -381,50 +381,65 @@ function processo(type) {
     }
     if (type == 2) {
         $.post("index.php/processo?type=" + type, function (data) {
-            //console.log(JSON.parse((JSON.parse(data)['template'])));
-            var content = (JSON.parse((JSON.parse(data)['template'])))
+           var content = (JSON.parse((JSON.parse(data)['template'])))
             $.post("index.php/processo?novamanobra=" + type, function (data) {
                 document.getElementById("app").innerHTML = data;
                 TABS.CreateTabs();
-                var unidade = [];
-                unidade.push(content[0]['unidade']);
-                //console.log($("#unidade option:selected").text().trim());
-                //$("#relatorio").append('<ul></ul>');
-                for (var j = 0; j < content.length; j++) {
-                    var element = $("<div></div>");
-                    //for(var x=0;x<)
-                    if (content[j] !== null) {
-                        if (unidade !== content[j]['unidade']) {
-                            unidade = content[j]['unidade'];
-                            for (var i = 0; i < content.length; i++) {
-
-                                //var unidade=$("#unidade option:selected").text().trim();
-                                if (content[i] !== null) {
-                                    //console.log(content[i].unidade);
-                                    if (content[i]['unidade'] === unidade) {
-                                        //$("#"+unidade).addClass('tabs_content');
-                                        var bloco = $('<div class="relatrio-manobra"  id="div' + i + '"></div>');
-                                        bloco.css('width', content[i]['dimetions']['with']);
-
-                                        bloco.css({
-                                            'top': content[i]['location']['y'],
-                                            'left': content[i]['location']['x'],
-                                        });
-
-                                        bloco.css("position", "absolute");
-                                        bloco.append(content[i]['bloco']);
-                                        element.append(bloco[0].outerHTML);
-                                        $("#div" + i).remove();
-                                    }
-                                }
+                var unidades = [];
+                for(var i=0;i<content.length;i++){
+                    if(content[i] !== null){
+                        unidades.push(content[i]['unidade'])
+                        break;
+                    }
+                }
+                var found=false;
+                for(i=0;i<content.length;i++){
+                    for (var j = 0; j < unidades.length; j++) {
+                        if(content[i] !== null){
+                            if(content[i]['unidade']===unidades[j]){
+                                found=true;
+                                break;
                             }
-                            //console.log(element);
-                            if (unidade === $("#unidade option:selected").text().trim())
-                                TABS.AddTab(unidade, true, element[0].innerHTML);
-                            else
-                                TABS.AddTab(unidade, false, element[0].innerHTML);
                         }
                     }
+                    if(!found && content[i] !== null){
+                        unidades.push(content[i]['unidade']);
+                    }
+                    found=false;
+                }
+                for (j=0; j < unidades.length; j++) {
+                    var top=1000000;
+                    for (i = 0; i < content.length; i++) {
+                        if (content[i] !== null) {
+                            if (content[i]['unidade'] === unidades[j]) {
+                                //console.log(parseInt(content[i]['location']['y']))
+                                if(parseInt(content[i]['location']['y'])<top){
+                                    top=parseInt(content[i]['location']['y']);
+                                }
+                            }
+                        }
+                    }
+                    var element = $("<div></div>");
+                    for (i = 0; i < content.length; i++) {
+                        if (content[i] !== null) {
+                            if (content[i]['unidade'] === unidades[j]) {
+                                var bloco = $('<div class="relatrio-manobra"  id="div' + i + '"></div>');
+                                bloco.css('width', content[i]['dimetions']['with']);
+                                bloco.css({
+                                    'top': (parseInt(content[i]['location']['y'])-(top-5))+'px',
+                                    'left': content[i]['location']['x'],
+                                });
+                                bloco.css("position", "absolute");
+                                bloco.append(content[i]['bloco']);
+                                element.append(bloco[0].outerHTML);
+                                $("#div" + i).remove();
+                            }
+                        }
+                    }
+                    if (unidades[j] === $("#unidade option:selected").text().trim())
+                        TABS.AddTab(unidades[j], true, element[0].innerHTML);
+                    else
+                        TABS.AddTab(unidades[j], false, element[0].innerHTML);
                 }
             });
         });
@@ -451,8 +466,8 @@ function feed(type, id) {
         $('#dvLoading').show();
         $.post("index.php/feed?type=2", function (data) {
             document.getElementById("app").innerHTML = data;
-            //initSample();
-            //$('#dvLoading').hide();
+        //initSample();
+        //$('#dvLoading').hide();
         });
     }
     else if (type.name === 'editar') {

@@ -170,15 +170,18 @@ $app->post('/relatorio', 'checkLogIn', function() use ($app) {
             $type = $app->request()->get('type');
             //$salvar=$app->request()->get('salvar');
             if ($type == 2) {
-                require "../page/relatorios/area_c.phtml";
-                require "../page/relatorios/area_c.php";
-            } elseif ($type == 1) {
+                $relatoriodao = new RelatorioDao();
+                $template = $relatoriodao->getRelatorio();
+                echo json_encode(($template));
+            }elseif(array_key_exists('unidades', $_GET)){
+                require "../page/relatorios/unidades.phtml";
+            }
+            elseif ($type == 1) {
 
                 require "../page/relatorios/resumo.phtml";
             } elseif ($type == 3) {
                 $relatoriodao = new RelatorioDao();
                 $template = $relatoriodao->getRelatorio();
-                $relatorio = json_decode($template['template']);
                 echo json_encode(($template));
 
                 //require "../page/relatorios/novo.phtml";
