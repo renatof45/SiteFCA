@@ -46,7 +46,8 @@ CHANGE COLUMN `data` `data` DATE NULL DEFAULT NULL ,
 CHANGE COLUMN `texto` `texto` LONGTEXT NULL DEFAULT NULL ,
 ADD COLUMN `publicar` INT NULL AFTER `texto`;
 
-
+ALTER TABLE `galp`.`relatorios-templates` 
+ADD COLUMN `separadores` MEDIUMTEXT NULL AFTER `data`;
 -- -----------------------------------------------------
 -- Table `galp`.`accoes`
 -- -----------------------------------------------------

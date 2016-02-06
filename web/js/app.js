@@ -15,7 +15,8 @@ $(document).ready(function () {
 $(document).keypress(function (event) {
 
     var keycode = (event.keyCode ? event.keyCode : event.which);
-    if (keycode == '13' && event.srcElement.id == 'password') {
+    alert(event.srcElement.id);
+    if (keycode == '13' && event.srcElement.id == 'password_oleo') {
         alert('Por favor use o butão OK');
     }
 

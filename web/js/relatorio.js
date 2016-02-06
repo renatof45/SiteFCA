@@ -4,69 +4,69 @@ var number_of_blocks = 0;
 var selected_block_top;
 var selected_block_left;
 var matrix_table_choose = '<div class="field">' +
-'<label>Linhas:</label>' +
-'<select id="linhas" onchange="relatorio(this)">' +
-'<option value="2">2</option>' +
-'<option value="3">3</option>' +
-'<option value="4">4</option>' +
-'<option value="5">5</option>' +
-'<option value="6">6</option>' +
-'</select>' +
-'</div>' +
-'<div class="field">' +
-'<label>Colunas:</label>' +
-'<select id="colunas" onchange="relatorio(this)">' +
-'<option value="2">2</option>' +
-'<option value="3">3</option>' +
-'<option value="4">4</option>' +
-'<option value="5">5</option>' +
-'<option value="6">6</option>' +
-'</select>' +
-'</div>';
+        '<label>Linhas:</label>' +
+        '<select id="linhas" onchange="relatorio(this)">' +
+        '<option value="1">1</option>' +
+        '<option value="2">2</option>' +
+        '<option value="3">3</option>' +
+        '<option value="4">4</option>' +
+        '<option value="5">5</option>' +
+        '<option value="6">6</option>' +
+        '</select>' +
+        '</div>' +
+        '<div class="field">' +
+        '<label>Colunas:</label>' +
+        '<select id="colunas" onchange="relatorio(this)">' +
+        '<option value="1">1</option>' +
+        '<option value="2">2</option>' +
+        '<option value="3">3</option>' +
+        '<option value="4">4</option>' +
+        '<option value="5">5</option>' +
+        '<option value="6">6</option>' +
+        '</select>' +
+        '</div>';
 var matrix_table = '<div id="tabelabloco" class="field">' +
-'<table id="MatrixTable"  width="500" border="0" cellpadding="0" cellspacing="0">' +
-'<tbody id="MatrixTableBody">' +
-'<tr style="height:  20px" >' +
-'<td></td><td onclick="relatorio(this)" style="">ClickMe</td><td onclick="relatorio(this)" style="">ClickMe</td>' +
-'</tr>' +
-'<tr style="height:  20px">' +
-'<td onclick="relatorio(this)">ClickMe</td><td></td><td ></td>' +
-'</tr>' +
-'<tr style="height:  20px">' +
-'<td onclick="relatorio(this)">ClickMe</td><td></td><td></td>' +
-'</tr>			' +
-'</tbody>' +
-'</table>' +
-'</div>';
+        '<table id="MatrixTable"  width="500" border="0" cellpadding="0" cellspacing="0">' +
+        '<tbody id="MatrixTableBody">' +
+        '<tr style="height:  20px" >' +
+        '<td></td><td onclick="relatorio(this)" style="">ClickMe</td>' +
+        '</tr>' +
+        '<tr style="height:  20px">' +
+        '<td onclick="relatorio(this)">ClickMe</td><td></td>' +
+        '</tr>' +
+        
+        '</tbody>' +
+        '</table>' +
+        '</div>';
 
 var escolha_multipla = '<div id="escolhas_multiplas">' +
-'<div  class="field">' +
-'<label>Escolha1:</label>' +
-'<input type="text" style="width: 250px" name="escolha1"/>' +
-'<input type="button" name="adicionar" onclick="relatorio(this);" style="font-weight: bolder;width: 20px;height: 16px;margin-top: 2px;padding-bottom: 1px;"  value="+" class="button">' +
-'</div></div>';
+        '<div  class="field">' +
+        '<label>Escolha1:</label>' +
+        '<input type="text" style="width: 250px" name="escolha1"/>' +
+        '<input type="button" name="adicionar" onclick="relatorio(this);" style="font-weight: bolder;width: 20px;height: 16px;margin-top: 2px;padding-bottom: 1px;"  value="+" class="button">' +
+        '</div></div>';
 
 var valores_simples =
-'<div class="field">' +
-'<label>Unidades:</label>' +
-'<select id="select_unidades">' +
-'<option>m2</option>' +
-'<option>Kg/Cm2</option>' +
-'<option>Cº</option>' +
-'</select>' +
-'</div></div>';
+        '<div class="field">' +
+        '<label>Unidades:</label>' +
+        '<select id="select_unidades">' +
+        '<option>m2</option>' +
+        '<option>Kg/Cm2</option>' +
+        '<option>Cº</option>' +
+        '</select>' +
+        '</div></div>';
 
-var separador=5000;
-var separator_array=[];
+var separador = 5000;
+var separator_array = [];
 function relatorio(type, obj) {
-    
-    if(type==='separador'){
+
+    if (type === 'separador') {
         separador++;
         separator_array.push({
-            'top':$("#app")[0].scrollTop+35
-            })
-        console.log( separator_array.length);
-        $("#containment-wrapper").append('<div index="'+(separator_array.length-1)+'" id="draggable' + separador + '" class="draggable"><div style="width:692px;border: 1px solid"></div></div>');
+            'top': $("#app")[0].scrollTop + 35
+        })
+        console.log(separator_array.length);
+        $("#containment-wrapper").append('<div index="' + (separator_array.length - 1) + '" id="draggable' + separador + '" class="draggable"><div style="width:692px;border: 1px solid"></div></div>');
         $("#draggable" + separador).draggable({
             containment: "#containment-wrapper",
             scroll: false,
@@ -80,30 +80,27 @@ function relatorio(type, obj) {
         });
         $("#draggable" + separador).draggable().css("position", "absolute");
         $("#draggable" + separador).css({
-            'top': $("#app")[0].scrollTop+35,
+            'top': $("#app")[0].scrollTop + 35,
             'left': 0,
         });
     }
-    
+
     if (type === "salvar") {
         $.post("index.php/relatorio?salvar=true", {
             "content": JSON.stringify(relatorio_array),
             "separadores": JSON.stringify(separator_array),
         }, function (data) {
             detach = false;
-            //document.getElementById("app").innerHTML = data;
-            //data = JSON.parse(data);
-            //console.log(relatorio_array);
-            alert("Gravada nova versão do template!")
+           alert("Gravada nova versão do template!")
         });
     }
 
 
     if (type.nodeName === "TD") {
         $("#dialog-inserirnomestabbela")
-        .data('cellIndex', type.cellIndex)
-        .data('rowIndex', type.parentNode.rowIndex)
-        .dialog("open");
+                .data('cellIndex', type.cellIndex)
+                .data('rowIndex', type.parentNode.rowIndex)
+                .dialog("open");
     }
 
     else if (type === 'picker') {
@@ -127,17 +124,17 @@ function relatorio(type, obj) {
                     $(this).html('')
                 }
                 pickerwith += $(this).outerWidth();
-            //console.log($(this));
+                //console.log($(this));
             });
-        //return false;
+            //return false;
         });
         var html = $("#containment-wrapper").find('#draggable' + selected_block)[0].childNodes[1].outerHTML;
         $("#containment-wrapper").find('#draggable' + selected_block).remove();
         $('#dvLoading').hide();
         $("#dialog-novobloco")
-        .data("original", original_block)
-        .data("novo", "false")
-        .dialog("open");
+                .data("original", original_block)
+                .data("novo", "false")
+                .dialog("open");
         if (tipo === '4') {
             $("#tipo").val((tipo)).change();
 
@@ -163,10 +160,10 @@ function relatorio(type, obj) {
             console.log(multiplas[0].children[0].childNodes);
             for (var i = 0; i < multiplas[0].children.length; i++) {
                 $("#escolhas_multiplas" + selected_block).append('<div class="field">' +
-                    '<label>Escolha' + (i + 1) + ':</label>' +
-                    '<input type="text" style="width: 250px" id="escolhas_multiplas' + selected_block + '_' + (i + 1) + ')" value="' + multiplas[0].children[i].childNodes[1].nodeValue + '"/>' +
-                    '<input type="button" name="adicionar" onclick="relatorio(this);" style="font-weight: bolder;width: 20px;height: 16px;margin-top: 2px;padding-bottom: 1px;"  value="+" class="button">' +
-                    '</div>');
+                        '<label>Escolha' + (i + 1) + ':</label>' +
+                        '<input type="text" style="width: 250px" id="escolhas_multiplas' + selected_block + '_' + (i + 1) + ')" value="' + multiplas[0].children[i].childNodes[1].nodeValue + '"/>' +
+                        '<input type="button" name="adicionar" onclick="relatorio(this);" style="font-weight: bolder;width: 20px;height: 16px;margin-top: 2px;padding-bottom: 1px;"  value="+" class="button">' +
+                        '</div>');
             }
         }
         else if (tipo === '2') {
@@ -190,8 +187,8 @@ function relatorio(type, obj) {
         $('#dvLoading').hide();
         $("#tipo").val('4').change();
         $("#dialog-novobloco")
-        .data("novo", "true")
-        .dialog("open");
+                .data("novo", "true")
+                .dialog("open");
         $("#multipla").hide();
         $("#tabela").html(matrix_table_choose + matrix_table);
         $("#multipla").html(escolha_multipla);
@@ -203,7 +200,7 @@ function relatorio(type, obj) {
         $("#valores_simples").attr('id', 'valores_simples' + number_of_blocks);
         //valores_simples
         //$("#tabela").show();
-        selected_block_top = $("#app")[0].scrollTop+35;
+        selected_block_top = $("#app")[0].scrollTop + 35;
         selected_block_left = 5;
         selected_block = number_of_blocks;
         tableresize('MatrixTable' + number_of_blocks);
@@ -295,10 +292,10 @@ function relatorio(type, obj) {
         $('#dvLoading').hide();
         var elems = $("#escolhas_multiplas" + selected_block).children().size();
         $("#escolhas_multiplas" + selected_block).append('<div class="field">' +
-            '<label>Escolha' + (elems + 1) + ':</label>' +
-            '<input type="text" style="width: 250px" id="escolhas_multiplas' + selected_block + '_' + (elems + 1) + ')"/>' +
-            '<input type="button" name="adicionar" onclick="relatorio(this);" style="font-weight: bolder;width: 20px;height: 16px;margin-top: 2px;padding-bottom: 1px;"  value="+" class="button">' +
-            '</div>');
+                '<label>Escolha' + (elems + 1) + ':</label>' +
+                '<input type="text" style="width: 250px" id="escolhas_multiplas' + selected_block + '_' + (elems + 1) + ')"/>' +
+                '<input type="button" name="adicionar" onclick="relatorio(this);" style="font-weight: bolder;width: 20px;height: 16px;margin-top: 2px;padding-bottom: 1px;"  value="+" class="button">' +
+                '</div>');
     }
 
     else if (type === 1) {
@@ -312,35 +309,35 @@ function relatorio(type, obj) {
                 document.getElementById("app").innerHTML = data;
                 TABS.CreateTabs();
                 var unidades = [];
-                for(var i=0;i<content.length;i++){
-                    if(content[i] !== null){
+                for (var i = 0; i < content.length; i++) {
+                    if (content[i] !== null) {
                         unidades.push(content[i]['unidade'])
                         break;
                     }
                 }
-                var found=false;
-                for(i=0;i<content.length;i++){
+                var found = false;
+                for (i = 0; i < content.length; i++) {
                     for (var j = 0; j < unidades.length; j++) {
-                        if(content[i] !== null){
-                            if(content[i]['unidade']===unidades[j]){
-                                found=true;
+                        if (content[i] !== null) {
+                            if (content[i]['unidade'] === unidades[j]) {
+                                found = true;
                                 break;
                             }
                         }
                     }
-                    if(!found && content[i] !== null){
+                    if (!found && content[i] !== null) {
                         unidades.push(content[i]['unidade']);
                     }
-                    found=false;
+                    found = false;
                 }
-                for (j=0; j < unidades.length; j++) {
-                    var top=1000000;
+                for (j = 0; j < unidades.length; j++) {
+                    var top = 1000000;
                     for (i = 0; i < content.length; i++) {
                         if (content[i] !== null) {
                             if (content[i]['unidade'] === unidades[j]) {
                                 //console.log(parseInt(content[i]['location']['y']))
-                                if(parseInt(content[i]['location']['y'])<top){
-                                    top=parseInt(content[i]['location']['y']);
+                                if (parseInt(content[i]['location']['y']) < top) {
+                                    top = parseInt(content[i]['location']['y']);
                                 }
                             }
                         }
@@ -353,7 +350,7 @@ function relatorio(type, obj) {
                                 var bloco = $('<div class="relatrio-manobra"  id="div' + i + '"></div>');
                                 bloco.css('width', content[i]['dimetions']['with']);
                                 bloco.css({
-                                    'top': (parseInt(content[i]['location']['y'])-(top-5))+'px',
+                                    'top': (parseInt(content[i]['location']['y']) - (top - 5)) + 'px',
                                     'left': content[i]['location']['x'],
                                 });
                                 bloco.css("position", "absolute");
@@ -363,7 +360,7 @@ function relatorio(type, obj) {
                             }
                         }
                     }
-                    if (j===0)
+                    if (j === 0)
                         TABS.AddTab(unidades[j], true, element[0].innerHTML);
                     else
                         TABS.AddTab(unidades[j], false, element[0].innerHTML);
@@ -378,7 +375,7 @@ function relatorio(type, obj) {
                 if (data !== 'null') {
                     number_of_blocks = 0;
                     relatorio_array = (JSON.parse((JSON.parse(data)['template'])));
-                    separator_array=(JSON.parse((JSON.parse(data)['separadores'])));
+                    separator_array = (JSON.parse((JSON.parse(data)['separadores'])));
                     for (var i = 0; i < relatorio_array.length; i++) {
                         number_of_blocks++;
                         if (relatorio_array[i] !== null) {
@@ -405,28 +402,32 @@ function relatorio(type, obj) {
                             });
                         }
                     }
-                    separador=5000;
+                    separador = 5000;
                     console.log(separator_array);
-                    for(i=0;i<separator_array.length;i++){
-                        separador++;
-                        $("#containment-wrapper").append('<div index="'+i+'" id="draggable' + separador + '" class="draggable"><div style="width:692px;border: 1px solid"></div></div>');
-                        $("#draggable" + separador).draggable({
-                            containment: "#containment-wrapper",
-                            scroll: false,
-                            axis: "y",
-                            stop: function (event, ui) {
-                                var index = parseInt(ui.helper[0].attributes[0].value);
-                                separator_array[index].top = parseInt(ui.helper[0].offsetTop);
-                                //relatorio_array[index].location.y = ui.position.top;
-                                console.log(ui.helper[0].attributes[0].value);
-                            }
-                        });
-                        $("#draggable" + separador).draggable().css("position", "absolute");
-                        $("#draggable" + separador).css({
-                            'top': parseInt(separator_array[i].top),
-                            'left': 0,
-                        });
+                    if (separator_array !== null) {
+                        for (i = 0; i < separator_array.length; i++) {
+                            separador++;
+                            $("#containment-wrapper").append('<div index="' + i + '" id="draggable' + separador + '" class="draggable"><div style="width:694px;border: 1px solid"></div></div>');
+                            $("#draggable" + separador).draggable({
+                                containment: "#containment-wrapper",
+                                scroll: false,
+                                axis: "y",
+                                stop: function (event, ui) {
+                                    var index = parseInt(ui.helper[0].attributes[0].value);
+                                    separator_array[index].top = parseInt(ui.helper[0].offsetTop);
+                                    //relatorio_array[index].location.y = ui.position.top;
+                                    console.log(ui.helper[0].attributes[0].value);
+                                }
+                            });
+                            $("#draggable" + separador).draggable().css("position", "absolute");
+                            $("#draggable" + separador).css({
+                                'top': parseInt(separator_array[i].top),
+                                'left': 0,
+                            });
+                        }
                     }
+                    else
+                        separator_array=[];
                 }
             });
         });
