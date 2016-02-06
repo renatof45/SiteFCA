@@ -56,12 +56,39 @@ var valores_simples =
 '</select>' +
 '</div></div>';
 
-
-
+var separador=5000;
+var separator_array=[];
 function relatorio(type, obj) {
+    
+    if(type==='separador'){
+        separador++;
+        separator_array.push({
+            'top':$("#app")[0].scrollTop+35
+            })
+        console.log( separator_array.length);
+        $("#containment-wrapper").append('<div index="'+(separator_array.length-1)+'" id="draggable' + separador + '" class="draggable"><div style="width:692px;border: 1px solid"></div></div>');
+        $("#draggable" + separador).draggable({
+            containment: "#containment-wrapper",
+            scroll: false,
+            axis: "y",
+            stop: function (event, ui) {
+                var index = parseInt(ui.helper[0].attributes[0].value);
+                separator_array[index].top = parseInt(ui.helper[0].offsetTop);
+                //relatorio_array[index].location.y = ui.position.top;
+                console.log(ui.helper[0].attributes[0].value);
+            }
+        });
+        $("#draggable" + separador).draggable().css("position", "absolute");
+        $("#draggable" + separador).css({
+            'top': $("#app")[0].scrollTop+35,
+            'left': 0,
+        });
+    }
+    
     if (type === "salvar") {
         $.post("index.php/relatorio?salvar=true", {
-            "content": JSON.stringify(relatorio_array)
+            "content": JSON.stringify(relatorio_array),
+            "separadores": JSON.stringify(separator_array),
         }, function (data) {
             detach = false;
             //document.getElementById("app").innerHTML = data;
@@ -156,7 +183,8 @@ function relatorio(type, obj) {
 
 
     else if (type === 'novobloco') {
-        console.log($("#containment-wrapper"));
+        //console.log($("#app"))
+        //console.log($("#containment-wrapper"));
         number_of_blocks++;
         //var elems = $("#containment-wrapper").children().size();
         $('#dvLoading').hide();
@@ -175,7 +203,7 @@ function relatorio(type, obj) {
         $("#valores_simples").attr('id', 'valores_simples' + number_of_blocks);
         //valores_simples
         //$("#tabela").show();
-        selected_block_top = 35;
+        selected_block_top = $("#app")[0].scrollTop+35;
         selected_block_left = 5;
         selected_block = number_of_blocks;
         tableresize('MatrixTable' + number_of_blocks);
@@ -350,6 +378,7 @@ function relatorio(type, obj) {
                 if (data !== 'null') {
                     number_of_blocks = 0;
                     relatorio_array = (JSON.parse((JSON.parse(data)['template'])));
+                    separator_array=(JSON.parse((JSON.parse(data)['separadores'])));
                     for (var i = 0; i < relatorio_array.length; i++) {
                         number_of_blocks++;
                         if (relatorio_array[i] !== null) {
@@ -375,6 +404,28 @@ function relatorio(type, obj) {
                                 'left': relatorio_array[i]['location']['x'],
                             });
                         }
+                    }
+                    separador=5000;
+                    console.log(separator_array);
+                    for(i=0;i<separator_array.length;i++){
+                        separador++;
+                        $("#containment-wrapper").append('<div index="'+i+'" id="draggable' + separador + '" class="draggable"><div style="width:692px;border: 1px solid"></div></div>');
+                        $("#draggable" + separador).draggable({
+                            containment: "#containment-wrapper",
+                            scroll: false,
+                            axis: "y",
+                            stop: function (event, ui) {
+                                var index = parseInt(ui.helper[0].attributes[0].value);
+                                separator_array[index].top = parseInt(ui.helper[0].offsetTop);
+                                //relatorio_array[index].location.y = ui.position.top;
+                                console.log(ui.helper[0].attributes[0].value);
+                            }
+                        });
+                        $("#draggable" + separador).draggable().css("position", "absolute");
+                        $("#draggable" + separador).css({
+                            'top': parseInt(separator_array[i].top),
+                            'left': 0,
+                        });
                     }
                 }
             });

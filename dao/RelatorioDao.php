@@ -19,7 +19,7 @@ class RelatorioDao extends DAO {
         return self::isShiftOpen($data, $turno);
     }
 
-    public function guardarRelatorio($relatorio) {
+    public function guardarRelatorio($relatorio,$separadores) {
         $versao = null;
         $result = parent::query('SELECT  MAX(versao) AS versao FROM galp.`relatorios-templates` where area=' . $_SESSION['area'], PDO::FETCH_ASSOC);
         foreach ($result as $v) {
@@ -28,9 +28,9 @@ class RelatorioDao extends DAO {
         $now = new DateTime();
         $data = parent::formatDateTime($now);
         $versao++;
-        $sql = "INSERT INTO `galp`.`relatorios-templates` (`template`,`utilizador`,`area`,`versao`,`data`) VALUES (:template,:utilizador,:area,:versao,:data);";
+        $sql = "INSERT INTO `galp`.`relatorios-templates` (`template`,`utilizador`,`area`,`versao`,`data`,separadores) VALUES (:template,:utilizador,:area,:versao,:data,:separadores);";
         $statement = parent::getDb()->prepare($sql);
-        parent::executeStatement($statement, array(':template' => $relatorio, ':data' => $data, ':utilizador' => $_SESSION['user'], ':area' => $_SESSION['area'], ':versao' => $versao));
+        parent::executeStatement($statement, array(':separadores'=>$separadores,  ':template' => $relatorio, ':data' => $data, ':utilizador' => $_SESSION['user'], ':area' => $_SESSION['area'], ':versao' => $versao));
     }
 
     public function getRelatorio() {
@@ -49,6 +49,7 @@ class RelatorioDao extends DAO {
                 $template['area'] = $relatorio['area'];
                 $template['data'] = $relatorio['data'];
                 $template['template'] = $relatorio['template'];
+                $template['separadores'] = $relatorio['separadores'];
             }
             return $template;
         }

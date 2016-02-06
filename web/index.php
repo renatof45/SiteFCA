@@ -191,7 +191,7 @@ $app->post('/relatorio', 'checkLogIn', function() use ($app) {
                 //print_r(($_POST['content']));
                 //echo "teste";
                 $relatoriodao = new RelatorioDao();
-                $relatoriodao->guardarRelatorio($_POST['content']);
+                $relatoriodao->guardarRelatorio($_POST['content'],$_POST['separadores']);
             }
         });
 

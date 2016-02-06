@@ -36,41 +36,75 @@ $(document).ajaxStop(function () {
     $('#adicionarManobraForm').ajaxForm(function (data) {
         var relatrio = (JSON.parse(data));
         $.post("index.php/processo?type=2", function (data) {
-            //document.getElementById("app").innerHTML = data;
-            var content = (JSON.parse((JSON.parse(data)['template'])))
+           var content = (JSON.parse((JSON.parse(data)['template'])))
             $.post("index.php/processo?novamanobra=0", function (data) {
                 document.getElementById("app").innerHTML = data;
-                //console.log($("#unidade option:selected").text().trim());
-
-                for (var i = 0; i < content.length; i++) {
-
-                    if (content[i] !== null) {
-
-                        if (content[i]['unidade'] === $("#unidade option:selected").text().trim()) {
-                            //console.log(content[i]['bloco']);
-                            $("#relatorio").append('<div class="relatrio-manobra"  id=div' + i + '></div>')
-                            $("#div" + i).css('width', content[i]['dimetions']['with']);
-                            
-                            $("#div" + i).css({
-                                'top': content[i]['location']['y'],
-                                'left': content[i]['location']['x'],
-                            });
-                           
-                            $("#div" + i).css("position", "absolute");
-                            $("#div" + i).append(content[i]['bloco']);
+                 TABS.CreateTabs();
+                var unidades = [];
+                for(var i=0;i<content.length;i++){
+                    if(content[i] !== null){
+                        unidades.push(content[i]['unidade'])
+                        break;
+                    }
+                }
+                var found=false;
+                for(i=0;i<content.length;i++){
+                    for (var j = 0; j < unidades.length; j++) {
+                        if(content[i] !== null){
+                            if(content[i]['unidade']===unidades[j]){
+                                found=true;
+                                break;
+                            }
                         }
                     }
+                    if(!found && content[i] !== null){
+                        unidades.push(content[i]['unidade']);
+                    }
+                    found=false;
+                }
+                for (j=0; j < unidades.length; j++) {
+                    var top=1000000;
+                    for (i = 0; i < content.length; i++) {
+                        if (content[i] !== null) {
+                            if (content[i]['unidade'] === unidades[j]) {
+                                //console.log(parseInt(content[i]['location']['y']))
+                                if(parseInt(content[i]['location']['y'])<top){
+                                    top=parseInt(content[i]['location']['y']);
+                                }
+                            }
+                        }
+                    }
+                    var element = $("<div></div>");
+                    for (i = 0; i < content.length; i++) {
+                        if (content[i] !== null) {
+                            if (content[i]['unidade'] === unidades[j]) {
+                                var bloco = $('<div class="relatrio-manobra"  id="div' + i + '"></div>');
+                                bloco.css('width', content[i]['dimetions']['with']);
+                                bloco.css({
+                                    'top': (parseInt(content[i]['location']['y'])-(top-5))+'px',
+                                    'left': content[i]['location']['x'],
+                                });
+                                bloco.css("position", "absolute");
+                                bloco.append(content[i]['bloco']);
+                                element.append(bloco[0].outerHTML);
+                                $("#div" + i).remove();
+                            }
+                        }
+                    }
+                    if (unidades[j] === $("#unidade option:selected").text().trim())
+                        TABS.AddTab(unidades[j], true, element[0].innerHTML);
+                    else
+                        TABS.AddTab(unidades[j], false, element[0].innerHTML);
                 }
                 var element_1='';
                 var element_2='';
                 for (var key in relatrio) {
-                    //console.log(relatrio[key]);
+                    //console.log(key);
                     if(key!=='manobra'){
                         element_1=key;
                         for (var key1 in relatrio[key]) {
-                            
-                            if($('[name="'+element_1+'['+key1+']"]').length>0){
-                                
+                            console.log(key1);
+                            if($('[name="'+element_1+'['+key1+']"]').length>0){   
                                 $('[name="'+element_1+'['+key1+']"]').val(relatrio[key][key1]);
                             }
                             else{
@@ -93,9 +127,7 @@ $(document).ajaxStop(function () {
             
                 }
             });
-        });
-       
-        
+        });  
     });
 
     $('#change-status-form').ajaxForm(function (data) {
