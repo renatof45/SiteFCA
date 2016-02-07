@@ -173,10 +173,9 @@ $app->post('/relatorio', 'checkLogIn', function() use ($app) {
                 $relatoriodao = new RelatorioDao();
                 $template = $relatoriodao->getRelatorio();
                 echo json_encode(($template));
-            }elseif(array_key_exists('unidades', $_GET)){
+            } elseif (array_key_exists('unidades', $_GET)) {
                 require "../page/relatorios/unidades.phtml";
-            }
-            elseif ($type == 1) {
+            } elseif ($type == 1) {
 
                 require "../page/relatorios/resumo.phtml";
             } elseif ($type == 3) {
@@ -191,11 +190,19 @@ $app->post('/relatorio', 'checkLogIn', function() use ($app) {
                 //print_r(($_POST['content']));
                 //echo "teste";
                 $relatoriodao = new RelatorioDao();
-                $relatoriodao->guardarRelatorio($_POST['content'],$_POST['separadores']);
+                $relatoriodao->guardarRelatorio($_POST['content'], $_POST['separadores']);
             }
         });
 
-
+$app->get('/relatorio', 'checkLogIn', function() use ($app) {
+            if (array_key_exists('imprimir', $_GET)) {
+                 $relatoriodao = new RelatorioDao();
+                $template = $relatoriodao->getRelatorio();
+                $relatorio= json_decode(($template['template']));
+                
+                require "../page/relatorios/imprimir.phtml";
+            }
+        });
 $app->post('/processo', 'checkLogIn', function() use ($app) {
             $type = $app->request()->get('type');
             //echo $type;

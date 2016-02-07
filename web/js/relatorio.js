@@ -66,7 +66,7 @@ function relatorio(type, obj) {
             'top': $("#app")[0].scrollTop + 35
         })
         console.log(separator_array.length);
-        $("#containment-wrapper").append('<div index="' + (separator_array.length - 1) + '" id="draggable' + separador + '" class="draggable"><div style="width:692px;border: 1px solid"></div></div>');
+        $("#containment-wrapper").append('<div index="' + (separator_array.length - 1) + '" id="draggable' + separador + '" class="draggable"><div style="width:860px;border: 1px solid"></div></div>');
         $("#draggable" + separador).draggable({
             containment: "#containment-wrapper",
             scroll: false,
@@ -268,6 +268,7 @@ function relatorio(type, obj) {
             document.getElementById("app").innerHTML = data;
         });
     }
+    
     else if (type.name === "tipo") {
         if (type.value === '1') {
 
@@ -391,8 +392,8 @@ function relatorio(type, obj) {
                                             var index = parseInt(ui.helper[0].lastChild.attributes[i].value);
                                     }
                                     console.log(index);
-                                    relatorio_array[index].location.x = ui.position.left;
-                                    relatorio_array[index].location.y = ui.position.top;
+                                    relatorio_array[index].location.x = ui.position.left+'px';
+                                    relatorio_array[index].location.y = ui.position.top+'px';
                                 }
                             });
                             $("#draggable" + i).draggable().css("position", "absolute");
@@ -407,7 +408,7 @@ function relatorio(type, obj) {
                     if (separator_array !== null) {
                         for (i = 0; i < separator_array.length; i++) {
                             separador++;
-                            $("#containment-wrapper").append('<div index="' + i + '" id="draggable' + separador + '" class="draggable"><div style="width:694px;border: 1px solid"></div></div>');
+                            $("#containment-wrapper").append('<div index="' + i + '" id="draggable' + separador + '" class="draggable"><div style="width:860px;border: 1px solid"></div></div>');
                             $("#draggable" + separador).draggable({
                                 containment: "#containment-wrapper",
                                 scroll: false,
