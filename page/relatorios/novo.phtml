@@ -3,7 +3,7 @@ $unidadesdao = new UnidadesDao();
 $unidades = $unidadesdao->findUnidades($_SESSION['area']);
 ?>
 <form id="ajaxform1" method="post">
-    <fieldset style="z-index: 100; position: fixed;background-color: rgb(243,243,243);width: 860px;">
+    <fieldset style="z-index: 100; position: fixed;background-color: rgb(243,243,243);width: 863px;">
         <div class="field">
             <input type="button" name="alterar" onclick="relatorio('novobloco');" style="margin-top: 5px;margin-bottom: 5px;float: left" value="Novo Bloco" class="button">
             <input type="button" name="alterar" onclick="relatorio('separador');" style="margin-top: 5px;float: left" value="Separador" class="button">
@@ -23,7 +23,7 @@ $unidades = $unidadesdao->findUnidades($_SESSION['area']);
                 <label>Unidade:</label>
                 <select id="unidade" name="unidade">
                     <?php foreach ($unidades as $unidade): ?>
-                        <option value="<?php echo $unidade['id'] ?>">
+                        <option value="<?php echo $unidade['designacao']; ?>">
                             <?php echo $unidade['designacao']; ?>
                         </option>
                     <?php endforeach; ?>
@@ -69,6 +69,16 @@ $unidades = $unidadesdao->findUnidades($_SESSION['area']);
             <div class="field">
                 <label>Nome do campo:</label>
                 <input id="nomecampo" type="text"/>
+            </div>
+        </fieldset>
+    
+</div>
+<div id="dialog-gravarrelatorio" title="Gravado!">
+    
+        <fieldset>
+            <div class="field">
+                <label>Nova versão gravada!</label>
+               
             </div>
         </fieldset>
     

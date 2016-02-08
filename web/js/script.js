@@ -67,7 +67,6 @@ $(document).ajaxStop(function () {
                     for (i = 0; i < content.length; i++) {
                         if (content[i] !== null) {
                             if (content[i]['unidade'] === unidades[j]) {
-                                //console.log(parseInt(content[i]['location']['y']))
                                 if (parseInt(content[i]['location']['y']) < top) {
                                     top = parseInt(content[i]['location']['y']);
                                 }
@@ -99,7 +98,6 @@ $(document).ajaxStop(function () {
                 var element_1 = '';
                 var element_2 = '';
                 for (var key in relatrio) {
-                    //console.log(relatrio);
                     if (key !== 'manobra') {
                         element_1 = key;
                         for (var key1 in relatrio[key]) {
@@ -146,7 +144,7 @@ $(document).ajaxStop(function () {
         changeYear: true,
         dateFormat: 'yy-mm-dd',
         beforeShow: function (input, inst) {
-            if (inst.id == 'datafim' && $('#datainicio').val() == '') {
+            if (inst.id === 'datafim' && $('#datainicio').val() == '') {
                 alert('Preencha a data de inicio primeiro');
                 $("#datafim").datepicker("close");
             }
@@ -194,7 +192,6 @@ $(document).ajaxStop(function () {
     $("#login")
             .click(function () {
                 $("#change-status-form").attr('action', 'index.php/enclub?encomendar=1&tipo=1');
-                //console.log($("#change-status-form"));
                 $("#enc").attr('value', '1');
                 $("#dialog-form").dialog("open");
             });
@@ -234,10 +231,10 @@ $(document).ajaxStop(function () {
             },
             "Cancel": function () {
                 console.log($(this).data("inst").name);
-                if ($(this).data("inst").name == "disponibiblidade") {
+                if ($(this).data("inst").name === "disponibiblidade") {
                     $(this).data("inst").selectedIndex = "0";
                 }
-                if ($(this).data("inst").name.split(":")[1] == "parada") {
+                if ($(this).data("inst").name.split(":")[1] === "parada") {
                     $(this).data("inst").checked = false;
                 }
 
@@ -346,9 +343,7 @@ $(document).ajaxStop(function () {
                                         $(this).html('<input type="text" style="width:' + ($(this).outerWidth() - 10) + 'px;border: none;" name="' + $("#unidade option:selected").text().trim() + '[' + $("#titulo").val().replace(/ /g, '') + '][' + $(this)[0].parentNode.rowIndex + $(this)[0].cellIndex + ']" />')
                                     }
                                     pickerwith += $(this).outerWidth();
-                                    //console.log($(this));
                                 });
-                                //return false;
                             });
                             bloco += $("#tabelabloco" + selected_block).html();
                             pickerheight = $("#MatrixTable" + selected_block).height();
@@ -366,7 +361,6 @@ $(document).ajaxStop(function () {
                                 index++;
                             });
                             bloco += '</ul>'
-                            //console.log(bloco);
                         }
                         else {
                             tipo = 2;
@@ -382,7 +376,7 @@ $(document).ajaxStop(function () {
                         }
                     }
                 });
-                relatorio_array[selected_block] = {
+                relatorio_array[0][selected_block] = {
                     "tipo": tipo,
                     "dimetions": {
                         "with": pickerwith,
@@ -408,9 +402,9 @@ $(document).ajaxStop(function () {
                             if (ui.helper[0].lastChild.attributes[i].nodeName === 'name')
                                 var index = parseInt(ui.helper[0].lastChild.attributes[i].value);
                         }
-                        relatorio_array[index].location.x = ui.position.left;
-                        relatorio_array[index].location.y = ui.position.top;
-                        //console.log(relatorio_array[index]);
+                        relatorio_array[0][index].location.x = ui.position.left + "px";
+                        relatorio_array[0][index].location.y = ui.position.top + "px";
+                        ;
                     }
                 });
                 $("#draggable" + selected_block).draggable().css("position", "absolute");
@@ -419,7 +413,6 @@ $(document).ajaxStop(function () {
                     'left': selected_block_left,
                 });
                 $("#tipo").prop("disabled", false);
-                //console.log(relatorio_array);
                 $(this).dialog("close");
             },
             "Cancelar": function () {
@@ -433,17 +426,14 @@ $(document).ajaxStop(function () {
                         scroll: false
                     });
                 }
-                //console.log($(this).data('original'));
                 $("#tipo").prop("disabled", false);
                 $(this).dialog("close");
             },
             "Apagar": function () {
                 if (selected_block > -1) {
-                    relatorio_array[selected_block] = null;
-
+                    relatorio_array[0][selected_block] = null;
                 }
                 $("#tipo").prop("disabled", false);
-                console.log(relatorio_array);
                 allFields.val("").removeClass("ui-state-error");
                 $(this).dialog("close");
             }
@@ -468,6 +458,21 @@ $(document).ajaxStop(function () {
                             $(this).html('<label style="padding:0;line-height: 14px;">' + $("#nomecampo").val() + '</label>');
                     });
                 });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            allFields.val("").removeClass("ui-state-error");
+        }
+    });
+     $("#dialog-gravarrelatorio").dialog({
+        autoOpen: false,
+        height: 150,
+        width: 200,
+        modal: true,
+        buttons: {
+            "OK": function () {
+               
                 $(this).dialog("close");
             }
         },

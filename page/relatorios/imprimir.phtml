@@ -16,70 +16,58 @@
         <script src="../../js/tabs.js"></script>
         <script src="../../js/jquery-ui.js"></script>
 
-
-
-
-
-        <style>
-            #noticias { margin: 0 0 0 20px; clear: both; }
-            #noticias a:link, #noticias a:visited { background-image: url(../img/dotted.jpg); background-repeat: repeat-x; background-position: bottom left; width: 375px; display: block; padding: 10px 0 12px 0; }
-            #noticias a.ultimo:link,  a.ultimo:visited { background-image: none; }
-            #noticias .data { font-weight: bold; color: #333; padding: 0 2px 0 0; }
-            #noticias .cat { font-weight: bold; color: #f37020; text-transform: uppercase; padding: 0 0 0 6px; background: url(../img/li-preto.gif) no-repeat 0 -4px; }
-            #noticias .desc { display: block; line-height: 18px; }
-            #noticias .estilo-link { color: #f37020; float: right; margin: 0 10px 10px 0; }
-            #noticias a:hover { text-decoration: none; background-color: #FAF5F1; }
-
-            .noticia-detalhes { position: relative; top: -7px; }
-            .noticia-detalhes li { float: left; background: url(../img/li-laranja.gif) no-repeat 6px 0px; color: #000; font-weight: bold; }
-            .noticia-detalhes li.primeiro { background: none; padding: 0; }
-            .noticia-detalhes li.cat a:link, .noticia-detalhes li.cat a:visited { text-transform: uppercase; text-decoration: none; color: #666; }
-            .noticia-detalhes li.cat a:hover { text-decoration: underline; }
-            .noticia-detalhes li.cat { font-weight: normal; padding-left: 14px}
-            .noticia-detalhes li.data { color: #F37020; }
-        </style>
-
-        <style>
-            .dvLoading {
-                display: none;
-                position: fixed;
-                z-index: 1000;
-                top: 0;
-                left: 0;
-                height: 100%;
-                width: 100%;
-                background: rgba( 255, 255, 255, .8) url('img/ajax-loader.gif') 50% 50% no-repeat;
-            }
-        </style>
     </head>
     <body>
         <div class="tabs content" style="font: 11px arial,verdana,sans-serif;width: 880px; height:1335px;border: 2px solid;">
             <div style="width: 880px;position: absolute;height: 40px;border: 2px solid;border-top: 0px;border-left: 0px;border-right: 0px;">
                 <div style="border-right:  2px solid; width: 293px;position: absolute;height: 40px;"></div>
                 <div style="text-align: center; left:293px;border-right:  2px solid; width: 293px;position: absolute;height: 40px;">
-                     <h2 style="margin-bottom: 0px">Relatório Chefe Serviços</h2>
-                     <h2 style="margin-bottom: 0px">Area C</h2>
+                    <h2 style="margin-bottom: 0px">Relatório Chefe Serviços</h2>
+                    <h2 style="margin-bottom: 0px">Area C</h2>
                 </div>
                 <div style=" width: 293px;position: absolute;height: 40px;">
-                   
+
                 </div>
             </div>
-            <div style="margin: 10px;position:relative;width: 860px; height:1335px;">
-            <form>
-                <?php foreach ($relatorio as $bloco): ?>
-                    <?php
-                    $array = object_to_array($bloco);
-                    $bloco = object_to_array($array);
-                    ?>
-                    <?php if ($bloco != null): ?>
-                        <div class="relatrio-manobra" style="position: absolute;top:<?php echo $bloco['location']['y']; ?>;left:<?php echo $bloco['location']['x']; ?>">
-                            <?php print_r($bloco['bloco']); ?>
-                        </div>
-                    <?php endif; ?>
-
-                <?php endforeach; ?>
-            </form>
+            <div style="margin: 10px;position:relative;width: 860px; height:1280px;">
+                <form>
+                    <?php foreach ($relatorio as $bloco): ?>
+                        <?php
+                        $array = object_to_array($bloco);
+                        $bloco = object_to_array($array);
+                        ?>
+                        <?php if ($bloco != null): ?>
+                            <div class="relatrio-manobra" style="position: absolute;top:<?php echo $bloco['location']['y']; ?>;left:<?php echo $bloco['location']['x']; ?>">
+                                <?php print_r($bloco['bloco']); ?>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                    <?php foreach ($separadores as $separador): ?>
+                        <?php
+                        $array = object_to_array($separador);
+                        $bloco = object_to_array($array);
+                        ?>
+                        <?php if ($bloco != null): ?>
+                            <div class="relatrio-manobra" style="position: absolute;top:<?php echo $bloco['top']; ?>px;left:-10px">
+                                <div  class="draggable"><div style="width:880px;border-top: 1px solid"></div></div>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </form>
+            </div>
+            <div style="position: absolute;float: left;left: 0px;top:1290px;width: 882px;height: 40px;border-top: 2px solid">
+                <div style="padding: 5px;border-right:  2px solid; width: 430px;position: absolute;height: 35px;">
+                    Elaborado por: Renato Ferreira
+                    <span style="float: right">Mec.: 711241</span>
+                </div>
+                <div style="left: 440px;padding: 5px;width: 430px;position: absolute;height: 35px;">
+                    Tomei Conhecimento:
+                    <span style="float: right">Mec.: 711241</span>
+                </div>
             </div>
         </div>
+        <script>
+            window.print();
+        </script>
     </body>
 </html>
