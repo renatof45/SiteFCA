@@ -364,10 +364,11 @@ function relatorio(type, obj) {
         $.post("index.php/relatorio?getteemplate=" + type, function (data) {
             document.getElementById("app").innerHTML = data;
             $.post("index.php/relatorio?type=" + type, function (data) {
+                //TABS.CreateTabs();
                 if (data !== 'null') {
                     number_of_blocks = 0;
                     relatorio_array = (JSON.parse((JSON.parse(data)['template'])));
-                    console.log(relatorio_array[1]) ;
+                    //console.log(relatorio_array[1]) ;
                     separator_array = (JSON.parse((JSON.parse(data)['separadores'])));
                     for (var i = 0; i < relatorio_array[0].length; i++) {
                         number_of_blocks++;
