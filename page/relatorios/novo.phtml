@@ -6,20 +6,15 @@ $unidades = $unidadesdao->findUnidades($_SESSION['area']);
     <fieldset style="z-index: 100; position: fixed;background-color: rgb(243,243,243);width: 863px;">
         <div class="field">
             <input type="button" name="alterar" onclick="relatorio('novobloco');" style="margin-top: 5px;margin-bottom: 5px;float: left" value="Novo Bloco" class="button">
-             <input type="button" name="alterar" onclick="relatorio('pagina');" style="margin-top: 5px;float: left;" value="Nova página" class="button">
+            <input type="button" name="alterar" onclick="relatorio('pagina');" style="margin-top: 5px;float: left;" value="Nova página" class="button">
             <input type="button" name="alterar" onclick="relatorio('separador');" style="margin-top: 5px;float: left" value="Separador" class="button">
             <input type="button" name="alterar" onclick="relatorio('salvar');" style="margin-top: 5px;float: left" value="Salvar" class="button">
             <input type="button" name="alterar" onclick="relatorio('imprimir');" style="margin-top: 5px;float: left;" value="Imprimir" class="button">
-           
+
         </div> 
     </fieldset>
 </form>
-<h2 style="margin-bottom: 0px;margin-top: 30px">Página 1</h2>
-<div onclick="relarorio(this)"  id="containment-wrapper">
-    
-</div>
-<h2 style="margin-bottom: 0px; margin-top: 30px">Página 2</h2>
-<div onenter="relarorio(this)"  id="containment-wrapper">
+<div id="paginas">
     
 </div>
 <div id="dialog-novobloco" title="Novo Bloco">
@@ -70,22 +65,22 @@ $unidades = $unidadesdao->findUnidades($_SESSION['area']);
     </form>
 </div>
 <div id="dialog-inserirnomestabbela" title="Novo Bloco">
-    
-        <fieldset>
-            <div class="field">
-                <label>Nome do campo:</label>
-                <input id="nomecampo" type="text"/>
-            </div>
-        </fieldset>
-    
+
+    <fieldset>
+        <div class="field">
+            <label>Nome do campo:</label>
+            <input id="nomecampo" type="text"/>
+        </div>
+    </fieldset>
+
 </div>
 <div id="dialog-gravarrelatorio" title="Gravado!">
-    
-        <fieldset>
-            <div class="field">
-                <label>Nova versão gravada!</label>
-               
-            </div>
-        </fieldset>
-    
+
+    <fieldset>
+        <div class="field">
+            <label>Nova versão gravada!</label>
+
+        </div>
+    </fieldset>
+
 </div>

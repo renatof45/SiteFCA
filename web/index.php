@@ -200,7 +200,8 @@ $app->get('/relatorio', 'checkLogIn', function() use ($app) {
     if (array_key_exists('imprimir', $_GET)) {
         $relatoriodao = new RelatorioDao();
         $template = $relatoriodao->getRelatorio();
-        $relatorio = json_decode(($template['template']));
+        $paginas = json_decode(($template['template']));
+        //echo count(($paginas));
         $separadores = json_decode($template['separadores']);
         require "../page/relatorios/imprimir.phtml";
     }

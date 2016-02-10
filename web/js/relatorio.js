@@ -3,7 +3,7 @@ var selected_block;
 var number_of_blocks = 0;
 var selected_block_top;
 var selected_block_left;
-var pagina=0;
+var pagina = 0;
 
 var matrix_table_choose = '<div class="field">' +
         '<label>Linhas:</label>' +
@@ -61,15 +61,21 @@ var separador = 5000;
 var separator_array = [];
 function relatorio(type, obj) {
 
+    if (type === 'pagina') {
+        var id = $("#paginas").children().length;
+        $("#paginas").append('<span><h2 style="margin-bottom: 0px; margin-top: 30px">Página ' + (id + 1) + '</h2><div onmouseover="pagina = ' + id + ';" class="containment-wrapper"  id="containment-wrapper' + id + '"></div></span>')
+        relatorio_array[id] = [];
+    }
+
     if (type === 'separador') {
         separador++;
         separator_array.push({
             'top': $("#app")[0].scrollTop + 35
         })
         console.log(separator_array.length);
-        $("#containment-wrapper").append('<div index="' + (separator_array.length - 1) + '" id="draggable' + separador + '" class="draggable"><div style="width:860px;border: 1px solid"></div></div>');
+        $("#containment-wrapper" + pagina).append('<div index="' + (separator_array.length - 1) + '" id="draggable' + separador + '" class="draggable"><div style="width:860px;border: 1px solid"></div></div>');
         $("#draggable" + separador).draggable({
-            containment: "#containment-wrapper",
+            containment: "#containment-wrapper" + pagina,
             scroll: false,
             axis: "y",
             stop: function (event, ui) {
@@ -109,10 +115,10 @@ function relatorio(type, obj) {
         $("#tipo").prop("disabled", true);
         var tipo = obj.getAttribute('tipo');
         selected_block = obj.getAttribute('name');
-        $("#titulo").val(relatorio_array[0][parseInt(selected_block)].titulo);
+        $("#titulo").val(relatorio_array[pagina][parseInt(selected_block)].titulo);
         selected_block_top = $("#draggable" + selected_block).css('top');
         selected_block_left = $("#draggable" + selected_block).css('left');
-        var original_block = $("#containment-wrapper").find('#draggable' + selected_block);
+        var original_block = $("#containment-wrapper" + pagina).find('#draggable' + selected_block);
         $('#draggable' + selected_block).draggable({
             disabled: true
         });
@@ -128,14 +134,14 @@ function relatorio(type, obj) {
             });
             //return false;
         });
-        var html = $("#containment-wrapper").find('#draggable' + selected_block)[0].childNodes[1].outerHTML;
-        $("#containment-wrapper").find('#draggable' + selected_block).remove();
+        var html = $("#containment-wrapper" + pagina).find('#draggable' + selected_block)[0].childNodes[1].outerHTML;
+        $("#containment-wrapper" + pagina).find('#draggable' + selected_block).remove();
         $('#dvLoading').hide();
         $("#dialog-novobloco")
                 .data("original", original_block)
                 .data("novo", "false")
                 .dialog("open");
-        document.getElementById("unidade").value = relatorio_array[0][parseInt(selected_block)].unidade;
+        document.getElementById("unidade").value = relatorio_array[pagina][parseInt(selected_block)].unidade;
         if (tipo === '4') {
             $("#tipo").val((tipo)).change();
 
@@ -198,8 +204,8 @@ function relatorio(type, obj) {
         $("#valores_simples").attr('id', 'valores_simples' + number_of_blocks);
         //valores_simples
         //$("#tabela").show();
-        selected_block_top = $("#app")[0].scrollTop + 35 +"px";
-        selected_block_left = 5 +"px";
+        selected_block_top = $("#app")[0].scrollTop + 35 + "px";
+        selected_block_left = 5 + "px";
         selected_block = number_of_blocks;
         tableresize('MatrixTable' + number_of_blocks);
     }
@@ -370,40 +376,46 @@ function relatorio(type, obj) {
                     relatorio_array = (JSON.parse((JSON.parse(data)['template'])));
                     //console.log(relatorio_array[1]) ;
                     separator_array = (JSON.parse((JSON.parse(data)['separadores'])));
-                    for (var i = 0; i < relatorio_array[0].length; i++) {
-                        number_of_blocks++;
-                        if (relatorio_array[0][i] !== null) {
-                            $("#containment-wrapper").append('<div id="draggable' + i + '" class="draggable">' + relatorio_array[0][i]['bloco'] + '</div>');
-                            $("#draggable" + i).css('width', relatorio_array[0][i]['dimetions']['with']);
-                            $("#draggable" + i).append('<div  name="' + i + '" tipo="' + relatorio_array[0][i]['tipo'] + '" ondblclick="relatorio(\'picker\',this)"  class="picker"></div>');
-                            $("#draggable" + i).draggable({
-                                containment: "#containment-wrapper",
-                                scroll: false,
-                                stop: function (event, ui) {
-                                    for (var i = 0; i < ui.helper[0].lastChild.attributes.length; i++) {
-                                        if (ui.helper[0].lastChild.attributes[i].nodeName === 'name')
-                                            var index = parseInt(ui.helper[0].lastChild.attributes[i].value);
+
+                    for (var j = 0; j < relatorio_array.length; j++) {
+                        $("#paginas").append('<span><h2 style="margin-bottom: 0px;margin-top: 30px">Página '+(j+1)+'</h2><div onmouseover="pagina = '+j+';" class="containment-wrapper"  id="containment-wrapper'+j+'"></div></span>')
+                        for (var i = 0; i < relatorio_array[j].length; i++) {
+                            number_of_blocks++;
+                            if (relatorio_array[j][i] !== null) {
+                                $("#containment-wrapper" + j).append('<div id="draggable' + i + '" class="draggable">' + relatorio_array[j][i]['bloco'] + '</div>');
+                                $("#draggable" + i).css('width', relatorio_array[j][i]['dimetions']['with']);
+                                $("#draggable" + i).append('<div  name="' + i + '" tipo="' + relatorio_array[j][i]['tipo'] + '" ondblclick="relatorio(\'picker\',this)"  class="picker"></div>');
+                                $("#draggable" + i).draggable({
+                                    containment: "#containment-wrapper" + j,
+                                    scroll: false,
+                                    stop: function (event, ui) {
+                                        for (var i = 0; i < ui.helper[0].lastChild.attributes.length; i++) {
+                                            if (ui.helper[0].lastChild.attributes[i].nodeName === 'name')
+                                                var index = parseInt(ui.helper[0].lastChild.attributes[i].value);
+                                        }
+                                        console.log(index);
+                                        relatorio_array[0][index].location.x = ui.position.left + 'px';
+                                        relatorio_array[0][index].location.y = ui.position.top + 'px';
                                     }
-                                    console.log(index);
-                                    relatorio_array[0][index].location.x = ui.position.left + 'px';
-                                    relatorio_array[0][index].location.y = ui.position.top + 'px';
-                                }
-                            });
-                            $("#draggable" + i).draggable().css("position", "absolute");
-                            $("#draggable" + i).css({
-                                'top': relatorio_array[0][i]['location']['y'],
-                                'left': relatorio_array[0][i]['location']['x'],
-                            });
+                                });
+                                $("#draggable" + i).draggable().css("position", "absolute");
+                                $("#draggable" + i).css({
+                                    'top': relatorio_array[j][i]['location']['y'],
+                                    'left': relatorio_array[j][i]['location']['x'],
+                                });
+                            }
                         }
                     }
+
+
                     separador = 5000;
                     console.log(separator_array);
                     if (separator_array !== null) {
                         for (i = 0; i < separator_array.length; i++) {
                             separador++;
-                            $("#containment-wrapper").append('<div index="' + i + '" id="draggable' + separador + '" class="draggable"><div style="width:860px;border-top: 1px solid"></div></div>');
+                            $("#containment-wrapper" + pagina).append('<div index="' + i + '" id="draggable' + separador + '" class="draggable"><div style="width:860px;border-top: 1px solid"></div></div>');
                             $("#draggable" + separador).draggable({
-                                containment: "#containment-wrapper",
+                                containment: "#containment-wrapper" + pagina,
                                 scroll: false,
                                 axis: "y",
                                 stop: function (event, ui) {
@@ -421,6 +433,10 @@ function relatorio(type, obj) {
                     }
                     else
                         separator_array = [];
+                }
+                else {
+                    relatorio_array[0] = [];
+                    $("#paginas").html('<span><h2 style="margin-bottom: 0px;margin-top: 30px">Página 1</h2><div onmouseover="pagina = 0;" class="containment-wrapper"  id="containment-wrapper0"></div></span>')
                 }
             });
         });

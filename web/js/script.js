@@ -7,7 +7,7 @@ $(document).ajaxStop(function () {
 
 
     $("#draggable1").draggable({
-        containment: "#containment-wrapper",
+        containment: "#containment-wrapper"+pagina,
         scroll: false
     });
     $('#ajaxform1').ajaxForm(function (data) {
@@ -369,14 +369,15 @@ $(document).ajaxStop(function () {
                                 $(this).children().each(function () {
                                     if ($(this)[0].nodeName === "SELECT") {
                                         pickerwith += $.fn.textWidth($(this)[0].value, '11px arial');
-                                        bloco += '<div class="feild"  style="float:right;line-height: 18px;">' + $(this)[0].value + '<input type="text" style="width:50px;float: left;" name="' + $("#unidade option:selected").text().trim() + '[' + $("#titulo").val().replace(/ /g, '') + ']"></div>';
+                                        bloco += '<div class="feild" style="float:right;line-height:18px;">' + $(this)[0].value + '<input type="text" style="width:50px;float:left;" name="' + $("#unidade option:selected").text().trim() + '[' + $("#titulo").val().replace(/ /g, '') + ']"></div>';
                                     }
                                 });
                             });
                         }
                     }
                 });
-                relatorio_array[0][selected_block] = {
+                console.log(pagina)
+                relatorio_array[pagina][selected_block] = {
                     "tipo": tipo,
                     "dimetions": {
                         "with": pickerwith,
@@ -390,20 +391,20 @@ $(document).ajaxStop(function () {
                         "y": selected_block_top
                     }
                 };
-                $("#containment-wrapper").append('<div id="draggable' + selected_block + '" class="draggable">' + bloco + '</div>');
+                $("#containment-wrapper"+pagina).append('<div id="draggable' + selected_block + '" class="draggable">' + bloco + '</div>');
                 $("#draggable" + selected_block).css('width', pickerwith);
                 $("#draggable" + selected_block).css('hieght', pickerheight);
                 $("#draggable" + selected_block).append('<div  name="' + selected_block + '" tipo="' + tipo + '" ondblclick="relatorio(\'picker\',this)"  class="picker"></div>');
                 $("#draggable" + selected_block).draggable({
-                    containment: "#containment-wrapper",
+                    containment: "#containment-wrapper"+pagina,
                     scroll: false,
                     stop: function (event, ui) {
                         for (var i = 0; i < ui.helper[0].lastChild.attributes.length; i++) {
                             if (ui.helper[0].lastChild.attributes[i].nodeName === 'name')
                                 var index = parseInt(ui.helper[0].lastChild.attributes[i].value);
                         }
-                        relatorio_array[0][index].location.x = ui.position.left + "px";
-                        relatorio_array[0][index].location.y = ui.position.top + "px";
+                        relatorio_array[pagina][index].location.x = ui.position.left + "px";
+                        relatorio_array[pagina][index].location.y = ui.position.top + "px";
                         ;
                     }
                 });
@@ -420,9 +421,9 @@ $(document).ajaxStop(function () {
                     $("#MatrixTable" + selected_block).colResizable({
                         disable: true
                     });
-                    $("#containment-wrapper").append($(this).data('original')[0].outerHTML);
+                    $("#containment-wrapper"+pagina).append($(this).data('original')[0].outerHTML);
                     $("#draggable" + selected_block).draggable({
-                        containment: "#containment-wrapper",
+                        containment: "#containment-wrapper"+pagina,
                         scroll: false
                     });
                 }
@@ -431,7 +432,7 @@ $(document).ajaxStop(function () {
             },
             "Apagar": function () {
                 if (selected_block > -1) {
-                    relatorio_array[0][selected_block] = null;
+                    relatorio_array[pagina][selected_block] = null;
                 }
                 $("#tipo").prop("disabled", false);
                 allFields.val("").removeClass("ui-state-error");
