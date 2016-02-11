@@ -63,7 +63,7 @@ function relatorio(type, obj) {
 
     if (type === 'pagina') {
         var id = $("#paginas").children().length;
-        $("#paginas").append('<span><h2 style="margin-bottom: 0px; margin-top: 30px">Página ' + (id + 1) + '</h2><div onmouseover="pagina = ' + id + ';" class="containment-wrapper"  id="containment-wrapper' + id + '"></div></span>')
+        $("#paginas").append('<span><h2 style="margin-bottom: 0px; margin-top: 0px">Página ' + (id + 1) + '</h2><div onmouseover="pagina = ' + id + ';" class="containment-wrapper"  id="containment-wrapper' + id + '"></div></span>')
         relatorio_array[id] = [];
     }
 
@@ -204,7 +204,7 @@ function relatorio(type, obj) {
         $("#valores_simples").attr('id', 'valores_simples' + number_of_blocks);
         //valores_simples
         //$("#tabela").show();
-        selected_block_top = $("#app")[0].scrollTop + 35 + "px";
+        selected_block_top = 10 + "px";
         selected_block_left = 5 + "px";
         selected_block = number_of_blocks;
         tableresize('MatrixTable' + number_of_blocks);
@@ -378,7 +378,7 @@ function relatorio(type, obj) {
                     separator_array = (JSON.parse((JSON.parse(data)['separadores'])));
 
                     for (var j = 0; j < relatorio_array.length; j++) {
-                        $("#paginas").append('<span><h2 style="margin-bottom: 0px;margin-top: 30px">Página '+(j+1)+'</h2><div onmouseover="pagina = '+j+';" class="containment-wrapper"  id="containment-wrapper'+j+'"></div></span>')
+                        $("#paginas").append('<span><h2 style="margin-bottom: 0px;margin-top: 0px">Página '+(j+1)+'</h2><div onmouseover="pagina = '+j+';" class="containment-wrapper"  id="containment-wrapper'+j+'"></div></span>')
                         for (var i = 0; i < relatorio_array[j].length; i++) {
                             number_of_blocks++;
                             if (relatorio_array[j][i] !== null) {
@@ -394,8 +394,8 @@ function relatorio(type, obj) {
                                                 var index = parseInt(ui.helper[0].lastChild.attributes[i].value);
                                         }
                                         console.log(index);
-                                        relatorio_array[0][index].location.x = ui.position.left + 'px';
-                                        relatorio_array[0][index].location.y = ui.position.top + 'px';
+                                        relatorio_array[pagina][index].location.x = ui.position.left + 'px';
+                                        relatorio_array[pagina][index].location.y = ui.position.top + 'px';
                                     }
                                 });
                                 $("#draggable" + i).draggable().css("position", "absolute");
@@ -436,7 +436,7 @@ function relatorio(type, obj) {
                 }
                 else {
                     relatorio_array[0] = [];
-                    $("#paginas").html('<span><h2 style="margin-bottom: 0px;margin-top: 30px">Página 1</h2><div onmouseover="pagina = 0;" class="containment-wrapper"  id="containment-wrapper0"></div></span>')
+                    $("#paginas").html('<span><h2 style="margin-bottom: 0px;margin-top: 0px">Página 1</h2><div onmouseover="pagina = 0;" class="containment-wrapper"  id="containment-wrapper0"></div></span>')
                 }
             });
         });

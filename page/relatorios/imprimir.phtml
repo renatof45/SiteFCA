@@ -18,12 +18,12 @@
 
     </head>
     <body>
-        <ul>
+        <ul style="margin-top:0px">
             <?php foreach ($paginas as $pagina): ?>
 
                 <li>
 
-                    <div class="tabs content" style="font: 11px arial,verdana,sans-serif;width: 880px; height:1300px;border: 2px solid;">
+                    <div class="tabs content" style="font: 11px arial,verdana,sans-serif;width: 880px; height:1270px;border: 2px solid;">
                         <div style="width: 880px;position: absolute;height: 40px;border: 2px solid;border-top: 0px;border-left: 0px;border-right: 0px;">
                             <div style="border-right:  2px solid; width: 293px;position: absolute;height: 40px;"></div>
                             <div style="text-align: center; left:293px;border-right:  2px solid; width: 293px;position: absolute;height: 40px;">
@@ -34,14 +34,14 @@
 
                             </div>
                         </div>
-                        <div style="margin: 10px;width: 860px; height:1280px;">
+                        <div style="position: relative;margin: 10px;margin-top: 40px;width: 860px; height:1198px;">
                             <form>
 
                                 <?php $relatorios = object_to_array($pagina); ?>
 
                                 <?php for ($i = 0; $i < count($relatorios); $i++): ?>
                                     <?php if ($relatorios != null): ?>
-                                        <div class="relatrio-manobra" style="position: absolute;top:<?php echo $relatorios[$i]['location']['y']; ?>;left:<?php echo $relatorios[$i]['location']['x']; ?>">
+                                        <div class="relatrio-manobra" style="position: absolute;top:<?php echo ($relatorios[$i]['location']['y']); ?>;left:<?php echo $relatorios[$i]['location']['x']; ?>">
                                             <?php print_r($relatorios[$i]['bloco']); ?>
                                         </div>
                                     <?php endif; ?>
@@ -49,7 +49,7 @@
                             </form>
                         </div>
                     </div>
-                    <div style="margin-bottom: 5px;width: 882px;height: 42px;border: 2px solid;border-top: 0px">
+                    <div style="margin-bottom: 5px;width: 880px;height: 42px;border: 2px solid;border-top: 0px">
                         <div style="padding: 5px;border-right:  2px solid; width: 430px;position: absolute;height: 35px;">
                             Elaborado por: Renato Ferreira
                             <span style="float: right">Mec.: 711241</span>
@@ -64,7 +64,7 @@
             </li>
         </ul>
         <script>
-            //window.print();
+            window.print();
         </script>
     </body>
 </html>
