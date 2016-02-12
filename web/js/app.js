@@ -382,65 +382,84 @@ function processo(type) {
     }
     if (type == 2) {
         $.post("index.php/processo?type=" + type, function (data) {
-           var content = (JSON.parse((JSON.parse(data)['template'])))
+            var content = (JSON.parse((JSON.parse(data)['template'])))
+            console.log(content);
             $.post("index.php/processo?novamanobra=" + type, function (data) {
                 document.getElementById("app").innerHTML = data;
                 TABS.CreateTabs();
                 var unidades = [];
                 for(var i=0;i<content.length;i++){
-                    if(content[i] !== null){
-                        unidades.push(content[i]['unidade'])
-                        break;
-                    }
-                }
-                var found=false;
-                for(i=0;i<content.length;i++){
-                    for (var j = 0; j < unidades.length; j++) {
-                        if(content[i] !== null){
-                            if(content[i]['unidade']===unidades[j]){
-                                found=true;
-                                break;
-                            }
+                    for(var j=0;j<content[i].length;j++){
+                        if(content[i][j] !== null){
+                            unidades.push(content[i][j]['unidade'])
+                            break;
                         }
                     }
-                    if(!found && content[i] !== null){
-                        unidades.push(content[i]['unidade']);
-                    }
-                    found=false;
+                    break;
                 }
+                console.log(unidades); 
+                var found=false;
+                for(i=0;i<content.length;i++){ 
+                    for(var x=0;x<content[i].length;x++){
+                        for (j = 0; j < unidades.length; j++) {
+                            if(content[i][x] !== null){
+                                if(content[i][x]['unidade']===unidades[j]){
+                                    found=true;
+                                    break;
+                                }
+                            }
+                        }
+                    
+                        if(!found && content[i][x] !== null){
+                            unidades.push(content[i][x]['unidade']);
+                        }
+                        found=false;
+                    }
+                }
+                unidades.sort();
+                console.log(unidades);  
                 for (j=0; j < unidades.length; j++) {
                     var top=1000000;
+                    var bottom=0;
                     for (i = 0; i < content.length; i++) {
-                        if (content[i] !== null) {
-                            if (content[i]['unidade'] === unidades[j]) {
-                                //console.log(parseInt(content[i]['location']['y']))
-                                if(parseInt(content[i]['location']['y'])<top){
-                                    top=parseInt(content[i]['location']['y']);
+                        for(x=0;x<content[i].length;x++){
+                            if (content[i][x] !== null) {
+                                if (content[i][x]['unidade'] === unidades[j]) {
+                                    //console.log(parseInt(content[i]['location']['y']))
+                                    if(parseInt(content[i][x]['location']['y'])<top){
+                                        top=parseInt(content[i][x]['location']['y']);
+                                    }
+                                    if(parseInt(content[i][x]['location']['y'])>bottom){
+                                        bottom=parseInt(content[i][x]['location']['y'])+content[i][x]['dimetions']['hieght'];
+                                    }
                                 }
                             }
                         }
                     }
-                    var element = $("<div></div>");
+                    bottom=bottom-top+35;
+                    var element = $('<div style="height:'+bottom+'px"></div>');
                     for (i = 0; i < content.length; i++) {
-                        if (content[i] !== null) {
-                            if (content[i]['unidade'] === unidades[j]) {
-                                var bloco = $('<div class="relatrio-manobra"  id="div' + i + '"></div>');
-                                bloco.css('width', content[i]['dimetions']['with']);
-                                bloco.css({
-                                    'top': (parseInt(content[i]['location']['y'])-(top-5))+'px',
-                                    'left': content[i]['location']['x'],
-                                });
-                                bloco.css("position", "absolute");
-                                bloco.append(content[i]['bloco']);
-                                element.append(bloco[0].outerHTML);
-                                $("#div" + i).remove();
+                        for(x=0;x<content[i].length;x++){
+                            if (content[i][x] !== null) {
+                                if (content[i][x]['unidade'] === unidades[j]) {
+                                    var bloco = $('<div class="relatrio-manobra"  id="div' + x + '"></div>');
+                                    bloco.css('width', content[i][x]['dimetions']['with']);
+                                    bloco.css({
+                                        'top': (parseInt(content[i][x]['location']['y'])-(top-5))+'px',
+                                        'left': content[i][x]['location']['x'],
+                                    });
+                                    bloco.css("position", "absolute");
+                                    bloco.append(content[i][x]['bloco']);
+                                    element.append(bloco[0].outerHTML);
+                                    $("#div" + x).remove();
+                                }
                             }
                         }
                     }
                     if (unidades[j] === $("#unidade option:selected").text().trim())
-                        TABS.AddTab(unidades[j], true, element[0].innerHTML);
+                        TABS.AddTab(unidades[j], true, element[0].outerHTML);
                     else
-                        TABS.AddTab(unidades[j], false, element[0].innerHTML);
+                        TABS.AddTab(unidades[j], false, element[0].outerHTML);
                 }
             });
         });
