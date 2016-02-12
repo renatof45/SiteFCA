@@ -350,6 +350,7 @@ $(document).ajaxStop(function () {
                         }
                         else if ($(this)[0].id === 'multipla') {
                             tipo = 1;
+                            pickerheight=18;
                             var index = 0;
                             bloco += '<ul id="multiplas' + selected_block + '">'
                             pickerwith = $.fn.textWidth($("#titulo").val(), '11px arial') + 18;
@@ -359,6 +360,7 @@ $(document).ajaxStop(function () {
                                 }
                                 bloco += '<li><input type="checkbox" name="' + $("#unidade option:selected").text().trim() + '[' + $("#titulo").val().replace(/ /g, '') + '][' + $(this)[0].childNodes[1].value + ']"   value="' + index + '">' + $(this)[0].childNodes[1].value + '</input></li>';
                                 index++;
+                                pickerheight+=16;
                             });
                             bloco += '</ul>'
                         }
@@ -376,7 +378,7 @@ $(document).ajaxStop(function () {
                         }
                     }
                 });
-                console.log(pagina)
+                console.log(pickerheight)
                 relatorio_array[pagina][selected_block] = {
                     "tipo": tipo,
                     "dimetions": {

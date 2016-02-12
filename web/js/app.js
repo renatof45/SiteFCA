@@ -420,7 +420,7 @@ function processo(type) {
                 console.log(unidades);  
                 for (j=0; j < unidades.length; j++) {
                     var top=1000000;
-                    var bottom=0;
+                    var bottom=-1;
                     for (i = 0; i < content.length; i++) {
                         for(x=0;x<content[i].length;x++){
                             if (content[i][x] !== null) {
