@@ -28,10 +28,12 @@
                             <div style="border-right:  2px solid; width: 293px;position: absolute;height: 40px;"></div>
                             <div style="text-align: center; left:293px;border-right:  2px solid; width: 293px;position: absolute;height: 40px;">
                                 <h2 style="margin-bottom: 0px">Relatório Chefe Serviços</h2>
-                                <h2 style="margin-bottom: 0px">Area C</h2>
+                                <h2 style="margin-bottom: 0px"><?php echo $area; ?></h2>
                             </div>
-                            <div style=" width: 293px;position: absolute;height: 40px;">
-
+                            <div style="width: 260px;position: absolute;height: 20px;left: 590px;text-align: center;padding: 10px;">
+                                <h2 style="float:left;margin-bottom: 0px"><?php echo date('d-m-Y'); ?></h2>
+                                <h2 style="margin-bottom: 0px"><?php echo $turno ?></h2>
+                                
                             </div>
                         </div>
                         <div style="position: relative;margin: 10px;margin-top: 45px;width: 860px; height:1230px;">
@@ -45,18 +47,27 @@
                                             <?php print_r($relatorios[$i]['bloco']); ?>
                                         </div>
                                     <?php endif; ?>
-                                <?php endfor; ?>
+                                <?php endfor; ?> 
+                                <?php foreach ($separadores as $separador): ?>
+                                    <?php $s = object_to_array($separador); ?>
+                                    <?php if ($s['pagina'] == $count && $s != ''): ?>
+                                        <div class="relatrio-manobra" style="position: absolute;top:<?php echo $s['top']; ?>px;left:-10px">
+                                            <div  class="draggable"><div style="width:880px;border-top: 1px solid"></div></div>
+                                        </div>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                                <?php $count++; ?>
                             </form>
                         </div>
                     </div>
-                    <div style="margin-bottom: 5px;width: 880px;height: 42px;border: 2px solid;border-top: 0px">
-                        <div style="padding: 5px;border-right:  2px solid; width: 430px;position: absolute;height: 35px;">
-                            Elaborado por: Renato Ferreira
-                            <span style="float: right">Mec.: 711241</span>
+                    <div style="margin-bottom: 5px;width: 880px;height: 40px;border: 2px solid;border-top: 0px">
+                        <div style="padding: 5px;border-right:  2px solid; width: 430px;position: absolute;height: 30px;">
+                            Elaborado por: <?php echo $_SESSION['user_name']; ?>
+                            <span style="float: right">Mec.: <?php echo $_SESSION['user'];?></span>
                         </div>
-                        <div style="left: 440px;padding: 5px;width: 430px;position: absolute;height: 35px;">
+                        <div style="left: 445px;padding: 5px;width: 430px;position: absolute;height: 30px;">
                             Tomei Conhecimento:
-                            <span style="float: right">Mec.: 711241</span>
+
                         </div>
                     </div>
 

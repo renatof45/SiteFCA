@@ -203,7 +203,27 @@ $app->get('/relatorio', 'checkLogIn', function() use ($app) {
         $paginas = json_decode(($template['template']));
         //echo count(($paginas));
         $separadores = json_decode($template['separadores']);
-        require "../page/relatorios/imprimir.phtml";
+        //print_r($_SESSION);
+        $db = new DAO();
+        $areas = $db->getDb()->query('SELECT * FROM galp.area;', PDO::FETCH_ASSOC);
+        foreach ($areas as $row){
+            if ($row['ID']==$_SESSION['area']){
+                $area=$row['Area'];
+            }
+        }
+        if($_SESSION['turno']==1){
+            $turno='06:00 - 14:00';
+        }
+        elseif($_SESSION['turno']==2){
+            $turno='14:00 - 22:00';
+        }
+        else{
+            $turno='22:00 - 06:00';
+        }
+        
+        //echo date('d-m-Y');
+        $count=0;
+       require "../page/relatorios/imprimir.phtml";
     }
 });
 

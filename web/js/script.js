@@ -26,7 +26,7 @@ $(document).ajaxStop(function () {
     $('#ajaxform4').ajaxForm(function (data) {
         document.getElementById("area_id").innerHTML = data;
         document.getElementById("app").innerHTML = '<h2>Se esta a ler isto, é porque mudou de area!</h2>' +
-                '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
+    '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
     });
 
     $('#perfilForm').ajaxForm(function (data) {
@@ -167,8 +167,8 @@ $(document).ajaxStop(function () {
 
     $("#hora").val(' ')
     var password = $("#password"),
-            submit = $("#change-status-form"),
-            allFields = $([]).add(password);
+    submit = $("#change-status-form"),
+    allFields = $([]).add(password);
 
     $("#dialog-form").dialog({
         autoOpen: false,
@@ -190,11 +190,11 @@ $(document).ajaxStop(function () {
     });
 
     $("#login")
-            .click(function () {
-                $("#change-status-form").attr('action', 'index.php/enclub?encomendar=1&tipo=1');
-                $("#enc").attr('value', '1');
-                $("#dialog-form").dialog("open");
-            });
+    .click(function () {
+        $("#change-status-form").attr('action', 'index.php/enclub?encomendar=1&tipo=1');
+        $("#enc").attr('value', '1');
+        $("#dialog-form").dialog("open");
+    });
 
 
     $("#dialog-nova-firma").dialog({
@@ -257,9 +257,9 @@ $(document).ajaxStop(function () {
                 if ($("#halt-status").val() == 2) {
                     $(this).dialog("close");
                     $("#dialog-indisponibilidade")
-                            .data('equipamento', $(this).data('equipamento'))
-                            .data('inst', $(this).data("inst"))
-                            .dialog("open");
+                    .data('equipamento', $(this).data('equipamento'))
+                    .data('inst', $(this).data("inst"))
+                    .dialog("open");
                 } else {
                     $('#dvLoading').show();
                     $("#ajaxform1").attr('action', 'index.php/equipamento?change_satus_dinamico=0&equipamento=' + $(this).data('equipamento') + '&status=' + 12);
@@ -324,7 +324,7 @@ $(document).ajaxStop(function () {
         buttons: {
             "OK": function () {
                 var bloco = '<label style="width:100%">' + $("#titulo").val() + '</label>';
-                console.log($("#titulo").val().replace(/ /g, ''));
+                pagina=parseInt($("#select_paginas").val())-1;
                 var pickerwith = 0;
                 var pickerheight = 0;
                 var tipo;
@@ -339,7 +339,6 @@ $(document).ajaxStop(function () {
                                 pickerwith = 0;
                                 $(this).find('td').each(function () {
                                     if ($(this)[0].cellIndex > 0 && $(this)[0].parentNode.rowIndex > 0) {
-                                        console.log($("#titulo").val().trim());
                                         $(this).html('<input type="text" style="width:' + ($(this).outerWidth() - 10) + 'px;border: none;" name="' + $("#unidade option:selected").text().trim() + '[' + $("#titulo").val().replace(/ /g, '') + '][' + $(this)[0].parentNode.rowIndex + $(this)[0].cellIndex + ']" />')
                                     }
                                     pickerwith += $(this).outerWidth();
@@ -378,8 +377,10 @@ $(document).ajaxStop(function () {
                         }
                     }
                 });
-                console.log(pickerheight)
+                if(relatorio_array.length>1 && $(this).data('novo') === "false")
+                    relatorio_array[parseInt($(this).data('pagina'))][selected_block]=null;
                 relatorio_array[pagina][selected_block] = {
+                    "pagina":pagina,
                     "tipo": tipo,
                     "dimetions": {
                         "with": pickerwith,
@@ -393,6 +394,8 @@ $(document).ajaxStop(function () {
                         "y": selected_block_top
                     }
                 };
+                
+                
                 $("#containment-wrapper"+pagina).append('<div id="draggable' + selected_block + '" class="draggable">' + bloco + '</div>');
                 $("#draggable" + selected_block).css('width', pickerwith);
                 $("#draggable" + selected_block).css('hieght', pickerheight);
@@ -405,9 +408,9 @@ $(document).ajaxStop(function () {
                             if (ui.helper[0].lastChild.attributes[i].nodeName === 'name')
                                 var index = parseInt(ui.helper[0].lastChild.attributes[i].value);
                         }
+                        console.log(relatorio_array);
                         relatorio_array[pagina][index].location.x = ui.position.left + "px";
-                        relatorio_array[pagina][index].location.y = ui.position.top + "px";
-                        ;
+                        relatorio_array[pagina][index].location.y = ui.position.top + "px";                     
                     }
                 });
                 $("#draggable" + selected_block).draggable().css("position", "absolute");
@@ -468,7 +471,7 @@ $(document).ajaxStop(function () {
             allFields.val("").removeClass("ui-state-error");
         }
     });
-     $("#dialog-gravarrelatorio").dialog({
+    $("#dialog-gravarrelatorio").dialog({
         autoOpen: false,
         height: 150,
         width: 200,
@@ -483,5 +486,30 @@ $(document).ajaxStop(function () {
             allFields.val("").removeClass("ui-state-error");
         }
     });
-
+    $("#dialog-eliminaspagina").dialog({
+        autoOpen: false,
+        height: 150,
+        width: 300,
+        modal: true,
+        buttons: {
+            "OK": function () {
+                var index=parseInt($("#eliminar_paginas").val())-1;
+                relatorio_array.splice(index,1);
+                $('#dvLoading').show();
+                $.post("index.php/relatorio?salvar=true", {
+                    "content": JSON.stringify(relatorio_array),
+                    "separadores": JSON.stringify(separator_array)
+                }, function (data) {
+                    detach = false;
+                    $('#dvLoading').hide();
+                    relatorio(3);
+                     
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            allFields.val("").removeClass("ui-state-error");
+        }
+    });
 });

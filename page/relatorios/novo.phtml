@@ -7,6 +7,7 @@ $unidades = $unidadesdao->findUnidades($_SESSION['area']);
         <div class="field">
             <input type="button" name="alterar" onclick="relatorio('novobloco');" style="margin-top: 5px;margin-bottom: 5px;float: left" value="Novo Bloco" class="button">
             <input type="button" name="alterar" onclick="relatorio('pagina');" style="margin-top: 5px;float: left;" value="Nova página" class="button">
+            <input type="button" name="alterar" onclick="relatorio('eliminar');" style="margin-top: 5px;float: left;" value="Eliminar página" class="button">
             <input type="button" name="alterar" onclick="relatorio('separador');" style="margin-top: 5px;float: left" value="Separador" class="button">
             <input type="button" name="alterar" onclick="relatorio('salvar');" style="margin-top: 5px;float: left" value="Salvar" class="button">
             <input type="button" name="alterar" onclick="relatorio('imprimir');" style="margin-top: 5px;float: left;" value="Imprimir" class="button">
@@ -20,6 +21,12 @@ $unidades = $unidadesdao->findUnidades($_SESSION['area']);
 <div id="dialog-novobloco" title="Novo Bloco">
     <form>
         <fieldset>
+            <div class="field">
+                <label>Página:</label>
+                <select id="select_paginas">
+                    
+                </select>
+            </div>
             <div class="field">
                 <label>Unidade:</label>
                 <select id="unidade" name="unidade">
@@ -83,4 +90,21 @@ $unidades = $unidadesdao->findUnidades($_SESSION['area']);
         </div>
     </fieldset>
 
+</div>
+<div id="dialog-eliminaspagina" title="Eliminar página">
+
+    <form>
+        <fieldset>
+            <div class="field">
+            <label style="width: 280px">Todos os elementos da pagina serão eliminados!</label>
+
+        </div>
+            <div class="field">
+                <label>Página:</label>
+                <select id="eliminar_paginas">
+                    
+                </select>
+            </div>
+    </fieldset>
+    </form>
 </div>
