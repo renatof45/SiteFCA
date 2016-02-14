@@ -383,7 +383,6 @@ function processo(type) {
     if (type == 2) {
         $.post("index.php/processo?type=" + type, function (data) {
             var content = (JSON.parse((JSON.parse(data)['template'])))
-            console.log(content);
             $.post("index.php/processo?novamanobra=" + type, function (data) {
                 document.getElementById("app").innerHTML = data;
                 TABS.CreateTabs();
@@ -397,7 +396,6 @@ function processo(type) {
                     }
                     break;
                 }
-                console.log(unidades); 
                 var found=false;
                 for(i=0;i<content.length;i++){ 
                     for(var x=0;x<content[i].length;x++){
@@ -417,7 +415,6 @@ function processo(type) {
                     }
                 }
                 unidades.sort();
-                console.log(unidades);  
                 for (j=0; j < unidades.length; j++) {
                     var top=1000000;
                     var bottom=-1;

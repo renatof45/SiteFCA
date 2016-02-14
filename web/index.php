@@ -235,11 +235,10 @@ $app->post('/processo', 'checkLogIn', function() use ($app) {
     $processodao = new ProcessoDao();
     if (array_key_exists('adicionar', $_GET)) {
         echo json_encode($_POST);
+        
         //$app->redirect("index.php/processo?type=2");
-        /* $processodao->novaManobra($_POST['nome'], $_POST['unidade'], $_POST['passos']);
-          if (array_key_exists("1200", $_POST)) {
-          print_r($_POST['1200']);
-          } */
+        $processodao->novaManobra($_POST['manobra']['nome'], $_POST['manobra']['unidade'], json_encode($_POST));
+        
         //require "../page/processo/nova_manobra.phtml";
     } elseif (array_key_exists('manobra', $_GET)) {
         $manobras = $processodao->getManobra($_GET['manobra']);

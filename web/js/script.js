@@ -42,58 +42,75 @@ $(document).ajaxStop(function () {
                 TABS.CreateTabs();
                 var unidades = [];
                 for (var i = 0; i < content.length; i++) {
-                    if (content[i] !== null) {
-                        unidades.push(content[i]['unidade'])
-                        break;
+                    for (var j = 0; j < content[i].length; j++) {
+                        if (content[i][j] !== null) {
+                            unidades.push(content[i][j]['unidade'])
+                            break;
+                        }
                     }
+                    break;
                 }
                 var found = false;
                 for (i = 0; i < content.length; i++) {
-                    for (var j = 0; j < unidades.length; j++) {
-                        if (content[i] !== null) {
-                            if (content[i]['unidade'] === unidades[j]) {
-                                found = true;
-                                break;
+                    for (var x = 0; x < content[i].length; x++) {
+                        for (j = 0; j < unidades.length; j++) {
+                            if (content[i][x] !== null) {
+                                if (content[i][x]['unidade'] === unidades[j]) {
+                                    found = true;
+                                    break;
+                                }
                             }
                         }
+
+                        if (!found && content[i][x] !== null) {
+                            unidades.push(content[i][x]['unidade']);
+                        }
+                        found = false;
                     }
-                    if (!found && content[i] !== null) {
-                        unidades.push(content[i]['unidade']);
-                    }
-                    found = false;
                 }
+                unidades.sort();
                 for (j = 0; j < unidades.length; j++) {
                     var top = 1000000;
+                    var bottom = -1;
                     for (i = 0; i < content.length; i++) {
-                        if (content[i] !== null) {
-                            if (content[i]['unidade'] === unidades[j]) {
-                                if (parseInt(content[i]['location']['y']) < top) {
-                                    top = parseInt(content[i]['location']['y']);
+                        for (x = 0; x < content[i].length; x++) {
+                            if (content[i][x] !== null) {
+                                if (content[i][x]['unidade'] === unidades[j]) {
+                                    if (parseInt(content[i][x]['location']['y']) < top) {
+                                        top = parseInt(content[i][x]['location']['y']);
+                                    }
+                                    if (parseInt(content[i][x]['location']['y']) > bottom) {
+                                        bottom = parseInt(content[i][x]['location']['y']) + parseInt(content[i][x]['dimetions']['hieght']);
+                                    }
                                 }
                             }
                         }
                     }
-                    var element = $("<div></div>");
+                    //console.log(bottom);
+                    bottom = bottom - top + 35;
+                    var element = $('<div style="height:' + bottom + 'px"></div>');
                     for (i = 0; i < content.length; i++) {
-                        if (content[i] !== null) {
-                            if (content[i]['unidade'] === unidades[j]) {
-                                var bloco = $('<div class="relatrio-manobra"  id="div' + i + '"></div>');
-                                bloco.css('width', content[i]['dimetions']['with']);
-                                bloco.css({
-                                    'top': (parseInt(content[i]['location']['y']) - (top - 5)) + 'px',
-                                    'left': content[i]['location']['x'],
-                                });
-                                bloco.css("position", "absolute");
-                                bloco.append(content[i]['bloco']);
-                                element.append(bloco[0].outerHTML);
-                                $("#div" + i).remove();
+                        for (x = 0; x < content[i].length; x++) {
+                            if (content[i][x] !== null) {
+                                if (content[i][x]['unidade'] === unidades[j]) {
+                                    var bloco = $('<div class="relatrio-manobra"  id="div' + x + '"></div>');
+                                    bloco.css('width', content[i][x]['dimetions']['with']);
+                                    bloco.css({
+                                        'top': (parseInt(content[i][x]['location']['y']) - (top - 5)) + 'px',
+                                        'left': content[i][x]['location']['x'],
+                                    });
+                                    bloco.css("position", "absolute");
+                                    bloco.append(content[i][x]['bloco']);
+                                    element.append(bloco[0].outerHTML);
+                                    $("#div" + x).remove();
+                                }
                             }
                         }
                     }
-                    if (unidades[j] === $("#unidade option:selected").text().trim())
-                        TABS.AddTab(unidades[j], true, element[0].innerHTML);
+                    if (j === 0)
+                        TABS.AddTab(unidades[j], true, element[0].outerHTML);
                     else
-                        TABS.AddTab(unidades[j], false, element[0].innerHTML);
+                        TABS.AddTab(unidades[j], false, element[0].outerHTML);
                 }
                 var element_1 = '';
                 var element_2 = '';
@@ -101,7 +118,6 @@ $(document).ajaxStop(function () {
                     if (key !== 'manobra') {
                         element_1 = key;
                         for (var key1 in relatrio[key]) {
-                            console.log(key1);
                             if ($('[name="' + element_1 + '[' + key1 + ']"]').length > 0) {
                                 $('[name="' + element_1 + '[' + key1 + ']"]').val(relatrio[key][key1]);
                             }
@@ -110,7 +126,6 @@ $(document).ajaxStop(function () {
                             }
                             for (var key2 in relatrio[key][key1]) {
                                 if (jQuery.type(relatrio[key][key1]) === 'object') {
-                                    console.log($('[name="' + element_1 + element_2 + '[' + key2 + ']\""]'));
                                     if ($('[name="' + element_1 + element_2 + '[' + key2 + ']"]')[0].type === 'checkbox') {
                                         $('[name="' + element_1 + element_2 + '[' + key2 + ']"]').prop("checked", true);
                                     }

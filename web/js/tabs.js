@@ -16,7 +16,6 @@ var TABS= {
         }
     },
     'SelectTab':function(elem){
-        console.log(TABS.SelectedTab);
         $("#content"+TABS.SelectedTab).hide();
         $(".tabs_headers_slected").addClass('tabs_headers');
         $(".tabs_headers").removeClass('tabs_headers_slected')

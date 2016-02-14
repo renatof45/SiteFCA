@@ -35,6 +35,12 @@ CREATE TABLE IF NOT EXISTS `galp`.`feed` (
   PRIMARY KEY (`id`))
 ENGINE = MyISAM;
 
+ALTER TABLE `galp`.`manobras-processo` 
+ADD COLUMN `manobra` MEDIUMTEXT NULL AFTER `relatorio` ,
+ADD COLUMN `comentarios` MEDIUMTEXT NULL  AFTER `manobra` ;
+
+
+
 ALTER TABLE `galp`.`relatorios-templates` 
 ADD COLUMN `versao` INT NULL AFTER `area`,
 ADD COLUMN `utilizador` INT NULL AFTER `versao`,
