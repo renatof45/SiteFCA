@@ -347,7 +347,6 @@ function relatorio(type, obj) {
                     }
                     break;
                 }
-                console.log(unidades);
                 var found = false;
                 for (i = 0; i < content.length; i++) {
                     for (var x = 0; x < content[i].length; x++) {
@@ -367,7 +366,6 @@ function relatorio(type, obj) {
                     }
                 }
                 unidades.sort();
-                console.log(unidades);
                 for (j = 0; j < unidades.length; j++) {
                     var top = 1000000;
                     var bottom = -1;
@@ -386,7 +384,7 @@ function relatorio(type, obj) {
                         }
                     }
                     //console.log(bottom);
-                    bottom = bottom - top + 35;
+                    bottom = bottom - top + 55;
                     var element = $('<div style="height:' + bottom + 'px"></div>');
                     for (i = 0; i < content.length; i++) {
                         for (x = 0; x < content[i].length; x++) {
@@ -457,7 +455,6 @@ function relatorio(type, obj) {
 
 
                     separador = 5000;
-                    console.log(separator_array);
                     if (separator_array !== null) {
                         for (i = 0; i < separator_array.length; i++) {
                             if(separator_array[i]!=null){

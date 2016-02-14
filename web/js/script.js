@@ -87,7 +87,7 @@ $(document).ajaxStop(function () {
                         }
                     }
                     //console.log(bottom);
-                    bottom = bottom - top + 35;
+                    bottom = bottom - top + 55;
                     var element = $('<div style="height:' + bottom + 'px"></div>');
                     for (i = 0; i < content.length; i++) {
                         for (x = 0; x < content[i].length; x++) {

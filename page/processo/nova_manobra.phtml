@@ -2,17 +2,19 @@
 
 <form id="adicionarManobraForm" method="post">
     <fieldset>
-        
+
         <div class="field">
             <label>Unidade:</label>
             <select id="unidade" name="manobra[unidade]">
                 <?php foreach ($unidades as $unidade): ?>
-                <option 
-                    <?php 
-                      if(array_key_exists('unidade', $_GET)) if($_GET['unidade']==$unidade['id']) echo ' selected '; 
+                    <option 
+                    <?php
+                    if (array_key_exists('unidade', $_GET))
+                        if ($_GET['unidade'] == $unidade['id'])
+                            echo ' selected ';
                     ?> 
-                    value="<?php echo $unidade['id'] ?>"><?php echo $unidade['designacao'];?>
-                </option>
+                        value="<?php echo $unidade['id'] ?>"><?php echo $unidade['designacao']; ?>
+                    </option>
                 <?php endforeach; ?>
             </select>
         </div>
@@ -20,30 +22,35 @@
             <label>Nome:</label>
             <input type="text" style="width: 400px" name="manobra[nome]"/>
         </div>
-         <div class="field">
+        <div class="field">
             <label style="width:200px;margin-top: 10px;">Passos da manobra:</label>
-            
+
         </div>
         <div id="passos">
-         <div class="field">
-            <label>Passo 1:</label>
-            <textarea rows="4" cols="60" name="manobra[passos][passo1]"></textarea>
+            <div class="field">
+                <label>Passo 1:</label>
+                <textarea style="height: 30px;width: 550px" name="manobra[passos][passo1]"></textarea>
+                <input type="button" onclick="processo(this);" name="mostrar_relatorio" index="1" value="Mostrar relatório" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 400px;" />
+                <div id="relatorio1" > 
+                    <ul id="tab" class="tabs">
+
+                    </ul>
+                </div>
+            </div>
         </div>
-        </div>
-         <div class="field">
-            
+
+        <div class="field">
+
             <input type="button" onclick="processo(this);" name="nova_manobra" value="Adicionar passo" class="submit" style="float:left;width: 100px;margin-bottom: 10px;margin-top: 10px;margin-left: 0px;" />
         </div>
-         <div class="field">
+        <div class="field">
         </div>
-        <ul id="tab" class="tabs">
-           
-        </ul>
+
         <!--<div class="clear separator"></div>-->
-         
-         <div class="wrapper">
-            
+
+        <div class="wrapper">
+
             <input type="button" onclick="processo(this);" name="adicionar" value="<?php echo 'ADICIONAR'; ?>" class="submit" />
         </div>
-     </fieldset>
-  </form>
+    </fieldset>
+</form>

@@ -41,6 +41,7 @@
     width: 860px;
     position: relative;
     border-top: 1px solid #F37020;
+    border-bottom: 1px solid #F37020;
     margin-top: -1px;
 }
 
