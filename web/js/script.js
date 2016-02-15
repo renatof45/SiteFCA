@@ -32,9 +32,35 @@ $(document).ajaxStop(function () {
     $('#perfilForm').ajaxForm(function (data) {
         window.location = 'index.php?userchange';
     });
+    var options = { 
+        success:       showResponse,
+        beforeSubmit:  showRequest,  // pre-submit callback 
+    }; 
+    
+    function showRequest(formData, jqForm, options) { 
+       
+ 
+        console.log(formData); 
 
-    $('#adicionarManobraForm').ajaxForm(function (data) {
+        return true; 
+    } 
+    
+    function showResponse(responseText, statusText, xhr, $form)  { 
+        // for normal html responses, the first argument to the success callback 
+        // is the XMLHttpRequest object's responseText property 
+ 
+        // if the ajaxForm method was passed an Options Object with the dataType 
+        // property set to 'xml' then the first argument to the success callback 
+        // is the XMLHttpRequest object's responseXML property 
+ 
+        // if the ajaxForm method was passed an Options Object with the dataType 
+        // property set to 'json' then the first argument to the success callback 
+        // is the json data object returned by the server 
+        console.log(responseText);
+    } 
+    $('#adicionarManobraForm').ajaxForm(options,function (data) {
         var relatrio = (JSON.parse(data));
+        console.log(relatrio);
         $.post("index.php/processo?type=2", function (data) {
             var content = (JSON.parse((JSON.parse(data)['template'])));
             $.post("index.php/processo?novamanobra=0", function (data) {
@@ -143,7 +169,6 @@ $(document).ajaxStop(function () {
             });
         });
     });
-
     $('#change-status-form').ajaxForm(function (data) {
         document.getElementById("app").innerHTML = data;
         $('#dvLoading').hide();

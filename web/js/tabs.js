@@ -1,24 +1,30 @@
 var TABS= {
-    'CreateTabs': function(){
+    'CreateTabs': function(elem){
         //console.log($("#tab"));
-        $("#tab").after('<div id="tabs_content" class="tabs_content">');
+        $("#"+elem).after('<div id="tabs_content'+elem+'" class="tabs_content">');
     },
-    'AddTab':function(id,isSelected,content){
-        $("#tab").append('<li id="'+id+'" onclick="TABS.SelectTab(this);"><label>'+id+'</label></li>');
-        $("#tabs_content").append('<div id="content'+id+'" style="display:none">'+content+'</div>');
+    'AddTab':function(id,isSelected,content,tab){
+        $("#"+tab).append('<li id="'+id+tab+'" onclick="TABS.SelectTab(this);"><label>'+id+'</label></li>');
+        $("#tabs_content"+tab).append('<div id="content'+id+tab+'" style="display:none">'+content+'</div>');
         if(isSelected){
-            $("#"+id).addClass('tabs_headers_slected');
-            TABS.SelectedTab=id;
-            $("#content"+id).show();
+            $("#"+id+tab).addClass('tabs_headers_slected');
+            TABS.SelectedTab=id+tab;
+            $("#content"+id+tab).show();
         }
         else{
-            $("#"+id).addClass('tabs_headers');
+            $("#"+id+tab).addClass('tabs_headers');
         }
     },
     'SelectTab':function(elem){
-        $("#content"+TABS.SelectedTab).hide();
-        $(".tabs_headers_slected").addClass('tabs_headers');
-        $(".tabs_headers").removeClass('tabs_headers_slected')
+        var parent=($("#"+elem.id)[0].parentElement.id);
+        $("#"+parent).children().each(function(){
+           console.log($(this)[0].id)
+           if($(this)[0].className==='tabs_headers tabs_headers_slected' || $(this)[0].className==='tabs_headers_slected')
+               $("#content"+$(this)[0].id).hide();
+           $(this).switchClass('tabs_headers_slected','tabs_headers',0); 
+        });
+        //$("#content"+TABS.SelectedTab).hide();
+        //$("#"+TABS.SelectedTab).switchClass('tabs_headers_slected','tabs_headers',0);
         $("#"+elem.id).toggleClass('tabs_headers_slected');
         $("#content"+elem.id).show();
         //$("#tabs_content").html($("#content"+elem.id)[0].innerHTML);
