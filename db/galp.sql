@@ -39,6 +39,10 @@ ALTER TABLE `galp`.`manobras-processo`
 ADD COLUMN `manobra` MEDIUMTEXT NULL AFTER `relatorio` ,
 ADD COLUMN `comentarios` MEDIUMTEXT NULL  AFTER `manobra` ;
 
+ALTER TABLE `galp`.`relatorios-output` 
+CHANGE COLUMN `relatorio` `relatorio` INT(11) NULL ,
+CHANGE COLUMN `unidade` `area` INT(11) NULL ,
+ADD COLUMN `versao` INT NULL AFTER `area`;
 
 
 ALTER TABLE `galp`.`relatorios-templates` 

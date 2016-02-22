@@ -59,4 +59,7 @@ noBorder  {border: 0; }
 .draggable label{float:none;line-height: 18px;padding-bottom: 8px;font-weight: bold;color: black;}
 .relatrio-manobra label{float:none;line-height: 18px;padding-bottom: 8px;font-weight: bold;color: black;}
 .containment-wrapper {position: relative; width: 859px; height:1230px; border:2px solid ;  }
-
+.relatorio-manobra:hover{
+   
+    border:1px solid
+}

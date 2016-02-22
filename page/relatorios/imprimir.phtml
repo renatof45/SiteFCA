@@ -11,6 +11,7 @@
 
 
         <!--<link rel="stylesheet" type="text/css" href="css/colresize.css" /> -->
+        <script src="../../js/processo.js"></script>
         <link rel="stylesheet" href="../../css/jquery-ui.css" />
         <script src="../../js/jquery-1.8.3.js"></script>
         <script src="../../js/tabs.js"></script>
@@ -33,7 +34,7 @@
                             <div style="width: 260px;position: absolute;height: 20px;left: 590px;text-align: center;padding: 10px;">
                                 <h2 style="float:left;margin-bottom: 0px"><?php echo date('d-m-Y'); ?></h2>
                                 <h2 style="margin-bottom: 0px"><?php echo $turno ?></h2>
-                                
+
                             </div>
                         </div>
                         <div style="position: relative;margin: 10px;margin-top: 45px;width: 860px; height:1230px;">
@@ -60,7 +61,7 @@
                             </form>
                         </div>
                     </div>
-                    <div style="margin-bottom: 5px;width: 880px;height: 40px;border: 2px solid;border-top: 0px">
+                    <div style="margin-bottom: 4px;width: 880px;height: 40px;border: 2px solid;border-top: 0px">
                         <div style="padding: 5px;border-right:  2px solid; width: 430px;position: absolute;height: 30px;">
                             Elaborado por: <?php echo $_SESSION['user_name']; ?>
                             <span style="float: right">Mec.: <?php echo $_SESSION['user'];?></span>
@@ -75,7 +76,23 @@
             </li>
         </ul>
         <script>
-            window.print();
+
+            $.post('http://localhost:8080/index.php/relatorio?getlastrelatorio', function (data) {
+
+                var partial = (JSON.parse(data));
+                var dados = (JSON.parse(partial['dados']));
+                for (i = 0; i < dados.length; i++) {
+                    if (dados[i]['type'] === "checkbox") {
+                        $('[name="' + dados[i]['name'] + '"]').prop("checked", true);
+                    }
+                    else
+                        ($('[name="' + dados[i]['name'] + '"]').val(dados[i]['value']));
+                }
+
+                window.print();
+            });
+
+
         </script>
     </body>
 </html>

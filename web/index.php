@@ -168,62 +168,73 @@ $app->post('/novo-lub', 'checkLogIn', function() {
 
 $app->post('/relatorio', 'checkLogIn', function() use ($app) {
     $type = $app->request()->get('type');
-    //$salvar=$app->request()->get('salvar');
+
     if ($type == 2) {
         $relatoriodao = new RelatorioDao();
-        $template = $relatoriodao->getRelatorio();
+        $template = $relatoriodao->getRelatorio($relatoriodao->getCurrentVersao());
         echo json_encode(($template));
-    } elseif (array_key_exists('unidades', $_GET)) {
+    } 
+    elseif (array_key_exists('getlastrelatorio', $_GET)) {
+        $relatoriodao = new RelatorioDao();
+        echo json_encode(($relatoriodao->getLastRelatorio()));
+    } 
+    elseif (array_key_exists('unidades', $_GET)) {
         require "../page/relatorios/unidades.phtml";
-    } elseif ($type == 1) {
+    } 
+    elseif ($type == 1) {
 
         require "../page/relatorios/resumo.phtml";
-    } elseif ($type == 3) {
+    } 
+    elseif ($type == 3) {
         $relatoriodao = new RelatorioDao();
-        $template = $relatoriodao->getRelatorio();
+        $template = $relatoriodao->getRelatorio($relatoriodao->getCurrentVersao());
         echo json_encode(($template));
 
         //require "../page/relatorios/novo.phtml";
-    } elseif (array_key_exists('getteemplate', $_GET)) {
+    } 
+    elseif (array_key_exists('getteemplate', $_GET)) {
         require "../page/relatorios/novo.phtml";
-    } elseif (array_key_exists('salvar', $_GET)) {
+    } 
+    elseif (array_key_exists('salvar', $_GET)) {
         $myfile = fopen("newfile.txt", "w") or die("Unable to open file!");
-        fwrite($myfile, $_POST['content'].'#');
+        fwrite($myfile, $_POST['content'] . '#');
         fwrite($myfile, $_POST['separadores']);
         fclose($myfile);
         $relatoriodao = new RelatorioDao();
-        $relatoriodao->guardarRelatorio($_POST['content'], $_POST['separadores']);
+        $relatoriodao->updateTemplate($_POST['content'], $_POST['separadores'],$_POST['versao']);
+    } 
+    elseif (array_key_exists('salvarrelatorio', $_GET)) {
+        $relatoriodao = new RelatorioDao();
+        $relatoriodao->updateRelatrio($_POST['dados']);
     }
 });
 
 $app->get('/relatorio', 'checkLogIn', function() use ($app) {
     if (array_key_exists('imprimir', $_GET)) {
         $relatoriodao = new RelatorioDao();
-        $template = $relatoriodao->getRelatorio();
+        $template = $relatoriodao->getRelatorio($_GET['versao']);
         $paginas = json_decode(($template['template']));
         //echo count(($paginas));
         $separadores = json_decode($template['separadores']);
         //print_r($_SESSION);
         $db = new DAO();
         $areas = $db->getDb()->query('SELECT * FROM galp.area;', PDO::FETCH_ASSOC);
-        foreach ($areas as $row){
-            if ($row['ID']==$_SESSION['area']){
-                $area=$row['Area'];
+        foreach ($areas as $row) {
+            if ($row['ID'] == $_SESSION['area']) {
+                $area = $row['Area'];
             }
         }
-        if($_SESSION['turno']==1){
-            $turno='06:00 - 14:00';
+        if ($_SESSION['turno'] == 1) {
+            $turno = '06:00 - 14:00';
+        } elseif ($_SESSION['turno'] == 2) {
+            $turno = '14:00 - 22:00';
+        } else {
+            $turno = '22:00 - 06:00';
         }
-        elseif($_SESSION['turno']==2){
-            $turno='14:00 - 22:00';
-        }
-        else{
-            $turno='22:00 - 06:00';
-        }
-        
+
         //echo date('d-m-Y');
-        $count=0;
-       require "../page/relatorios/imprimir.phtml";
+        $count = 0;
+        require "../page/relatorios/imprimir.phtml";
     }
 });
 
@@ -234,11 +245,10 @@ $app->post('/processo', 'checkLogIn', function() use ($app) {
     $unidades = $unidadesdao->findUnidades($_SESSION['area']);
     $processodao = new ProcessoDao();
     if (array_key_exists('adicionar', $_GET)) {
-        echo json_encode($_POST);
-        
+        //echo json_encode($_POST);
         //$app->redirect("index.php/processo?type=2");
-        $processodao->novaManobra($_POST['manobra']['nome'], $_POST['manobra']['unidade'], json_encode($_POST));
-        
+        $processodao->novaManobra($_GET['nome'], $_GET['unidade'], json_encode($_POST));
+
         //require "../page/processo/nova_manobra.phtml";
     } elseif (array_key_exists('manobra', $_GET)) {
         $manobras = $processodao->getManobra($_GET['manobra']);
@@ -250,7 +260,7 @@ $app->post('/processo', 'checkLogIn', function() use ($app) {
         //require "../page/relatorios/area_c.php";    
     } elseif ($type == 2) {
         $relatoriodao = new RelatorioDao();
-        $template = $relatoriodao->getRelatorio();
+        $template = $relatoriodao->getRelatorio($relatoriodao->getCurrentVersao());
         $relatorio = json_decode($template['template']);
         echo json_encode(($template));
         //require "../page/processo/nova_manobra.phtml";
@@ -258,7 +268,7 @@ $app->post('/processo', 'checkLogIn', function() use ($app) {
         require "../page/processo/nova_manobra.phtml";
     } elseif ($type == 3) {
 
-        require "../page/processo/teste.php";
+        require "../page/processo/nova_rotina  .phtml";
     }
 });
 

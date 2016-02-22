@@ -7,7 +7,7 @@ $(document).ajaxStop(function () {
 
 
     $("#draggable1").draggable({
-        containment: "#containment-wrapper"+pagina,
+        containment: "#containment-wrapper" + pagina,
         scroll: false
     });
     $('#ajaxform1').ajaxForm(function (data) {
@@ -26,149 +26,16 @@ $(document).ajaxStop(function () {
     $('#ajaxform4').ajaxForm(function (data) {
         document.getElementById("area_id").innerHTML = data;
         document.getElementById("app").innerHTML = '<h2>Se esta a ler isto, é porque mudou de area!</h2>' +
-    '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
+                '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
     });
 
     $('#perfilForm').ajaxForm(function (data) {
         window.location = 'index.php?userchange';
     });
-    var options = { 
-        success:       showResponse,
-        beforeSubmit:  showRequest,  // pre-submit callback 
-    }; 
     
-    function showRequest(formData, jqForm, options) { 
-       
- 
-        console.log(formData); 
 
-        return true; 
-    } 
     
-    function showResponse(responseText, statusText, xhr, $form)  { 
-        // for normal html responses, the first argument to the success callback 
-        // is the XMLHttpRequest object's responseText property 
- 
-        // if the ajaxForm method was passed an Options Object with the dataType 
-        // property set to 'xml' then the first argument to the success callback 
-        // is the XMLHttpRequest object's responseXML property 
- 
-        // if the ajaxForm method was passed an Options Object with the dataType 
-        // property set to 'json' then the first argument to the success callback 
-        // is the json data object returned by the server 
-        console.log(responseText);
-    } 
-    $('#adicionarManobraForm').ajaxForm(options,function (data) {
-        var relatrio = (JSON.parse(data));
-        console.log(relatrio);
-        $.post("index.php/processo?type=2", function (data) {
-            var content = (JSON.parse((JSON.parse(data)['template'])));
-            $.post("index.php/processo?novamanobra=0", function (data) {
-                document.getElementById("app").innerHTML = data;
-                TABS.CreateTabs();
-                var unidades = [];
-                for (var i = 0; i < content.length; i++) {
-                    for (var j = 0; j < content[i].length; j++) {
-                        if (content[i][j] !== null) {
-                            unidades.push(content[i][j]['unidade'])
-                            break;
-                        }
-                    }
-                    break;
-                }
-                var found = false;
-                for (i = 0; i < content.length; i++) {
-                    for (var x = 0; x < content[i].length; x++) {
-                        for (j = 0; j < unidades.length; j++) {
-                            if (content[i][x] !== null) {
-                                if (content[i][x]['unidade'] === unidades[j]) {
-                                    found = true;
-                                    break;
-                                }
-                            }
-                        }
-
-                        if (!found && content[i][x] !== null) {
-                            unidades.push(content[i][x]['unidade']);
-                        }
-                        found = false;
-                    }
-                }
-                unidades.sort();
-                for (j = 0; j < unidades.length; j++) {
-                    var top = 1000000;
-                    var bottom = -1;
-                    for (i = 0; i < content.length; i++) {
-                        for (x = 0; x < content[i].length; x++) {
-                            if (content[i][x] !== null) {
-                                if (content[i][x]['unidade'] === unidades[j]) {
-                                    if (parseInt(content[i][x]['location']['y']) < top) {
-                                        top = parseInt(content[i][x]['location']['y']);
-                                    }
-                                    if (parseInt(content[i][x]['location']['y']) > bottom) {
-                                        bottom = parseInt(content[i][x]['location']['y']) + parseInt(content[i][x]['dimetions']['hieght']);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    //console.log(bottom);
-                    bottom = bottom - top + 55;
-                    var element = $('<div style="height:' + bottom + 'px"></div>');
-                    for (i = 0; i < content.length; i++) {
-                        for (x = 0; x < content[i].length; x++) {
-                            if (content[i][x] !== null) {
-                                if (content[i][x]['unidade'] === unidades[j]) {
-                                    var bloco = $('<div class="relatrio-manobra"  id="div' + x + '"></div>');
-                                    bloco.css('width', content[i][x]['dimetions']['with']);
-                                    bloco.css({
-                                        'top': (parseInt(content[i][x]['location']['y']) - (top - 5)) + 'px',
-                                        'left': content[i][x]['location']['x'],
-                                    });
-                                    bloco.css("position", "absolute");
-                                    bloco.append(content[i][x]['bloco']);
-                                    element.append(bloco[0].outerHTML);
-                                    $("#div" + x).remove();
-                                }
-                            }
-                        }
-                    }
-                    if (j === 0)
-                        TABS.AddTab(unidades[j], true, element[0].outerHTML);
-                    else
-                        TABS.AddTab(unidades[j], false, element[0].outerHTML);
-                }
-                var element_1 = '';
-                var element_2 = '';
-                for (var key in relatrio) {
-                    if (key !== 'manobra') {
-                        element_1 = key;
-                        for (var key1 in relatrio[key]) {
-                            if ($('[name="' + element_1 + '[' + key1 + ']"]').length > 0) {
-                                $('[name="' + element_1 + '[' + key1 + ']"]').val(relatrio[key][key1]);
-                            }
-                            else {
-                                element_2 = '[' + key1 + ']';
-                            }
-                            for (var key2 in relatrio[key][key1]) {
-                                if (jQuery.type(relatrio[key][key1]) === 'object') {
-                                    if ($('[name="' + element_1 + element_2 + '[' + key2 + ']"]')[0].type === 'checkbox') {
-                                        $('[name="' + element_1 + element_2 + '[' + key2 + ']"]').prop("checked", true);
-                                    }
-                                    else {
-                                        $('[name="' + element_1 + element_2 + '[' + key2 + ']"]').val(relatrio[key][key1][key2]);
-                                    }
-
-                                }
-                            }
-                        }
-
-                    }
-
-                }
-            });
-        });
-    });
+    
     $('#change-status-form').ajaxForm(function (data) {
         document.getElementById("app").innerHTML = data;
         $('#dvLoading').hide();
@@ -207,8 +74,8 @@ $(document).ajaxStop(function () {
 
     $("#hora").val(' ')
     var password = $("#password"),
-    submit = $("#change-status-form"),
-    allFields = $([]).add(password);
+            submit = $("#change-status-form"),
+            allFields = $([]).add(password);
 
     $("#dialog-form").dialog({
         autoOpen: false,
@@ -230,11 +97,11 @@ $(document).ajaxStop(function () {
     });
 
     $("#login")
-    .click(function () {
-        $("#change-status-form").attr('action', 'index.php/enclub?encomendar=1&tipo=1');
-        $("#enc").attr('value', '1');
-        $("#dialog-form").dialog("open");
-    });
+            .click(function () {
+                $("#change-status-form").attr('action', 'index.php/enclub?encomendar=1&tipo=1');
+                $("#enc").attr('value', '1');
+                $("#dialog-form").dialog("open");
+            });
 
 
     $("#dialog-nova-firma").dialog({
@@ -297,9 +164,9 @@ $(document).ajaxStop(function () {
                 if ($("#halt-status").val() == 2) {
                     $(this).dialog("close");
                     $("#dialog-indisponibilidade")
-                    .data('equipamento', $(this).data('equipamento'))
-                    .data('inst', $(this).data("inst"))
-                    .dialog("open");
+                            .data('equipamento', $(this).data('equipamento'))
+                            .data('inst', $(this).data("inst"))
+                            .dialog("open");
                 } else {
                     $('#dvLoading').show();
                     $("#ajaxform1").attr('action', 'index.php/equipamento?change_satus_dinamico=0&equipamento=' + $(this).data('equipamento') + '&status=' + 12);
@@ -364,7 +231,7 @@ $(document).ajaxStop(function () {
         buttons: {
             "OK": function () {
                 var bloco = '<label style="width:100%">' + $("#titulo").val() + '</label>';
-                pagina=parseInt($("#select_paginas").val())-1;
+                pagina = parseInt($("#select_paginas").val()) - 1;
                 var pickerwith = 0;
                 var pickerheight = 0;
                 var tipo;
@@ -389,7 +256,7 @@ $(document).ajaxStop(function () {
                         }
                         else if ($(this)[0].id === 'multipla') {
                             tipo = 1;
-                            pickerheight=18;
+                            pickerheight = 18;
                             var index = 0;
                             bloco += '<ul id="multiplas' + selected_block + '">'
                             pickerwith = $.fn.textWidth($("#titulo").val(), '11px arial') + 18;
@@ -399,7 +266,7 @@ $(document).ajaxStop(function () {
                                 }
                                 bloco += '<li><input type="checkbox" name="' + $("#unidade option:selected").text().trim() + '[' + $("#titulo").val().replace(/ /g, '') + '][' + $(this)[0].childNodes[1].value + ']"   value="' + index + '">' + $(this)[0].childNodes[1].value + '</input></li>';
                                 index++;
-                                pickerheight+=16;
+                                pickerheight += 16;
                             });
                             bloco += '</ul>'
                         }
@@ -417,10 +284,10 @@ $(document).ajaxStop(function () {
                         }
                     }
                 });
-                if(relatorio_array.length>1 && $(this).data('novo') === "false")
-                    relatorio_array[parseInt($(this).data('pagina'))][selected_block]=null;
+                if (relatorio_array.length > 1 && $(this).data('novo') === "false")
+                    relatorio_array[parseInt($(this).data('pagina'))][selected_block] = null;
                 relatorio_array[pagina][selected_block] = {
-                    "pagina":pagina,
+                    "pagina": pagina,
                     "tipo": tipo,
                     "dimetions": {
                         "with": pickerwith,
@@ -434,14 +301,14 @@ $(document).ajaxStop(function () {
                         "y": selected_block_top
                     }
                 };
-                
-                
-                $("#containment-wrapper"+pagina).append('<div id="draggable' + selected_block + '" class="draggable">' + bloco + '</div>');
+
+
+                $("#containment-wrapper" + pagina).append('<div id="draggable' + selected_block + '" class="draggable">' + bloco + '</div>');
                 $("#draggable" + selected_block).css('width', pickerwith);
                 $("#draggable" + selected_block).css('hieght', pickerheight);
                 $("#draggable" + selected_block).append('<div  name="' + selected_block + '" tipo="' + tipo + '" ondblclick="relatorio(\'picker\',this)"  class="picker"></div>');
                 $("#draggable" + selected_block).draggable({
-                    containment: "#containment-wrapper"+pagina,
+                    containment: "#containment-wrapper" + pagina,
                     scroll: false,
                     stop: function (event, ui) {
                         for (var i = 0; i < ui.helper[0].lastChild.attributes.length; i++) {
@@ -450,7 +317,7 @@ $(document).ajaxStop(function () {
                         }
                         console.log(relatorio_array);
                         relatorio_array[pagina][index].location.x = ui.position.left + "px";
-                        relatorio_array[pagina][index].location.y = ui.position.top + "px";                     
+                        relatorio_array[pagina][index].location.y = ui.position.top + "px";
                     }
                 });
                 $("#draggable" + selected_block).draggable().css("position", "absolute");
@@ -466,9 +333,9 @@ $(document).ajaxStop(function () {
                     $("#MatrixTable" + selected_block).colResizable({
                         disable: true
                     });
-                    $("#containment-wrapper"+pagina).append($(this).data('original')[0].outerHTML);
+                    $("#containment-wrapper" + pagina).append($(this).data('original')[0].outerHTML);
                     $("#draggable" + selected_block).draggable({
-                        containment: "#containment-wrapper"+pagina,
+                        containment: "#containment-wrapper" + pagina,
                         scroll: false
                     });
                 }
@@ -518,7 +385,7 @@ $(document).ajaxStop(function () {
         modal: true,
         buttons: {
             "OK": function () {
-               
+
                 $(this).dialog("close");
             }
         },
@@ -533,17 +400,18 @@ $(document).ajaxStop(function () {
         modal: true,
         buttons: {
             "OK": function () {
-                var index=parseInt($("#eliminar_paginas").val())-1;
-                relatorio_array.splice(index,1);
+                var index = parseInt($("#eliminar_paginas").val()) - 1;
+                relatorio_array.splice(index, 1);
                 $('#dvLoading').show();
                 $.post("index.php/relatorio?salvar=true", {
                     "content": JSON.stringify(relatorio_array),
-                    "separadores": JSON.stringify(separator_array)
+                    "separadores": JSON.stringify(separator_array),
+                    "versao": $(this).data('versao')
                 }, function (data) {
                     detach = false;
                     $('#dvLoading').hide();
                     relatorio(3);
-                     
+
                 });
                 $(this).dialog("close");
             }

@@ -18,7 +18,6 @@ var TABS= {
     'SelectTab':function(elem){
         var parent=($("#"+elem.id)[0].parentElement.id);
         $("#"+parent).children().each(function(){
-           console.log($(this)[0].id)
            if($(this)[0].className==='tabs_headers tabs_headers_slected' || $(this)[0].className==='tabs_headers_slected')
                $("#content"+$(this)[0].id).hide();
            $(this).switchClass('tabs_headers_slected','tabs_headers',0); 
