@@ -1,26 +1,12 @@
 
 
 
-
 function equipamento_dinamico(type) {
     $('#dvLoading').show();
     if (type == 2) {
         $.post("index.php/equipamento?status_dinamico=0", function (data) {
             document.getElementById("app").innerHTML = data;
-            $("#dialog-unidades").dialog({
-                autoOpen: false,
-                height: 300,
-                width: 700,
-                modal: true,
-                buttons: {
-                    "OK": function () {
-                       
-                    }
-                },
-                close: function () {
-                    allFields.val("").removeClass("ui-state-error");
-                }
-            });
+
         });
     } else if (type == 1) {
         $.post("index.php/equipamento?novo_dinamico=0", function (data) {
@@ -31,9 +17,11 @@ function equipamento_dinamico(type) {
             document.getElementById("app").innerHTML = data;
         });
     }
-    
-    if (type.name == 'alterar') {
-       $("#dialog-unidades").dialog("open");
+
+    if (type.name === 'alterar') {
+        detach = false;
+        $("#salvarRelatorioForm").html('<ul id="tab1" class="tabs"></ul>');
+        $("#dialog-unidades").dialog("open");
     }
 }
 var last_equipamento;
@@ -51,33 +39,32 @@ function subChangeEquipamentoStatus(equipamento, inst) {
             $("#ajaxform1").submit();
         } else {
             $("#dialog-indisponibilidade")
-            .data('status', document.getElementById("status").value)
-            .data('inst', inst)
-            .data('equipamento', equipamento)
-            .dialog("open");
+                    .data('status', document.getElementById("status").value)
+                    .data('inst', inst)
+                    .data('equipamento', equipamento)
+                    .dialog("open");
         }
     } else if (inst.name == "vermais") {
         $('#historico' + last_equipamento).hide();
         detach = false;
         $.post("index.php/equipamento?history=" + equipamento, function (data) {
             history_data = JSON.parse(data);
-            console.log(history_data);
             document.getElementById("show_history" + equipamento).innerHTML = '<tr><th>Data</th><th>Turno</th><th style="width: 300px;">Status</th></tr>'
             for (var i = 0; i < history_data.length; i++) {
                 document.getElementById("show_history" + equipamento).innerHTML += "<tr><td>" + history_data[i].data + "</td><td>" + history_data[i].turno + "</td><td>" + history_data[i].descricao + "</td></tr>";
-            //$("#show_history" + equipamento).append("<tr><td>" + history_data[i].data + "</td><td>" + history_data[i].turno + "</td><td>" + history_data[i].descricao + "</td></tr>");
+                //$("#show_history" + equipamento).append("<tr><td>" + history_data[i].data + "</td><td>" + history_data[i].turno + "</td><td>" + history_data[i].descricao + "</td></tr>");
             }
 
             $('#historico' + equipamento).show();
             last_equipamento = equipamento;
         });
-    //$('#historico' + equipamento).show();
+        //$('#historico' + equipamento).show();
 
     } else if (inst.name == "alterar") {
         $("#dialog-indisponibilidade")
-        .data('equipamento', equipamento)
-        .data('inst', inst)
-        .dialog("open");
+                .data('equipamento', equipamento)
+                .data('inst', inst)
+                .dialog("open");
     } else {
         stat = inst.name.split(":");
         console.log(stat[0]);
@@ -88,9 +75,9 @@ function subChangeEquipamentoStatus(equipamento, inst) {
         } else {
             //$("#ajaxform1").attr('action', 'index.php/equipamento?change_satus_dinamico=0&equipamento=' + equipamento + '&status=' + 12);
             $("#dialog-disponibilidade")
-            .data('equipamento', equipamento)
-            .data('inst', inst)
-            .dialog("open");
+                    .data('equipamento', equipamento)
+                    .data('inst', inst)
+                    .dialog("open");
         }
 
     }

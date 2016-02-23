@@ -86,12 +86,27 @@
 </div>
 
 <div id="dialog-disponibilidade" title="Indique indisponibilidade">
-    <select id="halt-status">           
-        <option value="1">Disponível</option>
-        <option value="2">Indisponível</option>
-    </select> 
+    <form>
+        <fieldset>
+            <div  class="field">
+                <label style="width: 120px">Indisponibilidade:</label>
+                <select id="halt-status">           
+                    <option value="1">Disponível</option>
+                    <option value="2">Indisponível</option>
+                </select>
+            </div>
+            <div class="field">
+                <label style="width: 120px">Relatório:</label>
+                <input type="button" name="alterar" onclick="equipamento_dinamico(this)" style="float: left;margin: 0px;" value="Alterar" class="submit">
+            </div>
+        </fieldset>
+    </form>
+
 </div>
 
 <div id="dialog-unidades" title="Unidades">
-    
+    <form id="salvarRelatorioForm" method="post">
+
+
+    </form>
 </div>

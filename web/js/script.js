@@ -32,10 +32,10 @@ $(document).ajaxStop(function () {
     $('#perfilForm').ajaxForm(function (data) {
         window.location = 'index.php?userchange';
     });
-    
 
-    
-    
+
+
+
     $('#change-status-form').ajaxForm(function (data) {
         document.getElementById("app").innerHTML = data;
         $('#dvLoading').hide();
@@ -420,4 +420,125 @@ $(document).ajaxStop(function () {
             allFields.val("").removeClass("ui-state-error");
         }
     });
+
+    $("#dialog-unidades").dialog({
+        autoOpen: false,
+        height: 500,
+        width: 895,
+        modal: true,
+        buttons: {
+            "Salvar": function () {
+                $('#dvLoading').show();
+                $('#salvarRelatorioForm').ajaxForm(unidadesoptions);
+                $("#salvarRelatorioForm").submit();
+                $(this).dialog("close");
+            },
+            "Cancelar": function () {
+
+            }
+        },
+        close: function () {
+            allFields.val("").removeClass("ui-state-error");
+        }
+    });
+    $("#dialog-unidades").off("dialogopen");
+    $("#dialog-unidades").on("dialogopen", function () {
+         
+        $.post("index.php/relatorio?type=2", function (data) {
+            detach = false;
+            var content = (JSON.parse((JSON.parse(data)['template'])));
+            TABS.CreateTabs('tab1');
+            var unidades = [];
+            for (var i = 0; i < content.length; i++) {
+                for (var j = 0; j < content[i].length; j++) {
+                    if (content[i][j] !== null) {
+                        unidades.push(content[i][j]['unidade'])
+                        break;
+                    }
+                }
+                break;
+            }
+            var found = false;
+            for (i = 0; i < content.length; i++) {
+                for (var x = 0; x < content[i].length; x++) {
+                    for (j = 0; j < unidades.length; j++) {
+                        if (content[i][x] !== null) {
+                            if (content[i][x]['unidade'] === unidades[j]) {
+                                found = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!found && content[i][x] !== null) {
+                        unidades.push(content[i][x]['unidade']);
+                    }
+                    found = false;
+                }
+            }
+            unidades.sort();
+            for (j = 0; j < unidades.length; j++) {
+                var top = 1000000;
+                var bottom = -1;
+                for (i = 0; i < content.length; i++) {
+                    for (x = 0; x < content[i].length; x++) {
+                        if (content[i][x] !== null) {
+                            if (content[i][x]['unidade'] === unidades[j]) {
+                                //console.log(parseInt(content[i]['location']['y']))
+                                if (parseInt(content[i][x]['location']['y']) < top) {
+                                    top = parseInt(content[i][x]['location']['y']);
+                                }
+                                if (parseInt(content[i][x]['location']['y']) > bottom) {
+                                    bottom = parseInt(content[i][x]['location']['y']) + content[i][x]['dimetions']['hieght'];
+                                }
+                            }
+                        }
+                    }
+                }
+                bottom = bottom - top + 55;
+                var element = $('<div style="height:' + bottom + 'px"></div>');
+                for (i = 0; i < content.length; i++) {
+                    for (x = 0; x < content[i].length; x++) {
+                        if (content[i][x] !== null) {
+                            if (content[i][x]['unidade'] === unidades[j]) {
+                                var bloco = $('<div class="relatrio-manobra"  id="div' + x + '1"></div>');
+                                bloco.css('width', content[i][x]['dimetions']['with']);
+                                bloco.css({
+                                    'top': (parseInt(content[i][x]['location']['y']) - (top - 5)) + 'px',
+                                    'left': content[i][x]['location']['x'],
+                                });
+                                bloco.css("position", "absolute");
+                                bloco.append(content[i][x]['bloco']);
+                                element.append(bloco[0].outerHTML);
+                                $("#div" + x + '1').remove();
+                            }
+                        }
+                    }
+                }
+                if (j == 0)
+                    TABS.AddTab(unidades[j], true, element[0].outerHTML, 'tab1');
+                else
+                    TABS.AddTab(unidades[j], false, element[0].outerHTML, 'tab1');
+            }
+            $.post('index.php/relatorio?getlastrelatorio', function (data) {
+                $('#dvLoading').hide();
+                versao = (JSON.parse(data)['versao']);
+                var partial = (JSON.parse(data));
+                var dados = (JSON.parse(partial['dados']));
+
+                if (dados !== null) {
+                    for (i = 0; i < dados.length; i++) {
+                        if (dados[i]['type'] === "checkbox") {
+                            $('[name="' + dados[i]['name'] + '"]').prop("checked", true);
+                        }
+                        else
+                            ($('[name="' + dados[i]['name'] + '"]').val(dados[i]['value']));
+                    }
+                }
+                
+            });
+
+        });
+    });
+
 });

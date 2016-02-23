@@ -67,6 +67,7 @@ var separator_array = [];
 
 
 function showRequestUnidades(responseText, statusText, xhr, $form) {
+    detach=false;
     $.post("index.php/relatorio?salvarrelatorio=true", {
         dados: JSON.stringify(responseText)
         }, function (data) {
