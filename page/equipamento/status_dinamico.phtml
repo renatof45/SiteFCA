@@ -65,13 +65,24 @@
     </fieldset>
 </form>
 <div id="dialog-indisponibilidade" title="Indique indisponibilidade">
-    <select id="status">           
-        <?php foreach ($estados as $estado): ?>
-            <option 
-                value="<?php echo $estado['id'] ?>"><?php echo $estado['descricao']; ?>
-            </option>
-        <?php endforeach ?>
-    </select> 
+    <form>
+        <fieldset>
+            <div  class="field">
+                <label style="width: 120px">Indisponibilidade:</label>
+                <select id="status">           
+                    <?php foreach ($estados as $estado): ?>
+                        <option 
+                            value="<?php echo $estado['id'] ?>"><?php echo $estado['descricao']; ?>
+                        </option>
+                    <?php endforeach ?>
+                </select>
+            </div>
+            <div class="field">
+                <label style="width: 120px">Relatório:</label>
+                <input type="button" name="alterar" onclick="equipamento_dinamico(this)" style="float: left;margin: 0px;" value="Alterar" class="submit">
+            </div>
+        </fieldset>
+    </form>
 </div>
 
 <div id="dialog-disponibilidade" title="Indique indisponibilidade">
@@ -79,4 +90,8 @@
         <option value="1">Disponível</option>
         <option value="2">Indisponível</option>
     </select> 
+</div>
+
+<div id="dialog-unidades" title="Unidades">
+    
 </div>

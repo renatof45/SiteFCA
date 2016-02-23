@@ -1,4 +1,16 @@
-<h1>Novo Procedimento</h1>
+<form id="ajaxform1" method="post">
+    <fieldset style="z-index: 100; position: fixed;background-color: rgb(243,243,243);width: 863px;">
+        <div class="field">
+            <input type="button" onclick="processo(this);" name="nova_manobra" style="width: 110px;margin-bottom: 5px;margin-top: 5px;float: left" value="Adicionar passo" class="button">
+            <input type="button" onclick="processo(this);" name="adicionar" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">
+            <input type="button" name="alterar" onclick="processo('imprimir');" style="margin-top: 5px;float: left;" value="Imprimir" class="button">
+
+        </div> 
+    </fieldset>
+</form>
+
+
+<h1 style="margin-top: 30px">Novo Procedimento</h1>
 
 <form id="adicionarManobraForm" method="post">
     <fieldset>
@@ -39,18 +51,10 @@
             </div>
         </div>
 
-        <div class="field">
-
-            <input type="button" onclick="processo(this);" name="nova_manobra" value="Adicionar passo" class="submit" style="float:left;width: 100px;margin-bottom: 10px;margin-top: 10px;margin-left: 0px;" />
-        </div>
-        <div class="field">
-        </div>
+        
 
         <!--<div class="clear separator"></div>-->
 
-        <div class="wrapper">
-
-            <input type="button" onclick="processo(this);" name="adicionar" value="<?php echo 'ADICIONAR'; ?>" class="submit" />
-        </div>
+       
     </fieldset>
 </form>
