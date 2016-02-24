@@ -206,6 +206,7 @@ $app->get('/relatorio', 'checkLogIn', function() use ($app) {
             if (array_key_exists('imprimir', $_GET)) {
                 $relatoriodao = new RelatorioDao();
                 $template = $relatoriodao->getRelatorio($_GET['versao']);
+                //echo $template;
                 $paginas = json_decode(($template['template']));
                 //echo count(($paginas));
                 $separadores = json_decode($template['separadores']);

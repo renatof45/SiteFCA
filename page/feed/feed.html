@@ -16,9 +16,18 @@
 </ul>
 <?php endif; ?>
 
+<form id="ajaxform1" method="post">
+    <fieldset style="z-index: 100; position: fixed;background-color: rgb(243,243,243);width: 863px;">
+        <div class="field">
+            
+            <input type="button" name="alterar" onclick="relatorio('salvar_relatorio');" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">
+            <input type="button" name="alterar" onclick="relatorio('imprimir');" style="margin-top: 5px;float: left;" value="Imprimir" class="button">
 
+        </div> 
+    </fieldset>
+</form>
 
-<h1>Novo Feed</h1>
+<h1 style ="margin-top: 25px;margin-bottom: 5px">Novo Feed</h1>
 
 <form style="margin-bottom:  10px" id="ajaxform1" method="post">
     <fieldset>
@@ -49,8 +58,7 @@
                 
                 <?php if (array_key_exists("edit", $_GET)) echo $feed['texto']; ?>
             </div>
-            <input style="margin-top: 3px" type="button" onclick="feed(<?php if (array_key_exists("edit", $_GET)) echo "3"; else echo "4"; ?>,<?php if (array_key_exists("edit", $_GET)) echo $feed['id']; else echo "0"; ?>);" name="salvar" value="Salvar" class="submit" />
-        </div>
+           </div>
     </fieldset>
 
 

@@ -12,7 +12,7 @@
 // unless user specified own height.
 CKEDITOR.config.height = $(window).height() - 460
         ;
-CKEDITOR.config.width = 690;
+CKEDITOR.config.width =860;
 
 var initSample = (function() {
     var wysiwygareaAvailable = isWysiwygareaAvailable(),
