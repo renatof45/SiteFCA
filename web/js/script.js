@@ -26,7 +26,7 @@ $(document).ajaxStop(function () {
     $('#ajaxform4').ajaxForm(function (data) {
         document.getElementById("area_id").innerHTML = data;
         document.getElementById("app").innerHTML = '<h2>Se esta a ler isto, é porque mudou de area!</h2>' +
-                '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
+    '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
     });
 
     $('#perfilForm').ajaxForm(function (data) {
@@ -74,8 +74,8 @@ $(document).ajaxStop(function () {
 
     $("#hora").val(' ')
     var password = $("#password"),
-            submit = $("#change-status-form"),
-            allFields = $([]).add(password);
+    submit = $("#change-status-form"),
+    allFields = $([]).add(password);
 
     $("#dialog-form").dialog({
         autoOpen: false,
@@ -97,11 +97,11 @@ $(document).ajaxStop(function () {
     });
 
     $("#login")
-            .click(function () {
-                $("#change-status-form").attr('action', 'index.php/enclub?encomendar=1&tipo=1');
-                $("#enc").attr('value', '1');
-                $("#dialog-form").dialog("open");
-            });
+    .click(function () {
+        $("#change-status-form").attr('action', 'index.php/enclub?encomendar=1&tipo=1');
+        $("#enc").attr('value', '1');
+        $("#dialog-form").dialog("open");
+    });
 
 
     $("#dialog-nova-firma").dialog({
@@ -123,35 +123,7 @@ $(document).ajaxStop(function () {
     });
 
 
-    $("#dialog-indisponibilidade").dialog({
-        autoOpen: false,
-        height: 180,
-        width: 350,
-        modal: true,
-        buttons: {
-            "OK": function () {
-
-                $('#dvLoading').show();
-                $("#ajaxform1").attr('action', 'index.php/equipamento?change_satus_dinamico=0&equipamento=' + $(this).data('equipamento') + '&status=' + $("#status").val());
-                $("#ajaxform1").submit();
-                $(this).dialog("close");
-            },
-            "Cancel": function () {
-                console.log($(this).data("inst").name);
-                if ($(this).data("inst").name === "disponibiblidade") {
-                    $(this).data("inst").selectedIndex = "0";
-                }
-                if ($(this).data("inst").name.split(":")[1] === "parada") {
-                    $(this).data("inst").checked = false;
-                }
-
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-            allFields.val("").removeClass("ui-state-error");
-        }
-    });
+   
 
     $("#dialog-disponibilidade").dialog({
         autoOpen: false,
@@ -164,9 +136,9 @@ $(document).ajaxStop(function () {
                 if ($("#halt-status").val() == 2) {
                     $(this).dialog("close");
                     $("#dialog-indisponibilidade")
-                            .data('equipamento', $(this).data('equipamento'))
-                            .data('inst', $(this).data("inst"))
-                            .dialog("open");
+                    .data('equipamento', $(this).data('equipamento'))
+                    .data('inst', $(this).data("inst"))
+                    .dialog("open");
                 } else {
                     $('#dvLoading').show();
                     $("#ajaxform1").attr('action', 'index.php/equipamento?change_satus_dinamico=0&equipamento=' + $(this).data('equipamento') + '&status=' + 12);
@@ -443,7 +415,7 @@ $(document).ajaxStop(function () {
     });
     $("#dialog-unidades").off("dialogopen");
     $("#dialog-unidades").on("dialogopen", function () {
-         
+        console.log($(this).data('equipamento'));
         $.post("index.php/relatorio?type=2", function (data) {
             detach = false;
             var content = (JSON.parse((JSON.parse(data)['template'])));
@@ -539,6 +511,47 @@ $(document).ajaxStop(function () {
             });
 
         });
+    });
+    
+    $("#dialog-indisponibilidade").dialog({
+        autoOpen: false,
+        height: 150,
+        width: 370,
+        modal: true,
+        buttons: {
+            "OK": function () {
+
+                $('#dvLoading').show();
+                $("#ajaxform1").attr('action', 'index.php/equipamento?change_satus_dinamico=0&equipamento=' + $(this).data('equipamento') + '&status=' + $("#status").val());
+                $("#ajaxform1").submit();
+                $(this).dialog("close");
+            },
+            "Alterar relatório":function(){
+                detach = false;
+                $.post("index.php/equipamento?equipamento-status="+$(this).data('equipamento')+'&status='+$("#status").val(), function (data) {
+                    $("#salvarRelatorioForm").html('<ul id="tab1" class="tabs"></ul>');
+                    console.log(data);
+                    $("#dialog-unidades")
+                    .data('equipamento',data)
+                    .dialog('open');
+                });
+                
+            },
+            "Cancel": function () {
+                console.log($(this).data("inst").name);
+                if ($(this).data("inst").name === "disponibiblidade") {
+                    $(this).data("inst").selectedIndex = "0";
+                }
+                if ($(this).data("inst").name.split(":")[1] === "parada") {
+                    $(this).data("inst").checked = false;
+                }
+
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            allFields.val("").removeClass("ui-state-error");
+        }
     });
 
 });

@@ -52,6 +52,21 @@ final class EquipamentoDao extends DAO {
         }
         return $equipamento;
     }
+    
+    public function getEqipmentoById($id){
+        foreach (parent::query("select id,Equipamento
+                                from equipamento
+                                 where id=" . $id) as $row){
+            return $row['Equipamento'];
+        }
+    }
+    
+    public function getEstadoByIf($id){
+        $equipamento = array();
+        foreach (parent::query("SELECT * FROM galp.accoes where id=" . $id) as $row){
+            return $row['descricao'];
+        }
+    }
 
     public function updateStatus($equipamento, $status) {
         $sql = 'UPDATE `galp`.`equipamento` SET `estado`=:estado,`relatorio`=:relatorio WHERE `id`=:equipamento';
