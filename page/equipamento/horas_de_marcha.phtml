@@ -5,7 +5,7 @@
         
         <div class="field">
             <label>Unidade:</label>
-            <select name="unidade" onchange="subChangeEquipamentoUnidaded(this)">
+            <select name="horas" onchange="subChangeEquipamentoUnidaded(this)">
                 <?php foreach ($unidades as $unidade): ?>
                 <option 
                     <?php 
@@ -23,15 +23,22 @@
             
             <label style="width: 120px;margin-left: 100px;">Total de horas</label>
             <label style="width: 100px;">Este mês</label>
-            <label style="width: 250px;">Desde a última manutenção</label>
+            <label style="width: 250px;">Status</label>
         </div>
         
-        <?php foreach ($equipamentos as $equipamento): ?>
+        <?php foreach ($horas as $hora): ?>
         <div class="field">
-            <label><?php echo $equipamento['Equipamento'].':' ?></label>
-            <p style="margin-left:5px;width: 120px;float: left;">123</p>
-            <p style="float: left;width: 100px;">123</p>
-            <p>123</p>
+            <label><?php echo $hora['equipamento']['Equipamento'].':' ?></label>
+            <p style="margin-left:5px;width: 120px;float: left;"><?php echo $hora['total'] ?></p>
+            <p style="float: left;width: 100px;"><?php echo $hora['mes'] ?></p>
+            <?php if($hora['equipamento']['estado']=='5'){
+                $estado='Serviço';
+            }
+            else{
+                $estado='Parada';
+            }
+            ?>
+            <p><?php echo $estado;?></p>
         </div>
         <?php endforeach; ?>
 

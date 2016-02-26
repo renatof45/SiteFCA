@@ -11,6 +11,7 @@ $(document).ajaxStop(function () {
         scroll: false
     });
     $('#ajaxform1').ajaxForm(function (data) {
+        //console.log(data);
         document.getElementById("app").innerHTML = data;
         if ($("#editor").length) {
             initSample();

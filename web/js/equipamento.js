@@ -1,5 +1,39 @@
+var tipo=0;
+var ajaxform_novo_equipamento_options={
+    beforeSubmit:ajaxform_novo_equipamento_options_request,
+    success:ajaxform_novo_equipamento_options_response
+}
 
+function ajaxform_novo_equipamento_options_request(formData, jqForm, options){
+    console.log(formData);
+    $.post('index.php/equipamento?salvar_novo_dinamico&tipo='+tipo,{
+        dados: (formData)
+        }, function (data) {
+            document.getElementById("app").innerHTML = data;
+        $('#dvLoading').hide();
+    });
+    return false; 
+}
 
+function ajaxform_novo_equipamento_options_response(responseText, statusText, xhr, $form){
+    conslole.log(responseText);
+}
+
+function instrumentos(type){
+    if (type == 1) {
+        $.post("index.php/equipamento?novo_instrumento=0", function (data) {
+            document.getElementById("app").innerHTML = data;
+        });
+    }
+    if(type=='novo_instrumento'){
+        tipo=2;
+        $('#ajaxform_novo_equipamento').ajaxForm(ajaxform_novo_equipamento_options);
+        //$("#ajaxform_novo_equipamento").attr('action', 'index.php/equipamento?salvar_novo_dinamico&tipo=1');
+        $("#ajaxform_novo_equipamento").submit(function(e){
+            
+        });
+    }
+}
 
 function equipamento_dinamico(type) {
     $('#dvLoading').show();
@@ -15,6 +49,14 @@ function equipamento_dinamico(type) {
     } else if (type == 3) {
         $.post("index.php/equipamento?horas_de_marcha=0", function (data) {
             document.getElementById("app").innerHTML = data;
+        });
+    }
+    else if (type === 'novo_equipamento_dinamico') {
+        tipo=1;
+        $('#ajaxform_novo_equipamento').ajaxForm(ajaxform_novo_equipamento_options);
+        //$("#ajaxform_novo_equipamento").attr('action', 'index.php/equipamento?salvar_novo_dinamico&tipo=1');
+        $("#ajaxform_novo_equipamento").submit(function(e){
+            
         });
     }
 

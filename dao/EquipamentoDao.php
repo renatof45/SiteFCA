@@ -15,7 +15,7 @@ final class EquipamentoDao extends DAO {
         return $equipamento;
     }
 
-    public function getBeType($type, $unidade) {
+    public function getByType($type, $unidade) {
         $equipamento = array();
         foreach (parent::query("select equipamento.id as id,accoes.id as status,Equipamento
                                 from equipamento join accoes on accoes.id=equipamento.estado
@@ -52,20 +52,26 @@ final class EquipamentoDao extends DAO {
         }
         return $equipamento;
     }
-    
-    public function getEqipmentoById($id){
+
+    public function getEqipmentoById($id) {
         foreach (parent::query("select id,Equipamento
                                 from equipamento
-                                 where id=" . $id) as $row){
+                                 where id=" . $id) as $row) {
             return $row['Equipamento'];
         }
     }
-    
-    public function getEstadoByIf($id){
+
+    public function getEstadoByIf($id) {
         $equipamento = array();
-        foreach (parent::query("SELECT * FROM galp.accoes where id=" . $id) as $row){
+        foreach (parent::query("SELECT * FROM galp.accoes where id=" . $id) as $row) {
             return $row['descricao'];
         }
+    }
+
+    public function insertNovoEquipamento($equipamento, $unidade, $tipo) {
+        $sql = "INSERT INTO `galp`.`equipamento` (`equipamento`, `unidade`, `estado`, `tipo`, `relatorio`) VALUES (:equipamento, :unidade, :estado, :tipo, :relatorio);";
+        $statement = parent::getDb()->prepare($sql);
+        parent::executeStatement($statement, array(':equipamento' => $equipamento, ':estado' => '5', ':relatorio' => $_SESSION['relatorio'], ':unidade' => $unidade, ':tipo' => $tipo));
     }
 
     public function updateStatus($equipamento, $status) {
@@ -95,7 +101,46 @@ final class EquipamentoDao extends DAO {
         return $history;
     }
 
-    public function getHorasDeMarcha($equipamento, $status) {
+    public function getHorasDeMarcha($equipamento, $status, $start) {
+        date_default_timezone_set('Europe/Lisbon');
+        $total = 0;
+        $last_status = 0;
+        $starttime = new DateTime('2000-00-00 00:00:00');
+        $GLOBALS['total_time'] = new DateTime('2000-00-00 00:00:00');
+        $query = null;
+        $found = false;
+        $first_date = false;
+        if ($start == 'mes') {
+            $query = 'WHERE MONTH(`data`) = MONTH(CURDATE()) and equipamento=';
+        } elseif ($start == 'total') {
+            $query = 'WHERE equipamento=';
+        }
+        foreach (parent::query("SELECT * FROM galp.`status-equipamento`  " . $query . $equipamento)as $row) {
+            if ($row['accao'] == $status) {
+                $GLOBALS['old_date'] = new DateTime($row['data']);
+                $last_status = $row['accao'];
+                $found = true;
+            }
+            if ($row['accao'] != $status && $found) {
+
+                $GLOBALS['new_date'] = new DateTime($row['data']);
+                $diff = $GLOBALS['new_date']->diff($GLOBALS['old_date']);
+                $last_status = $row['accao'];
+                $GLOBALS['total_time']->sub($diff);
+                $found = false;
+            }
+        }
+        if ($last_status == 5) {
+            $new_date = new DateTime();
+            $diff = $new_date->diff($GLOBALS['old_date']);
+            $GLOBALS['total_time']->sub($diff);
+            return $GLOBALS['total_time']->diff($starttime)->format("%H:%I:%S");
+        } else {
+            return $GLOBALS['total_time']->diff($starttime)->format("%H:%I:%S");
+        }
+    }
+
+    public function getHorasDeMarcha1($equipamento, $status) {
         $horas = array();
         $found = false;
         $date = date('Y-m-d H:i:s');
@@ -103,7 +148,7 @@ final class EquipamentoDao extends DAO {
         $accao = null;
         foreach (parent::query("SELECT * FROM galp.`horas-de-marcha`
              join galp.equipamento on equipamento.id=`horas-de-marcha`.equipamento
-             where equipamento.id=1;")as $row) {
+             where equipamento.id=" . $equipamento)as $row) {
             $found = true;
         }
         if (!$found) {

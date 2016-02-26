@@ -77,11 +77,7 @@ function app() {
      });*/
 }
 
-function salvar_relatorio() {
-    $('#dvLoading').show();
-    $('#ajaxform1').attr('action', 'index.php/area_c');
-    $('#ajaxform1').submit();
-}
+
 
 function alterar_lub() {
     $('#dvLoading').show();
@@ -143,7 +139,7 @@ function home() {
 function add_edit_aut() {
     $("#ajaxform1").attr('action', 'index.php/add-edit-aut');
     $('#dvLoading').show();
-    $("#change-status-form").submit();
+    $("#ajaxform1").submit();
 }
 
 function pesquiaut(tipo) {
