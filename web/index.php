@@ -324,8 +324,8 @@ $app->post('/equipamento', 'checkLogIn', function() use($app) {
                 //print_r($horas);
                 require "../page/equipamento/horas_de_marcha.phtml";
             } elseif (array_key_exists('salvar_novo', $_GET)) {
-                //print_r($_POST['dados'][1]['value']);
-                $equipamentodao->insertNovoEquipamento($_POST['dados'][1]['value'], $_POST['dados'][0]['value'], $_GET['tipo']);
+                //print_r($_POST['dados']);
+                $equipamentodao->insertNovoEquipamento($_POST['dados'][1]['value'], $_POST['dados'][0]['value'],$_POST['dados'][2]['value'], $_GET['tipo']);
                 $unidadesdao = new UnidadesDao();
                 $unidades = $unidadesdao->findUnidades($_SESSION['area']);
                 $equipamentos = $equipamentodao->getByType(1, 1);
@@ -339,11 +339,18 @@ $app->post('/equipamento', 'checkLogIn', function() use($app) {
                 $unidadesdao = new UnidadesDao();
                 $unidades = $unidadesdao->findUnidades($_SESSION['area']);
                 require "../page/equipamento/novo_instrumento.phtml";
-            } elseif (array_key_exists('novo_dinamico', $_GET)) {
+            } 
+            elseif (array_key_exists('novo_dinamico', $_GET)) {
                 $unidadesdao = new UnidadesDao();
                 $unidades = $unidadesdao->findUnidades($_SESSION['area']);
 
                 require "../page/equipamento/novo_dinamico.phtml";
+            }
+            elseif (array_key_exists('novo_estatico', $_GET)) {
+                $unidadesdao = new UnidadesDao();
+                $unidades = $unidadesdao->findUnidades($_SESSION['area']);
+
+                require "../page/equipamento/novo_estatico.phtml";
             } elseif (array_key_exists('change_satus_dinamico', $_GET)) {
                 $equipamentodao->updateStatus($_GET['equipamento'], $_GET['status']);
                 $unidadesdao = new UnidadesDao();

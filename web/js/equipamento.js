@@ -20,7 +20,7 @@ function ajaxform_novo_options_response(responseText, statusText, xhr, $form){
 }
 
 function instrumentos(type){
-    console.log(type)
+    $('#dvLoading').show();
     if (type == 1) {
         $.post("index.php/equipamento?novo_instrumento=0", function (data) {
             document.getElementById("app").innerHTML = data;
@@ -43,7 +43,25 @@ function instrumentos(type){
         );
     }
 }
-
+function equipamento_estatico(type){
+    $('#dvLoading').show();
+   if(type=='novo_estatico'){
+        tipo=3;
+        $('#dvLoading').show();
+        $('#ajaxform_novo').ajaxForm(ajaxform_novo_options);
+        //$("#ajaxform_novo_equipamento").attr('action', 'index.php/equipamento?salvar_novo_dinamico&tipo=1');
+        $("#ajaxform_novo").submit(function(e){
+            e.preventDefault();
+            e.stopImmediatePropagation();
+        }
+        );
+    }
+    else if (type == 1) {
+        $.post("index.php/equipamento?novo_estatico=0", function (data) {
+            document.getElementById("app").innerHTML = data;
+        });
+    }
+}
 function equipamento_dinamico(type) {
     $('#dvLoading').show();
     if (type == 2) {

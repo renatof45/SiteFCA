@@ -68,10 +68,10 @@ final class EquipamentoDao extends DAO {
         }
     }
 
-    public function insertNovoEquipamento($equipamento, $unidade, $tipo) {
-        $sql = "INSERT INTO `galp`.`equipamento` (`equipamento`, `unidade`, `estado`, `tipo`, `relatorio`) VALUES (:equipamento, :unidade, :estado, :tipo, :relatorio);";
+    public function insertNovoEquipamento($equipamento, $unidade,$descricao, $tipo) {
+        $sql = "INSERT INTO `galp`.`equipamento` (`equipamento`, `unidade`, `estado`, `tipo`, `relatorio`,`descricao`) VALUES (:equipamento, :unidade, :estado, :tipo, :relatorio,:descricao);";
         $statement = parent::getDb()->prepare($sql);
-        parent::executeStatement($statement, array(':equipamento' => $equipamento, ':estado' => '5', ':relatorio' => $_SESSION['relatorio'], ':unidade' => $unidade, ':tipo' => $tipo));
+        parent::executeStatement($statement, array(':equipamento' => $equipamento, ':estado' => '5', ':relatorio' => $_SESSION['relatorio'], ':unidade' => $unidade, ':tipo' => $tipo,':descricao'=>$descricao));
     }
 
     public function updateStatus($equipamento, $status) {
@@ -122,21 +122,26 @@ final class EquipamentoDao extends DAO {
                 $found = true;
             }
             if ($row['accao'] != $status && $found) {
-
                 $GLOBALS['new_date'] = new DateTime($row['data']);
                 $diff = $GLOBALS['new_date']->diff($GLOBALS['old_date']);
                 $last_status = $row['accao'];
-                $GLOBALS['total_time']->sub($diff);
+                $GLOBALS['total_time']->add($diff);
                 $found = false;
             }
         }
         if ($last_status == 5) {
             $new_date = new DateTime();
             $diff = $new_date->diff($GLOBALS['old_date']);
-            $GLOBALS['total_time']->sub($diff);
-            return $GLOBALS['total_time']->diff($starttime)->format("%H:%I:%S");
+            $GLOBALS['total_time']->add($diff);
+            $diff = $GLOBALS['total_time']->diff($starttime);
+            $hours = $diff->h;
+            $hours = $hours + ($diff->days * 24);
+            return $hours;
         } else {
-            return $GLOBALS['total_time']->diff($starttime)->format("%H:%I:%S");
+            $diff = $GLOBALS['total_time']->diff($starttime);
+            $hours = $diff->h;
+            $hours = $hours + ($diff->days * 24);
+            return $hours;
         }
     }
 
