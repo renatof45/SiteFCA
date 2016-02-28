@@ -1,37 +1,46 @@
 var tipo=0;
-var ajaxform_novo_equipamento_options={
-    beforeSubmit:ajaxform_novo_equipamento_options_request,
-    success:ajaxform_novo_equipamento_options_response
+var ajaxform_novo_options={
+    beforeSubmit:ajaxform_novo_options_request,
+    success:ajaxform_novo_options_response
 }
 
-function ajaxform_novo_equipamento_options_request(formData, jqForm, options){
+function ajaxform_novo_options_request(formData, jqForm, options){
     console.log(formData);
-    $.post('index.php/equipamento?salvar_novo_dinamico&tipo='+tipo,{
+    $.post('index.php/equipamento?salvar_novo&tipo='+tipo,{
         dados: (formData)
-        }, function (data) {
-            document.getElementById("app").innerHTML = data;
+    }, function (data) {
+        document.getElementById("app").innerHTML = data;
         $('#dvLoading').hide();
     });
     return false; 
 }
 
-function ajaxform_novo_equipamento_options_response(responseText, statusText, xhr, $form){
+function ajaxform_novo_options_response(responseText, statusText, xhr, $form){
     conslole.log(responseText);
 }
 
 function instrumentos(type){
+    console.log(type)
     if (type == 1) {
         $.post("index.php/equipamento?novo_instrumento=0", function (data) {
             document.getElementById("app").innerHTML = data;
         });
     }
+    if (type == 2) {
+        $.post("index.php/equipamento?status_instrumentos=0", function (data) {
+            document.getElementById("app").innerHTML = data;
+        });
+    }
     if(type=='novo_instrumento'){
         tipo=2;
-        $('#ajaxform_novo_equipamento').ajaxForm(ajaxform_novo_equipamento_options);
+        $('#dvLoading').show();
+        $('#ajaxform_novo').ajaxForm(ajaxform_novo_options);
         //$("#ajaxform_novo_equipamento").attr('action', 'index.php/equipamento?salvar_novo_dinamico&tipo=1');
-        $("#ajaxform_novo_equipamento").submit(function(e){
-            
-        });
+        $("#ajaxform_novo").submit(function(e){
+            e.preventDefault();
+            e.stopImmediatePropagation();
+        }
+        );
     }
 }
 
@@ -53,11 +62,9 @@ function equipamento_dinamico(type) {
     }
     else if (type === 'novo_equipamento_dinamico') {
         tipo=1;
-        $('#ajaxform_novo_equipamento').ajaxForm(ajaxform_novo_equipamento_options);
+        $('#ajaxform_novo').ajaxForm(ajaxform_novo_options);
         //$("#ajaxform_novo_equipamento").attr('action', 'index.php/equipamento?salvar_novo_dinamico&tipo=1');
-        $("#ajaxform_novo_equipamento").submit(function(e){
-            
-        });
+        $("#ajaxform_novo").submit();
     }
 
     if (type.name === 'alterar') {
@@ -81,10 +88,10 @@ function subChangeEquipamentoStatus(equipamento, inst) {
             $("#ajaxform1").submit();
         } else {
             $("#dialog-indisponibilidade")
-                    .data('status', document.getElementById("status").value)
-                    .data('inst', inst)
-                    .data('equipamento', equipamento)
-                    .dialog("open");
+            .data('status', document.getElementById("status").value)
+            .data('inst', inst)
+            .data('equipamento', equipamento)
+            .dialog("open");
         }
     } else if (inst.name == "vermais") {
         $('#historico' + last_equipamento).hide();
@@ -94,19 +101,19 @@ function subChangeEquipamentoStatus(equipamento, inst) {
             document.getElementById("show_history" + equipamento).innerHTML = '<tr><th>Data</th><th>Turno</th><th style="width: 300px;">Status</th></tr>'
             for (var i = 0; i < history_data.length; i++) {
                 document.getElementById("show_history" + equipamento).innerHTML += "<tr><td>" + history_data[i].data + "</td><td>" + history_data[i].turno + "</td><td>" + history_data[i].descricao + "</td></tr>";
-                //$("#show_history" + equipamento).append("<tr><td>" + history_data[i].data + "</td><td>" + history_data[i].turno + "</td><td>" + history_data[i].descricao + "</td></tr>");
+            //$("#show_history" + equipamento).append("<tr><td>" + history_data[i].data + "</td><td>" + history_data[i].turno + "</td><td>" + history_data[i].descricao + "</td></tr>");
             }
 
             $('#historico' + equipamento).show();
             last_equipamento = equipamento;
         });
-        //$('#historico' + equipamento).show();
+    //$('#historico' + equipamento).show();
 
     } else if (inst.name == "alterar") {
         $("#dialog-indisponibilidade")
-                .data('equipamento', equipamento)
-                .data('inst', inst)
-                .dialog("open");
+        .data('equipamento', equipamento)
+        .data('inst', inst)
+        .dialog("open");
     } else {
         stat = inst.name.split(":");
         console.log(stat[0]);
@@ -117,17 +124,29 @@ function subChangeEquipamentoStatus(equipamento, inst) {
         } else {
             //$("#ajaxform1").attr('action', 'index.php/equipamento?change_satus_dinamico=0&equipamento=' + equipamento + '&status=' + 12);
             $("#dialog-disponibilidade")
-                    .data('equipamento', equipamento)
-                    .data('inst', inst)
-                    .dialog("open");
+            .data('equipamento', equipamento)
+            .data('inst', inst)
+            .dialog("open");
         }
 
     }
 }
 function subChangeEquipamentoUnidaded(inst) {
     $('#dvLoading').show();
-    $.post("index.php/equipamento?status_dinamico=0&unidade=" + inst.value, function (data) {
-        document.getElementById("app").innerHTML = data;
-    });
+    if(inst.name==='horas'){
+        $.post("index.php/equipamento?horas_de_marcha=0&unidade=" + inst.value, function (data) {
+            document.getElementById("app").innerHTML = data;
+        });
+    }
+    else if(inst.name==='instrumentos'){
+        $.post("index.php/equipamento?status_instrumentos=0&unidade=" + inst.value, function (data) {
+            document.getElementById("app").innerHTML = data;
+        });
+    }
+    else{
+        $.post("index.php/equipamento?status_dinamico=0&unidade=" + inst.value, function (data) {
+            document.getElementById("app").innerHTML = data;
+        });
+    }
 }
 

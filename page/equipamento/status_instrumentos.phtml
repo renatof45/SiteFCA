@@ -1,0 +1,82 @@
+<h1>Estado dos instrumentos</h1>
+
+<form id="ajaxform1" method="post">
+    <fieldset>
+
+        <div class="field">
+            <label>Unidade:</label>
+            <select name="instrumentos" onchange="subChangeEquipamentoUnidaded(this)">
+                <?php foreach ($unidades as $unidade): ?>
+                    <option 
+                    <?php
+                    if (array_key_exists('unidade', $_GET))
+                        if ($_GET['unidade'] == $unidade['id'])
+                            echo ' selected ';
+                    if (array_key_exists('unidade', $_POST)) {
+                        if ($_POST['unidade'] == $unidade['id'])
+                            echo ' selected ';
+                    }
+                    ?> 
+                        value="<?php echo $unidade['id'] ?>"><?php echo $unidade['designacao']; ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <?php foreach ($equipamentos as $equipamento): ?>
+
+            <div class="field">
+                <label><?php echo $equipamento['Equipamento'] . ':' ?></label>
+                <select>
+                    <?php foreach ($estados as $estado): ?>
+                    <option<?php  if ($equipamento['estado'] == $estado['id']) echo ' selected'; ?>><?php echo$estado['descricao']; ?> </option>
+                       
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        <?php endforeach; ?>
+
+
+    </fieldset>
+</form>
+<div id="dialog-indisponibilidade" title="Indique indisponibilidade">
+    <form>
+        <fieldset>
+            <div  class="field">
+                <label style="width: 120px">Indisponibilidade:</label>
+                <select id="status">           
+                    <?php foreach ($estados as $estado): ?>
+                        <option 
+                            value="<?php echo $estado['id'] ?>"><?php echo $estado['descricao']; ?>
+                        </option>
+                    <?php endforeach ?>
+                </select>
+            </div>
+
+        </fieldset>
+    </form>
+</div>
+
+<div id="dialog-disponibilidade" title="Indique indisponibilidade">
+    <form>
+        <fieldset>
+            <div  class="field">
+                <label style="width: 120px">Indisponibilidade:</label>
+                <select id="halt-status">           
+                    <option value="1">Disponível</option>
+                    <option value="2">Indisponível</option>
+                </select>
+            </div>
+
+        </fieldset>
+    </form>
+
+</div>
+
+<div id="dialog-unidades" title="Unidades">
+    <form id="salvarRelatorioForm" method="post">
+
+
+    </form>
+</div>
+
