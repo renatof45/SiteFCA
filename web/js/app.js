@@ -8,7 +8,7 @@ $(document).ready(function () {
     $('#ajaxform4').ajaxForm(function (data) {
         document.getElementById("area_id").innerHTML = data;
         document.getElementById("app").innerHTML = '<h2>Se esta a ler isto, é porque mudou de area!</h2>' +
-    '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
+                '<h2>Tenha atenção que a partir de agora todas as operações que efectuar serão referentes à area selecionada.</h2>';
     });
 });
 
@@ -68,7 +68,7 @@ function app() {
     $.post("index.php/home", function (data) {
         document.getElementById("app").innerHTML = data;
     });
-/*.done(function() {
+    /*.done(function() {
      $.post("index.php/header", function(data) {
      document.getElementById("area_id").innerHTML = data;
      });
@@ -120,7 +120,12 @@ function subPedidoSelect(inst) {
 function novo_pedido() {
     $("#ajaxform1").attr('action', 'index.php/pedidos_trabalho?type=1');
     $('#dvLoading').show();
-    $("#ajaxform1").submit();
+    $("#ajaxform1").submit(function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+    }
+    );
+    
 }
 
 function sub2(that) {
@@ -139,7 +144,11 @@ function home() {
 function add_edit_aut() {
     $("#ajaxform1").attr('action', 'index.php/add-edit-aut');
     $('#dvLoading').show();
-    $("#ajaxform1").submit();
+    $("#ajaxform1").submit(function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+    }
+    );
 }
 
 function pesquiaut(tipo) {
@@ -242,7 +251,7 @@ function show_pedidos(inst) {
         console.log(content);
         for (var i = 0; i < content.length; i++) {
             $("#trab_list").append('<li  style="margin-bottom: 35px";>' + content[i].descricao + '<input type="button" onclick="associate_trab(' + content[i].id + ',\'' + content[i].descricao +
-                '\')" style="width: 100px;margin-top:1px;margin-left: 200px;" value="Associar" class="submit"/></li>')
+                    '\')" style="width: 100px;margin-top:1px;margin-left: 200px;" value="Associar" class="submit"/></li>')
         }
         $('#dvLoading').hide();
         $(".hiddenbox").slideDown();
@@ -263,8 +272,8 @@ function feed(type, id) {
         $('#dvLoading').show();
         $.post("index.php/feed?type=2", function (data) {
             document.getElementById("app").innerHTML = data;
-        //initSample();
-        //$('#dvLoading').hide();
+            //initSample();
+            //$('#dvLoading').hide();
         });
     }
     else if (type.name === 'editar') {

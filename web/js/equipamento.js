@@ -5,7 +5,7 @@ var ajaxform_novo_options={
 }
 
 function ajaxform_novo_options_request(formData, jqForm, options){
-    console.log(formData);
+    //console.log(formData);
     $.post('index.php/equipamento?salvar_novo&tipo='+tipo,{
         dados: (formData)
     }, function (data) {

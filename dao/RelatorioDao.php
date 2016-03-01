@@ -17,18 +17,19 @@ class RelatorioDao extends DAO {
         }
         return 0;
     }
-    public function updateRelatrio($dados){
-        $sql='UPDATE galp.`relatorios-output` SET `dados`=:dados WHERE `relatorio`=:relatorio';
+
+    public function updateRelatrio($dados) {
+        $sql = 'UPDATE galp.`relatorios-output` SET `dados`=:dados WHERE `relatorio`=:relatorio';
         $statement = parent::getDb()->prepare($sql);
         parent::executeStatement($statement, array(
             ':dados' => $dados,
-            ':relatorio'=>$_SESSION['relatorio']
+            ':relatorio' => $_SESSION['relatorio']
         ));
     }
 
     public function getLastRelatorio() {
         $found = false;
-        $dados=null;
+        $dados = null;
         foreach (parent::query('SELECT * FROM galp.`relatorios-output`  where relatorio=' . $_SESSION['relatorio'], PDO::FETCH_ASSOC) as $row) {
             $found = true;
         }
@@ -38,10 +39,10 @@ class RelatorioDao extends DAO {
                 return $relatorio;
             }
         } else {
-            foreach (parent::query('SELECT * FROM galp.`relatorios-output`  where relatorio=' . (intval($_SESSION['relatorio'])-1), PDO::FETCH_ASSOC) as $row) {
-                $dados=$row['dados'];
+            foreach (parent::query('SELECT * FROM galp.`relatorios-output`  where relatorio=' . (intval($_SESSION['relatorio']) - 1), PDO::FETCH_ASSOC) as $row) {
+                $dados = $row['dados'];
             }
-            self::insertNewRelatorio($dados,$_SESSION['relatorio'],  self::getCurrentVersao());
+            self::insertNewRelatorio($dados, $_SESSION['relatorio'], self::getCurrentVersao());
             $result = parent::query('SELECT * FROM galp.`relatorios-output`  where relatorio=' . $_SESSION['relatorio'], PDO::FETCH_ASSOC);
             foreach ($result as $relatorio) {
                 return $relatorio;
@@ -66,8 +67,8 @@ class RelatorioDao extends DAO {
         return $versao;
     }
 
-    public function updateTemplate($relatorio, $separadores,$versao) {
-       
+    public function updateTemplate($relatorio, $separadores, $versao) {
+
         $now = new DateTime();
         $data = parent::formatDateTime($now);
         $sql = "UPDATE `galp`.`relatorios-templates` SET `template`=:template,  `data`=:data, `separadores`=:separadores WHERE `versao`=:versao;";
@@ -78,7 +79,7 @@ class RelatorioDao extends DAO {
     public function getRelatorio($versao) {
         //$versao = null;
         $template = array();
-        
+
         if ($versao != null) {
             $result = parent::query('SELECT  *  FROM galp.`relatorios-templates` where area=' . $_SESSION['area'] . ' and versao=' . $versao, PDO::FETCH_ASSOC);
             foreach ($result as $relatorio) {
@@ -92,6 +93,29 @@ class RelatorioDao extends DAO {
             }
             return $template;
         }
+    }
+
+    public function getTrabalhos() {
+        $trabalhos = array();
+        foreach (parent::query("SELECT autorizacoes.`Descricao do trabalho` FROM galp.autorizacoes join registos on autorizacoes.ID=registos.autorizacao where registos.relatorio=" . $_SESSION['relatorio']) as $row) {
+            array_push($trabalhos, $row['Descricao do trabalho']);
+        }
+        return $trabalhos;
+    }
+
+    public function getEquipamentos() {
+        $equipamentos = array();
+        foreach (parent::query("SELECT equipamento.equipamento as designacao, equipamento.tipo as tipo, accoes.descricao as status FROM galp.equipamento 
+                                join `status-equipamento` on `status-equipamento`.equipamento=equipamento.id
+                                join accoes on `status-equipamento`.accao=accoes.id
+                                where `status-equipamento`.relatorio=" . $_SESSION['relatorio']) as $row) {
+            $array = array();
+            $array['equipamento'] = $row['designacao'];
+            $array['tipo'] = $row['tipo'];
+            $array['status'] = $row['status'];
+            array_push($equipamentos, $array);
+        }
+        return $equipamentos;
     }
 
 }

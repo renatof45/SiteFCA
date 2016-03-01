@@ -179,7 +179,10 @@ $app->post('/relatorio', 'checkLogIn', function() use ($app) {
             } elseif (array_key_exists('unidades', $_GET)) {
                 require "../page/relatorios/unidades.phtml";
             } elseif ($type == 1) {
-
+                $relatoriodao = new RelatorioDao();
+                $trabalhos=$relatoriodao->getTrabalhos();
+                $equipamentos=$relatoriodao->getEquipamentos();
+                //print_r($equipamentos);
                 require "../page/relatorios/resumo.phtml";
             } elseif ($type == 3) {
                 $relatoriodao = new RelatorioDao();

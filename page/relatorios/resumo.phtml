@@ -1,4 +1,26 @@
 <h1>Resumo do turno</h1>
 
-<h2>Processo</h2>
+<h3>Processo</h3>
+
+<form>
+    <fieldset>
+<h3>Equipapmentos</h3>
+
+
+        <?php foreach ($equipamentos as $equipamento): ?>
+        <div class="field">
+                <label style="width: 130px;">Equipamento:</label>
+                <p><?php echo $equipamento['equipamento'] ?></p>
+            </div>
+            <div class="field">
+                <label style="width: 130px;">Status:</label>
+                <p><?php echo $equipamento['status'] ?></p>
+            </div>
+<div class="clear separator"></div>
+        <?php endforeach; ?>
+
+    </fieldset>
+</form>
+
+<h3>Trabalhos</h3>
 

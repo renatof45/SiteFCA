@@ -68,10 +68,10 @@ final class EquipamentoDao extends DAO {
         }
     }
 
-    public function insertNovoEquipamento($equipamento, $unidade,$descricao, $tipo) {
+    public function insertNovoEquipamento($equipamento, $unidade, $descricao, $tipo) {
         $sql = "INSERT INTO `galp`.`equipamento` (`equipamento`, `unidade`, `estado`, `tipo`, `relatorio`,`descricao`) VALUES (:equipamento, :unidade, :estado, :tipo, :relatorio,:descricao);";
         $statement = parent::getDb()->prepare($sql);
-        parent::executeStatement($statement, array(':equipamento' => $equipamento, ':estado' => '5', ':relatorio' => $_SESSION['relatorio'], ':unidade' => $unidade, ':tipo' => $tipo,':descricao'=>$descricao));
+        parent::executeStatement($statement, array(':equipamento' => $equipamento, ':estado' => '5', ':relatorio' => $_SESSION['relatorio'], ':unidade' => $unidade, ':tipo' => $tipo, ':descricao' => $descricao));
     }
 
     public function updateStatus($equipamento, $status) {
@@ -109,6 +109,7 @@ final class EquipamentoDao extends DAO {
         $GLOBALS['total_time'] = new DateTime('2000-00-00 00:00:00');
         $query = null;
         $found = false;
+        $get_result=false;
         $first_date = false;
         if ($start == 'mes') {
             $query = 'WHERE MONTH(`data`) = MONTH(CURDATE()) and equipamento=';
@@ -116,6 +117,7 @@ final class EquipamentoDao extends DAO {
             $query = 'WHERE equipamento=';
         }
         foreach (parent::query("SELECT * FROM galp.`status-equipamento`  " . $query . $equipamento)as $row) {
+            $get_result=true;
             if ($row['accao'] == $status) {
                 $GLOBALS['old_date'] = new DateTime($row['data']);
                 $last_status = $row['accao'];
@@ -127,6 +129,15 @@ final class EquipamentoDao extends DAO {
                 $last_status = $row['accao'];
                 $GLOBALS['total_time']->add($diff);
                 $found = false;
+            }
+        }
+        if(!$get_result){
+            foreach (parent::query("SELECT estado FROM galp.`equipamento`  WHERE id=" . $equipamento)as $row) {
+                if($row['estado']=='5'){
+                    $now   = new DateTime();
+                    $days=intval ( $now->format('d'));
+                    return (24*$days+intval($now->format('h')))-24;
+                }
             }
         }
         if ($last_status == 5) {
