@@ -35,6 +35,38 @@ CREATE TABLE IF NOT EXISTS `galp`.`feed` (
   PRIMARY KEY (`id`))
 ENGINE = MyISAM;
 
+ALTER TABLE `galp`.`status-equipamento` 
+ADD COLUMN `comentario` MEDIUMTEXT NULL AFTER `data`,
+ADD COLUMN `descricao` MEDIUMTEXT NULL AFTER `comentario`;
+
+ALTER TABLE `galp`.`status-etapas` 
+CHANGE COLUMN `data` `data` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ,
+CHANGE COLUMN `accao` `accao` TINYTEXT NULL DEFAULT NULL ,
+CHANGE COLUMN `status-etapascol` `turno` INT NULL DEFAULT NULL ,
+CHANGE COLUMN `turno` `relatorio` INT(11) NULL DEFAULT NULL ;
+
+ALTER TABLE `galp`.`status-equipamento` 
+ADD COLUMN `status` VARCHAR(200) NULL AFTER `descricao`;
+
+ALTER TABLE `galp`.`equipamento` 
+CHANGE COLUMN `manutencao` `status` VARCHAR(100) NULL DEFAULT NULL ;
+
+ALTER TABLE `galp`.`accoes` 
+ADD COLUMN `tipo` INT(11) NULL AFTER `descricao`;
+
+ALTER TABLE `galp`.`equipamento` 
+ADD COLUMN `manutencao` INT NULL AFTER `descricao`;
+
+CREATE TABLE `galp`.`status-etapas` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `status` INT NULL,
+  `accao` INT NULL,
+  `data` DATETIME NULL,
+  PRIMARY KEY (`id`))
+ENGINE = MyISAM;
+
+
+
 ALTER TABLE `galp`.`manobras-processo` 
 ADD COLUMN `manobra` MEDIUMTEXT NULL AFTER `relatorio` ,
 ADD COLUMN `comentarios` MEDIUMTEXT NULL  AFTER `manobra` ;
@@ -43,6 +75,8 @@ ALTER TABLE `galp`.`relatorios-output`
 CHANGE COLUMN `relatorio` `relatorio` INT(11) NULL ,
 CHANGE COLUMN `unidade` `area` INT(11) NULL ,
 ADD COLUMN `versao` INT NULL AFTER `area`;
+
+
 
 
 ALTER TABLE `galp`.`relatorios-templates` 

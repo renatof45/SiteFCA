@@ -10,9 +10,7 @@
 
 // The trick to keep the editor in the sample quite small
 // unless user specified own height.
-CKEDITOR.config.height = $(window).height() - 460
-        ;
-CKEDITOR.config.width =860;
+
 
 var initSample = (function() {
     var wysiwygareaAvailable = isWysiwygareaAvailable(),

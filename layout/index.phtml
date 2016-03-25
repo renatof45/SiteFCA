@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="css/jquery-ui.css" />
         <script src="js/jquery-1.8.3.js"></script>
         <script src="js/tabs.js"></script>
-         <script src="js/equipamento.js"></script>
+        <script src="js/equipamento.js"></script>
         <script src="js/jquery-ui.js"></script>
         <script src="js/script.js"></script>
         <script src="js/app.js"></script>
@@ -27,8 +27,8 @@
 
         <!--<script src="js/jquery.tinyscrollbar.js"></script>-->
         <script type="text/javascript">
-            $(document).ready(function() {
-                $.fn.textWidth = function(text, font) {
+            $(document).ready(function () {
+                $.fn.textWidth = function (text, font) {
                     if (!$.fn.textWidth.fakeEl)
                         $.fn.textWidth.fakeEl = $('<span>').hide().appendTo(document.body);
                     $.fn.textWidth.fakeEl.text(text || this.val() || this.text()).css('font', font || this.css('font'));
@@ -66,6 +66,7 @@
             .noticia-detalhes li.cat a:hover { text-decoration: underline; }
             .noticia-detalhes li.cat { font-weight: normal; padding-left: 14px}
             .noticia-detalhes li.data { color: #F37020; }
+
         </style>
 
         <style>
@@ -79,6 +80,183 @@
                 width: 100%;
                 background: rgba( 255, 255, 255, .8) url('img/ajax-loader.gif') 50% 50% no-repeat;
             }
+            .historico{
+                width: 700px;
+                padding: 5px;
+            }
+            .historico td{
+                padding: 2px;
+            }
+            #circularG{
+                position:relative;
+                width:37px;
+                height:37px;
+                //margin: auto;
+            }
+
+            .circularG{
+                position:absolute;
+                background-color:rgb(0,0,0);
+                width:9px;
+                height:9px;
+                border-radius:6px;
+                -o-border-radius:6px;
+                -ms-border-radius:6px;
+                -webkit-border-radius:6px;
+                -moz-border-radius:6px;
+                animation-name:bounce_circularG;
+                -o-animation-name:bounce_circularG;
+                -ms-animation-name:bounce_circularG;
+                -webkit-animation-name:bounce_circularG;
+                -moz-animation-name:bounce_circularG;
+                animation-duration:0.718s;
+                -o-animation-duration:0.718s;
+                -ms-animation-duration:0.718s;
+                -webkit-animation-duration:0.718s;
+                -moz-animation-duration:0.718s;
+                animation-iteration-count:infinite;
+                -o-animation-iteration-count:infinite;
+                -ms-animation-iteration-count:infinite;
+                -webkit-animation-iteration-count:infinite;
+                -moz-animation-iteration-count:infinite;
+                animation-direction:normal;
+                -o-animation-direction:normal;
+                -ms-animation-direction:normal;
+                -webkit-animation-direction:normal;
+                -moz-animation-direction:normal;
+            }
+
+            #circularG_1{
+                left:0;
+                top:15px;
+                animation-delay:0.268s;
+                -o-animation-delay:0.268s;
+                -ms-animation-delay:0.268s;
+                -webkit-animation-delay:0.268s;
+                -moz-animation-delay:0.268s;
+            }
+
+            #circularG_2{
+                left:4px;
+                top:4px;
+                animation-delay:0.364s;
+                -o-animation-delay:0.364s;
+                -ms-animation-delay:0.364s;
+                -webkit-animation-delay:0.364s;
+                -moz-animation-delay:0.364s;
+            }
+
+            #circularG_3{
+                top:0;
+                left:15px;
+                animation-delay:0.45s;
+                -o-animation-delay:0.45s;
+                -ms-animation-delay:0.45s;
+                -webkit-animation-delay:0.45s;
+                -moz-animation-delay:0.45s;
+            }
+
+            #circularG_4{
+                right:4px;
+                top:4px;
+                animation-delay:0.536s;
+                -o-animation-delay:0.536s;
+                -ms-animation-delay:0.536s;
+                -webkit-animation-delay:0.536s;
+                -moz-animation-delay:0.536s;
+            }
+
+            #circularG_5{
+                right:0;
+                top:15px;
+                animation-delay:0.632s;
+                -o-animation-delay:0.632s;
+                -ms-animation-delay:0.632s;
+                -webkit-animation-delay:0.632s;
+                -moz-animation-delay:0.632s;
+            }
+
+            #circularG_6{
+                right:4px;
+                bottom:4px;
+                animation-delay:0.718s;
+                -o-animation-delay:0.718s;
+                -ms-animation-delay:0.718s;
+                -webkit-animation-delay:0.718s;
+                -moz-animation-delay:0.718s;
+            }
+
+            #circularG_7{
+                left:15px;
+                bottom:0;
+                animation-delay:0.814s;
+                -o-animation-delay:0.814s;
+                -ms-animation-delay:0.814s;
+                -webkit-animation-delay:0.814s;
+                -moz-animation-delay:0.814s;
+            }
+
+            #circularG_8{
+                left:4px;
+                bottom:4px;
+                animation-delay:0.9s;
+                -o-animation-delay:0.9s;
+                -ms-animation-delay:0.9s;
+                -webkit-animation-delay:0.9s;
+                -moz-animation-delay:0.9s;
+            }
+
+
+
+            @keyframes bounce_circularG{
+                0%{
+                    transform:scale(1);
+                }
+
+                100%{
+                    transform:scale(.3);
+                }
+            }
+
+            @-o-keyframes bounce_circularG{
+                0%{
+                    -o-transform:scale(1);
+                }
+
+                100%{
+                    -o-transform:scale(.3);
+                }
+            }
+
+            @-ms-keyframes bounce_circularG{
+                0%{
+                    -ms-transform:scale(1);
+                }
+
+                100%{
+                    -ms-transform:scale(.3);
+                }
+            }
+
+            @-webkit-keyframes bounce_circularG{
+                0%{
+                    -webkit-transform:scale(1);
+                }
+
+                100%{
+                    -webkit-transform:scale(.3);
+                }
+            }
+
+            @-moz-keyframes bounce_circularG{
+                0%{
+                    -moz-transform:scale(1);
+                }
+
+                100%{
+                    -moz-transform:scale(.3);
+                }
+            }
         </style>
     </head>
     <body>
@@ -88,18 +266,18 @@
                 <?php if (array_key_exists('error', $_GET)): ?>
                     <?php echo 'Utilizador ou password errada!'; ?>
 
-<?php elseif (array_key_exists('user', $_SESSION)): ?>
+                <?php elseif (array_key_exists('user', $_SESSION)): ?>
                     <form id="ajaxform4" method="post" style="float:left;width: 300px;">
                         <label style="margin-top: 5px;padding-bottom: 0px;">Area de trabalho:</label>
                         <select name="area" onchange="submit_area(this)">
-                                <?php while (list($key, $val) = each($user['area'])): ?>
+                            <?php while (list($key, $val) = each($user['area'])): ?>
                                 <option value="<?php echo $key; ?>" <?php if (array_key_exists('area', $_POST)) if ($_POST['area'] == $key) echo 'selected'; ?>>
-                                <?php echo $val; ?>
+                                    <?php echo $val; ?>
                                 </option>
-    <?php endwhile; ?>
+                            <?php endwhile; ?>
                         </select>
                     </form>
-<?php endif ?>
+                <?php endif ?>
                 <div style="float: right;"><?php if (array_key_exists('user', $_SESSION)) echo $_SESSION['user_name'] . '&nbsp;&nbsp;|&nbsp;&nbsp;<a href="index.php/sair" style="text-decoration: underline;cursor: default;">Sair</a>' ?></div>
             </div>
             <div id="main-menu">
@@ -114,7 +292,7 @@
                 <a href="http://www.galpenergia.com" id="logo" onclick="target = '_blank'" title="Galp Energia">Galp logo site </a>
                 <h1 class="title"><a href="login.html" title="PortalFCA">PortalFCA</a></h1>
             </div>
-<?php require $template ?>
+            <?php require $template ?>
             <div id="footer" style="position: absolute;width: 1100px;bottom: 3px">
 
                 <div class="clear separator"></div>

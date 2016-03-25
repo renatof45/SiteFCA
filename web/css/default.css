@@ -12,9 +12,7 @@ body{
   font: 11px arial,verdana,sans-serif;
 }  
 
-input{
-    margin-top: 2px;
-}
+
 
 *{
   padding:0;
@@ -39,12 +37,7 @@ a:hover{
 legend, .hide {
   display:none;}
   
-input{
-  
-  
-  height: 14px;
-  line-height:18px;
-  border:1px solid #d7d7d7;}
+
   	
 
 
@@ -182,6 +175,7 @@ h4{
   position:absolute;}
  
 .box h3{
+  margin-top: 0px;
   background:url(../img/homepage-accao.gif) no-repeat 0 0;
   height:20px;
   line-height:20px;

@@ -97,8 +97,14 @@ class RelatorioDao extends DAO {
 
     public function getTrabalhos() {
         $trabalhos = array();
-        foreach (parent::query("SELECT autorizacoes.`Descricao do trabalho` FROM galp.autorizacoes join registos on autorizacoes.ID=registos.autorizacao where registos.relatorio=" . $_SESSION['relatorio']) as $row) {
-            array_push($trabalhos, $row['Descricao do trabalho']);
+        foreach (parent::query("SELECT unidades.designacao as unidade, autorizacoes.`Descricao do trabalho` as desricao FROM galp.autorizacoes
+                             join registos on autorizacoes.ID=registos.autorizacao
+                             join unidades on unidades.id=autorizacoes.unidade
+                              where registos.relatorio=" . $_SESSION['relatorio']) as $row) {
+            $array = array();
+            $array['unidade'] = $row['unidade'];
+            $array['desricao'] = $row['desricao'];
+            array_push($trabalhos, $array);
         }
         return $trabalhos;
     }

@@ -1,14 +1,14 @@
 <h1>Resumo do turno</h1>
 
-<h3>Processo</h3>
+<h3>Processo:</h3>
 
-<form>
+
+<h3>Equipapmentos:</h3>
+<form style="margin-left: 20px">
     <fieldset>
-<h3>Equipapmentos</h3>
-
 
         <?php foreach ($equipamentos as $equipamento): ?>
-        <div class="field">
+            <div  class="field">
                 <label style="width: 130px;">Equipamento:</label>
                 <p><?php echo $equipamento['equipamento'] ?></p>
             </div>
@@ -16,11 +16,47 @@
                 <label style="width: 130px;">Status:</label>
                 <p><?php echo $equipamento['status'] ?></p>
             </div>
-<div class="clear separator"></div>
+            <div class="clear separator"></div>
         <?php endforeach; ?>
 
     </fieldset>
 </form>
 
-<h3>Trabalhos</h3>
+<h3>Pedidos de trabalho:</h3>
+<form style="margin-left: 20px">
+    <fieldset>
 
+        <?php foreach ($trabalhos as $trabalho): ?>
+            <div  class="field">
+                <label style="width: 130px;">Unidade:</label>
+                <p><?php echo $trabalho['unidade'] ?></p>
+            </div>
+            <div class="field">
+                <label style="width: 130px;">Descriçao:</label>
+                <p><?php echo $trabalho['desricao'] ?></p>
+            </div>
+            <div class="clear separator"></div>
+        <?php endforeach; ?>
+
+    </fieldset>
+</form>
+
+
+<h3>Trabalhos em curso:</h3>
+<form style="margin-left: 20px">
+    <fieldset>
+
+        <?php foreach ($trabalhos as $trabalho): ?>
+            <div  class="field">
+                <label style="width: 130px;">Unidade:</label>
+                <p><?php echo $trabalho['unidade'] ?></p>
+            </div>
+            <div class="field">
+                <label style="width: 130px;">Descriçao:</label>
+                <p><?php echo $trabalho['desricao'] ?></p>
+            </div>
+            <div class="clear separator"></div>
+        <?php endforeach; ?>
+
+    </fieldset>
+</form>

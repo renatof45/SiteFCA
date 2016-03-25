@@ -1,10 +1,37 @@
 
 var relatorios_passos = [];
+var alertas = [];
+var steps_array = [];
+var last_index = 0;
 
 var processoptions = {
     success: showResponse,
     beforeSubmit: showRequest, // pre-submit callback 
 };
+
+function addNewTitle() {
+    var index = 0;
+    $("#passos").children().each(function () {
+        for (var i = 0; i < $(this)[0].attributes.length; i++) {
+            if ($(this)[0].attributes[i].name === 'tipo') {
+                if ($(this)[0].attributes[i].value === 'passo') {
+                    if (parseInt($("#position-title").val()) === index) {
+                        ($(this)).before('<div style="margin-top:10px" class="field" tipo="titulo">' +
+                                '<label>Titulo intermédio:</label>' +
+                                '<textarea style="background-color: aliceblue;height: 35px;width: 750px;" name="manobra[passos][passo1]"></textarea>' +
+                                '<input type="button" onclick="processo(this);" name="remover_titulo" index="' + index + '" value="Remover" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
+                                '<div class="clear separator"></div>' +
+                                '</div>');
+
+                    }
+                    index++;
+                    break;
+                }
+            }
+        }
+
+    });
+}
 
 function processo(type) {
     //console.log($("#passos").children().size());
@@ -18,99 +45,179 @@ function processo(type) {
             type.value = 'Mostrar relatório';
         }
     }
-    if (type.name === "nova_manobra") {
-
-        var index = $("#passos").children().length + 1;
-        $("#passos").append('<div class="field">' +
-                '<label>Passo ' + index + ':</label>' +
-                '<textarea style="height: 30px;width: 550px" name="manobra[passos][passo' + index + ']"></textarea>' +
-                '<input type="button" onclick="processo(this);" name="mostrar_relatorio" index="' + index + '" value="Mostrar relatório" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 400px;" />' +
-                '<div id="relatorio' + index + '">' +
-                '<ul id="tab' + index + '" class="tabs">' +
-                ' </ul>' +
-                '</div>' +
-                '</div>');
-        $.post("index.php/processo?type=2", function (data) {
-            var content = (JSON.parse((JSON.parse(data)['template'])))
-
-            //document.getElementById("app").innerHTML = data;
-            TABS.CreateTabs('tab' + index);
-            var unidades = [];
-            for (var i = 0; i < content.length; i++) {
-                for (var j = 0; j < content[i].length; j++) {
-                    if (content[i][j] !== null) {
-                        unidades.push(content[i][j]['unidade'])
+    if (type.name === 'novo_titulo') {
+        var index = 0;
+        $("#position-title").html('');
+        $("#passos").children().each(function () {
+            for (var i = 0; i < $(this)[0].attributes.length; i++) {
+                if ($(this)[0].attributes[i].name === 'tipo') {
+                    if ($(this)[0].attributes[i].value === 'passo') {
+                        $("#position-title").append('<option value="' + index + '">' + index + '</option>');
+                        index++;
                         break;
                     }
                 }
-                break;
             }
-            var found = false;
-            for (i = 0; i < content.length; i++) {
-                for (var x = 0; x < content[i].length; x++) {
-                    for (j = 0; j < unidades.length; j++) {
-                        if (content[i][x] !== null) {
-                            if (content[i][x]['unidade'] === unidades[j]) {
-                                found = true;
-                                break;
-                            }
-                        }
-                    }
 
-                    if (!found && content[i][x] !== null) {
-                        unidades.push(content[i][x]['unidade']);
+        });
+        $("#dialog-add-title").dialog('open');
+    }
+    if (type.name === 'mover_passso') {
+        var index = 0;
+        $("#passos").children().each(function () {
+
+        });
+        $("#dialog-move-item").dialog('open');
+    }
+    if (type.name === 'remover_titulo') {
+        var index = (type.getAttribute('index'));
+        var found = false;
+        $("#passos").children().each(function () {
+            for (var i = 0; i < $(this)[0].attributes.length; i++) {
+                if ($(this)[0].attributes[i].name === 'tipo') {
+                    if ($(this)[0].attributes[i].value === 'titulo') {
+                        $(this).children().each(function () {
+                            //console.log($(this))
+                            if ($(this)[0].nodeName === 'INPUT') {
+                                for (var i = 0; i < $(this)[0].attributes.length; i++) {
+                                    if ($(this)[0].attributes[i].name === 'index') {
+                                        if ($(this)[0].attributes[i].value === index) {
+                                            found = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        });
                     }
+                }
+                if (found) {
+                    $(this).remove();
                     found = false;
                 }
             }
-            unidades.sort();
-            for (j = 0; j < unidades.length; j++) {
-                var top = 1000000;
-                var bottom = -1;
-                for (i = 0; i < content.length; i++) {
-                    for (x = 0; x < content[i].length; x++) {
-                        if (content[i][x] !== null) {
-                            if (content[i][x]['unidade'] === unidades[j]) {
-                                //console.log(parseInt(content[i]['location']['y']))
-                                if (parseInt(content[i][x]['location']['y']) < top) {
-                                    top = parseInt(content[i][x]['location']['y']);
-                                }
-                                if (parseInt(content[i][x]['location']['y']) > bottom) {
-                                    bottom = parseInt(content[i][x]['location']['y']) + content[i][x]['dimetions']['hieght'];
+        });
+    }
+    if (type.name === 'remover_passso') {
+        var index = (type.getAttribute('index'));
+        alertas.splice(parseInt(index), 1);
+        var found = false;
+        $("#passos").children().each(function () {
+            for (var i = 0; i < $(this)[0].attributes.length; i++) {
+                if ($(this)[0].attributes[i].name === 'tipo') {
+                    if ($(this)[0].attributes[i].value === 'passo') {
+                        $(this).children().each(function () {
+                            //console.log($(this))
+                            if ($(this)[0].nodeName === 'INPUT') {
+                                for (var i = 0; i < $(this)[0].attributes.length; i++) {
+                                    if ($(this)[0].attributes[i].name === 'index') {
+                                        if ($(this)[0].attributes[i].value === index) {
+                                            found = true;
+                                            break;
+                                        }
+                                    }
                                 }
                             }
-                        }
+                        });
                     }
                 }
-                bottom = bottom - top + 55;
-                var element = $('<div style="height:' + bottom + 'px"></div>');
-                for (i = 0; i < content.length; i++) {
-                    for (x = 0; x < content[i].length; x++) {
-                        if (content[i][x] !== null) {
-                            if (content[i][x]['unidade'] === unidades[j]) {
-                                var bloco = $('<div class="relatrio-manobra"  id="div' + x + index + '"></div>');
-                                bloco.css('width', content[i][x]['dimetions']['with']);
-                                bloco.css({
-                                    'top': (parseInt(content[i][x]['location']['y']) - (top - 5)) + 'px',
-                                    'left': content[i][x]['location']['x'],
-                                });
-                                bloco.css("position", "absolute");
-                                bloco.append(content[i][x]['bloco']);
-                                element.append(bloco[0].outerHTML);
-                                $("#div" + x + index).remove();
-                            }
-                        }
-                    }
+                if (found) {
+                    $(this).remove();
+                    found = false;
                 }
-                //console.log(element.children());
-                if (unidades[j] === $("#unidade option:selected").text().trim())
-                    TABS.AddTab(unidades[j], true, element[0].outerHTML, 'tab' + index);
-                else
-                    TABS.AddTab(unidades[j], false, element[0].outerHTML, 'tab' + index);
             }
-            $("#relatorio" + index).hide();
+        });
+        index = 0;
+        $("#passos").children().each(function () {
+            for (var i = 0; i < $(this)[0].attributes.length; i++) {
+                if ($(this)[0].attributes[i].name === 'tipo') {
+                    if ($(this)[0].attributes[i].value === 'passo') {
+                        $(this).children().each(function () {
+                            if ($(this)[0].nodeName === 'INPUT') {
+                                for (var i = 0; i < $(this)[0].attributes.length; i++) {
+                                    if ($(this)[0].attributes[i].name === 'index') {
+                                        //console.log($(this)[0].attributes[i]);
+                                        $(this)[0].attributes[i].value = index;
+
+                                    }
+                                }
+                            }
+                            else if ($(this)[0].nodeName === 'LABEL') {
+                                //console.log($(this));
+                                $(this)[0].innerHTML = 'Passo ' + index + ':';
+                            }
+
+                        });
+                        index++;
+                        break;
+                    }
+
+                }
+            }
+
 
         });
+    }
+    if (type.name === 'alerta') {
+        var steps = [];
+
+        $("#passos").children().each(function () {
+            for (var i = 0; i < $(this)[0].attributes.length; i++) {
+                if ($(this)[0].attributes[i].name === 'tipo') {
+                    if ($(this)[0].attributes[i].value === 'passo') {
+
+                    }
+                }
+            }
+        });
+        if (type.value === 'Adicionar Alerta') {
+            $("#alerta_ralatorio")[0].checked = false;
+            $("#alerta_equipamento")[0].checked = false;
+            $("#mensagem").val('');
+            $("#dialog-alertas").data('step', type)
+                    .dialog("open");
+        }
+        else {
+            var step = (alertas[parseInt(type.getAttribute('index'))]);
+            console.log(step.relatrio);
+            if (step.relatrio)
+                $("#alerta_ralatorio")[0].checked = true;
+            else
+                $("#alerta_ralatorio")[0].checked = false;
+            if (step.equipamento)
+                $("#alerta_equipamento")[0].checked = true;
+            else
+                $("#alerta_equipamento")[0].checked = false;
+            $("#mensagem").val(step.texto);
+            $("#dialog-alertas").data('step', type)
+                    .dialog("open");
+        }
+
+    }
+    if (type === 'adicionar_alerta') {
+
+    }
+    if (type.name === "novo_passo") {
+
+        var index = 0;
+        $("#passos").children().each(function () {
+            for (var i = 0; i < $(this)[0].attributes.length; i++) {
+                if ($(this)[0].attributes[i].name === 'tipo') {
+                    if ($(this)[0].attributes[i].value === 'passo') {
+                        index++;
+                    }
+                }
+            }
+        });
+        $("#passos").append('<div style="margin-top:10px" class="field" index="' + index + '" tipo="passo">' +
+                '<label>Passo ' + index + ':</label>' +
+                '<textarea style="background-color: antiquewhite;height: 50px;width: 750px" name="manobra[passos][passo' + index + ']"></textarea>' +
+                '<input type="button" onclick="processo(this);" name="alerta" index="' + index + '" value="Adicionar Alerta" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;" />' +
+                '<input type="button" onclick="processo(this);" name="remover_passso" index="' + index + '" value="Remover passo" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
+                '<div class="clear separator"></div>' +
+                '</div>'
+                );
+
     }
 
     if (type.name === "aceitarmanobra") {
@@ -136,7 +243,32 @@ function processo(type) {
         $("#ajaxform1").attr('action', 'index.php/processo?manobra=' + $("#manobras").val() + '&unidade=' + $("#unidade option:selected").text());
         $("#ajaxform1").submit();
     }
-    if (type.name === "adicionar") {
+    if (type.name === "salvar") {
+        var index = 0;
+        var title = '';
+        $("#passos").children().each(function () {
+            for (var i = 0; i < $(this)[0].attributes.length; i++) {
+                if ($(this)[0].attributes[i].name === 'tipo') {
+                    if ($(this)[0].attributes[i].value === 'passo') {
+                        $(this).children().each(function () {
+                            if ($(this)[0].nodeName === 'TEXTAREA') {
+                                steps_array[index] = {'title': title, 'step': $(this)[0].value};
+                                title = '';
+                                index++;
+                            }
+                        });
+                    }
+                    else {
+                        $(this).children().each(function () {
+                            if ($(this)[0].nodeName === 'TEXTAREA') {
+                                title = $(this)[0].value;
+                                //title = '';
+                            }
+                        });
+                    }
+                }
+            }
+        });
         $('#adicionarManobraForm').ajaxForm(processoptions);
         $('#dvLoading').show();
         $("#adicionarManobraForm").attr('action', 'index.php/processo?adicionar=true');
@@ -145,97 +277,72 @@ function processo(type) {
     if (type === 1) {
         $.post("index.php/processo?type=" + type, function (data) {
             document.getElementById("app").innerHTML = data;
+
+            $.post('index.php/processo?getprocedimentos', function (data) {
+                console.log(JSON.parse(JSON.parse(data)));
+                var proc = JSON.parse(JSON.parse(data));
+                alertas = proc[2]['alertas'];
+                for (var i = 0; i < proc[2]['steps'].length; i++) {
+                    if (proc[2]['steps'][i]['title'] !== '') {
+                        $("#procedimentos").append('<tr><td colspan="2" style="text-align: center;padding: 5px;"><label>' + proc[2]['steps'][i]['title'] + '</label></td></tr>');
+                    }
+                    $("#procedimentos").append('<tr><td style="width: 80px;"><input onclick="checkStep(' + i + ',this)" type="checkbox"/> Passo ' + i + '</td><td style="padding: 5px;">' + proc[2]['steps'][i]['step'] + '</td></tr>');
+                }
+            });
         });
     }
     if (type === 2) {
-        $.post("index.php/processo?type=" + type, function (data) {
-            var content = (JSON.parse((JSON.parse(data)['template'])))
-            $.post("index.php/processo?novamanobra=" + type, function (data) {
-                document.getElementById("app").innerHTML = data;
-                TABS.CreateTabs('tab1');
-                var unidades = [];
-                for (var i = 0; i < content.length; i++) {
-                    for (var j = 0; j < content[i].length; j++) {
-                        if (content[i][j] !== null) {
-                            unidades.push(content[i][j]['unidade'])
-                            break;
-                        }
-                    }
-                    break;
-                }
-                var found = false;
-                for (i = 0; i < content.length; i++) {
-                    for (var x = 0; x < content[i].length; x++) {
-                        for (j = 0; j < unidades.length; j++) {
-                            if (content[i][x] !== null) {
-                                if (content[i][x]['unidade'] === unidades[j]) {
-                                    found = true;
-                                    break;
-                                }
-                            }
-                        }
+        $.post("index.php/processo?novamanobra=" + type, function (data) {
+            document.getElementById("app").innerHTML = data;
+            CKEDITOR.config.height = 200;
+            CKEDITOR.config.width = 750;
 
-                        if (!found && content[i][x] !== null) {
-                            unidades.push(content[i][x]['unidade']);
-                        }
-                        found = false;
-                    }
-                }
-                unidades.sort();
-                for (j = 0; j < unidades.length; j++) {
-                    var top = 1000000;
-                    var bottom = -1;
-                    for (i = 0; i < content.length; i++) {
-                        for (x = 0; x < content[i].length; x++) {
-                            if (content[i][x] !== null) {
-                                if (content[i][x]['unidade'] === unidades[j]) {
-                                    //console.log(parseInt(content[i]['location']['y']))
-                                    if (parseInt(content[i][x]['location']['y']) < top) {
-                                        top = parseInt(content[i][x]['location']['y']);
-                                    }
-                                    if (parseInt(content[i][x]['location']['y']) > bottom) {
-                                        bottom = parseInt(content[i][x]['location']['y']) + content[i][x]['dimetions']['hieght'];
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    bottom = bottom - top + 55;
-                    var element = $('<div style="height:' + bottom + 'px"></div>');
-                    for (i = 0; i < content.length; i++) {
-                        for (x = 0; x < content[i].length; x++) {
-                            if (content[i][x] !== null) {
-                                if (content[i][x]['unidade'] === unidades[j]) {
-                                    var bloco = $('<div onclick="setbloco(this)" class="relatrio-manobra"  id="div' + x + '1"></div>');
-                                    bloco.css({
-                                        'top': (parseInt(content[i][x]['location']['y']) - (top - 5)) + 'px',
-                                        'left': content[i][x]['location']['x'],
-                                        'width': content[i][x]['dimetions']['with'],
-                                        'height': content[i][x]['dimetions']['height'],
-                                        'position': 'absolute',
-                                        'z-index': '100px'
-                                    });
-                                    bloco.append(content[i][x]['bloco']);
-                                    //bloco.append('<div onmouseover="selectbloco(this)" onmouseout="deselectebloco(this)" id="' + x + '1" tipo="1" onclick="setbloco(this)" class="picker"></div>');
-                                    element.append(bloco[0].outerHTML);
-                                    $("#div" + x + '1').remove();
-                                }
-                            }
-                        }
-                    }
-                    if (unidades[j] === $("#unidade option:selected").text().trim())
-                        TABS.AddTab(unidades[j], true, element[0].outerHTML, 'tab1');
-                    else
-                        TABS.AddTab(unidades[j], false, element[0].outerHTML, 'tab1');
-                }
-                $("#relatorio1").hide();
-            });
+            initSample();
         });
     }
     if (type === 3) {
         $.post("index.php/processo?type=" + type, function (data) {
             document.getElementById("app").innerHTML = data;
         });
+    }
+}
+
+function checkStep(index, input) {
+    var i = 0;
+    if (!input.checked && last_index > index) {
+        input.checked = true;
+        alert("Não pode desselecionar este passo!");
+    }
+    else {
+        $("#procedimentos").children().each(function () {
+            $(this).children().each(function () {
+                if ($(this)[0].childNodes.length === 2 && i < index) {
+                    if (!$(this)[0].childNodes[0].children[0].checked) {
+                        input.checked = false;
+                        alert("Tem de aceitar todos os passos anteriores!");
+                        return false;
+                    }
+                    i++;
+                }
+            });
+        });
+        if (input.checked) {
+            last_index = index;
+        }
+        else {
+            last_index = index - 1;
+        }
+        if (alertas[index] !== null && alertas.length > 0) {
+            console.log(alertas[index]);
+            $("#alerta_mensagem").html('-' + alertas[index]['texto']);
+            if (alertas[index]['equipamento'])
+                $("#alerta_mensagem").append('<br>-Não se esqueça de actualizar o estado do equipamento');
+            if (alertas[index]['relatrio'])
+                $("#alerta_mensagem").append('<br>-Não se esqueça de actualizar o relatorio');
+            $("#dialog-alerta").data('relatorio', alertas[index]['relatrio'])
+                    .data('equipamento', alertas[index]['equipamento'])
+                    .dialog('open');
+        }
     }
 }
 
@@ -256,20 +363,12 @@ function showRequest(formData, jqForm, options) {
     var procedimento = [];
     var index = -1;
     var passos = [];
-    //$('#dvLoading').hide();
+    var editor = CKEDITOR.instances.editor;
     procedimento.push({'unidade': formData[0]});
     procedimento.push({'nome': formData[1]});
-
-    for (var i = 2; i < formData.length; i++) {
-        if (formData[i]['name'].split('[')[0] === 'manobra') {
-            passos.push({'passo': formData[i], 'relatorio': []});
-            index++;
-        }
-        else
-            passos[index]['relatorio'].push(formData[i]);
-    }
-    procedimento.push({'passos': passos});
-    $.post("index.php/processo?adicionar=true&unidade=" + procedimento[0]['unidade']['value'] + '&nome=' + procedimento[1]['nome']['value'], {procidimento: JSON.stringify(procedimento)}, function (data) {
+    var content_array = {'alertas': alertas, 'steps': steps_array};
+    procedimento.push(content_array);
+    $.post("index.php/processo?salvar=true&unidade=" + procedimento[0]['unidade']['value'] + '&nome=' + procedimento[1]['nome']['value'], {procidimento: JSON.stringify(procedimento), descricao: editor.getData()}, function (data) {
         $('#dvLoading').hide();
     });
     return false;

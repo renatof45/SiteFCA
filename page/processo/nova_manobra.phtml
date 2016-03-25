@@ -1,8 +1,10 @@
 <form id="ajaxform1" method="post">
     <fieldset style="z-index: 100; position: fixed;background-color: rgb(243,243,243);width: 863px;">
         <div class="field">
-            <input type="button" onclick="processo(this);" name="nova_manobra" style="width: 110px;margin-bottom: 5px;margin-top: 5px;float: left" value="Adicionar passo" class="button">
-            <input type="button" onclick="processo(this);" name="adicionar" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">
+            <input type="button" onclick="processo(this);" name="novo_passo" style="width: 110px;margin-bottom: 5px;margin-top: 5px;float: left" value="Adicionar passo" class="button">
+            <input type="button" onclick="processo(this);" name="novo_titulo" style="width: 110px;margin-bottom: 5px;margin-top: 5px;float: left" value="Adicionar titulo" class="button">
+            <input type="button" onclick="processo(this);" name="salvar" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">
+            <input type="button" onclick="processo(this);" name="simular" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Simular" class="button">
             <input type="button" name="alterar" onclick="processo('imprimir');" style="margin-top: 5px;float: left;" value="Imprimir" class="button">
 
         </div> 
@@ -35,26 +37,72 @@
             <input type="text" style="width: 400px" name="manobra[nome]"/>
         </div>
         <div class="field">
+            <label>Descrição:</label>
+            <input type="hidden" name="texto" id="texto"/>
+            <div style="margin-left: 97px">
+            <div  id="editor">
+
+               
+            </div>
+            </div>
+        </div>
+        <div class="field">
             <label style="width:200px;margin-top: 10px;">Passos do procedimento:</label>
 
         </div>
         <div id="passos">
-            <div class="field">
-                <label>Passo 1:</label>
-                <textarea style="height: 30px;width: 550px" name="manobra[passos][passo1]"></textarea>
-                <input type="button" onclick="processo(this);" name="mostrar_relatorio" index="1" value="Mostrar relatório" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 400px;" />
-                <div id="relatorio1" > 
-                    <ul id="tab1" class="tabs">
-
-                    </ul>
-                </div>
-            </div>
+            
         </div>
 
-        
+
 
         <!--<div class="clear separator"></div>-->
 
-       
+
     </fieldset>
 </form>
+
+<div id="dialog-alertas" title="Novo Alerta">
+    <form >
+        <fieldset>
+            <div class="field">
+                <label style="padding-bottom: 20px;">Alerta:</label>
+                <input type="checkbox" id="alerta_ralatorio" name="relatorio" value="1"> Alertar para alterar relatório<br>
+                <input type="checkbox" id="alerta_equipamento" name="equipmento" value="2"> Alertar para alterar estado de equipamento<br>
+      
+             </div>
+            <div style="margin-top: 30px" class="field">
+                <label>Mensagem:</label>
+                <textarea style="height: 90px;width: 309px;" id="mensagem" name="manobra[passos][passo1]"></textarea>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+<div id="dialog-add-title" title="Adicionar titulo">
+    <form >
+        <fieldset>
+            <div class="field">
+                <label style="padding-bottom: 20px;">Passo:</label>
+                <select id="position-title">
+                    
+                </select>
+             </div>
+        </fieldset>
+         
+    </form>
+     O titulo será adicionado antes do passo indicado
+</div>
+
+<div id="dialog-move-item" title="Mover">
+    <form >
+        <fieldset>
+            <div class="field">
+                <label style="padding-bottom: 20px;">Posição:</label>
+                <select id="position-step">
+                    
+                </select>
+             </div>
+        </fieldset>
+    </form>
+</div>

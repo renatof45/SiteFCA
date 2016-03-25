@@ -125,7 +125,7 @@ function novo_pedido() {
         e.stopImmediatePropagation();
     }
     );
-    
+
 }
 
 function sub2(that) {
@@ -265,6 +265,9 @@ function feed(type, id) {
         $('#dvLoading').show();
         $.post("index.php/feed?type=1", function (data) {
             document.getElementById("app").innerHTML = data;
+            CKEDITOR.config.height = $(window).height() - 460
+                    ;
+            CKEDITOR.config.width = 850;
             initSample();
         });
     }

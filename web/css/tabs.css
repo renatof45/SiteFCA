@@ -1,5 +1,5 @@
 .tabs_headers{
-    width: 60px;
+    width: 100px;
     height: 20px;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
@@ -12,7 +12,7 @@
 }
 
 .tabs_headers_slected{
-    width: 60px;
+    width: 100px;
     height: 20px;
     border: 1px solid #F37020;
     border-top-left-radius: 4px;
@@ -25,23 +25,25 @@
 
 .tabs_headers label{
     padding:0px;
-    width:58px
+    width:98px
     
 }
 .tabs_headers_slected label{
     padding:0px;
-    width:58px
+    width:98px
 }
 .tabs{
     display:-ms-flexbox;
     display: flex;
 }
 .tabs_content{
-    margin-bottom: 5px;
-    width: 860px;
+    //margin-bottom: 20px;
+    //padding: 10px;
+    overflow: auto;
+    width: 880px;
     position: relative;
     border-top: 1px solid #F37020;
-    border-bottom: 2px solid #F37020;
+    border-bottom: 1px solid #F37020;
     margin-top: -1px;
 }
 

@@ -103,6 +103,7 @@ function relatorio(type, obj) {
         relatorio_array[id] = [];
         $.post("index.php/relatorio?salvar=true", {
             "content": JSON.stringify(relatorio_array),
+            "versao":versao,
             "separadores": JSON.stringify(separator_array)
         }, function (data) {
             detach = false;

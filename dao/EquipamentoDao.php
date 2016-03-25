@@ -2,7 +2,7 @@
 
 final class EquipamentoDao extends DAO {
 
-    public function getAll($unidade) {
+    public function getAll1($unidade) {
         $equipamento = array();
         foreach (parent::query("select equipamento.id as id id,equipamento.Equipamento
                                 from equipamento join 
@@ -19,11 +19,42 @@ final class EquipamentoDao extends DAO {
         $equipamento = array();
         foreach (parent::query("select equipamento.id as id,accoes.id as status,Equipamento
                                 from equipamento join accoes on accoes.id=equipamento.estado
-                                where unidade=" . $unidade . " and tipo=" . $type) as $row) {
+                                where unidade=" . $unidade . " and equipamento.tipo=" . $type) as $row) {
             $result = array();
             $result['id'] = $row['id'];
             $result['Equipamento'] = $row['Equipamento'];
             $result['estado'] = $row['status'];
+            array_push($equipamento, $result);
+        }
+        return $equipamento;
+    }
+
+    public function getAllByType($type) {
+        $equipamento = array();
+        foreach (parent::query("select unidade,id,status,Equipamento
+                                from equipamento
+                                where  equipamento.tipo=" . $type) as $row) {
+            $result = array();
+            $result['id'] = $row['id'];
+            $result['Equipamento'] = $row['Equipamento'];
+            $result['estado'] = $row['status'];
+            $result['unidade'] = $row['unidade'];
+            array_push($equipamento, $result);
+        }
+        return $equipamento;
+    }
+
+    public function getAll() {
+        $equipamento = array();
+        foreach (parent::query("select equipamento.tipo as tipo,unidade, equipamento.id as id,accoes.id as status,Equipamento
+                                from equipamento join accoes on accoes.id=equipamento.estado") as $row) {
+            $result = array();
+            $result['id'] = $row['id'];
+            $result['Equipamento'] = $row['Equipamento'];
+            $result['estado'] = $row['status'];
+            $result['unidade'] = $row['unidade'];
+            $result['tipo'] = $row['tipo'];
+            //$result['manutencao'] = $row['manutencao'];
             array_push($equipamento, $result);
         }
         return $equipamento;
@@ -54,10 +85,20 @@ final class EquipamentoDao extends DAO {
     }
 
     public function getEqipmentoById($id) {
-        foreach (parent::query("select id,Equipamento
+        foreach (parent::query("select id,Equipamento,descricao
                                 from equipamento
                                  where id=" . $id) as $row) {
-            return $row['Equipamento'];
+            return array('equipamento' => $row['Equipamento'], 'descricao' => $row['descricao']);
+        }
+    }
+
+    public function getEstadoByEquipamento($equipamento) {
+        $estados = array();
+        foreach (parent::query("SELECT * FROM galp.`status-equipamento`
+                               where equipamento =" . $equipamento . "  and `data` <= now()
+                               ORDER BY `data` DESC
+                               LIMIT 1;") as $row) {
+            return array('id' => $row['id'], 'estado' => $row['status'], 'data' => $row['data'], 'descricao' => $row['descricao'], 'comentario' => $row['comentario'], 'equipamento' => $this->getEqipmentoById($equipamento));
         }
     }
 
@@ -74,29 +115,48 @@ final class EquipamentoDao extends DAO {
         parent::executeStatement($statement, array(':equipamento' => $equipamento, ':estado' => '5', ':relatorio' => $_SESSION['relatorio'], ':unidade' => $unidade, ':tipo' => $tipo, ':descricao' => $descricao));
     }
 
-    public function updateStatus($equipamento, $status) {
-        $sql = 'UPDATE `galp`.`equipamento` SET `estado`=:estado,`relatorio`=:relatorio WHERE `id`=:equipamento';
+    public function updateEtapas($status, $accao) {
+        $sql = "INSERT INTO `galp`.`status-etapas` (`status`, `accao`, `relatorio`) VALUES (:status, :accao, :relatorio)";
         $statement = parent::getDb()->prepare($sql);
-        parent::executeStatement($statement, array(':equipamento' => $equipamento, ':estado' => $status, ':relatorio' => $_SESSION['relatorio']));
+        parent::executeStatement($statement, array(':accao' => $accao, ':status' => $status, ':relatorio' => $_SESSION['relatorio']));
+    }
 
-        $sql = 'INSERT INTO `galp`.`status-equipamento` (`relatorio`, `equipamento`, `accao`) VALUES (:relatorio, :equipamento, :accao);';
+    public function getEtapas($status) {
+        $etapas = array();
+        foreach (parent::query("SELECT * FROM galp.`status-etapas` where status=" . $status) as $row) {
+            array_push($etapas, $row);
+        }
+        return $etapas;
+    }
+
+    public function updateStatus($equipamento, $status, $comentario, $descricao) {
+        $sql = 'UPDATE `galp`.`equipamento` SET `status`=:status,`relatorio`=:relatorio WHERE `id`=:equipamento';
         $statement = parent::getDb()->prepare($sql);
-        parent::executeStatement($statement, array(':equipamento' => $equipamento, ':accao' => $status, ':relatorio' => $_SESSION['relatorio']));
+        parent::executeStatement($statement, array(':equipamento' => $equipamento, ':status' => $status, ':relatorio' => $_SESSION['relatorio']));
+
+        $sql = 'INSERT INTO `galp`.`status-equipamento` (`relatorio`, `equipamento`, `status`,`comentario`,`descricao`) VALUES (:relatorio, :equipamento, :status,:comentario,:descricao);';
+        $statement = parent::getDb()->prepare($sql);
+        parent::executeStatement($statement, array(':equipamento' => $equipamento, ':status' => $status, ':relatorio' => $_SESSION['relatorio'], ':descricao' => $descricao, ':comentario' => $comentario));
+    }
+
+    public function getAccoes($tipo) {
+        $accoes = array();
+        foreach (parent::query("SELECT * FROM galp.accoes where tipo=" . $tipo) as $row) {
+            array_push($accoes, $row['descricao']);
+        }
+        return $accoes;
     }
 
     public function getHistory($equipamento) {
         $history = array();
-        foreach (parent::query("SELECT turno,relatorios.data,descricao,Nome FROM galp.`status-equipamento` 
-                                  join relatorios on relatorios.id=`status-equipamento`.relatorio
-                                  join accoes on accoes.id=`status-equipamento`.accao
-                                  join utilizador on utilizador.id=relatorios.utilizador
-                                  where `status-equipamento`.equipamento =" . $equipamento . " order by `status-equipamento`.data desc") as $row) {
-            $result = array();
-            $result['turno'] = $row['turno'];
-            $result['data'] = $row['data'];
-            $result['descricao'] = $row['descricao'];
-            $result['Nome'] = $row['Nome'];
-            array_push($history, $result);
+        $etapas = array();
+        foreach (parent::query("SELECT * FROM galp.`status-equipamento` where equipamento=" . $equipamento . " ORDER BY `data` DESC") as $row1) {
+            foreach (parent::query("SELECT * FROM galp.`status-etapas` where status=" . $row1['id']) as $row2) {
+                array_push($etapas, $row2);
+            }
+            array_push($history, array('status' => $row1, 'etapas' => $etapas));
+            unset($etapas);
+            $etapas = array();
         }
         return $history;
     }
@@ -109,7 +169,7 @@ final class EquipamentoDao extends DAO {
         $GLOBALS['total_time'] = new DateTime('2000-00-00 00:00:00');
         $query = null;
         $found = false;
-        $get_result=false;
+        $get_result = false;
         $first_date = false;
         if ($start == 'mes') {
             $query = 'WHERE MONTH(`data`) = MONTH(CURDATE()) and equipamento=';
@@ -117,7 +177,7 @@ final class EquipamentoDao extends DAO {
             $query = 'WHERE equipamento=';
         }
         foreach (parent::query("SELECT * FROM galp.`status-equipamento`  " . $query . $equipamento)as $row) {
-            $get_result=true;
+            $get_result = true;
             if ($row['accao'] == $status) {
                 $GLOBALS['old_date'] = new DateTime($row['data']);
                 $last_status = $row['accao'];
@@ -131,16 +191,16 @@ final class EquipamentoDao extends DAO {
                 $found = false;
             }
         }
-        if(!$get_result){
+        if (!$get_result) {
             foreach (parent::query("SELECT estado FROM galp.`equipamento`  WHERE id=" . $equipamento)as $row) {
-                if($row['estado']=='5'){
-                    $now   = new DateTime();
-                    $days=intval ( $now->format('d'));
-                    return (24*$days+intval($now->format('h')))-24;
+                if ($row['estado'] == '4') {
+                    $now = new DateTime();
+                    $days = intval($now->format('d'));
+                    return (24 * $days + intval($now->format('h'))) - 24;
                 }
             }
         }
-        if ($last_status == 5) {
+        if ($last_status == 4) {
             $new_date = new DateTime();
             $diff = $new_date->diff($GLOBALS['old_date']);
             $GLOBALS['total_time']->add($diff);
@@ -153,61 +213,6 @@ final class EquipamentoDao extends DAO {
             $hours = $diff->h;
             $hours = $hours + ($diff->days * 24);
             return $hours;
-        }
-    }
-
-    public function getHorasDeMarcha1($equipamento, $status) {
-        $horas = array();
-        $found = false;
-        $date = date('Y-m-d H:i:s');
-        $total = 0;
-        $accao = null;
-        foreach (parent::query("SELECT * FROM galp.`horas-de-marcha`
-             join galp.equipamento on equipamento.id=`horas-de-marcha`.equipamento
-             where equipamento.id=" . $equipamento)as $row) {
-            $found = true;
-        }
-        if (!$found) {
-            $sql = 'INSERT INTO `galp`.`horas-de-marcha` (`equipamento`, `horas`, `last-status`,`data` ) VALUES (:equipamento,:horas,:laststatus,:data);';
-            $statement = parent::getDb()->prepare($sql);
-            parent::executeStatement($statement, array(':equipamento' => $equipamento, ':laststatus' => $status, ':horas' => 0, ':data' => $date));
-        } else {
-            $found = false;
-            foreach (parent::query("SELECT data,horas,`last-status` FROM galp.`horas-de-marcha` where equipamento=" . $equipamento) as $row) {
-                $total = $row['horas'];
-                $accao = $row['last-status'];
-                $firstfound = false;
-                $startdate = $row['data'];
-                //echo "SELECT * FROM galp.`status-equipamento` where data > '".$startdate."' and equipamento=".$equipamento." order by data;";
-                foreach (parent::query("SELECT * FROM galp.`status-equipamento` where data > '" . $startdate . "' and equipamento=" . $equipamento . " order by data;") as $row1) {
-                    $found = true;
-                    //echo "teste1";
-                    if ($row1['accao'] == 5) {
-                        $startdate = $row1['data'];
-                        $firstfound = true;
-                    } elseif ($firstfound) {
-                        $firstfound = false;
-                        $date1 = new DateTime($startdate);
-                        $date2 = new DateTime($row1['data']);
-                        $diff = $date2->diff(($date1));
-                        $total+=$diff->h;
-                    }
-                    $accao = $row1['accao'];
-                    echo 'status : ' . $accao;
-                }
-            }
-            date_default_timezone_set('Europe/Lisbon');
-            $date2 = new DateTime();
-            if (($accao == 5 && !$found) || $accao == 5) {
-                $date1 = new DateTime($startdate);
-                $diff = $date2->diff(($date1));
-                $total+=$diff->h;
-            }
-            echo "total: " . $total;
-            //echo $accao;
-            $sql = "UPDATE `galp`.`horas-de-marcha` SET `data`=:data,`horas`=:horas, `last-status`=:laststatus WHERE `equipamento`=:equipamento;";
-            $statement = parent::getDb()->prepare($sql);
-            parent::executeStatement($statement, array(':equipamento' => $equipamento, ':horas' => $total, ':laststatus' => $accao, ':data' => $date2->format('Y-m-d H:i:s')));
         }
     }
 
