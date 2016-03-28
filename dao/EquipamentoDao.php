@@ -46,8 +46,8 @@ final class EquipamentoDao extends DAO {
 
     public function getAll() {
         $equipamento = array();
-        foreach (parent::query("select equipamento.tipo as tipo,unidade, equipamento.id as id,accoes.id as status,Equipamento
-                                from equipamento join accoes on accoes.id=equipamento.estado") as $row) {
+        foreach (parent::query("select unidade,id,status,Equipamento,tipo
+                                from equipamento ") as $row) {
             $result = array();
             $result['id'] = $row['id'];
             $result['Equipamento'] = $row['Equipamento'];
@@ -120,6 +120,13 @@ final class EquipamentoDao extends DAO {
         $statement = parent::getDb()->prepare($sql);
         parent::executeStatement($statement, array(':accao' => $accao, ':status' => $status, ':relatorio' => $_SESSION['relatorio']));
     }
+    
+    public function updateEquipamento($equipamento, $id, $descricao) {
+        //UPDATE `galp`.`equipamento` SET `relatorio`='141', `descricao`='Bomba de carga da unidade' WHERE `id`='1';
+        $sql = "UPDATE `galp`.`equipamento` SET `equipamento`=:equipamento,`relatorio`=:relatorio, `descricao`=:descricao WHERE `id`=:id";
+        $statement = parent::getDb()->prepare($sql);
+        parent::executeStatement($statement, array(':equipamento' => $equipamento, ':id' => $id, ':relatorio' => $_SESSION['relatorio'], ':descricao' => $descricao));
+    }
 
     public function getEtapas($status) {
         $etapas = array();
@@ -178,12 +185,12 @@ final class EquipamentoDao extends DAO {
         }
         foreach (parent::query("SELECT * FROM galp.`status-equipamento`  " . $query . $equipamento)as $row) {
             $get_result = true;
-            if ($row['accao'] == $status) {
+            if ($row['status'] == $status) {
                 $GLOBALS['old_date'] = new DateTime($row['data']);
                 $last_status = $row['accao'];
                 $found = true;
             }
-            if ($row['accao'] != $status && $found) {
+            if ($row['status'] != $status && $found) {
                 $GLOBALS['new_date'] = new DateTime($row['data']);
                 $diff = $GLOBALS['new_date']->diff($GLOBALS['old_date']);
                 $last_status = $row['accao'];
@@ -193,14 +200,14 @@ final class EquipamentoDao extends DAO {
         }
         if (!$get_result) {
             foreach (parent::query("SELECT estado FROM galp.`equipamento`  WHERE id=" . $equipamento)as $row) {
-                if ($row['estado'] == '4') {
+                if ($row['estado'] == 'Em Serviço') {
                     $now = new DateTime();
                     $days = intval($now->format('d'));
                     return (24 * $days + intval($now->format('h'))) - 24;
                 }
             }
         }
-        if ($last_status == 4) {
+        if ($last_status == ' ') {
             $new_date = new DateTime();
             $diff = $new_date->diff($GLOBALS['old_date']);
             $GLOBALS['total_time']->add($diff);

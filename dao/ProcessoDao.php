@@ -7,13 +7,20 @@ final class ProcessoDao extends DAO {
         $statement = parent::getDb()->prepare($sql);
         parent::executeStatement($statement, array(':descricao'=>$descricao,':nome' => $nome, ':unidade' => $unidade, ':criador' => $_SESSION['user'], ':relatorio' => $_SESSION['relatorio'], ':manobras' => $manobras));
     }
+    public function updateManobra($id,$nome,$unidade,$manobras,$descricao){
+        $sql='UPDATE `galp`.`manobras-processo` SET `nome`=:nome,`relatorio`=:relatorio, `unidade`=:unidade, `manobra`=:manobra, `descricao`=:descricao WHERE `id`=:id';
+        $statement = parent::getDb()->prepare($sql);
+        parent::executeStatement($statement, array(':id'=>$id, ':descricao'=>$descricao,':nome' => $nome, ':unidade' => $unidade, ':relatorio' => $_SESSION['relatorio'], ':manobra' => $manobras));
+    }
 
-    public function getAll($unidade) {
+    public function getAll() {
         $manobras = array();
-        foreach (parent::query("SELECT * FROM galp.`manobras-processo` where unidade=" . $unidade) as $row) {
+        foreach (parent::query("SELECT * FROM galp.`manobras-processo`") as $row) {
             $result = array();
             $result['nome'] = $row['nome'];
             $result['id'] = $row['id'];
+            $result['criador'] = $row['criador'];
+            $result['unidade'] = $row['unidade'];
             array_push($manobras, $result);
         }
         return $manobras;

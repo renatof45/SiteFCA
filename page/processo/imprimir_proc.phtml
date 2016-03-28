@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PortalFCA</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <link href="http://localhost:8080/js/ckeditor/contents.css?t=FB9E" rel="stylesheet" type="text/css" />
+
+
+        <!--<link rel="stylesheet" type="text/css" href="css/colresize.css" /> -->
+        <script src="../../js/processo.js"></script>
+        <link rel="stylesheet" href="../../css/jquery-ui.css" />
+        <script src="../../js/jquery-1.8.3.js"></script>
+        <script src="../../js/tabs.js"></script>
+        <script src="../../js/jquery-ui.js"></script>
+
+    </head>
+    <body style="    margin: 0px;">
+        <div style="height:1028px;width: 680px;border:1px solid" id="descricao">    
+            <?php //echo(json_decode($descricao)); ?>
+        </div>
+        <table id="proc" border="1" style="border-collapse: collapse;width: 680px">
+            <?php foreach ($manobras[2] as $manobra): ?>
+                <?php foreach ($manobra as $passos): ?>
+                    <?php if ($passos != null && (array_key_exists('title', $passos))): ?>
+                        <?php if ($passos['title'] != ''): ?>
+                            <tr><td colspan="2" style="text-align: center;padding: 5px;"><h2><?php echo $passos['title'] ?></h2></td></tr>
+                        <?php endif; ?>
+                        <tr><td style="width: 80px;"><p style="margin: 0px;font-size: 12px;">Passo <?php echo $index; ?></p></td><td style="padding: 5px;"><p style="margin: 0px;font-size: 12px;"><?php echo $passos['step']; ?></p></td></tr> 
+                        <?php $index++; ?>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            <?php endforeach; ?>
+        </table>
+        <div id="print"></div>
+        <script>
+            var linhas = [];
+            var tabelas = [];
+            var gap = [];
+            gap.push(0);
+            var heigth = $("#descricao")[0].offsetHeight;
+            var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+            // Firefox 1.0+
+            var isFirefox = typeof InstallTrigger !== 'undefined';
+            // At least Safari 3+: "[object HTMLElementConstructor]"
+            var isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
+            // Internet Explorer 6-11
+            var isIE = /*@cc_on!@*/false || !!document.documentMode;
+            // Edge 20+
+            var isEdge = !isIE && !!window.StyleMedia;
+            // Chrome 1+
+            var isChrome = !!window.chrome && !!window.chrome.webstore;
+            // Blink engine detection
+            var isBlink = (isChrome || isOpera) && !!window.CSS;
+            var print_heigth = 0;
+            if (isOpera || isFirefox) {
+
+            }
+            else if (isEdge || isIE) {
+                 print_heigth=1028;
+            }
+            else if (isChrome) {
+                print_heigth=1028;
+            }
+            $("#proc").children().children().each(function () {
+                    if (heigth + $(this)[0].offsetHeight > print_heigth) {
+                        gap.push(print_heigth - heigth);
+                        tabelas.push(linhas);
+                        heigth = 0;
+                        linhas = new Array();
+                    }
+                    linhas.push($(this).html());
+                    heigth += $(this)[0].offsetHeight;
+                });
+            tabelas.push(linhas);
+            console.log(heigth);
+            $("#proc").remove();
+//            for (var i = 0; i < tabelas.length; i++) {
+//                $("#print").append('<table id="proc' + i + '" border="1" style="margin-top:' + (gap[i]) + 'px;border-collapse: collapse;width: 680px">')
+//                for (var j = 0; j < tabelas[i].length; j++) {
+//                    $("#proc" + i).append('<tr>' + tabelas[i][j] + '</tr>')
+//                }
+//                //$("#print").append('<br><br><br>');
+//                //
+//            }
+           window.print();
+        </script>
+    </body>
+</html>

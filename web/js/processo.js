@@ -3,9 +3,9 @@ var relatorios_passos = [];
 var alertas = [];
 var steps_array = [];
 var last_index = 0;
-
+var update = false;
 var processoptions = {
-    success: showResponse,
+    
     beforeSubmit: showRequest, // pre-submit callback 
 };
 
@@ -33,8 +33,11 @@ function addNewTitle() {
     });
 }
 
-function processo(type) {
-    //console.log($("#passos").children().size());
+function processo(type, object) {
+    console.log(type.name);
+    if(type.name==='imprimir'){
+        window.open('http://localhost:8080/index.php/processo?imprimir&proc='+type.getAttribute('proc_id'));
+    }
     if (type.name === 'mostrar_relatorio') {
         if (type.value === 'Mostrar relatório') {
             $("#relatorio" + type.getAttribute('index')).show();
@@ -274,13 +277,53 @@ function processo(type) {
         $("#adicionarManobraForm").attr('action', 'index.php/processo?adicionar=true');
         $("#adicionarManobraForm").submit();
     }
-    if (type === 1) {
-        $.post("index.php/processo?type=" + type, function (data) {
+    if (type.name === 'editar_proc') {
+        update=true;
+        $.post("index.php/processo?novamanobra=" + type, function (data) {
             document.getElementById("app").innerHTML = data;
+            CKEDITOR.config.height = 200;
+            CKEDITOR.config.width = 750;
+            $("#proc_id").val(type.getAttribute('proc_id'))
+            while (alert.length > 0) {
+                alert.pop();
+            }
+            
+            $.post('index.php/processo?getprocedimentos&proc=' + type.getAttribute('proc_id'), function (data) {
+              console.log(JSON.parse(data).descricao);
+                var proc = JSON.parse(JSON.parse(JSON.parse(data)['manobra']));
+                $("#manobra_nome").val(proc[1].nome.value);
+                $("#editor").html(JSON.parse(JSON.parse(data)['descricao']));
+                initSample();
+                alertas = proc[2]['alertas'];
+                for (var i = 0; i < proc[2]['steps'].length; i++) {
+                    if (proc[2]['steps'][i]['title'] !== '') {
+                        $("#passos").append('<div style="margin-top:10px" class="field" tipo="titulo">' +
+                                '<label>Titulo intermédio:</label>' +
+                                '<textarea style="background-color: aliceblue;height: 35px;width: 750px;" name="manobra[passos][passo1]">' + proc[2]['steps'][i]['title'] + '</textarea>' +
+                                '<input type="button" onclick="processo(this);" name="remover_titulo" index="' + i + '" value="Remover" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
+                                '<div class="clear separator"></div>' +
+                                '</div>');
+                    }
+                    $("#passos").append('<div style="margin-top:10px" class="field" index="' + i + '" tipo="passo">' +
+                            '<label>Passo ' + i + ':</label>' +
+                            '<textarea style="background-color: antiquewhite;height: 50px;width: 750px" name="manobra[passos][passo' + i + ']">' + proc[2]['steps'][i]['step'] + '</textarea>' +
+                            '<input type="button" onclick="processo(this);" name="alerta" index="' + i + '" value="Adicionar Alerta" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;" />' +
+                            '<input type="button" onclick="processo(this);" name="remover_passso" index="' + i + '" value="Remover passo" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
+                            '<div class="clear separator"></div>' +
+                            '</div>'
+                            );
+                }
+            });
+        });
+    }
+    if (type === 'show_proc') {
 
-            $.post('index.php/processo?getprocedimentos', function (data) {
-                console.log(JSON.parse(JSON.parse(data)));
-                var proc = JSON.parse(JSON.parse(data));
+        $.post("index.php/processo?show_proc=&proc=" + object.getAttribute('id'), function (data) {
+            document.getElementById("app").innerHTML = data;
+            //detach=false;
+            $.post('index.php/processo?getprocedimentos&proc=' + object.getAttribute('id'), function (data) {
+                var proc = JSON.parse(JSON.parse(JSON.parse(data)['manobra']));
+                
                 alertas = proc[2]['alertas'];
                 for (var i = 0; i < proc[2]['steps'].length; i++) {
                     if (proc[2]['steps'][i]['title'] !== '') {
@@ -291,13 +334,44 @@ function processo(type) {
             });
         });
     }
+
+    if (type === 1) {
+        $.post("index.php/processo?type=1", function (data) {
+            document.getElementById("app").innerHTML =
+                    '<h1>Procedimentos</h1><form><ul id="tab2" class="tabs"></ul></form>';
+            var unidades = JSON.parse(data)['unidades'];
+            var manobras = JSON.parse(data)['manobra'];
+
+            TABS.CreateTabs('tab2');
+            for (var i = 0; i < unidades.length; i++) {
+                var element = $('<div></div>');
+                for (var j = 0; j < manobras.length; j++) {
+                    var div = '';
+                    if (manobras[j].unidade === unidades[i].id) {
+                        div = '<div id="' + manobras[j].id + '" onMouseOut="pointer(this)" onMouseOver="pointer(this)" name="show_proc" onclick="processo(\'show_proc\',this)"  class="field" style="height: 21px;background-color: #F3F3F3;"><label style="width:500px;margin-left:5px;">' + manobras[j].nome + '</label></div>';
+                        element.append(div);
+                    }
+                }
+                element.css('padding', '10px');
+                element.css('overflow', 'auto');
+                if (i === 0)
+                    TABS.AddTab(unidades[i].designacao, true, element[0].outerHTML, 'tab2');
+                else
+                    TABS.AddTab(unidades[i].designacao, false, element[0].outerHTML, 'tab2');
+            }
+        });
+
+    }
     if (type === 2) {
         $.post("index.php/processo?novamanobra=" + type, function (data) {
             document.getElementById("app").innerHTML = data;
             CKEDITOR.config.height = 200;
             CKEDITOR.config.width = 750;
-
+            while (alert.length > 0) {
+                alert.pop();
+            }
             initSample();
+            update = false;
         });
     }
     if (type === 3) {
@@ -307,8 +381,17 @@ function processo(type) {
     }
 }
 
+function pointer(div) {
+    if ($("#" + div.id)[0].style.backgroundColor === 'rgb(243, 243, 243)')
+        $("#" + div.id).css('background-color', '#F37020');
+    else
+        $("#" + div.id).css('background-color', 'rgb(243, 243, 243)');
+
+}
+
 function checkStep(index, input) {
     var i = 0;
+    var allow = true;
     if (!input.checked && last_index > index) {
         input.checked = true;
         alert("Não pode desselecionar este passo!");
@@ -320,6 +403,7 @@ function checkStep(index, input) {
                     if (!$(this)[0].childNodes[0].children[0].checked) {
                         input.checked = false;
                         alert("Tem de aceitar todos os passos anteriores!");
+                        allow = false;
                         return false;
                     }
                     i++;
@@ -332,8 +416,7 @@ function checkStep(index, input) {
         else {
             last_index = index - 1;
         }
-        if (alertas[index] !== null && alertas.length > 0) {
-            console.log(alertas[index]);
+        if (alertas[index] !== null && alertas.length > 0 && allow) {
             $("#alerta_mensagem").html('-' + alertas[index]['texto']);
             if (alertas[index]['equipamento'])
                 $("#alerta_mensagem").append('<br>-Não se esqueça de actualizar o estado do equipamento');
@@ -361,133 +444,29 @@ function deselectebloco(bloco) {
 
 function showRequest(formData, jqForm, options) {
     var procedimento = [];
-    var index = -1;
-    var passos = [];
     var editor = CKEDITOR.instances.editor;
+    console.log(formData);
     procedimento.push({'unidade': formData[0]});
     procedimento.push({'nome': formData[1]});
+    var id=formData[formData.length-1].value;
     var content_array = {'alertas': alertas, 'steps': steps_array};
     procedimento.push(content_array);
-    $.post("index.php/processo?salvar=true&unidade=" + procedimento[0]['unidade']['value'] + '&nome=' + procedimento[1]['nome']['value'], {procidimento: JSON.stringify(procedimento), descricao: editor.getData()}, function (data) {
-        $('#dvLoading').hide();
-    });
+    if (update) {
+        
+        $.post("index.php/processo?update=true&id="+id+"&unidade=" + procedimento[0]['unidade']['value'] + '&nome=' + procedimento[1]['nome']['value'], {procidimento: JSON.stringify(procedimento), descricao: editor.getData()}, function (data) {
+            $('#dvLoading').hide();
+        });
+    }
+    else {
+        $.post("index.php/processo?salvar=true&unidade=" + procedimento[0]['unidade']['value'] + '&nome=' + procedimento[1]['nome']['value'], {procidimento: JSON.stringify(procedimento), descricao: editor.getData()}, function (data) {
+            $('#dvLoading').hide();
+        });
+    }
+
+
     return false;
 }
 
-function showResponse(responseText, statusText, xhr, $form) {
 
-    console.log(responseText);
-    $('#adicionarManobraForm').ajaxForm(options, function (data) {
-        var relatrio = (JSON.parse(data));
-        //console.log(relatrio);
-        $.post("index.php/processo?type=2", function (data) {
-            var content = (JSON.parse((JSON.parse(data)['template'])));
-            $.post("index.php/processo?novamanobra=0", function (data) {
-                document.getElementById("app").innerHTML = data;
-                TABS.CreateTabs();
-                var unidades = [];
-                for (var i = 0; i < content.length; i++) {
-                    for (var j = 0; j < content[i].length; j++) {
-                        if (content[i][j] !== null) {
-                            unidades.push(content[i][j]['unidade'])
-                            break;
-                        }
-                    }
-                    break;
-                }
-                var found = false;
-                for (i = 0; i < content.length; i++) {
-                    for (var x = 0; x < content[i].length; x++) {
-                        for (j = 0; j < unidades.length; j++) {
-                            if (content[i][x] !== null) {
-                                if (content[i][x]['unidade'] === unidades[j]) {
-                                    found = true;
-                                    break;
-                                }
-                            }
-                        }
-
-                        if (!found && content[i][x] !== null) {
-                            unidades.push(content[i][x]['unidade']);
-                        }
-                        found = false;
-                    }
-                }
-                unidades.sort();
-                for (j = 0; j < unidades.length; j++) {
-                    var top = 1000000;
-                    var bottom = -1;
-                    for (i = 0; i < content.length; i++) {
-                        for (x = 0; x < content[i].length; x++) {
-                            if (content[i][x] !== null) {
-                                if (content[i][x]['unidade'] === unidades[j]) {
-                                    if (parseInt(content[i][x]['location']['y']) < top) {
-                                        top = parseInt(content[i][x]['location']['y']);
-                                    }
-                                    if (parseInt(content[i][x]['location']['y']) > bottom) {
-                                        bottom = parseInt(content[i][x]['location']['y']) + parseInt(content[i][x]['dimetions']['hieght']);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    //console.log(bottom);
-                    bottom = bottom - top + 55;
-                    var element = $('<div style="height:' + bottom + 'px"></div>');
-                    for (i = 0; i < content.length; i++) {
-                        for (x = 0; x < content[i].length; x++) {
-                            if (content[i][x] !== null) {
-                                if (content[i][x]['unidade'] === unidades[j]) {
-                                    var bloco = $('<div class="relatrio-manobra"  id="div' + x + '"></div>');
-                                    bloco.css('width', content[i][x]['dimetions']['with']);
-                                    bloco.css({
-                                        'top': (parseInt(content[i][x]['location']['y']) - (top - 5)) + 'px',
-                                        'left': content[i][x]['location']['x'],
-                                    });
-                                    bloco.css("position", "absolute");
-                                    bloco.append(content[i][x]['bloco']);
-                                    element.append(bloco[0].outerHTML);
-                                    $("#div" + x).remove();
-                                }
-                            }
-                        }
-                    }
-                    if (j === 0)
-                        TABS.AddTab(unidades[j], true, element[0].outerHTML);
-                    else
-                        TABS.AddTab(unidades[j], false, element[0].outerHTML);
-                }
-                var element_1 = '';
-                var element_2 = '';
-                for (var key in relatrio) {
-                    if (key !== 'manobra') {
-                        element_1 = key;
-                        for (var key1 in relatrio[key]) {
-                            if ($('[name="' + element_1 + '[' + key1 + ']"]').length > 0) {
-                                $('[name="' + element_1 + '[' + key1 + ']"]').val(relatrio[key][key1]);
-                            }
-                            else {
-                                element_2 = '[' + key1 + ']';
-                            }
-                            for (var key2 in relatrio[key][key1]) {
-                                if (jQuery.type(relatrio[key][key1]) === 'object') {
-                                    if ($('[name="' + element_1 + element_2 + '[' + key2 + ']"]')[0].type === 'checkbox') {
-                                        $('[name="' + element_1 + element_2 + '[' + key2 + ']"]').prop("checked", true);
-                                    }
-                                    else {
-                                        $('[name="' + element_1 + element_2 + '[' + key2 + ']"]').val(relatrio[key][key1][key2]);
-                                    }
-
-                                }
-                            }
-                        }
-
-                    }
-
-                }
-            });
-        });
-    });
-}
 
     

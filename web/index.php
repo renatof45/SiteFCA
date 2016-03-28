@@ -235,6 +235,19 @@ $app->get('/relatorio', 'checkLogIn', function() use ($app) {
     }
 });
 
+$app->get('/processo', 'checkLogIn', function() use ($app) {
+    $unidadesdao = new UnidadesDao();
+    $unidades = $unidadesdao->findUnidades($_SESSION['area']);
+    $processodao = new ProcessoDao();
+    if (array_key_exists('imprimir', $_GET)) {
+        $procedimento = $processodao->getManobra($_GET['proc']);
+        $manobras = object_to_array(json_decode(json_decode($procedimento['manobra'])));
+        $descricao=$procedimento['descricao'];
+        $index=0;
+        require "../page/processo/imprimir_proc.phtml";
+    }
+});
+
 $app->post('/processo', 'checkLogIn', function() use ($app) {
     $type = $app->request()->get('type');
     //echo $type;
@@ -247,19 +260,22 @@ $app->post('/processo', 'checkLogIn', function() use ($app) {
         $processodao->novaManobra($_GET['nome'], $_GET['unidade'], json_encode($_POST['procidimento']), json_encode($_POST['descricao']));
 
         //require "../page/processo/nova_manobra.phtml";
-    } elseif (array_key_exists('manobra', $_GET)) {
-        $manobras = $processodao->getManobra($_GET['manobra']);
+    }
+    if (array_key_exists('update', $_GET)) {
+        $processodao->updateManobra($_GET['id'], $_GET['nome'], $_GET['unidade'], json_encode($_POST['procidimento']), json_encode($_POST['descricao']));
+    } elseif (array_key_exists('show_proc', $_GET)) {
+        $manobras = $processodao->getManobra($_GET['proc']);
         $passos_count = 1;
         require "../page/processo/manobras.phtml";
     } elseif ($type == 1) {
-        $manobras = $processodao->getManobra(43);
+        $manobras = $processodao->getAll();
         //$procedimentos=  object_to_array(json_decode(object_to_array(json_decode($manobras['manobra']))['procidimento']));
-        //print_r($procedimentos);
-        require "../page/processo/manobras.phtml";
+        echo json_encode(array('manobra' => $manobras, 'unidades' => $unidades));
+        //require "../page/processo/manobras.phtml";
         //require "../page/relatorios/area_c.php";    
     } elseif (array_key_exists('getprocedimentos', $_GET)) {
-        $manobras = $processodao->getManobra(43);
-        print_r($manobras['manobra']);
+        $manobras = $processodao->getManobra($_GET['proc']);
+        echo json_encode($manobras);
     } elseif ($type == 2) {
         $relatoriodao = new RelatorioDao();
         $template = $relatoriodao->getRelatorio($relatoriodao->getCurrentVersao());
@@ -276,7 +292,13 @@ $app->post('/processo', 'checkLogIn', function() use ($app) {
 
 $app->post('/equipamento', 'checkLogIn', function() use($app) {
     $equipamentodao = new EquipamentoDao();
-
+    if (array_key_exists('get_equipamento', $_GET)) {
+        echo json_encode($equipamentodao->getEqipmentoById($_GET['get_equipamento']));
+    }
+    if (array_key_exists('update_equipamento', $_GET)) {
+        print_r($_GET);
+        ($equipamentodao->updateEquipamento($_GET['equipqmento'], $_GET['id'], $_GET['descricao']));
+    }
     if (array_key_exists('get_status', $_GET)) {
         $unidadesdao = new UnidadesDao();
         $unidades = $unidadesdao->findUnidades($_SESSION['area']);
@@ -290,28 +312,26 @@ $app->post('/equipamento', 'checkLogIn', function() use($app) {
         else
             $equipamentos = $equipamentodao->getAllByType($_GET['tipo']);
         $estados = $equipamentodao->getEstados();
-        
+
         echo json_encode(array('unidades' => $unidades, 'estados' => $estados, 'equipamentos' => $equipamentos));
         //require "../page/equipamento/status_dinamico.phtml";
     }
-    
-    if(array_key_exists('update_etapas', $_GET)){
+
+    if (array_key_exists('update_etapas', $_GET)) {
         $equipamentodao->updateEtapas($_GET['status'], $_GET['accao']);
         date_default_timezone_set('Europe/Lisbon');
         $now = new DateTime();
         echo $now->format('Y-m-d H:i:s');
     }
-    if(array_key_exists('get_etapas', $_GET)){
+    if (array_key_exists('get_etapas', $_GET)) {
         echo json_encode($equipamentodao->getEtapas($_GET['status']));
     }
-    if(array_key_exists('get_accoes', $_GET)){
+    if (array_key_exists('get_accoes', $_GET)) {
         echo json_encode($equipamentodao->getAccoes($_GET['tipo']));
     }
-    if(array_key_exists('get_status_equipamento', $_GET)){
+    if (array_key_exists('get_status_equipamento', $_GET)) {
         echo json_encode($equipamentodao->getEstadoByEquipamento($_GET['equipamento']));
-    }
-    
-    elseif (array_key_exists('equipamento-status', $_GET)) {
+    } elseif (array_key_exists('equipamento-status', $_GET)) {
         $equipamento = $equipamentodao->getEqipmentoById($_GET['equipamento-status']);
         $status = $equipamentodao->getEstadoByIf($_GET['status']);
         echo $equipamento['equipamento'] . '  ' . $status;
@@ -326,18 +346,17 @@ $app->post('/equipamento', 'checkLogIn', function() use($app) {
             $unidade = $unidades[0]['id'];
         $total = array();
         $horas = array();
-        $equipamentos = $equipamentodao->getByType(1, $unidade);
+        $equipamentos = $equipamentodao->getAll();
         foreach ($equipamentos as $equipamento) {
             $aux = array();
             $aux['equipamento'] = $equipamento;
-            $aux['total'] = $equipamentodao->getHorasDeMarcha($equipamento['id'], 4, 'total');
-            $aux['mes'] = $equipamentodao->getHorasDeMarcha($equipamento['id'], 4, 'mes');
+            $aux['total'] = $equipamentodao->getHorasDeMarcha($equipamento['id'], 'Em Serviço', 'total');
+            $aux['mes'] = $equipamentodao->getHorasDeMarcha($equipamento['id'], 'Em Serviço', 'mes');
             array_push($horas, $aux);
         }
-
         $estados = $equipamentodao->getEstados();
-        //print_r($horas);
-        require "../page/equipamento/horas_de_marcha.phtml";
+        echo json_encode(array('horas' => $horas, 'unidades' => $unidades));
+        //require "../page/equipamento/horas_de_marcha.phtml";
     } elseif (array_key_exists('salvar_novo', $_GET)) {
         //print_r($_POST['dados']);
         $equipamentodao->insertNovoEquipamento($_POST['dados'][1]['value'], $_POST['dados'][0]['value'], $_POST['dados'][2]['value'], $_GET['tipo']);
@@ -366,8 +385,7 @@ $app->post('/equipamento', 'checkLogIn', function() use($app) {
         require "../page/equipamento/novo_estatico.phtml";
     } elseif (array_key_exists('change_satus', $_GET)) {
         //print_r($_POST);
-        $equipamentodao->updateStatus($_POST['equipamento'], $_POST['status'],$_POST['comentario'],$_POST['descricao']);
-        
+        $equipamentodao->updateStatus($_POST['equipamento'], $_POST['status'], $_POST['comentario'], $_POST['descricao']);
     } elseif (array_key_exists('history', $_GET)) {
         $history = $equipamentodao->getHistory($_GET["history"]);
         echo json_encode($history);
@@ -388,7 +406,19 @@ $app->post('/pedidos_trabalho', 'checkLogIn', function() use ($app) {
         $pendentes = $pedidosdao->getByStatus(0);
         require "../page/pedidos_trabalho/pendentes.phtml";
     }
+    if (array_key_exists('save', $_GET)) {
+        $data = array(
+            'unidade' => $_POST['unidade'],
+            'equipamento' => $_POST['equipamento'],
+            'descricao' => $_POST['texto'],
+            'prioridade' => $_POST['prioridade']
+        );
 
+        // map
+        PedidosTrabalhoMapper::map($pedido, $data);
+        $dao = new PedidosTrabalhoDao();
+        $dao->insert($pedido);
+    }
     if (array_key_exists('save', $_POST)) {
         //print_r($_POST);
         $data = array(

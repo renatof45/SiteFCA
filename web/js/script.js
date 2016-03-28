@@ -372,14 +372,8 @@ $(document).ajaxStop(function () {
         width: 895,
         modal: true,
         buttons: {
-            "Salvar": function () {
-//                $('#dvLoading').show();
-//                $('#salvarRelatorioForm').ajaxForm(unidadesoptions);
-//                $("#salvarRelatorioForm").submit();
+            "OK": function () {
                 $(this).dialog("close");
-            },
-            "Cancelar": function () {
-
             }
         },
         close: function () {
@@ -388,7 +382,8 @@ $(document).ajaxStop(function () {
     });
     $("#dialog-status-equipamento").off("dialogopen");
     $("#dialog-status-equipamento").on("dialogopen", function () {
-        $.post("index.php/equipamento?status_dinamico=1", function (data) {
+        detach=false;
+        $.post("index.php/equipamento?get_status=1", function (data) {
             $("#salvarStatusEquipamneto").html('<form id="ajaxform1" method="post">' +
                     '<fieldset style="z-index: 100;background-color: rgb(243,243,243);width: 870px;">' +
                     '<div class="field">' +
@@ -401,49 +396,30 @@ $(document).ajaxStop(function () {
                     + '<div id="din"><h3 style="margin-top:0px">Equipamento dinamico</h3><form><ul id="tab2" class="tabs"></ul></form></div>'
                     + '<div id="inst" style="display:none;"><h3 style="margin-top:0px">Instrumentos</h3><form><ul id="tab3" class="tabs"></ul></form></div>'
                     + '<div id="est" style="display:none;"><h3 style="margin-top:0px">Equipamento estático</h3><form><ul id="tab4" class="tabs"></ul></form></div>');
-            console.log(JSON.parse(data));
             var unidades = JSON.parse(data)['unidades'];
             var equipamentos = JSON.parse(data)['equipamentos'];
             var estados = JSON.parse(data)['estados'];
             TABS.CreateTabs('tab2');
-            console.log(equipamentos);
             for (var i = 0; i < unidades.length; i++) {
                 var element = $('<div></div>');
                 for (var j = 0; j < equipamentos.length; j++) {
                     var div = ''
                     if (equipamentos[j].unidade === unidades[i].id && equipamentos[j].tipo === '1') {
                         div = '<div id=div' + equipamentos[j].id + ' class="field" style="height: 21px;background-color: #F3F3F3;"><label style="margin-left:5px;">' + equipamentos[j].Equipamento + ':</label>';
-
-                        if (equipamentos[j].estado === '4') {
-                            div += ('<p id="' + equipamentos[j].id + '" style="color:green;width: 200px;float: left;color:green">Em serviço</p>');
-                        }
-                        if (equipamentos[j].estado === '5') {
-                            div += ('<p id="' + equipamentos[j].id + '" style="color:green;width: 200px;float: left;color:green">Em serviço - <span style="color:red">com anomalia</span></p>');
-                        }
-                        if (equipamentos[j].estado === '6') {
-                            div += ('<p id="' + equipamentos[j].id + '" style="color:green;width: 200px;float: left;color:green">Em serviço - em observação</p>');
-                        }
-                        if (equipamentos[j].estado === '1') {
-                            div += ('<p id="' + equipamentos[j].id + '" style="color:green;width: 200px;float: left;color:red">Parada - <span style="color:green">disponivel</span></p>');
-                        }
-                        if (equipamentos[j].estado === '2') {
-                            div += ('<p id="' + equipamentos[j].id + '" style="color:green;width: 200px;float: left;color:red">Parada - Indisponível</p>');
-                        }
-                        if (equipamentos[j].estado === '3') {
-                            div += ('<p id="' + equipamentos[j].id + '" style="color:green;width: 200px;float: left;color:red">Parada - Em Manutenção</p>');
-                        }
-                        div += ('<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados" onclick="equipamento_dinamico(this);" style="margin-top: 1px;float: left;" value="Mais dados" class="button">' +
-                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="alterar_status" onclick="equipamento_dinamico(this);" style="width:110px;margin-top: 1px;float: left;" value="Alterar status" class="button">' +
-                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="inspecoes" onclick="equipamento_dinamico(this);" style="width:100px;margin-top: 1px;float: left;" value="Inspeções" class="button"></div>');
+                        div += ('<p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamentos[j].estado + '</p>');
+                        div += ('<input type="button" estado="' + equipamentos[j].estado + '" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados" onclick="equipamento(this,1);" style="margin-top: 1px;float: left;" value="Mais dados" class="button">' +
+                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  unidade="' + unidades[i].id + '" name="alterar_status" onclick="equipamento(this,1);" style="width:110px;margin-top: 1px;float: left;" value="Alterar status" class="button">' +
+                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="inspecoes" onclick="equipamento(this,1);" style="width:100px;margin-top: 1px;float: left;" value="Inspeções" class="button">' +
+                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="alterar" onclick="equipamento(this,1);" style="width:120px;margin-top: 1px;float: left;" value="Alterar equipamento" class="button"></div>');
                         element.append(div);
                     }
                 }
                 element.css('padding', '10px');
                 element.css('overflow', 'auto');
                 if (i === 0)
-                    TABS.AddTab(unidades[i].designacao, true, element[0].outerHTML, 'tab2',355);
+                    TABS.AddTab(unidades[i].designacao, true, element[0].outerHTML, 'tab2', 360);
                 else
-                    TABS.AddTab(unidades[i].designacao, false, element[0].outerHTML, 'tab2',355);
+                    TABS.AddTab(unidades[i].designacao, false, element[0].outerHTML, 'tab2', 360);
             }
             TABS.CreateTabs('tab3');
             for (var i = 0; i < unidades.length; i++) {
@@ -452,37 +428,42 @@ $(document).ajaxStop(function () {
                     var div = ''
                     if (equipamentos[j].unidade === unidades[i].id && equipamentos[j].tipo === '2') {
                         div = '<div id=div' + equipamentos[j].id + ' class="field" style="height: 21px;background-color: #F3F3F3;"><label style="margin-left:5px;">' + equipamentos[j].Equipamento + ':</label>';
-
-                        if (equipamentos[j].estado === '4') {
-                            div += ('<p id="' + equipamentos[j].id + '" style="color:green;width: 200px;float: left;color:green">Em serviço</p>');
-                        }
-                        if (equipamentos[j].estado === '5') {
-                            div += ('<p id="' + equipamentos[j].id + '" style="color:green;width: 200px;float: left;color:green">Em serviço - <span style="color:red">com anomalia</span></p>');
-                        }
-                        if (equipamentos[j].estado === '6') {
-                            div += ('<p id="' + equipamentos[j].id + '" style="color:green;width: 200px;float: left;color:green">Em serviço - em observação</p>');
-                        }
-                        if (equipamentos[j].estado === '1') {
-                            div += ('<p id="' + equipamentos[j].id + '" style="color:green;width: 200px;float: left;color:red">Parada - <span style="color:green">disponivel</span></p>');
-                        }
-                        if (equipamentos[j].estado === '2') {
-                            div += ('<p id="' + equipamentos[j].id + '" style="color:green;width: 200px;float: left;color:red">Parada - Indisponível</p>');
-                        }
-                        if (equipamentos[j].estado === '3') {
-                            div += ('<p id="' + equipamentos[j].id + '" style="color:green;width: 200px;float: left;color:red">Parada - Em Manutenção</p>');
-                        }
-                        div += ('<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados" onclick="equipamento_dinamico(this);" style="margin-top: 1px;float: left;" value="Mais dados" class="button">' +
-                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="alterar_status" onclick="equipamento_dinamico(this);" style="width:110px;margin-top: 1px;float: left;" value="Alterar status" class="button">' +
-                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="inspecoes" onclick="equipamento_dinamico(this);" style="width:100px;margin-top: 1px;float: left;" value="Inspeções" class="button"></div>');
+                        div += ('<p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamentos[j].estado + '</p>');
+                        div += ('<input type="button" estado="' + equipamentos[j].estado + '" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados" onclick="equipamento(this,1);" style="margin-top: 1px;float: left;" value="Mais dados" class="button">' +
+                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  unidade="' + unidades[i].id + '" name="alterar_status" onclick="equipamento(this,1);" style="width:110px;margin-top: 1px;float: left;" value="Alterar status" class="button">' +
+                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="inspecoes" onclick="equipamento(this,1);" style="width:100px;margin-top: 1px;float: left;" value="Inspeções" class="button">' +
+                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="alterar" onclick="equipamento(this,1);" style="width:120px;margin-top: 1px;float: left;" value="Alterar equipamento" class="button"></div>');
                         element.append(div);
                     }
                 }
                 element.css('padding', '10px');
                 element.css('overflow', 'auto');
                 if (i === 0)
-                    TABS.AddTab(unidades[i].designacao, true, element[0].outerHTML, 'tab3',355);
+                    TABS.AddTab(unidades[i].designacao, true, element[0].outerHTML, 'tab3', 360);
                 else
-                    TABS.AddTab(unidades[i].designacao, false, element[0].outerHTML, 'tab3',355);
+                    TABS.AddTab(unidades[i].designacao, false, element[0].outerHTML, 'tab3', 360);
+            }
+            TABS.CreateTabs('tab4');
+            for (var i = 0; i < unidades.length; i++) {
+                var element = $('<div></div>');
+                for (var j = 0; j < equipamentos.length; j++) {
+                    var div = ''
+                    if (equipamentos[j].unidade === unidades[i].id && equipamentos[j].tipo === '3') {
+                        div = '<div id=div' + equipamentos[j].id + ' class="field" style="height: 21px;background-color: #F3F3F3;"><label style="margin-left:5px;">' + equipamentos[j].Equipamento + ':</label>';
+                        div += ('<p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamentos[j].estado + '</p>');
+                        div += ('<input type="button" estado="' + equipamentos[j].estado + '" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados" onclick="equipamento(this,1);" style="margin-top: 1px;float: left;" value="Mais dados" class="button">' +
+                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  unidade="' + unidades[i].id + '" name="alterar_status" onclick="equipamento(this,1);" style="width:110px;margin-top: 1px;float: left;" value="Alterar status" class="button">' +
+                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="inspecoes" onclick="equipamento(this,1);" style="width:100px;margin-top: 1px;float: left;" value="Inspeções" class="button">' +
+                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="alterar" onclick="equipamento(this,1);" style="width:120px;margin-top: 1px;float: left;" value="Alterar equipamento" class="button"></div>');
+                        element.append(div);
+                    }
+                }
+                element.css('padding', '10px');
+                element.css('overflow', 'auto');
+                if (i === 0)
+                    TABS.AddTab(unidades[i].designacao, true, element[0].outerHTML, 'tab4', 360);
+                else
+                    TABS.AddTab(unidades[i].designacao, false, element[0].outerHTML, 'tab4', 360);
             }
         });
 
@@ -604,45 +585,7 @@ $(document).ajaxStop(function () {
             });
         });
     });
-    $("#dialog-indisponibilidade").dialog({
-        autoOpen: false,
-        height: 150,
-        width: 370,
-        modal: true,
-        buttons: {
-            "OK": function () {
 
-                $('#dvLoading').show();
-                $("#ajaxform1").attr('action', 'index.php/equipamento?change_satus_dinamico=0&equipamento=' + $(this).data('equipamento') + '&status=' + $("#status").val());
-                $("#ajaxform1").submit();
-                $(this).dialog("close");
-            },
-            "Alterar relatório": function () {
-                detach = false;
-                $.post("index.php/equipamento?equipamento-status=" + $(this).data('equipamento') + '&status=' + $("#status").val(), function (data) {
-                    $("#salvarRelatorioForm").html('<ul id="tab1" class="tabs"></ul>');
-                    console.log(data);
-                    $("#dialog-unidades")
-                            .data('equipamento', data)
-                            .dialog('open');
-                });
-            },
-            "Cancel": function () {
-                console.log($(this).data("inst").name);
-                if ($(this).data("inst").name === "disponibiblidade") {
-                    $(this).data("inst").selectedIndex = "0";
-                }
-                if ($(this).data("inst").name.split(":")[1] === "parada") {
-                    $(this).data("inst").checked = false;
-                }
-
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-            allFields.val("").removeClass("ui-state-error");
-        }
-    });
     $("#dialog-alertas").dialog({
         autoOpen: false,
         height: 250,
@@ -722,11 +665,19 @@ $(document).ajaxStop(function () {
         modal: true,
         buttons: {
             "OK": function () {
-                if ($(this).data('relatorio')) {
-                    detach = false;
-                    //$("#salvarRelatorioForm").html('<ul id="tab1" class="tabs"></ul>');
-                    //equipamento_dinamico(2);
+
+                //detach = false;
+                console.log($(this).data())
+                
+                //equipamento_dinamico(2);
+                if ($(this).data().equipamento || ($(this).data().equipamento && $(this).data().relatorio)){
+                    $("#salvarRelatorioForm").html('<ul id="tab1" class="tabs"></ul>');
+                    $("#salvarStatusEquipamneto").html('<ul id="tab1" class="tabs"></ul>');
                     $("#dialog-status-equipamento").dialog('open');
+                }
+                else if ($(this).data().relatorio) {
+                    $("#salvarRelatorioForm").html('<ul id="tab1" class="tabs"></ul>');
+                    $("#dialog-unidades").dialog("open");
                 }
                 $(this).dialog("close");
             }
@@ -735,7 +686,7 @@ $(document).ajaxStop(function () {
             allFields.val("").removeClass("ui-state-error");
         }
     });
-    
+
 });
 
 
