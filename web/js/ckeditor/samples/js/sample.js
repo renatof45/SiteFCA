@@ -29,7 +29,7 @@ var initSample = (function() {
 
         // Depending on the wysiwygare plugin availability initialize classic or inline editor.
         if (wysiwygareaAvailable) {
-            CKEDITOR.replace('editor',{extraPlugins: 'uploadimage,image2',imageUploadUrl : 'upload.php'});
+            CKEDITOR.replace('editor',{extraPlugins: 'uploadimage,image2,justify',imageUploadUrl : 'upload.php'});
         } else {
             editorElement.setAttribute('contenteditable', 'true');
             CKEDITOR.inline('editor');

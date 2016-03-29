@@ -33,6 +33,13 @@ function addNewTitle() {
     });
 }
 
+function stopScroll(){
+    $("#app").css('overflow-y','hidden');
+}
+function showScroll(){
+    $("#app").css('overflow-y','auto');
+}
+
 function processo(type, object) {
     console.log(type.name);
     if(type.name==='imprimir'){

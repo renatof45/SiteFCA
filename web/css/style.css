@@ -323,3 +323,8 @@ ul#flashes li {
 .ui-widget button {
     width: 100px;
 }
+
+.stop-scrolling {
+  height: 100%;
+  overflow: hidden;
+}
