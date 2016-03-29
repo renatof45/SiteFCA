@@ -17,11 +17,11 @@ function addNewTitle() {
                 if ($(this)[0].attributes[i].value === 'passo') {
                     if (parseInt($("#position-title").val()) === index) {
                         ($(this)).before('<div style="margin-top:10px" class="field" tipo="titulo">' +
-                                '<label>Titulo intermédio:</label>' +
-                                '<textarea style="background-color: aliceblue;height: 35px;width: 750px;" name="manobra[passos][passo1]"></textarea>' +
-                                '<input type="button" onclick="processo(this);" name="remover_titulo" index="' + index + '" value="Remover" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
-                                '<div class="clear separator"></div>' +
-                                '</div>');
+                            '<label>Titulo intermédio:</label>' +
+                            '<textarea style="background-color: aliceblue;height: 35px;width: 750px;" name="manobra[passos][passo1]"></textarea>' +
+                            '<input type="button" onclick="processo(this);" name="remover_titulo" index="' + index + '" value="Remover" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
+                            '<div class="clear separator"></div>' +
+                            '</div>');
 
                     }
                     index++;
@@ -69,7 +69,7 @@ function processo(type, object) {
         var index = 0;
         $("#passos").children().each(function () {
 
-        });
+            });
         $("#dialog-move-item").dialog('open');
     }
     if (type.name === 'remover_titulo') {
@@ -178,7 +178,7 @@ function processo(type, object) {
             $("#alerta_equipamento")[0].checked = false;
             $("#mensagem").val('');
             $("#dialog-alertas").data('step', type)
-                    .dialog("open");
+            .dialog("open");
         }
         else {
             var step = (alertas[parseInt(type.getAttribute('index'))]);
@@ -193,7 +193,7 @@ function processo(type, object) {
                 $("#alerta_equipamento")[0].checked = false;
             $("#mensagem").val(step.texto);
             $("#dialog-alertas").data('step', type)
-                    .dialog("open");
+            .dialog("open");
         }
 
     }
@@ -213,13 +213,13 @@ function processo(type, object) {
             }
         });
         $("#passos").append('<div style="margin-top:10px" class="field" index="' + index + '" tipo="passo">' +
-                '<label>Passo ' + index + ':</label>' +
-                '<textarea style="background-color: antiquewhite;height: 50px;width: 750px" name="manobra[passos][passo' + index + ']"></textarea>' +
-                '<input type="button" onclick="processo(this);" name="alerta" index="' + index + '" value="Adicionar Alerta" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;" />' +
-                '<input type="button" onclick="processo(this);" name="remover_passso" index="' + index + '" value="Remover passo" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
-                '<div class="clear separator"></div>' +
-                '</div>'
-                );
+            '<label>Passo ' + index + ':</label>' +
+            '<textarea style="background-color: antiquewhite;height: 50px;width: 750px" name="manobra[passos][passo' + index + ']"></textarea>' +
+            '<input type="button" onclick="processo(this);" name="alerta" index="' + index + '" value="Adicionar Alerta" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;" />' +
+            '<input type="button" onclick="processo(this);" name="remover_passso" index="' + index + '" value="Remover passo" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
+            '<div class="clear separator"></div>' +
+            '</div>'
+            );
 
     }
 
@@ -255,7 +255,10 @@ function processo(type, object) {
                     if ($(this)[0].attributes[i].value === 'passo') {
                         $(this).children().each(function () {
                             if ($(this)[0].nodeName === 'TEXTAREA') {
-                                steps_array[index] = {'title': title, 'step': $(this)[0].value};
+                                steps_array[index] = {
+                                    'title': title, 
+                                    'step': $(this)[0].value
+                                    };
                                 title = '';
                                 index++;
                             }
@@ -265,7 +268,7 @@ function processo(type, object) {
                         $(this).children().each(function () {
                             if ($(this)[0].nodeName === 'TEXTAREA') {
                                 title = $(this)[0].value;
-                                //title = '';
+                            //title = '';
                             }
                         });
                     }
@@ -289,7 +292,6 @@ function processo(type, object) {
             }
             
             $.post('index.php/processo?getprocedimentos&proc=' + type.getAttribute('proc_id'), function (data) {
-              console.log(JSON.parse(data).descricao);
                 var proc = JSON.parse(JSON.parse(JSON.parse(data)['manobra']));
                 $("#manobra_nome").val(proc[1].nome.value);
                 $("#editor").html(JSON.parse(JSON.parse(data)['descricao']));
@@ -298,20 +300,20 @@ function processo(type, object) {
                 for (var i = 0; i < proc[2]['steps'].length; i++) {
                     if (proc[2]['steps'][i]['title'] !== '') {
                         $("#passos").append('<div style="margin-top:10px" class="field" tipo="titulo">' +
-                                '<label>Titulo intermédio:</label>' +
-                                '<textarea style="background-color: aliceblue;height: 35px;width: 750px;" name="manobra[passos][passo1]">' + proc[2]['steps'][i]['title'] + '</textarea>' +
-                                '<input type="button" onclick="processo(this);" name="remover_titulo" index="' + i + '" value="Remover" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
-                                '<div class="clear separator"></div>' +
-                                '</div>');
+                            '<label>Titulo intermédio:</label>' +
+                            '<textarea style="background-color: aliceblue;height: 35px;width: 750px;" name="manobra[passos][passo1]">' + proc[2]['steps'][i]['title'] + '</textarea>' +
+                            '<input type="button" onclick="processo(this);" name="remover_titulo" index="' + i + '" value="Remover" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
+                            '<div class="clear separator"></div>' +
+                            '</div>');
                     }
                     $("#passos").append('<div style="margin-top:10px" class="field" index="' + i + '" tipo="passo">' +
-                            '<label>Passo ' + i + ':</label>' +
-                            '<textarea style="background-color: antiquewhite;height: 50px;width: 750px" name="manobra[passos][passo' + i + ']">' + proc[2]['steps'][i]['step'] + '</textarea>' +
-                            '<input type="button" onclick="processo(this);" name="alerta" index="' + i + '" value="Adicionar Alerta" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;" />' +
-                            '<input type="button" onclick="processo(this);" name="remover_passso" index="' + i + '" value="Remover passo" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
-                            '<div class="clear separator"></div>' +
-                            '</div>'
-                            );
+                        '<label>Passo ' + i + ':</label>' +
+                        '<textarea style="background-color: antiquewhite;height: 50px;width: 750px" name="manobra[passos][passo' + i + ']">' + proc[2]['steps'][i]['step'] + '</textarea>' +
+                        '<input type="button" onclick="processo(this);" name="alerta" index="' + i + '" value="Adicionar Alerta" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;" />' +
+                        '<input type="button" onclick="processo(this);" name="remover_passso" index="' + i + '" value="Remover passo" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
+                        '<div class="clear separator"></div>' +
+                        '</div>'
+                        );
                 }
             });
         });
@@ -338,7 +340,7 @@ function processo(type, object) {
     if (type === 1) {
         $.post("index.php/processo?type=1", function (data) {
             document.getElementById("app").innerHTML =
-                    '<h1>Procedimentos</h1><form><ul id="tab2" class="tabs"></ul></form>';
+            '<h1>Procedimentos</h1><form><ul id="tab2" class="tabs"></ul></form>';
             var unidades = JSON.parse(data)['unidades'];
             var manobras = JSON.parse(data)['manobra'];
 
@@ -390,6 +392,7 @@ function pointer(div) {
 }
 
 function checkStep(index, input) {
+    console.log(parseInt($("#procedimentos").children().children().last()[0].children[0].innerText.split(' ')[2]));
     var i = 0;
     var allow = true;
     if (!input.checked && last_index > index) {
@@ -412,6 +415,9 @@ function checkStep(index, input) {
         });
         if (input.checked) {
             last_index = index;
+            if(parseInt($("#procedimentos").children().children().last()[0].children[0].innerText.split(' ')[2]) === index){
+                $("#procedimentos").after('<h2>Procedimento concluido</h2>');
+            }
         }
         else {
             last_index = index - 1;
@@ -423,15 +429,18 @@ function checkStep(index, input) {
             if (alertas[index]['relatrio'])
                 $("#alerta_mensagem").append('<br>-Não se esqueça de actualizar o relatorio');
             $("#dialog-alerta").data('relatorio', alertas[index]['relatrio'])
-                    .data('equipamento', alertas[index]['equipamento'])
-                    .dialog('open');
+            .data('equipamento', alertas[index]['equipamento'])
+            .data('callback',function(){                       
+                })
+            .dialog('open');
+            
         }
     }
 }
 
 function selectbloco(bloco) {
     $("#" + bloco.id).css('border', '2px solid');
-    //console.log($("#div"+bloco.id));
+//console.log($("#div"+bloco.id));
 }
 
 function setbloco(bloco) {
@@ -446,19 +455,32 @@ function showRequest(formData, jqForm, options) {
     var procedimento = [];
     var editor = CKEDITOR.instances.editor;
     console.log(formData);
-    procedimento.push({'unidade': formData[0]});
-    procedimento.push({'nome': formData[1]});
+    procedimento.push({
+        'unidade': formData[0]
+        });
+    procedimento.push({
+        'nome': formData[1]
+        });
     var id=formData[formData.length-1].value;
-    var content_array = {'alertas': alertas, 'steps': steps_array};
+    var content_array = {
+        'alertas': alertas, 
+        'steps': steps_array
+    };
     procedimento.push(content_array);
     if (update) {
         
-        $.post("index.php/processo?update=true&id="+id+"&unidade=" + procedimento[0]['unidade']['value'] + '&nome=' + procedimento[1]['nome']['value'], {procidimento: JSON.stringify(procedimento), descricao: editor.getData()}, function (data) {
+        $.post("index.php/processo?update=true&id="+id+"&unidade=" + procedimento[0]['unidade']['value'] + '&nome=' + procedimento[1]['nome']['value'], {
+            procidimento: JSON.stringify(procedimento), 
+            descricao: editor.getData()
+            }, function (data) {
             $('#dvLoading').hide();
         });
     }
     else {
-        $.post("index.php/processo?salvar=true&unidade=" + procedimento[0]['unidade']['value'] + '&nome=' + procedimento[1]['nome']['value'], {procidimento: JSON.stringify(procedimento), descricao: editor.getData()}, function (data) {
+        $.post("index.php/processo?salvar=true&unidade=" + procedimento[0]['unidade']['value'] + '&nome=' + procedimento[1]['nome']['value'], {
+            procidimento: JSON.stringify(procedimento), 
+            descricao: editor.getData()
+            }, function (data) {
             $('#dvLoading').hide();
         });
     }

@@ -16,30 +16,33 @@
         <script src="../../js/jquery-ui.js"></script>
 
     </head>
-    <body style="    margin: 0px;">
-        <div style="height:1028px;width: 680px;border:1px solid" id="descricao">    
-            <?php //echo(json_decode($descricao)); ?>
+    <body style=" margin: 0px;">
+        <div style="width: 680px;margin:0px;float:left" id="descricao">    
+            <?php echo(json_decode($descricao)); ?>
         </div>
         <table id="proc" border="1" style="border-collapse: collapse;width: 680px">
             <?php foreach ($manobras[2] as $manobra): ?>
                 <?php foreach ($manobra as $passos): ?>
                     <?php if ($passos != null && (array_key_exists('title', $passos))): ?>
                         <?php if ($passos['title'] != ''): ?>
-                            <tr><td colspan="2" style="text-align: center;padding: 5px;"><h2><?php echo $passos['title'] ?></h2></td></tr>
+                            <tr style=""><td colspan="5" style="text-align: center;padding: 5px;"><h2 style="font-weight: bold;"><?php echo $passos['title'] ?></h2></td></tr>
+                            <tr><td colspan="2" style="text-align: center;padding: 5px;"><p style="margin: 0px;font-size: 12px;">Procedimento especifico</p></td><td style="text-align: center;width: 60px;">Hora</td><td style="text-align: center;width: 60px;">Data</td><td style="text-align: center;width: 60px;">Rubrica</td></tr> 
                         <?php endif; ?>
-                        <tr><td style="width: 80px;"><p style="margin: 0px;font-size: 12px;">Passo <?php echo $index; ?></p></td><td style="padding: 5px;"><p style="margin: 0px;font-size: 12px;"><?php echo $passos['step']; ?></p></td></tr> 
+                            <tr><td style="width: 60px;"><p style="margin: 0px;font-size: 12px;">Passo <?php echo $index; ?></p></td><td style="padding: 5px;"><p style="margin: 0px;font-size: 12px;"><?php echo $passos['step']; ?></p></td><td style="width: 60px;"></td><td style="width: 60px;"></td><td style="width: 60px;"></td></tr> 
                         <?php $index++; ?>
                     <?php endif; ?>
                 <?php endforeach; ?>
             <?php endforeach; ?>
         </table>
-        <div id="print"></div>
+        <div id="print" style="width: 680px;float:left;margin:0px"></div>
         <script>
             var linhas = [];
             var tabelas = [];
             var gap = [];
             gap.push(0);
-            var heigth = $("#descricao")[0].offsetHeight;
+            var heigth;
+            console.log($("#descricao")[0].offsetHeight);
+            console.log($("#descricao")[0].offsetHeight%1028);
             var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
             // Firefox 1.0+
             var isFirefox = typeof InstallTrigger !== 'undefined';
@@ -58,33 +61,34 @@
 
             }
             else if (isEdge || isIE) {
-                 print_heigth=1028;
+                print_heigth=1043;
+                heigth=$("#descricao")[0].offsetHeight%1043;
             }
             else if (isChrome) {
                 print_heigth=1028;
+                heigth=$("#descricao")[0].offsetHeight%1028;
             }
             $("#proc").children().children().each(function () {
-                    if (heigth + $(this)[0].offsetHeight > print_heigth) {
-                        gap.push(print_heigth - heigth);
-                        tabelas.push(linhas);
-                        heigth = 0;
-                        linhas = new Array();
-                    }
-                    linhas.push($(this).html());
-                    heigth += $(this)[0].offsetHeight;
-                });
+                if (heigth + $(this)[0].offsetHeight > print_heigth) {
+                    gap.push(print_heigth - heigth);
+                    tabelas.push(linhas);
+                    //console.log(heigth);
+                    heigth = 0;
+                    linhas = new Array();
+                }
+                linhas.push($(this).html());
+                heigth += $(this)[0].offsetHeight;
+            });
             tabelas.push(linhas);
-            console.log(heigth);
+           
             $("#proc").remove();
-//            for (var i = 0; i < tabelas.length; i++) {
-//                $("#print").append('<table id="proc' + i + '" border="1" style="margin-top:' + (gap[i]) + 'px;border-collapse: collapse;width: 680px">')
-//                for (var j = 0; j < tabelas[i].length; j++) {
-//                    $("#proc" + i).append('<tr>' + tabelas[i][j] + '</tr>')
-//                }
-//                //$("#print").append('<br><br><br>');
-//                //
-//            }
-           window.print();
+            for (var i = 0; i < tabelas.length; i++) {
+                $("#print").append('<table id="proc' + i + '" border="1" style="margin-top:' + (gap[i]) + 'px;border-collapse: collapse;width: 680px">')
+                for (var j = 0; j < tabelas[i].length; j++) {
+                    $("#proc" + i).append('<tr>' + tabelas[i][j] + '</tr>');
+                }
+            }
+            //window.print();
         </script>
     </body>
 </html>

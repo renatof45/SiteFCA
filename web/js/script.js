@@ -604,6 +604,7 @@ $(document).ajaxStop(function () {
                     equipamento = true;
                 }
                 alertas[$(this).data('step').getAttribute('index')] = ({'setp': $(this).data('step').getAttribute('index'), 'relatrio': relatorio, 'equipamento': equipamento, 'texto': $("#mensagem").val()});
+                
                 $(this).dialog("close");
             },
             "Remover": function () {
@@ -665,12 +666,7 @@ $(document).ajaxStop(function () {
         modal: true,
         buttons: {
             "OK": function () {
-
-                //detach = false;
-                console.log($(this).data())
-                
-                //equipamento_dinamico(2);
-                if ($(this).data().equipamento || ($(this).data().equipamento && $(this).data().relatorio)){
+                    if ($(this).data().equipamento || ($(this).data().equipamento && $(this).data().relatorio)){
                     $("#salvarRelatorioForm").html('<ul id="tab1" class="tabs"></ul>');
                     $("#salvarStatusEquipamneto").html('<ul id="tab1" class="tabs"></ul>');
                     $("#dialog-status-equipamento").dialog('open');
@@ -679,6 +675,7 @@ $(document).ajaxStop(function () {
                     $("#salvarRelatorioForm").html('<ul id="tab1" class="tabs"></ul>');
                     $("#dialog-unidades").dialog("open");
                 }
+                ($(this).data('callback'))();
                 $(this).dialog("close");
             }
         },
