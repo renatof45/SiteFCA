@@ -41,6 +41,20 @@ function showScroll(){
 }
 
 function processo(type, object) {
+    if(type.name==='maximizar'){
+        if(type.value==='Maximizar editor'){
+            type.value="Restaurar editor"
+            $("#app").scrollTo(110);
+            var editor = CKEDITOR.instances.editor;
+            editor.resize( '100%', $("#app")[0].offsetHeight-40 );
+        }
+        else{
+            type.value='Maximizar editor';
+            $("#app").scrollTo(0);
+            var editor = CKEDITOR.instances.editor;
+            editor.resize( '100%', 200 );
+        }
+    }
     console.log(type.name);
     if(type.name==='imprimir'){
         window.open('http://localhost:8080/index.php/processo?imprimir&proc='+type.getAttribute('proc_id'));
@@ -265,7 +279,7 @@ function processo(type, object) {
                                 steps_array[index] = {
                                     'title': title, 
                                     'step': $(this)[0].value
-                                    };
+                                };
                                 title = '';
                                 index++;
                             }
@@ -376,6 +390,8 @@ function processo(type, object) {
             document.getElementById("app").innerHTML = data;
             CKEDITOR.config.height = 200;
             CKEDITOR.config.width = 750;
+            
+       
             while (alert.length > 0) {
                 alert.pop();
             }
@@ -423,7 +439,7 @@ function checkStep(index, input) {
         if (input.checked) {
             last_index = index;
             if(parseInt($("#procedimentos").children().children().last()[0].children[0].innerText.split(' ')[2]) === index){
-                $("#procedimentos").after('<h2>Procedimento concluido</h2>');
+                $("#procedimentos").after('<br><h2>Procedimento concluido</h2>');
             }
         }
         else {
@@ -464,10 +480,10 @@ function showRequest(formData, jqForm, options) {
     console.log(formData);
     procedimento.push({
         'unidade': formData[0]
-        });
+    });
     procedimento.push({
         'nome': formData[1]
-        });
+    });
     var id=formData[formData.length-1].value;
     var content_array = {
         'alertas': alertas, 
@@ -479,7 +495,7 @@ function showRequest(formData, jqForm, options) {
         $.post("index.php/processo?update=true&id="+id+"&unidade=" + procedimento[0]['unidade']['value'] + '&nome=' + procedimento[1]['nome']['value'], {
             procidimento: JSON.stringify(procedimento), 
             descricao: editor.getData()
-            }, function (data) {
+        }, function (data) {
             $('#dvLoading').hide();
         });
     }
@@ -487,7 +503,7 @@ function showRequest(formData, jqForm, options) {
         $.post("index.php/processo?salvar=true&unidade=" + procedimento[0]['unidade']['value'] + '&nome=' + procedimento[1]['nome']['value'], {
             procidimento: JSON.stringify(procedimento), 
             descricao: editor.getData()
-            }, function (data) {
+        }, function (data) {
             $('#dvLoading').hide();
         });
     }

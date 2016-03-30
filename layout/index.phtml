@@ -46,6 +46,23 @@
             function hidescrooll() {
                 $("#feed").css("overflow", "hidden");
             }
+            $.fn.scrollTo = function( target, options, callback ){
+                if(typeof options == 'function' && arguments.length == 2){ callback = options; options = target; }
+                var settings = $.extend({
+                    scrollTarget  : target,
+                    offsetTop     : 50,
+                    duration      : 500,
+                    easing        : 'swing'
+                }, options);
+                return this.each(function(){
+                    var scrollPane = $(this);
+                    var scrollTarget = (typeof settings.scrollTarget == "number") ? settings.scrollTarget : $(settings.scrollTarget);
+                    var scrollY = (typeof scrollTarget == "number") ? scrollTarget : scrollTarget.offset().top + scrollPane.scrollTop() - parseInt(settings.offsetTop);
+                    scrollPane.animate({scrollTop : scrollY }, parseInt(settings.duration), settings.easing, function(){
+                        if (typeof callback == 'function') { callback.call(this); }
+                    });
+                });
+            }
 
         </script>
 
@@ -210,52 +227,52 @@
 
             @keyframes bounce_circularG{
                 0%{
-                    transform:scale(1);
-                }
+                transform:scale(1);
+            }
 
-                100%{
-                    transform:scale(.3);
-                }
+            100%{
+                transform:scale(.3);
+            }
             }
 
             @-o-keyframes bounce_circularG{
                 0%{
-                    -o-transform:scale(1);
-                }
+                -o-transform:scale(1);
+            }
 
-                100%{
-                    -o-transform:scale(.3);
-                }
+            100%{
+                -o-transform:scale(.3);
+            }
             }
 
             @-ms-keyframes bounce_circularG{
                 0%{
-                    -ms-transform:scale(1);
-                }
+                -ms-transform:scale(1);
+            }
 
-                100%{
-                    -ms-transform:scale(.3);
-                }
+            100%{
+                -ms-transform:scale(.3);
+            }
             }
 
             @-webkit-keyframes bounce_circularG{
                 0%{
-                    -webkit-transform:scale(1);
-                }
+                -webkit-transform:scale(1);
+            }
 
-                100%{
-                    -webkit-transform:scale(.3);
-                }
+            100%{
+                -webkit-transform:scale(.3);
+            }
             }
 
             @-moz-keyframes bounce_circularG{
                 0%{
-                    -moz-transform:scale(1);
-                }
+                -moz-transform:scale(1);
+            }
 
-                100%{
-                    -moz-transform:scale(.3);
-                }
+            100%{
+                -moz-transform:scale(.3);
+            }
             }
         </style>
     </head>
@@ -271,7 +288,7 @@
                         <label style="margin-top: 5px;padding-bottom: 0px;">Area de trabalho:</label>
                         <select name="area" onchange="submit_area(this)">
                             <?php while (list($key, $val) = each($user['area'])): ?>
-                                <option value="<?php echo $key; ?>" <?php if (array_key_exists('area', $_POST)) if ($_POST['area'] == $key) echo 'selected'; ?>>
+                                <option value="<?php echo $key; ?>" <?php if (array_key_exists('area', $_POST)) if ($_POST['area'] == $key) echo 'selected';  ?>>
                                     <?php echo $val; ?>
                                 </option>
                             <?php endwhile; ?>
