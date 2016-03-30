@@ -352,7 +352,7 @@ function processo(type, object) {
                     if (proc[2]['steps'][i]['title'] !== '') {
                         $("#procedimentos").append('<tr><td colspan="2" style="text-align: center;padding: 5px;"><label>' + proc[2]['steps'][i]['title'] + '</label></td></tr>');
                     }
-                    $("#procedimentos").append('<tr><td style="width: 80px;"><input onclick="checkStep(' + i + ',this)" type="checkbox"/> Passo ' + i + '</td><td style="padding: 5px;">' + proc[2]['steps'][i]['step'] + '</td></tr>');
+                    $("#procedimentos").append('<tr><td style="width: 80px;"><input id="step'+i+'" onclick="checkStep(' + i + ',this)" type="checkbox"/> Passo ' + i + '</td><td style="padding: 5px;">' + proc[2]['steps'][i]['step'] + '</td></tr>');
                 }
             });
         });
@@ -437,9 +437,21 @@ function checkStep(index, input) {
             });
         });
         if (input.checked) {
+            console.log($("#"+input.id).parent().parent());
             last_index = index;
             if(parseInt($("#procedimentos").children().children().last()[0].children[0].innerText.split(' ')[2]) === index){
+                $("#"+input.id).parent().parent().prev().remove();               
+                
                 $("#procedimentos").after('<br><h2>Procedimento concluido</h2>');
+            }
+            else{                                
+                if(index>0){
+                    $("#"+input.id).parent().parent().prev().remove();
+                    $("#"+input.id).parent().parent().prev().css('border','1px solid')
+                }
+                $("#"+input.id).parent().parent().css('border', '2px solid #F37020 ')
+                        .css('border-bottom','0');
+                $("#"+input.id).parent().parent().after('<tr style="border:2px solid #F37020;border-top:0"><td colspan="2"><input type="button" onclick="processo(this);" name="comentarios" style="width: 110px;margin-bottom: 5px;margin-top: 5px;float: left" value="Ver comentários" class="button"></td></tr>');
             }
         }
         else {
@@ -456,7 +468,6 @@ function checkStep(index, input) {
             .data('callback',function(){                       
                 })
             .dialog('open');
-            
         }
     }
 }
