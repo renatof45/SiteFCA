@@ -1,3 +1,14 @@
 <h1>Nova Rotina</h1>
+<form id="ajaxform1" method="post">
+    <fieldset style="z-index: 100; position: fixed;background-color: rgb(243,243,243);width: 863px;">
+        <div class="field">
+            <input type="button" proc_id="<?php echo $manobras['id']; ?>" onclick="processo(this,null);" name="editar_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Editar" class="button">
+            <input type="button" onclick="processo(this);" name="comentar" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Comentar" class="button">
+            <input type="button" onclick="processo(this);" name="comentarios" style="width: 110px;margin-bottom: 5px;margin-top: 5px;float: left" value="Ver comentários" class="button">
+            <input type="button" name="imprimir" proc_id="<?php echo $manobras['id']; ?>" onclick="processo(this);" style="margin-top: 5px;float: left;" value="Imprimir" class="button">
+
+        </div> 
+    </fieldset>
+</form>
 
 
