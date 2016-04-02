@@ -362,9 +362,17 @@ $(document).ajaxStop(function () {
         modal: true,
         buttons: {
             "OK": function () {
-                $(this).data('callback')($(this).children().children().each(function(){
-                    console.log($(this).children());
-                }));
+                var isto=$(this);
+               $(this).children().children().each(function(){
+                    $(this).children().children().children().children().children().children().each(function(){
+                        if($(this)[0].nodeName==='INPUT'){
+                            if($(this)[0].checked)
+                              //console.log($(this).attr('equipamento_id'));
+                              isto.data('callback')({id:$(this).attr('equipamento_id'),name:$(this).attr('equipamento')});
+                        }
+                    });
+                });
+                
                 $(this).dialog("close");
             }
         },
@@ -413,7 +421,7 @@ $(document).ajaxStop(function () {
             for (var i = 0; i < unidades.length; i++) {
                 var element = $('<div></div>');
                 for (var j = 0; j < equipamentos.length; j++) {
-                    var div = ''
+                    var div = '';
                     if (equipamentos[j].unidade === unidades[i].id && equipamentos[j].tipo === '2') {
                         div = '<div id=div' + equipamentos[j].id + ' class="field" style="height: 21px;background-color: #F3F3F3;"><label style="margin-left:5px;">' + equipamentos[j].Equipamento + ':</label>';
                         div += ('<p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamentos[j].estado + '</p>');
@@ -687,7 +695,7 @@ $(document).ajaxStop(function () {
                 if ($("#alerta_equipamento").is(":checked")) {
                     equipamento = true;
                 }
-                alertas[$(this).data('step').getAttribute('index')] = ({'setp': $(this).data('step').getAttribute('index'), 'relatrio': relatorio, 'equipamento': equipamento, 'texto': $("#mensagem").val()});
+                alertas[$(this).data('step').getAttribute('index')] = ({'setp': $(this).data('step').getAttribute('index'), 'relatrio': relatorio, 'equipamento': equipamento,'name': $('#equipamento_value').attr('name'),'equipamento_id':$("#equipamento_value").val(),'texto': $("#mensagem").val()});
                 
                 $(this).dialog("close");
             },

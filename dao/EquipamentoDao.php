@@ -85,10 +85,10 @@ final class EquipamentoDao extends DAO {
     }
 
     public function getEqipmentoById($id) {
-        foreach (parent::query("select id,Equipamento,descricao
+        foreach (parent::query("select id,Equipamento,descricao,tipo
                                 from equipamento
                                  where id=" . $id) as $row) {
-            return array('equipamento' => $row['Equipamento'], 'descricao' => $row['descricao']);
+            return array('equipamento' => $row['Equipamento'], 'descricao' => $row['descricao'],'tipo'=>$row['tipo']);
         }
     }
 

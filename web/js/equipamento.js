@@ -36,7 +36,7 @@ function equipamento_estatico(object) {
     if (object === 2) {
         $.post("index.php/equipamento?get_status=0&tipo=3", function (data) {
             document.getElementById("app").innerHTML =
-                    '<h1>Estado de equipamento dinamico</h1><form><ul id="tab2" class="tabs"></ul></form>';
+            '<h1>Estado de equipamento dinamico</h1><form><ul id="tab2" class="tabs"></ul></form>';
             var unidades = JSON.parse(data)['unidades'];
             var equipamentos = JSON.parse(data)['equipamentos'];
             estados = JSON.parse(data)['estados'];
@@ -49,9 +49,9 @@ function equipamento_estatico(object) {
                         div = '<div id=div' + equipamentos[j].id + ' class="field" style="height: 21px;background-color: #F3F3F3;"><label style="margin-left:5px;">' + equipamentos[j].Equipamento + ':</label>';
                         div += ('<p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamentos[j].estado + '</p>');
                         div += ('<input type="button" estado="' + equipamentos[j].estado + '" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados" onclick="equipamento(this,3);" style="margin-top: 1px;float: left;" value="Mais dados" class="button">' +
-                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  unidade="' + unidades[i].id + '" name="alterar_status" onclick="equipamento(this,3);" style="width:110px;margin-top: 1px;float: left;" value="Alterar status" class="button">' +
-                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="inspecoes" onclick="equipamento(this,3);" style="width:100px;margin-top: 1px;float: left;" value="Inspeções" class="button">' +
-                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="alterar" onclick="equipamento(this,3);" style="width:120px;margin-top: 1px;float: left;" value="Alterar equipamento" class="button"></div>');
+                            '<input type="button" equipamento_id="' + equipamentos[j].id + '"  unidade="' + unidades[i].id + '" name="alterar_status" onclick="equipamento(this,3);" style="width:110px;margin-top: 1px;float: left;" value="Alterar status" class="button">' +
+                            '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="inspecoes" onclick="equipamento(this,3);" style="width:100px;margin-top: 1px;float: left;" value="Inspeções" class="button">' +
+                            '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="alterar" onclick="equipamento(this,3);" style="width:120px;margin-top: 1px;float: left;" value="Alterar equipamento" class="button"></div>');
                         element.append(div);
                     }
                 }
@@ -63,9 +63,9 @@ function equipamento_estatico(object) {
                     TABS.AddTab(unidades[i].designacao, false, element[0].outerHTML, 'tab2');
             }
             $("#app").append(
-                    '<div id="dialog-unidades" title="Unidades">' +
-                    '<form id="salvarRelatorioForm" method="post">' +
-                    '</form>')
+                '<div id="dialog-unidades" title="Unidades">' +
+                '<form id="salvarRelatorioForm" method="post">' +
+                '</form>')
         });
     }
     if (object == 'novo_estatico') {
@@ -91,7 +91,7 @@ function equipamento_dinamico(object) {
     if (object === 2) {
         $.post("index.php/equipamento?get_status=0&tipo=1", function (data) {
             document.getElementById("app").innerHTML =
-                    '<h1>Estado de equipamento dinamico</h1><form><ul id="tab2" class="tabs"></ul></form>';
+            '<h1>Estado de equipamento dinamico</h1><form><ul id="tab2" class="tabs"></ul></form>';
             var unidades = JSON.parse(data)['unidades'];
             var equipamentos = JSON.parse(data)['equipamentos'];
             estados = JSON.parse(data)['estados'];
@@ -104,9 +104,9 @@ function equipamento_dinamico(object) {
                         div = '<div id=div' + equipamentos[j].id + ' class="field" style="height: 21px;background-color: #F3F3F3;"><label style="margin-left:5px;">' + equipamentos[j].Equipamento + ':</label>';
                         div += ('<p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamentos[j].estado + '</p>');
                         div += ('<input type="button" estado="' + equipamentos[j].estado + '" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados" onclick="equipamento(this,1);" style="margin-top: 1px;float: left;" value="Mais dados" class="button">' +
-                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  unidade="' + unidades[i].id + '" name="alterar_status" onclick="equipamento(this,1);" style="width:110px;margin-top: 1px;float: left;" value="Alterar status" class="button">' +
-                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="inspecoes" onclick="equipamento(this,1);" style="width:100px;margin-top: 1px;float: left;" value="Inspeções" class="button">' +
-                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="alterar" onclick="equipamento(this,1);" style="width:120px;margin-top: 1px;float: left;" value="Alterar equipamento" class="button"></div>');
+                            '<input type="button" equipamento_id="' + equipamentos[j].id + '"  unidade="' + unidades[i].id + '" name="alterar_status" onclick="equipamento(this,1);" style="width:110px;margin-top: 1px;float: left;" value="Alterar status" class="button">' +
+                            '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="inspecoes" onclick="equipamento(this,1);" style="width:100px;margin-top: 1px;float: left;" value="Inspeções" class="button">' +
+                            '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="alterar" onclick="equipamento(this,1);" style="width:120px;margin-top: 1px;float: left;" value="Alterar equipamento" class="button"></div>');
                         element.append(div);
                     }
                 }
@@ -118,9 +118,9 @@ function equipamento_dinamico(object) {
                     TABS.AddTab(unidades[i].designacao, false, element[0].outerHTML, 'tab2');
             }
             $("#app").append(
-                    '<div id="dialog-unidades" title="Unidades">' +
-                    '<form id="salvarRelatorioForm" method="post">' +
-                    '</form>')
+                '<div id="dialog-unidades" title="Unidades">' +
+                '<form id="salvarRelatorioForm" method="post">' +
+                '</form>')
         });
     }
 
@@ -131,7 +131,7 @@ function equipamento_dinamico(object) {
     } else if (object === 3) {
         $.post("index.php/equipamento?horas_de_marcha=0", function (data) {
             document.getElementById("app").innerHTML =
-                    '<h1>Horas de marcha de equipamento dinamico</h1><form><ul id="tab2" class="tabs"></ul></form>';
+            '<h1>Horas de marcha de equipamento dinamico</h1><form><ul id="tab2" class="tabs"></ul></form>';
             var unidades = JSON.parse(data)['unidades'];
             var horas = JSON.parse(data)['horas'];
             console.log(horas);
@@ -140,18 +140,18 @@ function equipamento_dinamico(object) {
                 var element = $('<div></div>');
                 var div = '';
                 div = '<div  class="field" style="height: 21px">' +
-                        '<label style="width: 120px;margin-left: 100px;">Total de horas</label>' +
-                        '<label style="width: 100px;">Este mês</label>' +
-                        '<label style="width: 250px;">Status</label></div>';
+                '<label style="width: 120px;margin-left: 100px;">Total de horas</label>' +
+                '<label style="width: 100px;">Este mês</label>' +
+                '<label style="width: 250px;">Status</label></div>';
                 element.append(div);
                 for (var j = 0; j < horas.length; j++) {
                     var div = ''
                     if (horas[j].equipamento.unidade === unidades[i].id && horas[j].equipamento.tipo === '1') {
                         div = '<div id=div' + horas[j].equipamento.id + ' class="field" style="height: 21px;background-color: #F3F3F3;">' +
-                                '<label style="margin-left:5px;">' + horas[j].equipamento.Equipamento + ':</label>' +
-                                '<label style="width: 120px;">' + horas[j].total + '</label>' +
-                                '<label style="width: 100px;">' + horas[j].mes + '</label>' +
-                                '<label style="width: 250px;">' + horas[j].equipamento.estado + '</label>';
+                        '<label style="margin-left:5px;">' + horas[j].equipamento.Equipamento + ':</label>' +
+                        '<label style="width: 120px;">' + horas[j].total + '</label>' +
+                        '<label style="width: 100px;">' + horas[j].mes + '</label>' +
+                        '<label style="width: 250px;">' + horas[j].equipamento.estado + '</label>';
                         element.append(div);
                     }
                 }
@@ -192,7 +192,7 @@ function instrumentos(object) {
 
         $.post("index.php/equipamento?get_status=0&tipo=2", function (data) {
             document.getElementById("app").innerHTML =
-                    '<h1>Estado dos Instrumentos</h1><form><ul id="tab2" class="tabs"></ul></form>';
+            '<h1>Estado dos Instrumentos</h1><form><ul id="tab2" class="tabs"></ul></form>';
             var unidades = JSON.parse(data)['unidades'];
             var equipamentos = JSON.parse(data)['equipamentos'];
             estados = JSON.parse(data)['estados'];
@@ -205,9 +205,9 @@ function instrumentos(object) {
                         div = '<div id=div' + equipamentos[j].id + ' class="field" style="height: 21px;background-color: #F3F3F3;"><label style="margin-left:5px;">' + equipamentos[j].Equipamento + ':</label>';
                         div += ('<p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamentos[j].estado + '</p>');
                         div += ('<input type="button" estado="' + equipamentos[j].estado + '" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados" onclick="equipamento(this,2);" style="margin-top: 1px;float: left;" value="Mais dados" class="button">' +
-                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  unidade="' + unidades[i].id + '" name="alterar_status" onclick="equipamento(this,2);" style="width:110px;margin-top: 1px;float: left;" value="Alterar status" class="button">' +
-                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="inspecoes" onclick="equipamento(this,2);" style="width:100px;margin-top: 1px;float: left;" value="Inspeções" class="button">' +
-                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"   unidade="' + unidades[i].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="alterar" onclick="equipamento(this,2);" style="width:100px;margin-top: 1px;float: left;" value="Alterar equipamento" class="button"></div>');
+                            '<input type="button" equipamento_id="' + equipamentos[j].id + '"  unidade="' + unidades[i].id + '" name="alterar_status" onclick="equipamento(this,2);" style="width:110px;margin-top: 1px;float: left;" value="Alterar status" class="button">' +
+                            '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="inspecoes" onclick="equipamento(this,2);" style="width:100px;margin-top: 1px;float: left;" value="Inspeções" class="button">' +
+                            '<input type="button" equipamento_id="' + equipamentos[j].id + '"   unidade="' + unidades[i].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="alterar" onclick="equipamento(this,2);" style="width:100px;margin-top: 1px;float: left;" value="Alterar equipamento" class="button"></div>');
                         element.append(div);
                     }
                 }
@@ -248,18 +248,18 @@ function equipamento(object, tipo) {
             var equipamento = JSON.parse(data);
             console.log(equipamento);
             var element = '<div style="margin-left:100px;margin-bottom:10px">' +
-                    '<div style="margin-bottom: 10px;" class="field">' +
-                    '<label >Nome:</label>' +
-                    '<input type="text" value="' + equipamento['equipamento'] + '" style="width: 200px"/>' +
-                    '</div>' +
-                    '<div class="field">' +
-                    '<label>Descrição:</label>' +
-                    '<textarea style="height: 50px;width: 550px" name="descricao">' + equipamento['descricao'] + '</textarea>' +
-                    '</div>' +
-                    '<input type="button" unidade="' + object.getAttribute('unidade') + '" id="salvar' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="salvar_equipamneto" onclick="equipamento(this,' + tipo + ');" style="width:80px;margin-bottom: 5px;float: left;" value="Salvar" class="button">' +
-                    '<input type="button" id="pedido' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="eliminar_equipamento" onclick="equipamento(this,' + tipo + ');" style="width:110px;margin-bottom: 5px;float: left;" value="Eliminar" class="button">' +
-                    '<input type="button" onclick="$(\'#div' + object.getAttribute('equipamento_id') + '\').next().remove();" style="width:110px;margin-bottom: 5px;float: left;" value="Cancelar" class="button">' +
-                    '</div>';
+            '<div style="margin-bottom: 10px;" class="field">' +
+            '<label >Nome:</label>' +
+            '<input type="text" value="' + equipamento['equipamento'] + '" style="width: 200px"/>' +
+            '</div>' +
+            '<div class="field">' +
+            '<label>Descrição:</label>' +
+            '<textarea style="height: 50px;width: 550px" name="descricao">' + equipamento['descricao'] + '</textarea>' +
+            '</div>' +
+            '<input type="button" unidade="' + object.getAttribute('unidade') + '" id="salvar' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="salvar_equipamneto" onclick="equipamento(this,' + tipo + ');" style="width:80px;margin-bottom: 5px;float: left;" value="Salvar" class="button">' +
+            '<input type="button" id="pedido' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="eliminar_equipamento" onclick="equipamento(this,' + tipo + ');" style="width:110px;margin-bottom: 5px;float: left;" value="Eliminar" class="button">' +
+            '<input type="button" onclick="$(\'#div' + object.getAttribute('equipamento_id') + '\').next().remove();" style="width:110px;margin-bottom: 5px;float: left;" value="Cancelar" class="button">' +
+            '</div>';
             $("#div" + object.getAttribute('equipamento_id')).after(element);
         });
     }
@@ -367,32 +367,32 @@ function equipamento(object, tipo) {
         $('#dvLoading').hide();
         if (tipo === 1) {
             $("#" + object.id).before('<select estado="' + object.getAttribute('estado') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '" style="float:left" onchange="equipamento(this,' + tipo + ');" name="etapas_escolha" id="etapas' + object.getAttribute('equipamento_id') + '">' +
-                    '<option value="0">Escolha uma opção</option>' +
-                    '<option value="1">Colocadas juntas cegas</option>' +
-                    '<option value="2">Retiradas juntas cegas</option>' +
-                    '<option value="3">Desligada electricamnete</option>' +
-                    '<option value="4">Ligada electricamente</option>' +
-                    '<option value="5">Retirado equipamento</option>' +
-                    '<option value="6">Em lavagem</option>' +
-                    '</select>');
+                '<option value="0">Escolha uma opção</option>' +
+                '<option value="1">Colocadas juntas cegas</option>' +
+                '<option value="2">Retiradas juntas cegas</option>' +
+                '<option value="3">Desligada electricamnete</option>' +
+                '<option value="4">Ligada electricamente</option>' +
+                '<option value="5">Retirado equipamento</option>' +
+                '<option value="6">Em lavagem</option>' +
+                '</select>');
         }
         else if (tipo === 2) {
             $("#" + object.id).before('<select estado="' + object.getAttribute('estado') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '" style="float:left" onchange="equipamento(this,' + tipo + ');" name="etapas_escolha" id="etapas' + object.getAttribute('equipamento_id') + '">' +
-                    '<option value="0">Escolha uma opção</option>' +
-                    '<option value="1">Colocadas juntas cegas</option>' +
-                    '<option value="2">Retiradas juntas cegas</option>' +
-                    '<option value="3">Desligados cabos electricos</option>' +
-                    '<option value="4">Em calibração</option>' +
-                    '</select>');
+                '<option value="0">Escolha uma opção</option>' +
+                '<option value="1">Colocadas juntas cegas</option>' +
+                '<option value="2">Retiradas juntas cegas</option>' +
+                '<option value="3">Desligados cabos electricos</option>' +
+                '<option value="4">Em calibração</option>' +
+                '</select>');
         }
         else if (tipo === 3) {
             $("#" + object.id).before('<select estado="' + object.getAttribute('estado') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '" style="float:left" onchange="equipamento(this,' + tipo + ');" name="etapas_escolha" id="etapas' + object.getAttribute('equipamento_id') + '">' +
-                    '<option value="0">Escolha uma opção</option>' +
-                    '<option value="1">Colocadas juntas cegas</option>' +
-                    '<option value="2">Retiradas juntas cegas</option>' +
-                    '<option value="3">Desligados cabos electricos</option>' +
-                    '<option value="4">Em calibração</option>' +
-                    '</select>');
+                '<option value="0">Escolha uma opção</option>' +
+                '<option value="1">Colocadas juntas cegas</option>' +
+                '<option value="2">Retiradas juntas cegas</option>' +
+                '<option value="3">Desligados cabos electricos</option>' +
+                '<option value="4">Em calibração</option>' +
+                '</select>');
         }
     }
     else if (object.name === 'etapas_escolha') {
@@ -444,19 +444,19 @@ function equipamento(object, tipo) {
                 $('#dvLoading').hide();
                 var accoes = JSON.parse(data);
                 var element = '<div style="margin-left:100px;margin-bottom:10px">' +
-                        '<div style="margin-bottom: 10px;" class="field">' +
-                        '<label style="width: 120px">Novo status:</label>' +
-                        '<select onchange="equipamento(this,' + tipo + ');" id="halt-status' + object.getAttribute('equipamento_id') + '" name="halt-status">';
+                '<div style="margin-bottom: 10px;" class="field">' +
+                '<label style="width: 120px">Novo status:</label>' +
+                '<select onchange="equipamento(this,' + tipo + ');" id="halt-status' + object.getAttribute('equipamento_id') + '" name="halt-status">';
                 for (var i = 0; i < accoes.length; i++) {
                     element += '<option value="' + i + '">' + accoes[i] + '</option>';
                 }
                 element += '</select>' +
-                        '</div>' +
-                        '<input type="button" unidade="' + object.getAttribute('unidade') + '" id="salvar' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="salvar_status" onclick="equipamento(this,' + tipo + ');" style="width:80px;margin-bottom: 5px;float: left;" value="Salvar" class="button">' +
-                        '<input type="button" id="pedido' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="pedido_trabalho" onclick="equipamento(this,' + tipo + ');" style="width:110px;margin-bottom: 5px;float: left;" value="Pedido de trabalho" class="button">' +
-                        '<input type="button" id="relatorio' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="relatorio" onclick="equipamento(this,' + tipo + ');" style="width:110px;margin-bottom: 5px;float: left;" value="Alterar relatório" class="button">' +
-                        '<input type="button"  onclick="$(\'#div' + object.getAttribute('equipamento_id') + '\').next().remove();" style="width:90px;margin-bottom: 5px;float: left;" value="Cancelar" class="button">' +
-                        '</div>';
+                '</div>' +
+                '<input type="button" unidade="' + object.getAttribute('unidade') + '" id="salvar' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="salvar_status" onclick="equipamento(this,' + tipo + ');" style="width:80px;margin-bottom: 5px;float: left;" value="Salvar" class="button">' +
+                '<input type="button" id="pedido' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="pedido_trabalho" onclick="equipamento(this,' + tipo + ');" style="width:110px;margin-bottom: 5px;float: left;" value="Pedido de trabalho" class="button">' +
+                '<input type="button" id="relatorio' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="relatorio" onclick="equipamento(this,' + tipo + ');" style="width:110px;margin-bottom: 5px;float: left;" value="Alterar relatório" class="button">' +
+                '<input type="button"  onclick="$(\'#div' + object.getAttribute('equipamento_id') + '\').next().remove();" style="width:90px;margin-bottom: 5px;float: left;" value="Cancelar" class="button">' +
+                '</div>';
                 $("#div" + object.getAttribute('equipamento_id')).after(element);
             });
         }
@@ -467,20 +467,20 @@ function equipamento(object, tipo) {
         if (object.value === 'Pedido de trabalho') {
             object.value = 'Cancelar pedido';
             var div = '<div class="field">' +
-                    '<label style="width: 120px">Pedido de trabalho:</label>' +
-                    '</div>' +
-                    '<div class="field">' +
-                    '<label style="width: 120px">Prioridade:</label>' +
-                    '<select id="pedido_prioridade">' +
-                    '<option value="1">Normal</option>' +
-                    '<option value="2">Urgente</option>' +
-                    '<option value="3">Emergente</option>' +
-                    '</select>' +
-                    '</div>' +
-                    '<div class="field">' +
-                    '<label style="width: 120px">Texto:</label>' +
-                    '<textarea id="comentario" style="height: 40px;width:280px"> </textarea>' +
-                    '</div>';
+            '<label style="width: 120px">Pedido de trabalho:</label>' +
+            '</div>' +
+            '<div class="field">' +
+            '<label style="width: 120px">Prioridade:</label>' +
+            '<select id="pedido_prioridade">' +
+            '<option value="1">Normal</option>' +
+            '<option value="2">Urgente</option>' +
+            '<option value="3">Emergente</option>' +
+            '</select>' +
+            '</div>' +
+            '<div class="field">' +
+            '<label style="width: 120px">Texto:</label>' +
+            '<textarea id="comentario" style="height: 40px;width:280px"> </textarea>' +
+            '</div>';
             ($("#" + object.id).prev().prev().append(div));
         }
         else {
@@ -505,7 +505,12 @@ function equipamento(object, tipo) {
 
         detach = false;
         if ($("#" + object.id).prev().children().length === 2) {
-            $.post("index.php/equipamento?change_satus", {equipamento: object.getAttribute('equipamento_id'), status: $("#halt-status" + object.getAttribute('equipamento_id') + " option:selected").html(), descricao: '', comentario: ''}, function (dat) {
+            $.post("index.php/equipamento?change_satus", {
+                equipamento: object.getAttribute('equipamento_id'), 
+                status: $("#halt-status" + object.getAttribute('equipamento_id') + " option:selected").html(), 
+                descricao: '', 
+                comentario: ''
+            }, function (dat) {
                 $('#dvLoading').hide();
                 $("#" + object.getAttribute('equipamento_id')).html($("#halt-status" + object.getAttribute('equipamento_id') + " option:selected").html());
                 $("#div" + object.getAttribute('equipamento_id')).next().remove();
@@ -516,7 +521,12 @@ function equipamento(object, tipo) {
         if ($("#" + object.id).prev().children().length === 4) {
             var descricao = $("#descricao option:selected").text();
             var comentario = $("#comentario").val();
-            $.post("index.php/equipamento?change_satus", {equipamento: object.getAttribute('equipamento_id'), status: $("#halt-status" + object.getAttribute('equipamento_id') + " option:selected").html(), descricao: descricao, comentario: comentario}, function (dat) {
+            $.post("index.php/equipamento?change_satus", {
+                equipamento: object.getAttribute('equipamento_id'), 
+                status: $("#halt-status" + object.getAttribute('equipamento_id') + " option:selected").html(), 
+                descricao: descricao, 
+                comentario: comentario
+            }, function (dat) {
                 $('#dvLoading').hide();
                 $("#" + object.getAttribute('equipamento_id')).html($("#halt-status" + object.getAttribute('equipamento_id') + " option:selected").html());
                 $("#div" + object.getAttribute('equipamento_id')).next().remove();
@@ -529,14 +539,24 @@ function equipamento(object, tipo) {
                 alert('Erro : Tem de designar o pedido de trabalho');
             }
             else {
-                $.post("index.php/equipamento?change_satus", {equipamento: object.getAttribute('equipamento_id'), status: $("#halt-status" + object.getAttribute('equipamento_id') + " option:selected").html(), descricao: '', comentario: ''}, function (dat) {
+                $.post("index.php/equipamento?change_satus", {
+                    equipamento: object.getAttribute('equipamento_id'), 
+                    status: $("#halt-status" + object.getAttribute('equipamento_id') + " option:selected").html(), 
+                    descricao: '', 
+                    comentario: ''
+                }, function (dat) {
 
                     $("#" + object.getAttribute('equipamento_id')).html($("#halt-status" + object.getAttribute('equipamento_id') + " option:selected").html());
                     var prioridade = $("#" + object.id).prev().children()[3].children[1].value;
                     var texto = $("#" + object.id).prev().children()[4].children[1].value;
                     var unidade = object.getAttribute('unidade');
                     var equipamento = object.getAttribute('equipamento_id');
-                    $.post("index.php/pedidos_trabalho?save", {prioridade: prioridade, texto: texto, unidade: unidade, equipamento: equipamento}, function (dat) {
+                    $.post("index.php/pedidos_trabalho?save", {
+                        prioridade: prioridade, 
+                        texto: texto, 
+                        unidade: unidade, 
+                        equipamento: equipamento
+                    }, function (dat) {
                         $('#dvLoading').hide();
                         $("#div" + object.getAttribute('equipamento_id')).next().remove();
                         $("#div" + object.getAttribute('equipamento_id'))[0].children[3].value = 'Alterar status';
@@ -546,21 +566,31 @@ function equipamento(object, tipo) {
             }
         }
         if ($("#" + object.id).prev().children().length === 7) {
-            var descricao = $("#descricao option:selected").text();
-            var comentario = $("#comentario").val();
+            descricao = $("#descricao option:selected").text();
+            comentario = $("#comentario").val();
             if ($("#" + object.id).prev().children()[6].children[1].value === ' ') {
                 $('#dvLoading').hide();
                 alert('Erro : Tem de designar o pedido de trabalho')
             }
             else {
-                $.post("index.php/equipamento?change_satus", {equipamento: object.getAttribute('equipamento_id'), status: $("#halt-status" + object.getAttribute('equipamento_id') + " option:selected").html(), descricao: descricao, comentario: comentario}, function (dat) {
+                $.post("index.php/equipamento?change_satus", {
+                    equipamento: object.getAttribute('equipamento_id'), 
+                    status: $("#halt-status" + object.getAttribute('equipamento_id') + " option:selected").html(), 
+                    descricao: descricao, 
+                    comentario: comentario
+                }, function (dat) {
 
                     $("#" + object.getAttribute('equipamento_id')).html($("#halt-status" + object.getAttribute('equipamento_id') + " option:selected").html());
                     var prioridade = $("#" + object.id).prev().children()[5].children[1].value;
                     var texto = $("#" + object.id).prev().children()[6].children[1].value;
                     var unidade = object.getAttribute('unidade');
                     var equipamento = object.getAttribute('equipamento_id');
-                    $.post("index.php/pedidos_trabalho?save", {prioridade: prioridade, texto: texto, unidade: unidade, equipamento: equipamento}, function (dat) {
+                    $.post("index.php/pedidos_trabalho?save", {
+                        prioridade: prioridade, 
+                        texto: texto, 
+                        unidade: unidade, 
+                        equipamento: equipamento
+                    }, function (dat) {
                         $('#dvLoading').hide();
                         $("#div" + object.getAttribute('equipamento_id')).next().remove();
                         $("#div" + object.getAttribute('equipamento_id'))[0].children[3].value = 'Alterar status';
@@ -579,37 +609,37 @@ function equipamento(object, tipo) {
         }
         if ($("#" + object.id)[0][object.value].innerText === 'Parada - Indisponível') {
             $("#" + object.id).after('<div  class="field">' +
-                    '<label style="width: 120px">Indisponibilidade:</label>' +
-                    '<select id="descricao">' +
-                    '<option value="1">Fuga pelos empanques</option>' +
-                    '<option value="2">Vibrações</option>' +
-                    '<option value="3">Ruido anormal</option>' +
-                    '<option value="4">Aquecimento</option>' +
-                    '<option value="5">Valvulas com batimento</option>' +
-                    '<option value="6">Manutenção agendada</option>' +
-                    '</select>' +
-                    '</div>' +
-                    '<div  class="field">' +
-                    '<label style="width: 120px">Comentários:</label>' +
-                    '<textarea id="comentario" style="height: 50px;width:280px"> </textarea>' +
-                    '</div>');
+                '<label style="width: 120px">Indisponibilidade:</label>' +
+                '<select id="descricao">' +
+                '<option value="1">Fuga pelos empanques</option>' +
+                '<option value="2">Vibrações</option>' +
+                '<option value="3">Ruido anormal</option>' +
+                '<option value="4">Aquecimento</option>' +
+                '<option value="5">Valvulas com batimento</option>' +
+                '<option value="6">Manutenção agendada</option>' +
+                '</select>' +
+                '</div>' +
+                '<div  class="field">' +
+                '<label style="width: 120px">Comentários:</label>' +
+                '<textarea id="comentario" style="height: 50px;width:280px"> </textarea>' +
+                '</div>');
         }
         else if ($("#" + object.id)[0][object.value].innerText === 'Em Serviço - Com anomalia') {
             $("#" + object.id).after('<div  class="field">' +
-                    '<label style="width: 120px">Anomalia:</label>' +
-                    '<select id="descricao">' +
-                    '<option value="1">Fuga pelos empanques</option>' +
-                    '<option value="2">Vibrações</option>' +
-                    '<option value="3">Ruido anormal</option>' +
-                    '<option value="4">Aquecimento</option>' +
-                    '<option value="5">Valvulas com batimento</option>' +
-                    '<option value="6">Manutenção agendada</option>' +
-                    '</select>' +
-                    '</div>' +
-                    '<div  class="field">' +
-                    '<label style="width: 120px">Comentários:</label>' +
-                    '<textarea id="comentario" style="height: 50px;width:280px"> </textarea>' +
-                    '</div>');
+                '<label style="width: 120px">Anomalia:</label>' +
+                '<select id="descricao">' +
+                '<option value="1">Fuga pelos empanques</option>' +
+                '<option value="2">Vibrações</option>' +
+                '<option value="3">Ruido anormal</option>' +
+                '<option value="4">Aquecimento</option>' +
+                '<option value="5">Valvulas com batimento</option>' +
+                '<option value="6">Manutenção agendada</option>' +
+                '</select>' +
+                '</div>' +
+                '<div  class="field">' +
+                '<label style="width: 120px">Comentários:</label>' +
+                '<textarea id="comentario" style="height: 50px;width:280px"> </textarea>' +
+                '</div>');
         }
 
     }

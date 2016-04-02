@@ -52,6 +52,11 @@ td label{
     border: 1px solid;
     float:right;
 }
+.relatorio-manobra{
+     border:1px solid;
+     z-index: 90;
+}
+
 
 noBorder  {border: 0; }
 .draggable {z-index: 90;  }
@@ -59,7 +64,4 @@ noBorder  {border: 0; }
 .draggable label{float:none;line-height: 18px;padding-bottom: 8px;font-weight: bold;color: black;}
 .relatrio-manobra label{float:none;line-height: 18px;padding-bottom: 8px;font-weight: bold;color: black; font-size: 10px}
 .containment-wrapper {position: relative; width: 859px; height:1230px; border:2px solid ;  }
-.relatorio-manobra:hover{
-   
-    border:1px solid
-}
+
