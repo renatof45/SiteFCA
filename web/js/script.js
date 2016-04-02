@@ -157,20 +157,7 @@ $(document).ajaxStop(function () {
             allFields.val("").removeClass("ui-state-error");
         }
     });
-    $("#dialog-aceitar-manobra").dialog({
-        autoOpen: false,
-        height: 150,
-        width: 300,
-        modal: true,
-        buttons: {
-            "OK": function () {
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-            allFields.val("").removeClass("ui-state-error");
-        }
-    });
+   
     $("#dialog-novobloco").dialog({
         autoOpen: false,
         height: 350,
@@ -365,6 +352,103 @@ $(document).ajaxStop(function () {
             allFields.val("").removeClass("ui-state-error");
         }
     });
+
+
+
+    $("#dialog-listar-equipamento").dialog({
+        autoOpen: false,
+        height: 530,
+        width: 895,
+        modal: true,
+        buttons: {
+            "OK": function () {
+                $(this).data('callback')($(this).children().children().each(function(){
+                    console.log($(this).children());
+                }));
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            allFields.val("").removeClass("ui-state-error");
+        }
+    });
+     $("#dialog-listar-equipamento").off("dialogopen");
+     $("#dialog-listar-equipamento").on("dialogopen",function(){
+         $.post("index.php/equipamento?get_status=1", function (data) {
+            $("#salvarStatusEquipamneto").html('<form id="ajaxform1" method="post">' +
+                    '<fieldset style="z-index: 100;background-color: rgb(243,243,243);width: 870px;">' +
+                    '<div class="field">' +
+                    '<input type="button" onclick="$(\'#din\').show();$(\'#inst\').hide();" name="dinamico" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Dinamico" class="button">' +
+                    '<input type="button" onclick="$(\'#din\').hide();$(\'#inst\').show();" name="estatico" style="width: 110px;margin-bottom: 5px;margin-top: 5px;float: left" value="Instrumentos" class="button">' +
+                    '<input type="button" name="instrumentos" onclick="processo(this);" style="margin-top: 5px;float: left;" value="Estático" class="button">' +
+                    '</div>' +
+                    '</fieldset>' +
+                    '</form>'
+                    + '<div id="din"><h3 style="margin-top:0px">Equipamento dinamico</h3><form><ul id="tab2" class="tabs"></ul></form></div>'
+                    + '<div id="inst" style="display:none;"><h3 style="margin-top:0px">Instrumentos</h3><form><ul id="tab3" class="tabs"></ul></form></div>'
+                    + '<div id="est" style="display:none;"><h3 style="margin-top:0px">Equipamento estático</h3><form><ul id="tab4" class="tabs"></ul></form></div>');
+            var unidades = JSON.parse(data)['unidades'];
+            var equipamentos = JSON.parse(data)['equipamentos'];
+            var estados = JSON.parse(data)['estados'];
+            TABS.CreateTabs('tab2');
+            for (var i = 0; i < unidades.length; i++) {
+                var element = $('<div></div>');
+                for (var j = 0; j < equipamentos.length; j++) {
+                    var div = '';
+                    if (equipamentos[j].unidade === unidades[i].id && equipamentos[j].tipo === '1') {
+                        div = '<div id=div' + equipamentos[j].id + ' class="field" style="height: 21px;background-color: #F3F3F3;"><label style="margin-left:5px;">' + equipamentos[j].Equipamento + ':</label>';
+                        div += ('<p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamentos[j].estado + '</p>');
+                        div += ('<input type="checkbox" estado="' + equipamentos[j].estado + '" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados"  style="margin-top: 1px;float: left;" value="Mais dados" class="button">');
+                        element.append(div);
+                    }
+                }
+                element.css('padding', '10px');
+                element.css('overflow', 'auto');
+                if (i === 0)
+                    TABS.AddTab(unidades[i].designacao, true, element[0].outerHTML, 'tab2', 360);
+                else
+                    TABS.AddTab(unidades[i].designacao, false, element[0].outerHTML, 'tab2', 360);
+            }
+            TABS.CreateTabs('tab3');
+            for (var i = 0; i < unidades.length; i++) {
+                var element = $('<div></div>');
+                for (var j = 0; j < equipamentos.length; j++) {
+                    var div = ''
+                    if (equipamentos[j].unidade === unidades[i].id && equipamentos[j].tipo === '2') {
+                        div = '<div id=div' + equipamentos[j].id + ' class="field" style="height: 21px;background-color: #F3F3F3;"><label style="margin-left:5px;">' + equipamentos[j].Equipamento + ':</label>';
+                        div += ('<p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamentos[j].estado + '</p>');
+                        div += ('<input type="checkbox" estado="' + equipamentos[j].estado + '" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados"  style="margin-top: 1px;float: left;" value="Mais dados" class="button">');
+                        element.append(div);
+                    }
+                }
+                element.css('padding', '10px');
+                element.css('overflow', 'auto');
+                if (i === 0)
+                    TABS.AddTab(unidades[i].designacao, true, element[0].outerHTML, 'tab3', 360);
+                else
+                    TABS.AddTab(unidades[i].designacao, false, element[0].outerHTML, 'tab3', 360);
+            }
+            TABS.CreateTabs('tab4');
+            for (var i = 0; i < unidades.length; i++) {
+                var element = $('<div></div>');
+                for (var j = 0; j < equipamentos.length; j++) {
+                    var div = ''
+                    if (equipamentos[j].unidade === unidades[i].id && equipamentos[j].tipo === '3') {
+                        div = '<div id=div' + equipamentos[j].id + ' class="field" style="height: 21px;background-color: #F3F3F3;"><label style="margin-left:5px;">' + equipamentos[j].Equipamento + ':</label>';
+                        div += ('<p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamentos[j].estado + '</p>');
+                       div += ('<input type="checkbox" estado="' + equipamentos[j].estado + '" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados"  style="margin-top: 1px;float: left;" value="Mais dados" class="button">');
+                        element.append(div);
+                    }
+                }
+                element.css('padding', '10px');
+                element.css('overflow', 'auto');
+                if (i === 0)
+                    TABS.AddTab(unidades[i].designacao, true, element[0].outerHTML, 'tab4', 360);
+                else
+                    TABS.AddTab(unidades[i].designacao, false, element[0].outerHTML, 'tab4', 360);
+            }
+        });
+     });
 
     $("#dialog-status-equipamento").dialog({
         autoOpen: false,
@@ -588,7 +672,7 @@ $(document).ajaxStop(function () {
 
     $("#dialog-alertas").dialog({
         autoOpen: false,
-        height: 250,
+        height: 300,
         width: 450,
         modal: true,
         buttons: {

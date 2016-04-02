@@ -70,7 +70,7 @@
                 <label style="padding-bottom: 20px;">Alerta:</label>
                 <input type="checkbox" id="alerta_ralatorio" name="relatorio" value="1"> Alertar para alterar relatório<br>
                 <input type="checkbox" id="alerta_equipamento" name="equipmento" value="2"> Alertar para alterar estado de equipamento<br>
-      
+                <input type="button" onclick="processo(this);" name="adicionar_equipamento" index="' + index + '" value="Adicionar equipamento" class="submit" style="float:none; width: 150px;margin:0px;margin-top: 10px;" />
              </div>
             <div style="margin-top: 30px" class="field">
                 <label>Mensagem:</label>
@@ -105,5 +105,11 @@
                 </select>
              </div>
         </fieldset>
+    </form>
+</div>
+
+<div id="dialog-listar-equipamento" title="Status do equipamento">
+    <form id="salvarStatusEquipamneto">
+        
     </form>
 </div>

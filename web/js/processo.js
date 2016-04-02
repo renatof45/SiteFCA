@@ -5,7 +5,6 @@ var steps_array = [];
 var last_index = 0;
 var update = false;
 var processoptions = {
-    
     beforeSubmit: showRequest, // pre-submit callback 
 };
 
@@ -17,11 +16,11 @@ function addNewTitle() {
                 if ($(this)[0].attributes[i].value === 'passo') {
                     if (parseInt($("#position-title").val()) === index) {
                         ($(this)).before('<div style="margin-top:10px" class="field" tipo="titulo">' +
-                            '<label>Titulo intermédio:</label>' +
-                            '<textarea style="background-color: aliceblue;height: 35px;width: 750px;" name="manobra[passos][passo1]"></textarea>' +
-                            '<input type="button" onclick="processo(this);" name="remover_titulo" index="' + index + '" value="Remover" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
-                            '<div class="clear separator"></div>' +
-                            '</div>');
+                                '<label>Titulo intermédio:</label>' +
+                                '<textarea style="background-color: aliceblue;height: 35px;width: 750px;" name="manobra[passos][passo1]"></textarea>' +
+                                '<input type="button" onclick="processo(this);" name="remover_titulo" index="' + index + '" value="Remover" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
+                                '<div class="clear separator"></div>' +
+                                '</div>');
 
                     }
                     index++;
@@ -33,36 +32,36 @@ function addNewTitle() {
     });
 }
 
-function stopScroll(){
-    $("#app").css('overflow-y','hidden');
+function stopScroll() {
+    $("#app").css('overflow-y', 'hidden');
 }
-function showScroll(){
-    $("#app").css('overflow-y','auto');
+function showScroll() {
+    $("#app").css('overflow-y', 'auto');
 }
 
 function processo(type, object) {
-    if(type==='3'){
-        
+    if (type === '3') {
+
     }
-    
-    
-    if(type.name==='maximizar'){
-        if(type.value==='Maximizar editor'){
-            type.value="Restaurar editor"
+
+
+    if (type.name === 'maximizar') {
+        if (type.value === 'Maximizar editor') {
+            type.value = "Restaurar editor"
             $("#app").scrollTo(110);
             var editor = CKEDITOR.instances.editor;
-            editor.resize( '100%', $("#app")[0].offsetHeight-40 );
+            editor.resize('100%', $("#app")[0].offsetHeight - 40);
         }
-        else{
-            type.value='Maximizar editor';
+        else {
+            type.value = 'Maximizar editor';
             $("#app").scrollTo(0);
             var editor = CKEDITOR.instances.editor;
-            editor.resize( '100%', 200 );
+            editor.resize('100%', 200);
         }
     }
     console.log(type.name);
-    if(type.name==='imprimir'){
-        window.open('http://localhost:8080/index.php/processo?imprimir&proc='+type.getAttribute('proc_id'));
+    if (type.name === 'imprimir') {
+        window.open('http://localhost:8080/index.php/processo?imprimir&proc=' + type.getAttribute('proc_id'));
     }
     if (type.name === 'mostrar_relatorio') {
         if (type.value === 'Mostrar relatório') {
@@ -95,7 +94,7 @@ function processo(type, object) {
         var index = 0;
         $("#passos").children().each(function () {
 
-            });
+        });
         $("#dialog-move-item").dialog('open');
     }
     if (type.name === 'remover_titulo') {
@@ -204,7 +203,7 @@ function processo(type, object) {
             $("#alerta_equipamento")[0].checked = false;
             $("#mensagem").val('');
             $("#dialog-alertas").data('step', type)
-            .dialog("open");
+                    .dialog("open");
         }
         else {
             var step = (alertas[parseInt(type.getAttribute('index'))]);
@@ -219,12 +218,17 @@ function processo(type, object) {
                 $("#alerta_equipamento")[0].checked = false;
             $("#mensagem").val(step.texto);
             $("#dialog-alertas").data('step', type)
-            .dialog("open");
+                    .dialog("open");
         }
 
     }
-    if (type === 'adicionar_alerta') {
-
+    if (type.name === 'adicionar_equipamento') {
+        $("#salvarStatusEquipamneto").html('<ul id="tab2" class="tabs"></ul>');
+        detach = false;
+        $("#dialog-listar-equipamento").data('callback', function (data) {
+            //console.log(data);
+        })
+        .dialog("open");
     }
     if (type.name === "novo_passo") {
 
@@ -239,13 +243,13 @@ function processo(type, object) {
             }
         });
         $("#passos").append('<div style="margin-top:10px" class="field" index="' + index + '" tipo="passo">' +
-            '<label>Passo ' + index + ':</label>' +
-            '<textarea style="background-color: antiquewhite;height: 50px;width: 750px" name="manobra[passos][passo' + index + ']"></textarea>' +
-            '<input type="button" onclick="processo(this);" name="alerta" index="' + index + '" value="Adicionar Alerta" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;" />' +
-            '<input type="button" onclick="processo(this);" name="remover_passso" index="' + index + '" value="Remover passo" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
-            '<div class="clear separator"></div>' +
-            '</div>'
-            );
+                '<label>Passo ' + index + ':</label>' +
+                '<textarea style="background-color: antiquewhite;height: 50px;width: 750px" name="manobra[passos][passo' + index + ']"></textarea>' +
+                '<input type="button" onclick="processo(this);" name="alerta" index="' + index + '" value="Adicionar Alerta" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;" />' +
+                '<input type="button" onclick="processo(this);" name="remover_passso" index="' + index + '" value="Remover passo" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
+                '<div class="clear separator"></div>' +
+                '</div>'
+                );
 
     }
 
@@ -282,7 +286,7 @@ function processo(type, object) {
                         $(this).children().each(function () {
                             if ($(this)[0].nodeName === 'TEXTAREA') {
                                 steps_array[index] = {
-                                    'title': title, 
+                                    'title': title,
                                     'step': $(this)[0].value
                                 };
                                 title = '';
@@ -294,7 +298,7 @@ function processo(type, object) {
                         $(this).children().each(function () {
                             if ($(this)[0].nodeName === 'TEXTAREA') {
                                 title = $(this)[0].value;
-                            //title = '';
+                                //title = '';
                             }
                         });
                     }
@@ -307,7 +311,7 @@ function processo(type, object) {
         $("#adicionarManobraForm").submit();
     }
     if (type.name === 'editar_proc') {
-        update=true;
+        update = true;
         $.post("index.php/processo?novamanobra=" + type, function (data) {
             document.getElementById("app").innerHTML = data;
             CKEDITOR.config.height = 200;
@@ -316,7 +320,7 @@ function processo(type, object) {
             while (alert.length > 0) {
                 alert.pop();
             }
-            
+
             $.post('index.php/processo?getprocedimentos&proc=' + type.getAttribute('proc_id'), function (data) {
                 var proc = JSON.parse(JSON.parse(JSON.parse(data)['manobra']));
                 $("#manobra_nome").val(proc[1].nome.value);
@@ -326,20 +330,20 @@ function processo(type, object) {
                 for (var i = 0; i < proc[2]['steps'].length; i++) {
                     if (proc[2]['steps'][i]['title'] !== '') {
                         $("#passos").append('<div style="margin-top:10px" class="field" tipo="titulo">' +
-                            '<label>Titulo intermédio:</label>' +
-                            '<textarea style="background-color: aliceblue;height: 35px;width: 750px;" name="manobra[passos][passo1]">' + proc[2]['steps'][i]['title'] + '</textarea>' +
-                            '<input type="button" onclick="processo(this);" name="remover_titulo" index="' + i + '" value="Remover" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
-                            '<div class="clear separator"></div>' +
-                            '</div>');
+                                '<label>Titulo intermédio:</label>' +
+                                '<textarea style="background-color: aliceblue;height: 35px;width: 750px;" name="manobra[passos][passo1]">' + proc[2]['steps'][i]['title'] + '</textarea>' +
+                                '<input type="button" onclick="processo(this);" name="remover_titulo" index="' + i + '" value="Remover" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
+                                '<div class="clear separator"></div>' +
+                                '</div>');
                     }
                     $("#passos").append('<div style="margin-top:10px" class="field" index="' + i + '" tipo="passo">' +
-                        '<label>Passo ' + i + ':</label>' +
-                        '<textarea style="background-color: antiquewhite;height: 50px;width: 750px" name="manobra[passos][passo' + i + ']">' + proc[2]['steps'][i]['step'] + '</textarea>' +
-                        '<input type="button" onclick="processo(this);" name="alerta" index="' + i + '" value="Adicionar Alerta" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;" />' +
-                        '<input type="button" onclick="processo(this);" name="remover_passso" index="' + i + '" value="Remover passo" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
-                        '<div class="clear separator"></div>' +
-                        '</div>'
-                        );
+                            '<label>Passo ' + i + ':</label>' +
+                            '<textarea style="background-color: antiquewhite;height: 50px;width: 750px" name="manobra[passos][passo' + i + ']">' + proc[2]['steps'][i]['step'] + '</textarea>' +
+                            '<input type="button" onclick="processo(this);" name="alerta" index="' + i + '" value="Adicionar Alerta" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;" />' +
+                            '<input type="button" onclick="processo(this);" name="remover_passso" index="' + i + '" value="Remover passo" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
+                            '<div class="clear separator"></div>' +
+                            '</div>'
+                            );
                 }
             });
         });
@@ -351,13 +355,13 @@ function processo(type, object) {
             //detach=false;
             $.post('index.php/processo?getprocedimentos&proc=' + object.getAttribute('id'), function (data) {
                 var proc = JSON.parse(JSON.parse(JSON.parse(data)['manobra']));
-                
+
                 alertas = proc[2]['alertas'];
                 for (var i = 0; i < proc[2]['steps'].length; i++) {
                     if (proc[2]['steps'][i]['title'] !== '') {
                         $("#procedimentos").append('<tr type="title"><td  colspan="2" style="text-align: center;padding: 5px;"><label>' + proc[2]['steps'][i]['title'] + '</label></td></tr>');
                     }
-                    $("#procedimentos").append('<tr><td style="width: 80px;"><input id="step'+i+'" onclick="checkStep(' + i + ',this)" type="checkbox"/> Passo ' + i + '</td><td style="padding: 5px;">' + proc[2]['steps'][i]['step'] + '</td></tr>');
+                    $("#procedimentos").append('<tr><td style="width: 80px;"><input id="step' + i + '" onclick="checkStep(' + i + ',this)" type="checkbox"/> Passo ' + i + '</td><td style="padding: 5px;">' + proc[2]['steps'][i]['step'] + '</td></tr>');
                 }
             });
         });
@@ -366,7 +370,7 @@ function processo(type, object) {
     if (type === 1) {
         $.post("index.php/processo?type=1", function (data) {
             document.getElementById("app").innerHTML =
-            '<h1>Procedimentos</h1><form><ul id="tab2" class="tabs"></ul></form>';
+                    '<h1>Procedimentos</h1><form><ul id="tab2" class="tabs"></ul></form>';
             var unidades = JSON.parse(data)['unidades'];
             var manobras = JSON.parse(data)['manobra'];
 
@@ -395,8 +399,8 @@ function processo(type, object) {
             document.getElementById("app").innerHTML = data;
             CKEDITOR.config.height = 200;
             CKEDITOR.config.width = 750;
-            
-       
+
+
             while (alert.length > 0) {
                 alert.pop();
             }
@@ -440,48 +444,48 @@ function checkStep(index, input) {
             });
         });
         if (input.checked) {
-            var last=false;
+            var last = false;
             last_index = index;
-            if(parseInt($("#procedimentos").children().children().last()[0].children[0].innerText.split(' ')[2]) === index){
+            if (parseInt($("#procedimentos").children().children().last()[0].children[0].innerText.split(' ')[2]) === index) {
                 //$("#"+input.id).parent().parent().prev().remove();               
                 //$("#procedimentos").after('<br><h2>Procedimento concluido</h2>');
-                last=true;
+                last = true;
             }
-                                           
-                if(index>0 && $("#"+input.id).parent().parent().prev().attr('type')!=='title'){
-                    $("#"+input.id).parent().parent().prev().remove();
-                    $("#"+input.id).parent().parent().prev().css('border','1px solid');
-                }
-                else{
-                    $("#"+input.id).parent().parent().prev().prev().remove();
-                    $("#"+input.id).parent().parent().prev().prev().css('border','1px solid')
-                }
-                $("#"+input.id).parent().parent().css('border', '2px solid #F37020 ')
-                .css('border-bottom','0');
-                $("#"+input.id).parent().parent().after('<tr style="border:2px solid #F37020;border-top:0"><td colspan="2"><input type="button" onclick="processo(this);" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button"></td></tr>');
-            
+
+            if (index > 0 && $("#" + input.id).parent().parent().prev().attr('type') !== 'title') {
+                $("#" + input.id).parent().parent().prev().remove();
+                $("#" + input.id).parent().parent().prev().css('border', '1px solid');
+            }
+            else {
+                $("#" + input.id).parent().parent().prev().prev().remove();
+                $("#" + input.id).parent().parent().prev().prev().css('border', '1px solid')
+            }
+            $("#" + input.id).parent().parent().css('border', '2px solid #F37020 ')
+                    .css('border-bottom', '0');
+            $("#" + input.id).parent().parent().after('<tr style="border:2px solid #F37020;border-top:0"><td colspan="2"><input type="button" onclick="processo(this);" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button"></td></tr>');
+
         }
         else {
             last_index = index - 1;
-            if(allow){
+            if (allow) {
                 console.log(parseInt($("#procedimentos").children().children().last()[0].children[0].innerText.split(' ')[2]));
-                if(parseInt($("#procedimentos").children().children().last()[0].children[0].innerText.split(' ')[2]) === index){
+                if (parseInt($("#procedimentos").children().children().last()[0].children[0].innerText.split(' ')[2]) === index) {
                     //$("#"+input.id).parent().parent().prev().remove();               
                     $("#procedimentos").next().next().remove();
-                    
-                }                
-                $("#"+input.id).parent().parent().next().remove();
-                $("#"+input.id).parent().parent().css('border','1px solid');
-                if(index>0 && $("#"+input.id).parent().parent().prev().attr('type')!=='title'){
-                    $("#"+input.id).parent().parent().prev().css('border', '2px solid #F37020 ')
-                    .css('border-bottom','0');
-                    $("#"+input.id).parent().parent().prev().after('<tr style="border:2px solid #F37020;border-top:0"><td colspan="2"><input type="button" onclick="processo(this);" name="comentarios" style="width: 110px;margin-bottom: 5px;margin-top: 5px;float: left" value="Ver comentários" class="button"></td></tr>');
+
                 }
-                else{
-                    $("#"+input.id).parent().parent().prev().prev().css('border', '2px solid #F37020 ')
-                    .css('border-bottom','0');
-                    $("#"+input.id).parent().parent().prev().prev().after('<tr style="border:2px solid #F37020;border-top:0"><td colspan="2"><input type="button" onclick="processo(this);" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button"></td></tr>');                    
-                }                
+                $("#" + input.id).parent().parent().next().remove();
+                $("#" + input.id).parent().parent().css('border', '1px solid');
+                if (index > 0 && $("#" + input.id).parent().parent().prev().attr('type') !== 'title') {
+                    $("#" + input.id).parent().parent().prev().css('border', '2px solid #F37020 ')
+                            .css('border-bottom', '0');
+                    $("#" + input.id).parent().parent().prev().after('<tr style="border:2px solid #F37020;border-top:0"><td colspan="2"><input type="button" onclick="processo(this);" name="comentarios" style="width: 110px;margin-bottom: 5px;margin-top: 5px;float: left" value="Ver comentários" class="button"></td></tr>');
+                }
+                else {
+                    $("#" + input.id).parent().parent().prev().prev().css('border', '2px solid #F37020 ')
+                            .css('border-bottom', '0');
+                    $("#" + input.id).parent().parent().prev().prev().after('<tr style="border:2px solid #F37020;border-top:0"><td colspan="2"><input type="button" onclick="processo(this);" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button"></td></tr>');
+                }
             }
         }
         if (alertas[index] !== null && alertas.length > 0 && allow) {
@@ -491,10 +495,10 @@ function checkStep(index, input) {
             if (alertas[index]['relatrio'])
                 $("#alerta_mensagem").append('<br>-Não se esqueça de actualizar o relatorio');
             $("#dialog-alerta").data('relatorio', alertas[index]['relatrio'])
-            .data('equipamento', alertas[index]['equipamento'])
-            .data('callback',function(){                       
-                })
-            .dialog('open');
+                    .data('equipamento', alertas[index]['equipamento'])
+                    .data('callback', function () {
+                    })
+                    .dialog('open');
         }
     }
 }
@@ -522,16 +526,16 @@ function showRequest(formData, jqForm, options) {
     procedimento.push({
         'nome': formData[1]
     });
-    var id=formData[formData.length-1].value;
+    var id = formData[formData.length - 1].value;
     var content_array = {
-        'alertas': alertas, 
+        'alertas': alertas,
         'steps': steps_array
     };
     procedimento.push(content_array);
     if (update) {
-        
-        $.post("index.php/processo?update=true&id="+id+"&unidade=" + procedimento[0]['unidade']['value'] + '&nome=' + procedimento[1]['nome']['value'], {
-            procidimento: JSON.stringify(procedimento), 
+
+        $.post("index.php/processo?update=true&id=" + id + "&unidade=" + procedimento[0]['unidade']['value'] + '&nome=' + procedimento[1]['nome']['value'], {
+            procidimento: JSON.stringify(procedimento),
             descricao: editor.getData()
         }, function (data) {
             $('#dvLoading').hide();
@@ -539,7 +543,7 @@ function showRequest(formData, jqForm, options) {
     }
     else {
         $.post("index.php/processo?salvar=true&unidade=" + procedimento[0]['unidade']['value'] + '&nome=' + procedimento[1]['nome']['value'], {
-            procidimento: JSON.stringify(procedimento), 
+            procidimento: JSON.stringify(procedimento),
             descricao: editor.getData()
         }, function (data) {
             $('#dvLoading').hide();
