@@ -601,7 +601,7 @@ function equipamento(object, tipo) {
         }
     }
     else if (object.name === 'halt-status') {
-        console.log($("#" + object.id)[0][object.value].innerText);
+        console.log($("#" + object.id).siblings().length);
         $('#dvLoading').hide();
         if ($("#" + object.id).siblings().length === 3 || $("#" + object.id).siblings().length === 6) {
             $("#" + object.id).next().remove();
@@ -626,7 +626,7 @@ function equipamento(object, tipo) {
         }
         else if ($("#" + object.id)[0][object.value].innerText === 'Em Serviço - Com anomalia') {
             $("#" + object.id).after('<div  class="field">' +
-                '<label style="width: 120px">Anomalia:</label>' +
+                '<label style="float:left;width: 120px">Anomalia:</label>' +
                 '<select id="descricao">' +
                 '<option value="1">Fuga pelos empanques</option>' +
                 '<option value="2">Vibrações</option>' +
@@ -637,7 +637,7 @@ function equipamento(object, tipo) {
                 '</select>' +
                 '</div>' +
                 '<div  class="field">' +
-                '<label style="width: 120px">Comentários:</label>' +
+                '<label style="float:left;width: 120px">Comentários:</label>' +
                 '<textarea id="comentario" style="height: 50px;width:280px"> </textarea>' +
                 '</div>');
         }
