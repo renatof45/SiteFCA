@@ -700,7 +700,7 @@ $(document).ajaxStop(function () {
                 $(this).dialog("close");
             },
             "Remover": function () {
-                alertas.splice($(this).data('step').getAttribute('index'), 1);
+                alertas[$(this).data('step').getAttribute('index')]=null;
                 $("#alerta_ralatorio")[0].checked = false;
                 $("#alerta_equipamento")[0].checked = false;
                 $("#mensagem").val('');
