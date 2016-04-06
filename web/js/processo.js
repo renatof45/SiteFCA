@@ -375,18 +375,18 @@ function processo(type, object) {
                 alertas = proc[2]['alertas'];
                 for (var i = 0; i < proc[2]['steps'].length; i++) {
                     if (proc[2]['steps'][i]['title'] !== '') {
-                        $("#procedimentos").append('<tr type="title"><td  colspan="2" style="text-align: center;padding: 5px;"><label>' + proc[2]['steps'][i]['title'] + '</label></td></tr>');
+                        $("#procedimentos").append('<tr type="title"><td  colspan="4" style="text-align: center;padding: 5px;"><label>' + proc[2]['steps'][i]['title'] + '</label></td></tr>');
                     }
                     if (i === 0) {
-                        $("#procedimentos").append('<tr style="border:2px solid #F37020;border-bottom:0"><td style="width: 80px;"><label> Passo ' + i + '</label></td><td style="padding: 5px;">' + proc[2]['steps'][i]['step'] + '</td></tr>');
-                        $("#procedimentos").append('<tr style="border:2px solid #F37020;border-top:0"><td colspan="2"><input type="button" onclick="checkStep(this,' + (i) + ');" id="salvar' + i + '" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">'+
+                        $("#procedimentos").append('<tr style="border:2px solid #F37020;border-bottom:0"><td style="width: 80px;"><label> Passo ' + i + '</label></td><td style="padding: 5px;">' + proc[2]['steps'][i]['step'] + '</td><td style="width:150px"></td><td style="width:80px"></td></tr>');
+                        $("#procedimentos").append('<tr style="border:2px solid #F37020;border-top:0"><td colspan="4"><input type="button" onclick="checkStep(this,' + (i) + ');" id="salvar' + i + '" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">'+
                             '</td></tr>');
                         if (alertas[i] !== null) {
                             getAlerta($("#salvar" + i), i);
                         }
                     }
                     else{
-                        $("#procedimentos").append('<tr><td style="width: 80px;"><label> Passo ' + i + '</label></td><td style="padding: 5px;">' + proc[2]['steps'][i]['step'] + '</td></tr>');
+                        $("#procedimentos").append('<tr><td style="width: 80px;"><label> Passo ' + i + '</label></td><td style="padding: 5px;">' + proc[2]['steps'][i]['step'] + '</td><td style="width:150px"></td><td style="width:80px"></td></tr>');
                         
                     }
                     
@@ -449,28 +449,32 @@ function pointer(div) {
     else
         $("#" + div.id).css('background-color', 'rgb(243, 243, 243)');
 }
+
 function checkStep(step, index) {
+    console.log(userid);
     if (step.name === 'salvar_passo_proc') {
         if ($("#" + step.id).parent().parent().next().attr('type') === 'title') {
             $("#" + step.id).parent().parent().next().next().css('border', '2px solid #F37020 ')
             .css('border-bottom', '0');
             $("#" + step.id).parent().parent().prev().css('border', '1px solid');
-            $("#" + step.id).parent().parent().next().next().after('<tr style="border:2px solid #F37020;border-top:0"><td colspan="2"><input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="salvar' + (index + 1) + '" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
+            $("#" + step.id).parent().parent().next().next().after('<tr style="border:2px solid #F37020;border-top:0"><td colspan="4"><input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="salvar' + (index + 1) + '" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
                 '<input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="anular' + (index + 1) + '" name="anular_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left;width:110px" value="Anular anterior" class="button"></td></tr>');
             if (alertas[index + 1] !== null) {
                 getAlerta($("#anular" + (index + 1)), index + 1);
             }
+            console.log($("#" + step.id).parent().parent().prev())
             $("#" + step.id).parent().parent().remove();
         }
         else {
             $("#" + step.id).parent().parent().next().css('border', '2px solid #F37020 ')
             .css('border-bottom', '0');
             $("#" + step.id).parent().parent().prev().css('border', '1px solid');
-            $("#" + step.id).parent().parent().next().after('<tr style="border:2px solid #F37020;border-top:0"><td colspan="2"><input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="salvar' + (index + 1) + '" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
+            $("#" + step.id).parent().parent().next().after('<tr style="border:2px solid #F37020;border-top:0"><td colspan="4"><input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="salvar' + (index + 1) + '" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
                 '<input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="anular' + (index + 1) + '" name="anular_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left;width:110px" value="Anular anterior" class="button"></td></tr>');
             if (alertas[index + 1] !== null) {
                 getAlerta($("#anular" + (index + 1)), index + 1);
             }
+            ($("#" + step.id).parent().parent().prev().first().children().first().append('<img style="margin-left:10px" src="img/visto.gif" alt="Smiley face" height="16" width="18">'))
             $("#" + step.id).parent().parent().remove();
         }
     }
@@ -480,7 +484,7 @@ function checkStep(step, index) {
             $("#" + step.id).parent().parent().prev().prev().prev().css('border', '2px solid #F37020 ')
             .css('border-bottom', '0');
             $("#" + step.id).parent().parent().prev().css('border', '1px solid');
-            $("#" + step.id).parent().parent().prev().prev().prev().after('<tr style="border:2px solid #F37020;border-top:0"><td colspan="2"><input type="button" onclick="checkStep(this,' + (index - 1) + ');" id="salvar' + (index - 1) + '" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button"></td></tr>');
+            $("#" + step.id).parent().parent().prev().prev().prev().after('<tr style="border:2px solid #F37020;border-top:0"><td colspan="4"><input type="button" onclick="checkStep(this,' + (index - 1) + ');" id="salvar' + (index - 1) + '" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button"></td></tr>');
             if ((index - 1) > 0)
                 $("#salvar" + (index - 1)).after('<input type="button" onclick="checkStep(this,' + (index - 1) + ');" id="anular' + (index - 1) + '" name="anular_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left;width:110px" value="Anular anterior" class="button"></td></tr>');
             if (alertas[index - 1] !== null) {
@@ -490,13 +494,14 @@ function checkStep(step, index) {
                     getAlerta($("#salvar" + (index - 1)), index - 1);
                 }
             }
+            $("#" + step.id).parent().parent().prev().prev().prev().first().children().first().children().last().remove();
             $("#" + step.id).parent().parent().remove();
         }
         else {
             $("#" + step.id).parent().parent().prev().prev().css('border', '2px solid #F37020 ')
             .css('border-bottom', '0');
             $("#" + step.id).parent().parent().prev().css('border', '1px solid');
-            $("#" + step.id).parent().parent().prev().prev().after('<tr style="border:2px solid #F37020;border-top:0"><td colspan="2"><input type="button" onclick="checkStep(this,' + (index - 1) + ');" id="salvar' + (index - 1) + '" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button"></td></tr>');
+            $("#" + step.id).parent().parent().prev().prev().after('<tr style="border:2px solid #F37020;border-top:0"><td colspan="4"><input type="button" onclick="checkStep(this,' + (index - 1) + ');" id="salvar' + (index - 1) + '" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button"></td></tr>');
             if ((index - 1) > 0)
                 $("#salvar" + (index - 1)).after('<input type="button" onclick="checkStep(this,' + (index - 1) + ');" id="anular' + (index - 1) + '" name="anular_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left;width:110px" value="Anular anterior" class="button">');
             if (alertas[index - 1] !== null) {
@@ -506,6 +511,7 @@ function checkStep(step, index) {
                     getAlerta($("#salvar" + (index - 1)), index - 1);
                 }
             }
+            ($("#" + step.id).parent().parent().prev().prev().prev().first().children().first().children().last().remove());
             $("#" + step.id).parent().parent().remove();
         }
     }
@@ -550,7 +556,7 @@ function checkStep1(input, index) {
             }
             $("#" + input.id).parent().parent().css('border', '2px solid #F37020 ')
             .css('border-bottom', '0');
-            $("#" + input.id).parent().parent().after('<tr style="border:2px solid #F37020;border-top:0"><td colspan="2"><input type="button" onclick="processo(this);" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button"></td></tr>');
+            $("#" + input.id).parent().parent().after('<tr style="border:2px solid #F37020;border-top:0"><td colspan="4"><input type="button" onclick="processo(this);" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button"></td></tr>');
         //getAlerta($("#" + input.id),index);
         }
         else {
@@ -564,13 +570,13 @@ function checkStep1(input, index) {
                 if (index > 0 && $("#" + input.id).parent().parent().prev().attr('type') !== 'title') {
                     $("#" + input.id).parent().parent().prev().css('border', '2px solid #F37020 ')
                     .css('border-bottom', '0');
-                    $("#" + input.id).parent().parent().prev().after('<tr style="border:2px solid #F37020;border-top:0"><td colspan="2"><input type="button" onclick="processo(this);" name="comentarios" style="width: 110px;margin-bottom: 5px;margin-top: 5px;float: left" value="Ver comentários" class="button"></td></tr>');
+                    $("#" + input.id).parent().parent().prev().after('<tr style="border:2px solid #F37020;border-top:0"><td colspan="4"><input type="button" onclick="processo(this);" name="comentarios" style="width: 110px;margin-bottom: 5px;margin-top: 5px;float: left" value="Ver comentários" class="button"></td></tr>');
                     getAlerta($("#" + input.id).parent().parent().prev().children(), index - 1);
                 }
                 else {
                     $("#" + input.id).parent().parent().prev().prev().css('border', '2px solid #F37020 ')
                     .css('border-bottom', '0');
-                    $("#" + input.id).parent().parent().prev().prev().after('<tr style="border:2px solid #F37020;border-top:0"><td colspan="2"><input type="button" onclick="processo(this);" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button"></td></tr>');
+                    $("#" + input.id).parent().parent().prev().prev().after('<tr style="border:2px solid #F37020;border-top:0"><td colspan="4"><input type="button" onclick="processo(this);" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button"></td></tr>');
                     getAlerta($("#" + input.id).parent().parent().prev().prev().children(), index - 1);
                 }
             }
