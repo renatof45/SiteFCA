@@ -775,6 +775,21 @@ $(document).ajaxStop(function () {
             allFields.val("").removeClass("ui-state-error");
         }
     });
+    $("#dialog-informacao").dialog({
+        autoOpen: false,
+        height: 180,
+        width: 350,
+        modal: true,
+        buttons: {
+            "OK": function () {
+                  
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            allFields.val("").removeClass("ui-state-error");
+        }
+    });
 
 });
 

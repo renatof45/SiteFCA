@@ -13,6 +13,10 @@ final class ProcessoDao extends DAO {
         parent::executeStatement($statement, array(':id'=>$id, ':descricao'=>$descricao,':nome' => $nome, ':unidade' => $unidade, ':relatorio' => $_SESSION['relatorio'], ':manobra' => $manobras));
     }
 
+    public function updatePassos($manobra,$passo){
+        
+    }
+    
     public function getAll() {
         $manobras = array();
         foreach (parent::query("SELECT * FROM galp.`manobras-processo`") as $row) {

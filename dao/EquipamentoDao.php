@@ -33,7 +33,7 @@ final class EquipamentoDao extends DAO {
         $equipamento = array();
         foreach (parent::query("select unidade,id,status,Equipamento
                                 from equipamento
-                                where  equipamento.tipo=" . $type) as $row) {
+                                where  equipamento.tipo=" . $type . " order by Equipamento") as $row) {
             $result = array();
             $result['id'] = $row['id'];
             $result['Equipamento'] = $row['Equipamento'];
@@ -127,6 +127,15 @@ final class EquipamentoDao extends DAO {
         $statement = parent::getDb()->prepare($sql);
         parent::executeStatement($statement, array(':equipamento' => $equipamento, ':id' => $id, ':relatorio' => $_SESSION['relatorio'], ':descricao' => $descricao));
     }
+    
+    public function deleteEquipamneto($equipamento){
+        $sql = "DELETE FROM `galp`.`equipamento`  WHERE `id`=:id";
+        $statement = parent::getDb()->prepare($sql);
+        parent::executeStatement($statement, array(':id' => $equipamento));
+        $sql = "DELETE FROM galp.`status-equipamento`  WHERE `equipamento`=:id";
+        $statement = parent::getDb()->prepare($sql);
+        parent::executeStatement($statement, array(':id' => $equipamento));
+    }
 
     public function getEtapas($status) {
         $etapas = array();
@@ -171,7 +180,7 @@ final class EquipamentoDao extends DAO {
     public function getHorasDeMarcha($equipamento, $status, $start) {
         date_default_timezone_set('Europe/Lisbon');
         $total = 0;
-        $last_status = 0;
+        $last_status = '';
         $starttime = new DateTime('2000-00-00 00:00:00');
         $GLOBALS['total_time'] = new DateTime('2000-00-00 00:00:00');
         $query = null;
@@ -185,40 +194,47 @@ final class EquipamentoDao extends DAO {
         }
         foreach (parent::query("SELECT * FROM galp.`status-equipamento`  " . $query . $equipamento)as $row) {
             $get_result = true;
-            if ($row['status'] == $status) {
+           
+            if ($row['status'] == 'Em Serviço' || $row['status'] == 'Em Serviço - Com anomalia' ) {
+                 //print_r($row['status']);
                 $GLOBALS['old_date'] = new DateTime($row['data']);
-                $last_status = $row['accao'];
+                $last_status = $row['status'];
                 $found = true;
             }
-            if ($row['status'] != $status && $found) {
+            if ($found) {
                 $GLOBALS['new_date'] = new DateTime($row['data']);
                 $diff = $GLOBALS['new_date']->diff($GLOBALS['old_date']);
-                $last_status = $row['accao'];
+                $last_status = $row['status'];
                 $GLOBALS['total_time']->add($diff);
                 $found = false;
             }
         }
         if (!$get_result) {
-            foreach (parent::query("SELECT estado FROM galp.`equipamento`  WHERE id=" . $equipamento)as $row) {
-                if ($row['estado'] == 'Em Serviço') {
+            foreach (parent::query("SELECT status FROM galp.`equipamento`  WHERE id=" . $equipamento)as $row) {
+                if ($row['status'] == 'Em Serviço') {
                     $now = new DateTime();
                     $days = intval($now->format('d'));
                     return (24 * $days + intval($now->format('h'))) - 24;
                 }
             }
         }
-        if ($last_status == ' ') {
+        if ($last_status == 'Em Serviço' || $last_status == 'Em Serviço - Com anomalia') {
+            
+            //print_r($GLOBALS['total_time']);
             $new_date = new DateTime();
             $diff = $new_date->diff($GLOBALS['old_date']);
             $GLOBALS['total_time']->add($diff);
             $diff = $GLOBALS['total_time']->diff($starttime);
             $hours = $diff->h;
             $hours = $hours + ($diff->days * 24);
+            //echo $equipamento . ' - '. $hours .' ; ';
             return $hours;
         } else {
+            //print_r($GLOBALS['total_time']);
             $diff = $GLOBALS['total_time']->diff($starttime);
             $hours = $diff->h;
             $hours = $hours + ($diff->days * 24);
+            //echo $equipamento . ' - '. $hours.' ; ';
             return $hours;
         }
     }

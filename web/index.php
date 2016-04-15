@@ -242,8 +242,8 @@ $app->get('/processo', 'checkLogIn', function() use ($app) {
     if (array_key_exists('imprimir', $_GET)) {
         $procedimento = $processodao->getManobra($_GET['proc']);
         $manobras = object_to_array(json_decode(json_decode($procedimento['manobra'])));
-        $descricao=$procedimento['descricao'];
-        $index=0;
+        $descricao = $procedimento['descricao'];
+        $index = 0;
         require "../page/processo/imprimir_proc.phtml";
     }
 });
@@ -260,10 +260,12 @@ $app->post('/processo', 'checkLogIn', function() use ($app) {
         $processodao->novaManobra($_GET['nome'], $_GET['unidade'], json_encode($_POST['procidimento']), json_encode($_POST['descricao']));
 
         //require "../page/processo/nova_manobra.phtml";
-    }
-    if (array_key_exists('update', $_GET)) {
+    } elseif (array_key_exists('update', $_GET)) {
         $processodao->updateManobra($_GET['id'], $_GET['nome'], $_GET['unidade'], json_encode($_POST['procidimento']), json_encode($_POST['descricao']));
-    } elseif (array_key_exists('show_proc', $_GET)) {
+    }elseif (array_key_exists('salvar_passo_proc', $_GET)) {
+        
+    }
+    elseif (array_key_exists('show_proc', $_GET)) {
         $manobras = $processodao->getManobra($_GET['proc']);
         $passos_count = 1;
         require "../page/processo/manobras.phtml";
@@ -355,6 +357,7 @@ $app->post('/equipamento', 'checkLogIn', function() use($app) {
             array_push($horas, $aux);
         }
         $estados = $equipamentodao->getEstados();
+
         echo json_encode(array('horas' => $horas, 'unidades' => $unidades));
         //require "../page/equipamento/horas_de_marcha.phtml";
     } elseif (array_key_exists('salvar_novo', $_GET)) {
@@ -369,7 +372,10 @@ $app->post('/equipamento', 'checkLogIn', function() use($app) {
         else
             require "../page/equipamento/novo_instrumento.phtml";
     }
-    elseif (array_key_exists('novo_instrumento', $_GET)) {
+    elseif (array_key_exists('delete', $_GET)) {
+        $equipamentodao->deleteEquipamneto($_GET['id']);
+        echo "teste";
+    } elseif (array_key_exists('novo_instrumento', $_GET)) {
         $unidadesdao = new UnidadesDao();
         $unidades = $unidadesdao->findUnidades($_SESSION['area']);
         require "../page/equipamento/novo_instrumento.phtml";
@@ -484,6 +490,14 @@ $app->get('/sair', function() use($app) {
     $app->redirect('/');
 });
 
+$app->post('/signin', function() use($app) {
+    
+});
+
+$app->get('/signin', function() use($app) {
+    //$template = '../layout/user_qualification.phtml';
+    require '../layout/user_qualification.phtml';
+});
 
 $app->get('/', function() use ($app) {
     $errors = array();
@@ -517,6 +531,7 @@ $app->get('/home', function() {
     require '../layout/index.phtml';
 });
 
+
 $app->post('/login', function() use ($app) {
     //print_r($_POST);
     if (array_key_exists('error', $_GET)) {
@@ -538,57 +553,55 @@ $app->post('/login', function() use ($app) {
                     $_SESSION['area'] = key($user['area']);
                     $_SESSION['user'] = $_POST['numero'];
                     $_SESSION['user_name'] = $user['nome'];
+                    $_SESSION['user_type'] = $user['tipo'];
                     $relatoriodao = new RelatorioDao();
-                    if ($user['tipo'] == 2) {
-                        date_default_timezone_set('Europe/Lisbon');
-                        $hora = date("H:i:s");
-                        if ($hora > "06:00:00" && $hora < "14:00:00") {
-                            if ($hora > "00:00:00") {
-                                $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d'), 1);
-                                if ($relatorio) {
-                                    $_SESSION['relatorio'] = $relatorio;
-                                } else {
-                                    $relatorio = $relatoriodao->insert(1, date('Y-m-d'));
-                                    $_SESSION['relatorio'] = $relatorio;
-                                }
-                            }
-                            $_SESSION['turno'] = 1;
-                        } else if ($hora > "14:00:00" && $hora < "22:00:00") {
-                            if ($hora > "00:00:00") {
-                                $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d'), 2);
-                                if ($relatorio) {
-                                    $_SESSION['relatorio'] = $relatorio;
-                                } else {
-                                    $relatorio = $relatoriodao->insert(2, date('Y-m-d'));
-                                    $_SESSION['relatorio'] = $relatorio;
-                                }
-                            }
-
-                            $_SESSION['turno'] = 2;
-                        } else {
-                            if ($hora > "22:00:00") {
-                                $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d'), 3);
-                                if ($relatorio) {
-                                    $_SESSION['relatorio'] = $relatorio;
-                                } else {
-                                    $relatorio = $relatoriodao->insert(3, date('Y-m-d'));
-                                    $_SESSION['relatorio'] = $relatorio;
-                                }
+                    date_default_timezone_set('Europe/Lisbon');
+                    $hora = date("H:i:s");
+                    if ($hora > "06:00:00" && $hora < "14:00:00") {
+                        if ($hora > "00:00:00") {
+                            $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d'), 1);
+                            if ($relatorio) {
+                                $_SESSION['relatorio'] = $relatorio;
                             } else {
-                                $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d', (strtotime('-1 day'))), 3);
-                                if ($relatorio) {
-                                    $_SESSION['relatorio'] = $relatorio;
-                                } else {
-                                    $relatorio = $relatoriodao->insert(3, date('Y-m-d', (strtotime('-1 day'))));
-                                    $_SESSION['relatorio'] = $relatorio;
-                                }
+                                $relatorio = $relatoriodao->insert(1, date('Y-m-d'));
+                                $_SESSION['relatorio'] = $relatorio;
                             }
-                            $_SESSION['turno'] = 3;
                         }
-                        //echo $_SESSION['turno'];
-                        $app->redirect('/index.php');
-                    } else
-                        require '../layout/layout_exterior.phtml';
+                        $_SESSION['turno'] = 1;
+                    } else if ($hora > "14:00:00" && $hora < "22:00:00") {
+                        if ($hora > "00:00:00") {
+                            $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d'), 2);
+                            if ($relatorio) {
+                                $_SESSION['relatorio'] = $relatorio;
+                            } else {
+                                $relatorio = $relatoriodao->insert(2, date('Y-m-d'));
+                                $_SESSION['relatorio'] = $relatorio;
+                            }
+                        }
+
+                        $_SESSION['turno'] = 2;
+                    } else {
+                        if ($hora > "22:00:00") {
+                            $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d'), 3);
+                            if ($relatorio) {
+                                $_SESSION['relatorio'] = $relatorio;
+                            } else {
+                                $relatorio = $relatoriodao->insert(3, date('Y-m-d'));
+                                $_SESSION['relatorio'] = $relatorio;
+                            }
+                        } else {
+                            $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d', (strtotime('-1 day'))), 3);
+                            if ($relatorio) {
+                                $_SESSION['relatorio'] = $relatorio;
+                            } else {
+                                $relatorio = $relatoriodao->insert(3, date('Y-m-d', (strtotime('-1 day'))));
+                                $_SESSION['relatorio'] = $relatorio;
+                            }
+                        }
+                        $_SESSION['turno'] = 3;
+                    }
+                    //echo $_SESSION['turno'];
+                    $app->redirect('/index.php');
                 } else
                     $app->redirect('/index.php?error');
             } else

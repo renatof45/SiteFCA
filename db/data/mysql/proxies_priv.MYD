@@ -1,6 +1,15 @@
-ÿlocalhost                                                                                                                                                                           root                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Q^Ó2015-08-08 08:03:54 8180 [Note] Event Scheduler: Loaded 0 events
-2015-08-08 08:03:54 8180 [Note] c:\xampp\mysql\bin\mysqld.exe: ready for connections.
+ÿlocalhost                                                                                                                                                                           root                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Q^Ó2016-01-22 10:51:52 1488 [Note] Event Scheduler: Loaded 0 events
+2016-01-22 10:51:52 1488 [Note] c:\xampp\mysql\bin\mysqld.exe: ready for connections.
 Version: '5.6.24'  socket: ''  port: 3306  MySQL Community Server (GPL)
-2015-08-14 19:38:15 5500 [Note] Event Scheduler: Loaded 0 events
-2015-08-14 19:38:15 5500 [Note] c:\xampp\mysql\bin\mysqld.exe: ready for connections.
+2016-03-20 10:31:48 2464 [Note] Event Scheduler: Loaded 0 events
+2016-03-20 10:31:48 2464 [Note] c:\xampp\mysql\bin\mysqld.exe: ready for connections.
+Version: '5.6.24'  socket: ''  port: 3306  MySQL Community Server (GPL)
+2016-03-29 13:15:27 5436 [Note] Event Scheduler: Loaded 0 events
+2016-03-29 13:15:27 5436 [Note] c:\xampp\mysql\bin\mysqld.exe: ready for connections.
+Version: '5.6.24'  socket: ''  port: 3306  MySQL Community Server (GPL)
+2016-04-03 09:41:22 7084 [Note] Event Scheduler: Loaded 0 events
+2016-04-03 09:41:22 7084 [Note] c:\xampp\mysql\bin\mysqld.exe: ready for connections.
+Version: '5.6.24'  socket: ''  port: 3306  MySQL Community Server (GPL)
+2016-04-14 07:25:53 10016 [Note] Event Scheduler: Loaded 0 events
+2016-04-14 07:25:53 10016 [Note] c:\xampp\mysql\bin\mysqld.exe: ready for connections.
 Version: '5.6.24'  socket: ''  port: 3306  MySQL Community Server (GPL)

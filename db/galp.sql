@@ -17,6 +17,19 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 CREATE SCHEMA IF NOT EXISTS `galp-teste` DEFAULT CHARACTER SET utf8 ;
 USE `galp` ;
 
+ALTER TABLE `galp`.`manobras-processo-passos` 
+ADD COLUMN `passo` INT NULL AFTER `manobra`,
+ADD COLUMN `equipamento` INT NULL AFTER `passo`,
+ADD COLUMN `user` INT NULL AFTER `equipamento`,
+ADD COLUMN `data` DATETIME NULL AFTER `user`,
+ADD COLUMN `concluido` INT NULL AFTER `data`;
+
+ALTER TABLE `galp`.`manobras-processo-passos` 
+CHANGE COLUMN `data` `data` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ;
+
+ALTER TABLE `galp`.`manobras-processo-passos` 
+ADD COLUMN `relatorio` INT NULL AFTER `concluido`;
+
 
 CREATE TABLE `galp`.`relatorios-templates` (
   `id` INT NOT NULL AUTO_INCREMENT,

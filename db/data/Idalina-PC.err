@@ -1,0 +1,356 @@
+2015-08-02 10:57:57 5444 [Note] Plugin 'FEDERATED' is disabled.
+2015-08-02 10:57:57 5444 [Note] InnoDB: Using atomics to ref count buffer pool pages
+2015-08-02 10:57:57 5444 [Note] InnoDB: The InnoDB memory heap is disabled
+2015-08-02 10:57:57 5444 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2015-08-02 10:57:57 5444 [Note] InnoDB: Memory barrier is not used
+2015-08-02 10:57:57 5444 [Note] InnoDB: Compressed tables use zlib 1.2.3
+2015-08-02 10:57:57 5444 [Note] InnoDB: Not using CPU crc32 instructions
+2015-08-02 10:57:57 5444 [Note] InnoDB: Initializing buffer pool, size = 128.0M
+2015-08-02 10:57:57 5444 [Note] InnoDB: Completed initialization of buffer pool
+2015-08-02 10:57:57 5444 [Note] InnoDB: Highest supported file format is Barracuda.
+2015-08-02 10:57:57 5444 [Note] InnoDB: The log sequence numbers 1665234 and 1665234 in ibdata files do not match the log sequence number 1766006 in the ib_logfiles!
+2015-08-02 10:57:57 5444 [Note] InnoDB: Database was not shutdown normally!
+2015-08-02 10:57:57 5444 [Note] InnoDB: Starting crash recovery.
+2015-08-02 10:57:57 5444 [Note] InnoDB: Reading tablespace information from the .ibd files...
+2015-08-02 10:57:58 5444 [Note] InnoDB: Restoring possible half-written data pages 
+2015-08-02 10:57:58 5444 [Note] InnoDB: from the doublewrite buffer...
+2015-08-02 10:57:58 5444 [ERROR] InnoDB: Table indulgme/comments in the InnoDB data dictionary has tablespace id 13, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-08-02 10:57:58 5444 [ERROR] InnoDB: Table indulgme/darerecievers in the InnoDB data dictionary has tablespace id 18, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-08-02 10:57:58 5444 [ERROR] InnoDB: Table indulgme/dares in the InnoDB data dictionary has tablespace id 15, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-08-02 10:57:58 5444 [ERROR] InnoDB: Table indulgme/deeds in the InnoDB data dictionary has tablespace id 17, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-08-02 10:57:58 5444 [ERROR] InnoDB: Table indulgme/friends in the InnoDB data dictionary has tablespace id 14, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-08-02 10:57:58 5444 [ERROR] InnoDB: Table indulgme/user in the InnoDB data dictionary has tablespace id 20, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-08-02 10:57:58 5444 [Warning] InnoDB: Resizing redo log from 2*320 to 2*3072 pages, LSN=1766006
+2015-08-02 10:57:58 5444 [Warning] InnoDB: Starting to delete and rewrite log files.
+2015-08-02 10:57:58 5444 [Note] InnoDB: Setting log file .\ib_logfile101 size to 48 MB
+2015-08-02 10:58:00 5444 [Note] InnoDB: Setting log file .\ib_logfile1 size to 48 MB
+2015-08-02 10:58:03 5444 [Note] InnoDB: Renaming log file .\ib_logfile101 to .\ib_logfile0
+2015-08-02 10:58:03 5444 [Warning] InnoDB: New log files created, LSN=1766006
+2015-08-02 10:58:03 5444 [Note] InnoDB: 128 rollback segment(s) are active.
+2015-08-02 10:58:03 5444 [Note] InnoDB: Waiting for purge to start
+2015-08-02 10:58:03 5444 [Note] InnoDB: 5.6.24 started; log sequence number 1766006
+2015-08-02 10:58:03 5444 [Note] Server hostname (bind-address): '*'; port: 3306
+2015-08-02 10:58:03 5444 [Note] IPv6 is available.
+2015-08-02 10:58:03 5444 [Note]   - '::' resolves to '::';
+2015-08-02 10:58:03 5444 [Note] Server socket created on IP: '::'.
+2015-08-02 10:58:05 5444 [Note] Event Scheduler: Loaded 0 events
+2015-08-02 10:58:05 5444 [Note] C:\xampp\mysql\bin\mysqld.exe: ready for connections.
+Version: '5.6.24'  socket: ''  port: 3306  MySQL Community Server (GPL)
+2015-11-26 08:13:16 4044 [Note] Plugin 'FEDERATED' is disabled.
+2015-11-26 08:13:17 4044 [Note] InnoDB: Using atomics to ref count buffer pool pages
+2015-11-26 08:13:17 4044 [Note] InnoDB: The InnoDB memory heap is disabled
+2015-11-26 08:13:17 4044 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2015-11-26 08:13:17 4044 [Note] InnoDB: Memory barrier is not used
+2015-11-26 08:13:17 4044 [Note] InnoDB: Compressed tables use zlib 1.2.3
+2015-11-26 08:13:17 4044 [Note] InnoDB: Not using CPU crc32 instructions
+2015-11-26 08:13:17 4044 [Note] InnoDB: Initializing buffer pool, size = 128.0M
+2015-11-26 08:13:17 4044 [Note] InnoDB: Completed initialization of buffer pool
+2015-11-26 08:13:17 4044 [Note] InnoDB: Highest supported file format is Barracuda.
+2015-11-26 08:13:18 4044 [Note] InnoDB: The log sequence numbers 1766422 and 1766422 in ibdata files do not match the log sequence number 1808592 in the ib_logfiles!
+2015-11-26 08:13:18 4044 [Note] InnoDB: Database was not shutdown normally!
+2015-11-26 08:13:18 4044 [Note] InnoDB: Starting crash recovery.
+2015-11-26 08:13:18 4044 [Note] InnoDB: Reading tablespace information from the .ibd files...
+2015-11-26 08:13:18 4044 [Note] InnoDB: Restoring possible half-written data pages 
+2015-11-26 08:13:18 4044 [Note] InnoDB: from the doublewrite buffer...
+2015-11-26 08:13:19 4044 [ERROR] InnoDB: Table galp/pedidos@0020trabalho in the InnoDB data dictionary has tablespace id 23, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-11-26 08:13:19 4044 [ERROR] InnoDB: Table indulgme/comments in the InnoDB data dictionary has tablespace id 13, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-11-26 08:13:19 4044 [ERROR] InnoDB: Table indulgme/darerecievers in the InnoDB data dictionary has tablespace id 18, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-11-26 08:13:19 4044 [ERROR] InnoDB: Table indulgme/dares in the InnoDB data dictionary has tablespace id 15, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-11-26 08:13:19 4044 [ERROR] InnoDB: Table indulgme/deeds in the InnoDB data dictionary has tablespace id 17, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-11-26 08:13:19 4044 [ERROR] InnoDB: Table indulgme/friends in the InnoDB data dictionary has tablespace id 14, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-11-26 08:13:19 4044 [ERROR] InnoDB: Table indulgme/user in the InnoDB data dictionary has tablespace id 20, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-11-26 08:13:19 4044 [Warning] InnoDB: Resizing redo log from 2*320 to 2*3072 pages, LSN=1808592
+2015-11-26 08:13:19 4044 [Warning] InnoDB: Starting to delete and rewrite log files.
+2015-11-26 08:13:19 4044 [Note] InnoDB: Setting log file .\ib_logfile101 size to 48 MB
+2015-11-26 08:13:21 4044 [Note] InnoDB: Setting log file .\ib_logfile1 size to 48 MB
+2015-11-26 08:13:23 4044 [Note] InnoDB: Renaming log file .\ib_logfile101 to .\ib_logfile0
+2015-11-26 08:13:23 4044 [Warning] InnoDB: New log files created, LSN=1808592
+2015-11-26 08:13:23 4044 [Note] InnoDB: 128 rollback segment(s) are active.
+2015-11-26 08:13:23 4044 [Note] InnoDB: Waiting for purge to start
+2015-11-26 08:13:23 4044 [Note] InnoDB: 5.6.24 started; log sequence number 1808592
+2015-11-26 08:13:23 4044 [Note] Server hostname (bind-address): '*'; port: 3306
+2015-11-26 08:13:23 4044 [Note] IPv6 is available.
+2015-11-26 08:13:23 4044 [Note]   - '::' resolves to '::';
+2015-11-26 08:13:23 4044 [Note] Server socket created on IP: '::'.
+2015-11-26 08:13:58 5132 [Note] Plugin 'FEDERATED' is disabled.
+2015-11-26 08:13:58 5132 [Note] InnoDB: Using atomics to ref count buffer pool pages
+2015-11-26 08:13:58 5132 [Note] InnoDB: The InnoDB memory heap is disabled
+2015-11-26 08:13:58 5132 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2015-11-26 08:13:58 5132 [Note] InnoDB: Memory barrier is not used
+2015-11-26 08:13:58 5132 [Note] InnoDB: Compressed tables use zlib 1.2.3
+2015-11-26 08:13:58 5132 [Note] InnoDB: Not using CPU crc32 instructions
+2015-11-26 08:13:58 5132 [Note] InnoDB: Initializing buffer pool, size = 128.0M
+2015-11-26 08:13:58 5132 [Note] InnoDB: Completed initialization of buffer pool
+2015-11-26 08:13:58 5132 [ERROR] InnoDB: .\ibdata1 can't be opened in read-write mode
+2015-11-26 08:13:58 5132 [ERROR] InnoDB: The system tablespace must be writable!
+2015-11-26 08:13:58 5132 [ERROR] Plugin 'InnoDB' init function returned error.
+2015-11-26 08:13:58 5132 [ERROR] Plugin 'InnoDB' registration as a STORAGE ENGINE failed.
+2015-11-26 08:13:58 5132 [ERROR] Unknown/unsupported storage engine: InnoDB
+2015-11-26 08:13:58 5132 [ERROR] Aborting
+
+2015-11-26 08:13:58 5132 [Note] Binlog end
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'partition'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'PERFORMANCE_SCHEMA'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_SYS_DATAFILES'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_SYS_TABLESPACES'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_SYS_FOREIGN_COLS'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_SYS_FOREIGN'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_SYS_FIELDS'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_SYS_COLUMNS'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_SYS_INDEXES'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_SYS_TABLESTATS'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_SYS_TABLES'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_FT_INDEX_TABLE'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_FT_INDEX_CACHE'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_FT_CONFIG'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_FT_BEING_DELETED'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_FT_DELETED'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_FT_DEFAULT_STOPWORD'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_METRICS'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_BUFFER_POOL_STATS'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_BUFFER_PAGE_LRU'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_BUFFER_PAGE'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_CMP_PER_INDEX_RESET'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_CMP_PER_INDEX'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_CMPMEM_RESET'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_CMPMEM'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_CMP_RESET'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_CMP'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_LOCK_WAITS'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_LOCKS'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'INNODB_TRX'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'BLACKHOLE'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'ARCHIVE'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'MRG_MYISAM'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'MyISAM'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'MEMORY'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'CSV'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'sha256_password'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'mysql_old_password'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'mysql_native_password'
+2015-11-26 08:13:58 5132 [Note] Shutting down plugin 'binlog'
+2015-11-26 08:13:58 5132 [Note] mysqld: Shutdown complete
+
+2015-11-26 08:14:26 5660 [Note] Plugin 'FEDERATED' is disabled.
+2015-11-26 08:14:26 5660 [Note] InnoDB: Using atomics to ref count buffer pool pages
+2015-11-26 08:14:26 5660 [Note] InnoDB: The InnoDB memory heap is disabled
+2015-11-26 08:14:26 5660 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2015-11-26 08:14:26 5660 [Note] InnoDB: Memory barrier is not used
+2015-11-26 08:14:26 5660 [Note] InnoDB: Compressed tables use zlib 1.2.3
+2015-11-26 08:14:26 5660 [Note] InnoDB: Not using CPU crc32 instructions
+2015-11-26 08:14:26 5660 [Note] InnoDB: Initializing buffer pool, size = 128.0M
+2015-11-26 08:14:26 5660 [Note] InnoDB: Completed initialization of buffer pool
+2015-11-26 08:14:26 5660 [Note] InnoDB: Highest supported file format is Barracuda.
+2015-11-26 08:14:26 5660 [Note] InnoDB: The log sequence numbers 1808918 and 1808918 in ibdata files do not match the log sequence number 1809420 in the ib_logfiles!
+2015-11-26 08:14:26 5660 [Note] InnoDB: Database was not shutdown normally!
+2015-11-26 08:14:26 5660 [Note] InnoDB: Starting crash recovery.
+2015-11-26 08:14:26 5660 [Note] InnoDB: Reading tablespace information from the .ibd files...
+2015-11-26 08:14:27 5660 [Note] InnoDB: Restoring possible half-written data pages 
+2015-11-26 08:14:27 5660 [Note] InnoDB: from the doublewrite buffer...
+2015-11-26 08:14:27 5660 [ERROR] InnoDB: Table galp/pedidos@0020trabalho in the InnoDB data dictionary has tablespace id 23, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-11-26 08:14:27 5660 [ERROR] InnoDB: Table indulgme/comments in the InnoDB data dictionary has tablespace id 13, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-11-26 08:14:27 5660 [ERROR] InnoDB: Table indulgme/darerecievers in the InnoDB data dictionary has tablespace id 18, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-11-26 08:14:27 5660 [ERROR] InnoDB: Table indulgme/dares in the InnoDB data dictionary has tablespace id 15, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-11-26 08:14:27 5660 [ERROR] InnoDB: Table indulgme/deeds in the InnoDB data dictionary has tablespace id 17, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-11-26 08:14:27 5660 [ERROR] InnoDB: Table indulgme/friends in the InnoDB data dictionary has tablespace id 14, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-11-26 08:14:27 5660 [ERROR] InnoDB: Table indulgme/user in the InnoDB data dictionary has tablespace id 20, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-11-26 08:14:27 5660 [Warning] InnoDB: Resizing redo log from 2*320 to 2*3072 pages, LSN=1809420
+2015-11-26 08:14:27 5660 [Warning] InnoDB: Starting to delete and rewrite log files.
+2015-11-26 08:14:27 5660 [Note] InnoDB: Setting log file .\ib_logfile101 size to 48 MB
+2015-11-26 08:14:29 5660 [Note] InnoDB: Setting log file .\ib_logfile1 size to 48 MB
+2015-11-26 08:14:31 5660 [Note] InnoDB: Renaming log file .\ib_logfile101 to .\ib_logfile0
+2015-11-26 08:14:31 5660 [Warning] InnoDB: New log files created, LSN=1809420
+2015-11-26 08:14:31 5660 [Note] InnoDB: 128 rollback segment(s) are active.
+2015-11-26 08:14:31 5660 [Note] InnoDB: Waiting for purge to start
+2015-11-26 08:14:31 5660 [Note] InnoDB: 5.6.24 started; log sequence number 1809420
+2015-11-26 08:14:31 5660 [Note] Server hostname (bind-address): '*'; port: 3306
+2015-11-26 08:14:31 5660 [Note] IPv6 is available.
+2015-11-26 08:14:31 5660 [Note]   - '::' resolves to '::';
+2015-11-26 08:14:31 5660 [Note] Server socket created on IP: '::'.
+2015-11-26 08:14:31 5660 [Note] Event Scheduler: Loaded 0 events
+2015-11-26 08:14:31 5660 [Note] mysqld: ready for connections.
+Version: '5.6.24'  socket: ''  port: 3306  MySQL Community Server (GPL)
+2015-11-26 08:15:46 4560 [Note] Plugin 'FEDERATED' is disabled.
+2015-11-26 08:15:46 4560 [Note] InnoDB: Using atomics to ref count buffer pool pages
+2015-11-26 08:15:46 4560 [Note] InnoDB: The InnoDB memory heap is disabled
+2015-11-26 08:15:46 4560 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2015-11-26 08:15:46 4560 [Note] InnoDB: Memory barrier is not used
+2015-11-26 08:15:46 4560 [Note] InnoDB: Compressed tables use zlib 1.2.3
+2015-11-26 08:15:46 4560 [Note] InnoDB: Not using CPU crc32 instructions
+2015-11-26 08:15:46 4560 [Note] InnoDB: Initializing buffer pool, size = 128.0M
+2015-11-26 08:15:46 4560 [Note] InnoDB: Completed initialization of buffer pool
+2015-11-26 08:15:46 4560 [Note] InnoDB: Highest supported file format is Barracuda.
+2015-11-26 08:15:46 4560 [Note] InnoDB: The log sequence numbers 1809942 and 1809942 in ibdata files do not match the log sequence number 1810444 in the ib_logfiles!
+2015-11-26 08:15:46 4560 [Note] InnoDB: Database was not shutdown normally!
+2015-11-26 08:15:46 4560 [Note] InnoDB: Starting crash recovery.
+2015-11-26 08:15:46 4560 [Note] InnoDB: Reading tablespace information from the .ibd files...
+2015-11-26 08:15:46 4560 [Note] InnoDB: Restoring possible half-written data pages 
+2015-11-26 08:15:46 4560 [Note] InnoDB: from the doublewrite buffer...
+2015-11-26 08:15:47 4560 [ERROR] InnoDB: Table galp/pedidos@0020trabalho in the InnoDB data dictionary has tablespace id 23, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-11-26 08:15:47 4560 [ERROR] InnoDB: Table indulgme/comments in the InnoDB data dictionary has tablespace id 13, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-11-26 08:15:47 4560 [ERROR] InnoDB: Table indulgme/darerecievers in the InnoDB data dictionary has tablespace id 18, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-11-26 08:15:47 4560 [ERROR] InnoDB: Table indulgme/dares in the InnoDB data dictionary has tablespace id 15, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-11-26 08:15:47 4560 [ERROR] InnoDB: Table indulgme/deeds in the InnoDB data dictionary has tablespace id 17, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-11-26 08:15:47 4560 [ERROR] InnoDB: Table indulgme/friends in the InnoDB data dictionary has tablespace id 14, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-11-26 08:15:47 4560 [ERROR] InnoDB: Table indulgme/user in the InnoDB data dictionary has tablespace id 20, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2015-11-26 08:15:47 4560 [Warning] InnoDB: Resizing redo log from 2*320 to 2*3072 pages, LSN=1810444
+2015-11-26 08:15:47 4560 [Warning] InnoDB: Starting to delete and rewrite log files.
+2015-11-26 08:15:47 4560 [Note] InnoDB: Setting log file .\ib_logfile101 size to 48 MB
+2015-11-26 08:15:49 4560 [Note] InnoDB: Setting log file .\ib_logfile1 size to 48 MB
+2015-11-26 08:15:51 4560 [Note] InnoDB: Renaming log file .\ib_logfile101 to .\ib_logfile0
+2015-11-26 08:15:51 4560 [Warning] InnoDB: New log files created, LSN=1810444
+2015-11-26 08:15:51 4560 [Note] InnoDB: 128 rollback segment(s) are active.
+2015-11-26 08:15:51 4560 [Note] InnoDB: Waiting for purge to start
+2015-11-26 08:15:51 4560 [Note] InnoDB: 5.6.24 started; log sequence number 1810444
+2015-11-26 08:15:51 4560 [Note] Server hostname (bind-address): '*'; port: 3306
+2015-11-26 08:15:51 4560 [Note] IPv6 is available.
+2015-11-26 08:15:51 4560 [Note]   - '::' resolves to '::';
+2015-11-26 08:15:51 4560 [Note] Server socket created on IP: '::'.
+2015-11-26 08:15:51 4560 [Note] Event Scheduler: Loaded 0 events
+2015-11-26 08:15:51 4560 [Note] mysqld: ready for connections.
+Version: '5.6.24'  socket: ''  port: 3306  MySQL Community Server (GPL)
+2016-04-06 21:38:18 10800 [Note] Plugin 'FEDERATED' is disabled.
+2016-04-06 21:38:18 10800 [Note] InnoDB: Using atomics to ref count buffer pool pages
+2016-04-06 21:38:18 10800 [Note] InnoDB: The InnoDB memory heap is disabled
+2016-04-06 21:38:18 10800 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2016-04-06 21:38:18 10800 [Note] InnoDB: Memory barrier is not used
+2016-04-06 21:38:18 10800 [Note] InnoDB: Compressed tables use zlib 1.2.3
+2016-04-06 21:38:18 10800 [Note] InnoDB: Not using CPU crc32 instructions
+2016-04-06 21:38:18 10800 [Note] InnoDB: Initializing buffer pool, size = 128.0M
+2016-04-06 21:38:18 10800 [Note] InnoDB: Completed initialization of buffer pool
+2016-04-06 21:38:18 10800 [Note] InnoDB: Highest supported file format is Barracuda.
+2016-04-06 21:38:18 10800 [Note] InnoDB: The log sequence numbers 1810966 and 1810966 in ibdata files do not match the log sequence number 1817707 in the ib_logfiles!
+2016-04-06 21:38:18 10800 [Note] InnoDB: Database was not shutdown normally!
+2016-04-06 21:38:18 10800 [Note] InnoDB: Starting crash recovery.
+2016-04-06 21:38:18 10800 [Note] InnoDB: Reading tablespace information from the .ibd files...
+2016-04-06 21:38:19 10800 [Note] InnoDB: Restoring possible half-written data pages 
+2016-04-06 21:38:19 10800 [Note] InnoDB: from the doublewrite buffer...
+2016-04-06 21:38:22 10800 [ERROR] InnoDB: Table galp/pedidos@0020trabalho in the InnoDB data dictionary has tablespace id 23, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-04-06 21:38:22 10800 [ERROR] InnoDB: Table galp/status in the InnoDB data dictionary has tablespace id 37, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-04-06 21:38:22 10800 [ERROR] InnoDB: Table indulgme/comments in the InnoDB data dictionary has tablespace id 13, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-04-06 21:38:22 10800 [ERROR] InnoDB: Table indulgme/darerecievers in the InnoDB data dictionary has tablespace id 18, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-04-06 21:38:22 10800 [ERROR] InnoDB: Table indulgme/dares in the InnoDB data dictionary has tablespace id 15, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-04-06 21:38:22 10800 [ERROR] InnoDB: Table indulgme/deeds in the InnoDB data dictionary has tablespace id 17, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-04-06 21:38:22 10800 [ERROR] InnoDB: Table indulgme/friends in the InnoDB data dictionary has tablespace id 14, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-04-06 21:38:22 10800 [ERROR] InnoDB: Table indulgme/user in the InnoDB data dictionary has tablespace id 20, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-04-06 21:38:22 10800 [Warning] InnoDB: Resizing redo log from 2*320 to 2*3072 pages, LSN=1817707
+2016-04-06 21:38:23 10800 [Warning] InnoDB: Starting to delete and rewrite log files.
+2016-04-06 21:38:23 10800 [Note] InnoDB: Setting log file .\ib_logfile101 size to 48 MB
+2016-04-06 21:38:25 10800 [Note] InnoDB: Setting log file .\ib_logfile1 size to 48 MB
+2016-04-06 21:38:28 10800 [Note] InnoDB: Renaming log file .\ib_logfile101 to .\ib_logfile0
+2016-04-06 21:38:28 10800 [Warning] InnoDB: New log files created, LSN=1817707
+2016-04-06 21:38:28 10800 [Note] InnoDB: 128 rollback segment(s) are active.
+2016-04-06 21:38:28 10800 [Note] InnoDB: Waiting for purge to start
+2016-04-06 21:38:29 10800 [Note] InnoDB: 5.6.24 started; log sequence number 1817707
+2016-04-06 21:38:29 10800 [Note] Server hostname (bind-address): '*'; port: 3306
+2016-04-06 21:38:29 10800 [Note] IPv6 is available.
+2016-04-06 21:38:29 10800 [Note]   - '::' resolves to '::';
+2016-04-06 21:38:29 10800 [Note] Server socket created on IP: '::'.
+2016-04-06 21:38:32 10800 [Note] Event Scheduler: Loaded 0 events
+2016-04-06 21:38:32 10800 [Note] mysqld: ready for connections.
+Version: '5.6.24'  socket: ''  port: 3306  MySQL Community Server (GPL)

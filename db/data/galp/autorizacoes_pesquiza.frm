@@ -7,7 +7,7 @@ definer_user=root
 definer_host=localhost
 suid=1
 with_check_option=0
-timestamp=2014-03-15 17:49:06
+timestamp=2016-04-08 07:30:45
 create-version=1
 source=select `galp`.`autorizacoes`.`ID` AS `ID`,`galp`.`autorizacoes`.`Numero` AS `Numero`,`galp`.`autorizacoes`.`Descricao do trabalho` AS `Descricao do trabalho`,`galp`.`firma`.`Nome` AS `Nome`,`galp`.`autorizacoes`.`Data fim` AS `Data fim` from (`galp`.`firma` join `galp`.`autorizacoes` on((`galp`.`firma`.`ID` = `galp`.`autorizacoes`.`Firma`)))
 client_cs_name=utf8
