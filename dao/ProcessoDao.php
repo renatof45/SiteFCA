@@ -13,8 +13,10 @@ final class ProcessoDao extends DAO {
         parent::executeStatement($statement, array(':id'=>$id, ':descricao'=>$descricao,':nome' => $nome, ':unidade' => $unidade, ':relatorio' => $_SESSION['relatorio'], ':manobra' => $manobras));
     }
 
-    public function updatePassos($manobra,$passo){
-        
+    public function updatePassos($manobra,$passo,$monabra_id){
+        $sql="INSERT INTO `galp`.`manobras-processo-passos` (`manobra`, `passo`, `user`, `concluido`, `relatorio`, `manobra_id`) VALUES (:manobra, :passo, :user, :concluido, :relatorio, :manobra_id);";
+        $statement = parent::getDb()->prepare($sql);
+        parent::executeStatement($statement, array(':manobra'=>$manobra, ':passo'=>$passo,':concluido' => 0, ':manobra_id' => $monabra_id, ':relatorio' => $_SESSION['relatorio'],':user'=>$_SESSION['user']));
     }
     
     public function getAll() {

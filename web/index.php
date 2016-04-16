@@ -263,7 +263,8 @@ $app->post('/processo', 'checkLogIn', function() use ($app) {
     } elseif (array_key_exists('update', $_GET)) {
         $processodao->updateManobra($_GET['id'], $_GET['nome'], $_GET['unidade'], json_encode($_POST['procidimento']), json_encode($_POST['descricao']));
     }elseif (array_key_exists('salvar_passo_proc', $_GET)) {
-        
+        $processodao->updatePassos($_GET['proc_id'], $_GET['passo'], $_GET['monobra_id']);
+        echo "teste";
     }
     elseif (array_key_exists('show_proc', $_GET)) {
         $manobras = $processodao->getManobra($_GET['proc']);

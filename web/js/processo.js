@@ -5,6 +5,7 @@ var steps_array = [];
 var last_index = 0;
 var proc_id = 0;
 var update = false;
+var monobra_id;
 var processoptions = {
     beforeSubmit: showRequest, // pre-submit callback 
 };
@@ -45,7 +46,6 @@ function showScroll() {
 }
 
 function processo(type, object) {
-    console.log(type.name);
     if (type === '3') {
 
     }
@@ -69,7 +69,6 @@ function processo(type, object) {
             editor.resize('100%', 200);
         }
     }
-    console.log(type.name);
     if (type.name === 'imprimir') {
         window.open('http://localhost:8080/index.php/processo?imprimir&proc=' + type.getAttribute('proc_id'));
     }
@@ -379,6 +378,7 @@ function processo(type, object) {
             document.getElementById("app").innerHTML = data;
             detach = false;
             $.post('index.php/processo?getprocedimentos&proc=' + object.getAttribute('id'), function (data) {
+                monobra_id=moment().format('MMMM Do YYYY, h:mm:ss a').replace(/\s/g, '');
                 proc_id = object.getAttribute('id');
                 var proc = JSON.parse(JSON.parse(JSON.parse(data)['manobra']));
                 console.log(proc[2]['alertas']);
@@ -469,7 +469,9 @@ function pointer(div) {
 
 function checkStep(step, index) {
     if (step.name === 'salvar_passo_proc') {
-        console.log(index);
+        $.post("index.php/processo?salvar_passo_proc&passo="+index+"&monobra_id="+monobra_id+"&proc_id="+proc_id, function(data){
+            console.log(data);
+        });
         if (parseInt(($("#procedimentos").children().children().last().prev().children().first().children().html()).split(' ')[2]) === index) {
             console.log($("#procedimentos").after())
             $("#" + step.id).parent().parent().prev().css('border', '1px solid');
