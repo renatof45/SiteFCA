@@ -50,6 +50,16 @@ class RelatorioDao extends DAO {
         }
         return 0;
     }
+    
+    public function getCurrentRelatorio(){
+        $result = parent::query('select * from relatorios', PDO::FETCH_ASSOC);
+        foreach ($result as $relatorio) {
+            if ($relatorio['turno'] == $turno && $relatorio['data'] == $data) {
+                return $relatorio['id'];
+            }
+        }
+        return 0;
+    }
 
     public function insert($turno, $data) {
         $sql = "INSERT INTO `galp`.`relatorios` (`turno`, `data`,`utilizador`,`area`) VALUES (:turno, :data, :utilizador,:area)";

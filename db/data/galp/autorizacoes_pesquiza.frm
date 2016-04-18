@@ -1,15 +1,15 @@
 TYPE=VIEW
-query=select `galp`.`autorizacoes`.`ID` AS `ID`,`galp`.`autorizacoes`.`Numero` AS `Numero`,`galp`.`autorizacoes`.`Descricao do trabalho` AS `Descricao do trabalho`,`galp`.`firma`.`Nome` AS `Nome`,`galp`.`autorizacoes`.`Data fim` AS `Data fim` from (`galp`.`firma` join `galp`.`autorizacoes` on((`galp`.`firma`.`ID` = `galp`.`autorizacoes`.`Firma`)))
-md5=b35821a1e817e68f5662a9d54c2633eb
-updatable=1
+query=select 1 AS `ID`,1 AS `Numero`,1 AS `Descricao do trabalho`,1 AS `Nome`,1 AS `Data fim`
+md5=a60160e5808e08a91903d33df0f36b20
+updatable=0
 algorithm=0
 definer_user=root
 definer_host=localhost
-suid=1
+suid=2
 with_check_option=0
-timestamp=2016-04-08 07:30:45
+timestamp=2016-04-16 15:51:47
 create-version=1
-source=select `galp`.`autorizacoes`.`ID` AS `ID`,`galp`.`autorizacoes`.`Numero` AS `Numero`,`galp`.`autorizacoes`.`Descricao do trabalho` AS `Descricao do trabalho`,`galp`.`firma`.`Nome` AS `Nome`,`galp`.`autorizacoes`.`Data fim` AS `Data fim` from (`galp`.`firma` join `galp`.`autorizacoes` on((`galp`.`firma`.`ID` = `galp`.`autorizacoes`.`Firma`)))
+source=SELECT \n 1 AS `ID`,\n 1 AS `Numero`,\n 1 AS `Descricao do trabalho`,\n 1 AS `Nome`,\n 1 AS `Data fim`
 client_cs_name=utf8
 connection_cl_name=utf8_general_ci
-view_body_utf8=select `galp`.`autorizacoes`.`ID` AS `ID`,`galp`.`autorizacoes`.`Numero` AS `Numero`,`galp`.`autorizacoes`.`Descricao do trabalho` AS `Descricao do trabalho`,`galp`.`firma`.`Nome` AS `Nome`,`galp`.`autorizacoes`.`Data fim` AS `Data fim` from (`galp`.`firma` join `galp`.`autorizacoes` on((`galp`.`firma`.`ID` = `galp`.`autorizacoes`.`Firma`)))
+view_body_utf8=select 1 AS `ID`,1 AS `Numero`,1 AS `Descricao do trabalho`,1 AS `Nome`,1 AS `Data fim`

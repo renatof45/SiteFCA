@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>PortalFCA</title>
+        <title>Site FCA</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <link rel="stylesheet" type="text/css" href="css/colresize.css" />
@@ -108,7 +108,10 @@
             <div id="topheader">
                 <?php if (array_key_exists('error', $_GET)): ?>
                     <?php echo 'Utilizador ou password errada!'; ?>
-
+                <?php elseif (array_key_exists('request', $_GET)): ?>
+                    <?php echo 'Pedido enviado com sucesso!'; ?>
+                <?php elseif (array_key_exists('newuser', $_GET)): ?>
+                    <?php echo 'Novo utilizador adicionado com sucesso!'; ?>
                 <?php elseif (array_key_exists('user', $_SESSION)): ?>
                     <form id="ajaxform4" method="post" style="float:left;width: 300px;">
                         <label style="margin-top: 5px;padding-bottom: 0px;">Area de trabalho:</label>

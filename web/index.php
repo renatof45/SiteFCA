@@ -49,6 +49,16 @@ function error_field($title, array $errors) {
     return '';
 }
 
+function generateRandomString($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
 function object_to_array($data) {
     if (is_array($data) || is_object($data)) {
         $result = array();
@@ -262,11 +272,10 @@ $app->post('/processo', 'checkLogIn', function() use ($app) {
         //require "../page/processo/nova_manobra.phtml";
     } elseif (array_key_exists('update', $_GET)) {
         $processodao->updateManobra($_GET['id'], $_GET['nome'], $_GET['unidade'], json_encode($_POST['procidimento']), json_encode($_POST['descricao']));
-    }elseif (array_key_exists('salvar_passo_proc', $_GET)) {
+    } elseif (array_key_exists('salvar_passo_proc', $_GET)) {
         $processodao->updatePassos($_GET['proc_id'], $_GET['passo'], $_GET['monobra_id']);
         echo "teste";
-    }
-    elseif (array_key_exists('show_proc', $_GET)) {
+    } elseif (array_key_exists('show_proc', $_GET)) {
         $manobras = $processodao->getManobra($_GET['proc']);
         $passos_count = 1;
         require "../page/processo/manobras.phtml";
@@ -492,12 +501,100 @@ $app->get('/sair', function() use($app) {
 });
 
 $app->post('/signin', function() use($app) {
-    
+    if (array_key_exists('newuser', $_GET)) {
+        $app->redirect('/');
+    }
+    $utilizador = new Utilizador(null);
+    $dao = new UtilizadorDao();
+    $errors = array();
+
+    if (array_key_exists('signin', $_POST)) {
+        $areas = array();
+        if (array_key_exists('option1', $_POST)) {
+            array_push($areas, $_POST['option1']);
+        }
+        if (array_key_exists('option2', $_POST)) {
+            array_push($areas, $_POST['option2']);
+        }
+        if (array_key_exists('option3', $_POST)) {
+            array_push($areas, $_POST['option3']);
+        }
+        if (array_key_exists('option4', $_POST)) {
+            array_push($areas, $_POST['option4']);
+        }
+        if (array_key_exists('option5', $_POST)) {
+            array_push($areas, $_POST['option5']);
+        }
+        $params = array(
+            'numero' => $_POST['utilizador']['numero'],
+            'pass' => $_POST['utilizador']['pass'],
+            'nome' => $_POST['utilizador']['nome'],
+            'tipo' => 1,
+            'area' => $areas
+        );
+
+        UtilizadorMapper::map($utilizador, $params);
+
+        $errors = UtilizadorValidator::validate($utilizador);
+
+        if (empty($errors)) {
+
+            $dao = new UtilizadorDao();
+            $dao->insert($utilizador);
+            //Flash::addFlash('Utilizador gravado com sucesso!');
+            $app->redirect('/?newuser');
+            //Utils::redirect('home', array());
+        } else
+            require "../layout/signin.phtml";
+    } else
+        require "../layout/signin.phtml";
 });
 
 $app->get('/signin', function() use($app) {
     //$template = '../layout/user_qualification.phtml';
+    require '../layout/signin.phtml';
+});
+
+$app->get('/user_qualification', function() use($app) {
     require '../layout/user_qualification.phtml';
+});
+
+$app->post('/user_qualification', function () use($app) {
+    $pedido = "<p>Nome: " . $_POST['nome'] . "</p><br><p>Numero: " . $_POST['numero'] . "</p><br><p>Categoria: " . $_POST['posto'] . "</p>";
+
+//    try {
+//        new EwsSendEmail($_POST['pass'], $pedido);
+//    } catch (SoapFault $ex) {
+//        $errors[] = new Error('numero', $ex->getMessage());
+//        require '../layout/user_qualification.phtml';
+//    } catch (EWS_Exception $ex) {
+//        $errors[] = new Error('numero', $ex->getMessage());
+//        require '../layout/user_qualification.phtml';
+//    }
+    if (empty($errors)) {
+        $app->redirect('/?request');
+    }
+});
+
+$app->get('/lostpass',function(){
+    require '../layout/lost_pass.phtml';
+});
+
+$app->post('/lostpass',function(){
+    $pass=generateRandomString();
+    $pedido= '<p>A seu pedido foi feito o reset da sua password de acesso ao Site FCA</p><br><p>Nova password: <b>'.$pass.'</b></p>';
+    $userdao=new UtilizadorDao();
+    $userdao->resetPass($_POST['numero'], $pass);
+    echo $pass;
+    //    try {
+//        new EwsSendEmail($_POST['pass'], $pedido);
+//    } catch (SoapFault $ex) {
+//        $errors[] = new Error('numero', $ex->getMessage());
+//        require '../layout/user_qualification.phtml';
+//    } catch (EWS_Exception $ex) {
+//        $errors[] = new Error('numero', $ex->getMessage());
+//        require '../layout/user_qualification.phtml';
+//    } 
 });
 
 $app->get('/', function() use ($app) {
@@ -522,8 +619,13 @@ $app->get('/', function() use ($app) {
             $template = '../layout/intro.html';
         }
     } else {
-        $template = '../layout/area-de-trabalho.html';
+        if ($user['tipo'] == 2) {
+            $template = '../layout/area-de-trabalho.html';
+        } else {
+            $template = '../layout/layout_exterior.phtml';
+        }
     }
+
     require '../layout/index.phtml';
 });
 

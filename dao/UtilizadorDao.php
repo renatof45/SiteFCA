@@ -15,6 +15,15 @@ class UtilizadorDao extends DAO{
    	  }
    }
    
+  public function resetPass($user,$pass){
+       $sql = 'UPDATE galp.`utilizador` SET `Pass`=:pass WHERE `ID`=:user';
+        $statement = parent::getDb()->prepare($sql);
+        parent::executeStatement($statement, array(
+            ':pass' => $pass,
+            ':user' => $user
+        ));
+  }
+   
   public function delete($numero){
       $sql="DELETE FROM `area-utilizador` WHERE utilizador=:id";
       $statement = parent::getDb()->prepare($sql);

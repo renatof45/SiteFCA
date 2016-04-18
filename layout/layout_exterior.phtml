@@ -1,0 +1,152 @@
+<div style="overflow: auto; position: absolute;bottom: 30px;top: 130px;width: 1100px;">
+    <div style="position: absolute; overflow: auto;bottom: 0px;top: 0px;width: 200px;">
+        <ul id="accordion">
+            <li style="margin-left: 0px;">
+                <h4>Home</h4>
+                <ul>
+                    <li><a href="javascript:home()">Home</a></li>
+                    <li><a href="javascript:perfil()">Perfil</a></li>
+                </ul>
+            </li>
+           
+            <li style="margin-left: 0px;">
+                <h4>Lubrificantes</h4>
+                <ul>
+                    <li>
+                        <h4>Encomendar</h4>
+                        <ul>
+                            <li><a href="javascript:EncLubrificantes(1)">Stocks</a></li>
+                            <li><a href="javascript:EncLubrificantes(2)">Manutenção</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h4>Rececionar</h4>
+                        <ul>
+                            <li><a href="javascript:recicionar()">Rececionar</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h4>Pesquizar</h4>
+                        <ul>
+                            <li><a href="javascript:pesquizarLub(1)">Por Óleo</a></li>
+                            <li><a href="javascript:pesquizarLub(2)">Entre Datas</a></li>
+                            <li><a href="javascript:pesquizarLub(3)">Encomendas</a></li>
+                            <li><a href="javascript:pesquizarLub(4)">Pontos de Lubrificação</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h4>Óleos</h4>
+                        <ul>
+                            <li><a href="javascript:novoLub();">Novo Óleo</a></li>
+                            <li><a href="javascript:alterarLub();">Alterar Óleo</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li style="margin-left: 0px;">
+                <h4>Autorizações</h4>
+                <ul>
+                    
+                        <h4>Registar</h4>
+                        <ul>
+                            <li><a href="javascript:regisaut(1)">Vermelhas</a></li>
+                            <li><a href="javascript:regisaut(2)">Amarelas</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h4>Pesquizar</h4>
+                        <ul>
+                            <li><a href="javascript:pesquiaut(1)">Caducadas sem Registo</a></li>
+                            <li><a href="javascript:pesquiaut(2)">Trabalhos em curso</a></li>
+                            <li><a href="javascript:pesquiaut(3)">Trabalhos do dia</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <li style="margin-left: 0px;">
+                <h4>Pedidos de Trabalho</h4>
+                <ul>
+                    <li><a href="javascript:pedidos_trabalho(1)">Novo</a></li>
+                    <li><a href="javascript:pedidos_trabalho(2)">Sem Nota</a></li>
+                </ul>
+            </li>
+            <li style="margin-left: 0px;">
+                <h4>Equipamento</h4>
+                <ul>
+                    <li>
+                        <h4>Dinamico</h4>
+                        <ul>
+                            <li><a href="javascript:equipamento_dinamico(2)">Status</a></li>
+                            <li><a href="javascript:equipamento_dinamico(3)">Horas de marcha</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h4>Estático</h4>
+                        <ul>
+                            <li><a href="javascript:equipamento_estatico(2)">Status</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h4>Instrumentos</h4>
+                        <ul>
+                            
+                            <li><a href="javascript:instrumentos(2)">Status</a></li>
+                         </ul>
+                    </li>
+                </ul>
+            </li>
+            <li style="margin-left: 0px;">
+                <h4>Processo</h4>
+                <ul>
+                    <li>
+                        <h4>Procedimentos</h4>
+                        <ul>
+                            <li><a href="javascript:processo(1)">Procedimentos</a></li>
+                            <li><a href="javascript:processo(2)">Novo</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h4>Rotinas</h4>
+                        <ul>
+                            <li><a href="javascript:processo(3)">Nova</a></li>
+                            <li><a href="javascript:processo(4)">Editar</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </li>
+
+            <li style="margin-left: 0px;">
+                <h4>Relatorios</h4>
+                <ul>
+                    <li>
+                        <h4>Relatorios</h4>
+                        <ul>
+                            <li><a href="javascript:relatorio(1)">Resumo</a></li>
+                            <li><a href="javascript:relatorio(2)">Unidades</a></li>
+                          </ul>
+                    </li>
+                    
+                </ul>
+            </li>
+
+        </ul>
+    </div>
+    <div id="app" style="position: absolute;overflow-x: hidden; overflow-y:  auto;bottom: 0px;top: 0px;left: 220px; width: 880px;">
+
+        <h1><?php if($_SESSION['turno']==1)
+            echo "Bom dia ";
+            else if($_SESSION['turno']==2)
+            echo "Boa tarde ";
+            else echo "Boa noite ";
+            echo $_SESSION['user_name']; ?></h1>
+        <?php if (array_key_exists('request', $_GET)):  ?>
+        <p>O seu pedido foi enviado!</p>
+        <?php endif; ?>
+        <p class="p">Bem vindo ao Site da FCA.</p>
+        <p class="p">Está registado como utilixador simples. Não tem acesso a todas as funcionalidades do site.</p>
+        <p class="p">Se necessita de um acesso qualificado, for favor <a href="index.php/user_qualification">siga este link</a> </p>
+        
+    </div>
+</div>
