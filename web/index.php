@@ -250,7 +250,7 @@ $app->get('/processo', 'checkLogIn', function() use ($app) {
     $unidades = $unidadesdao->findUnidades($_SESSION['area']);
     $processodao = new ProcessoDao();
     if (array_key_exists('imprimir', $_GET)) {
-        $procedimento = $processodao->getManobra($_GET['proc']);
+        $procedimento = $processodao->getProc($_GET['proc']);
         $manobras = object_to_array(json_decode(json_decode($procedimento['manobra'])));
         $descricao = $procedimento['descricao'];
         $index = 0;
@@ -267,26 +267,35 @@ $app->post('/processo', 'checkLogIn', function() use ($app) {
     if (array_key_exists('salvar', $_GET)) {
         //echo json_encode($_POST);
         //$app->redirect("index.php/processo?type=2");
-        $processodao->novaManobra($_GET['nome'], $_GET['unidade'], json_encode($_POST['procidimento']), json_encode($_POST['descricao']));
+        $processodao->novoProc($_GET['nome'], $_GET['unidade'], json_encode($_POST['procidimento']), json_encode($_POST['descricao']));
 
         //require "../page/processo/nova_manobra.phtml";
-    } elseif (array_key_exists('update', $_GET)) {
-        $processodao->updateManobra($_GET['id'], $_GET['nome'], $_GET['unidade'], json_encode($_POST['procidimento']), json_encode($_POST['descricao']));
+    }
+    elseif($type==5){
+        $manobras=$processodao->getAllPendentes();
+        echo json_encode(array('manobra' => $manobras, 'unidades' => $unidades));
+    }
+    elseif(array_key_exists('novamanobra', $_GET)){
+        echo $processodao->novaManobra($_GET['proc'], 0);
+    }
+    elseif(array_key_exists('updatemanobra', $_GET)){
+        $processodao->updateManobra($_GET['manobra'], 1);
+    }
+    elseif (array_key_exists('update', $_GET)) {
+        $processodao->updateProc($_GET['id'], $_GET['nome'], $_GET['unidade'], json_encode($_POST['procidimento']), json_encode($_POST['descricao']));
     } elseif (array_key_exists('salvar_passo_proc', $_GET)) {
         $processodao->updatePassos($_GET['proc_id'], $_GET['passo'], $_GET['monobra_id']);
         print_r($_POST);
     } elseif (array_key_exists('show_proc', $_GET)) {
-        $manobras = $processodao->getManobra($_GET['proc']);
+        $manobras = $processodao->getProc($_GET['proc']);
         $passos_count = 1;
         require "../page/processo/manobras.phtml";
     } elseif ($type == 1) {
         $manobras = $processodao->getAll();
         //$procedimentos=  object_to_array(json_decode(object_to_array(json_decode($manobras['manobra']))['procidimento']));
         echo json_encode(array('manobra' => $manobras, 'unidades' => $unidades));
-        //require "../page/processo/manobras.phtml";
-        //require "../page/relatorios/area_c.php";    
-    } elseif (array_key_exists('getprocedimentos', $_GET)) {
-        $manobras = $processodao->getManobra($_GET['proc']);
+     } elseif (array_key_exists('getprocedimentos', $_GET)) {
+        $manobras = $processodao->getProc($_GET['proc']);
         echo json_encode($manobras);
     } elseif ($type == 2) {
         $relatoriodao = new RelatorioDao();
@@ -294,11 +303,11 @@ $app->post('/processo', 'checkLogIn', function() use ($app) {
         $relatorio = json_decode($template['template']);
         echo json_encode(($template));
         //require "../page/processo/nova_manobra.phtml";
-    } elseif (array_key_exists('novamanobra', $_GET)) {
+    } elseif (array_key_exists('novoproc', $_GET)) {
         require "../page/processo/nova_manobra.phtml";
     } elseif ($type == 3) {
 
-        require "../page/processo/nova_rotina  .phtml";
+        require "../page/processo/nova_rotina.phtml";
     }
 });
 

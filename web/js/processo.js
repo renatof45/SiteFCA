@@ -332,7 +332,7 @@ function processo(type, object) {
     }
     if (type.name === 'editar_proc') {
         update = true;
-        $.post("index.php/processo?novamanobra=" + type, function (data) {
+        $.post("index.php/processo?novoproc=" + type, function (data) {
             document.getElementById("app").innerHTML = data;
             CKEDITOR.config.height = 200;
             CKEDITOR.config.width = 750;
@@ -378,7 +378,7 @@ function processo(type, object) {
             document.getElementById("app").innerHTML = data;
             detach = false;
             $.post('index.php/processo?getprocedimentos&proc=' + object.getAttribute('id'), function (data) {
-                monobra_id=moment().format('MMMM Do YYYY, h:mm:ss a').replace(/\s/g, '');
+                monobra_id = moment().format('MMMM Do YYYY, h:mm:ss a').replace(/\s/g, '');
                 proc_id = object.getAttribute('id');
                 var proc = JSON.parse(JSON.parse(JSON.parse(data)['manobra']));
                 console.log(proc[2]['alertas']);
@@ -407,6 +407,37 @@ function processo(type, object) {
         });
     }
 
+    if (type === 'show_proc_pending') {
+
+    }
+
+    if (type === 5) {
+        $.post("index.php/processo?type=5", function (data) {
+
+            document.getElementById("app").innerHTML =
+                    '<h1>Procedimentos pendentes</h1><form><ul id="tab2" class="tabs"></ul></form>';
+            var unidades = JSON.parse(data)['unidades'];
+            var manobras = JSON.parse(data)['manobra'];
+            console.log(manobras);
+            TABS.CreateTabs('tab2');
+            for (var i = 0; i < unidades.length; i++) {
+                var element = $('<div></div>');
+                for (var j = 0; j < manobras.length; j++) {
+                    var div = '';
+                    if (manobras[j].unidade === unidades[i].id) {
+                        div = '<div id="' + manobras[j].manobra_id + '" onMouseOut="pointer(this)" onMouseOver="pointer(this)" name="show_proc" onclick="processo(\'show_proc_pending\',this)"  class="field" style="height: 21px;background-color: #F3F3F3;"><label style="width:500px;margin-left:5px;">' + manobras[j].Nome + '</label></div>';
+                        element.append(div);
+                    }
+                }
+                element.css('padding', '10px');
+                element.css('overflow', 'auto');
+                if (i === 0)
+                    TABS.AddTab(unidades[i].designacao, true, element[0].outerHTML, 'tab2');
+                else
+                    TABS.AddTab(unidades[i].designacao, false, element[0].outerHTML, 'tab2');
+            }
+        });
+    }
     if (type === 1) {
         $.post("index.php/processo?type=1", function (data) {
             document.getElementById("app").innerHTML =
@@ -435,20 +466,20 @@ function processo(type, object) {
 
     }
     if (type === 2) {
-        $.post("index.php/processo?novamanobra=" + type, function (data) {
+        $.post("index.php/processo?novoproc=" + type, function (data) {
             document.getElementById("app").innerHTML = data;
             CKEDITOR.config.height = 200;
             CKEDITOR.config.width = 750;
-            
-            while(steps_array.length>0){
+
+            while (steps_array.length > 0) {
                 steps_array.pop();
             }
-     
+
             while (alert.length > 0) {
                 alert.pop();
             }
             initSample();
-             var editor = CKEDITOR.instances.editor;
+            var editor = CKEDITOR.instances.editor;
             //editor.resize('100%', 200);
             update = false;
         });
@@ -469,15 +500,26 @@ function pointer(div) {
 
 function checkStep(step, index) {
     if (step.name === 'salvar_passo_proc') {
-        $.post("index.php/processo?salvar_passo_proc&passo="+index+"&monobra_id="+monobra_id+"&proc_id="+proc_id, function(data){
-            console.log(data);
-        });
+        if (index === 0) {
+            $.post('index.php/processo?novamanobra&proc=' + proc_id, function (data) {
+                $.post("index.php/processo?salvar_passo_proc&passo=" + index + "&monobra_id=" + data + "&proc_id=" + proc_id, function () {
+                    monobra_id = data;
+                });
+            });
+        }
+        else {
+            $.post("index.php/processo?salvar_passo_proc&passo=" + index + "&monobra_id=" + monobra_id + "&proc_id=" + proc_id, function () {
+
+            });
+        }
         if (parseInt(($("#procedimentos").children().children().last().prev().children().first().children().html()).split(' ')[2]) === index) {
-            console.log($("#procedimentos").after())
             $("#" + step.id).parent().parent().prev().css('border', '1px solid');
             $("#" + step.id).parent().parent().prev().first().children().first().append('<img style="margin-left:10px" src="img/status/DONE.png" alt="Smiley face" height="16" width="16">');
             $("#procedimentos").after('<h1>Procedimento concluido</h1>');
             $("#" + step.id).parent().parent().remove();
+            $.post('index.php/processo?updatemanobra&manobra=' + monobra_id, function (data) {
+
+            });
         }
         else {
             if ($("#" + step.id).parent().parent().next().attr('type') === 'title') {
@@ -491,7 +533,6 @@ function checkStep(step, index) {
                 if (alertas[index + 1] !== null) {
                     getAlerta($("#anular" + (index + 1)), index + 1);
                 }
-                console.log($("#" + step.id).parent().parent().prev())
                 $("#" + step.id).parent().parent().remove();
             }
             else {
@@ -557,33 +598,36 @@ function checkStep(step, index) {
 
 function getAlerta(tag, index) {
     var alerta = '';
-    tag.after('<div style="clear: left;float:left;padding: 5px;" id="alert' + index + '"></div>');
-    if (alertas[index]['relatrio']) {
-        $("#alert" + index).append('<label style="color:red;line-height:18px">-Não se esqueça de actualizar o relatorio</label>');
-    }
-    if (alertas[index]['equipamento']) {
-        $("#alert" + index).append('<br><label style="color:red;line-height:18px">-Não se esqueça de actualizar o estado do equipamento</label>');
-    }
-    $("#alert" + index).append('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea rows="4" cols="40"></textarea></div>');
-    if (alertas[index]['equipamento_id'] !== '') {
-        detach = false;
-        $.post("index.php/equipamento?get_status_equipamento&equipamento=" + alertas[index]['equipamento_id'], function (data) {
-            var equipamento = JSON.parse(data);
+    console.log(alertas);
+    if (alertas.length > 0) {
+        tag.after('<div style="clear: left;float:left;padding: 5px;" id="alert' + index + '"></div>');
+        if (alertas[index]['relatrio']) {
+            $("#alert" + index).append('<label style="color:red;line-height:18px">-Não se esqueça de actualizar o relatorio</label>');
+        }
+        if (alertas[index]['equipamento']) {
+            $("#alert" + index).append('<br><label style="color:red;line-height:18px">-Não se esqueça de actualizar o estado do equipamento</label>');
+        }
+        $("#alert" + index).append('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea rows="4" cols="40"></textarea></div>');
+        if (alertas[index]['equipamento_id'] !== '') {
             detach = false;
-            $.post("index.php/equipamento?get_accoes&tipo=" + equipamento.equipamento.tipo, function (data) {
-                $('#dvLoading').hide();
-                var accoes = JSON.parse(data);
-                var element = '<select onchange="equipamento(this,' + equipamento.equipamento.tipo + ');" id="halt-status' + equipamento.id + '" name="halt-status">';
-                for (var i = 0; i < accoes.length; i++) {
-                    element += '<option value="' + i + '">' + accoes[i] + '</option>';
-                }
-                element += '</select>';
-                $("#alert" + index).children().last().before('<fieldset style="width: 100%;"><div class="field"><label style="float:left;width:120px">Equipamento:</label><p>' + equipamento.equipamento.equipamento + '</p></div>' +
-                        '<div class="field"><label style="float:left;width:120px">Status:</label><p>' + equipamento.estado + '</p></div>' +
-                        '<div class="field"><label style="float:left;width:120px">Novo status:</label>' + element + '</div><br></fieldset>');
+            $.post("index.php/equipamento?get_status_equipamento&equipamento=" + alertas[index]['equipamento_id'], function (data) {
+                var equipamento = JSON.parse(data);
+                detach = false;
+                $.post("index.php/equipamento?get_accoes&tipo=" + equipamento.equipamento.tipo, function (data) {
+                    $('#dvLoading').hide();
+                    var accoes = JSON.parse(data);
+                    var element = '<select onchange="equipamento(this,' + equipamento.equipamento.tipo + ');" id="halt-status' + equipamento.id + '" name="halt-status">';
+                    for (var i = 0; i < accoes.length; i++) {
+                        element += '<option value="' + i + '">' + accoes[i] + '</option>';
+                    }
+                    element += '</select>';
+                    $("#alert" + index).children().last().before('<fieldset style="width: 100%;"><div class="field"><label style="float:left;width:120px">Equipamento:</label><p>' + equipamento.equipamento.equipamento + '</p></div>' +
+                            '<div class="field"><label style="float:left;width:120px">Status:</label><p>' + equipamento.estado + '</p></div>' +
+                            '<div class="field"><label style="float:left;width:120px">Novo status:</label>' + element + '</div><br></fieldset>');
 
+                });
             });
-        });
+        }
     }
 }
 
