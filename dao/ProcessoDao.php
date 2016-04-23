@@ -32,7 +32,7 @@ final class ProcessoDao extends DAO {
         foreach (parent::query("SELECT galp.`manobras-processo-activas`.id  as manobra_id,galp.`manobras-processo-activas`.data as data, unidades.id as unidade,`manobras-processo`.id as proc_id,Nome FROM galp.`manobras-processo-activas`
                                 join galp.`manobras-processo` on galp.`manobras-processo`.id=galp.`manobras-processo-activas`.procedimento
                                 join unidades on unidades.id=`manobras-processo`.unidade
-                                where status=1;") as $row) {
+                                where status=0;") as $row) {
             $result = array();
             $result['manobra_id'] = $row['manobra_id'];
             $result['Nome'] = $row['Nome'];
@@ -42,6 +42,18 @@ final class ProcessoDao extends DAO {
             array_push($pendentes, $result);
         }
         return $pendentes;
+    }
+
+    public function getPassos($manobra) {
+        $passos = array();
+        foreach (parent::query('SELECT * FROM galp.`manobras-processo-passos` where manobra_id=' . $manobra) as $row) {
+            $result = array();
+            $result['observacoes'] = $row['observacoes'];
+            $result['utilizador'] = $row['utilizador'];
+            $result['data'] = $row['data'];
+            array_push($passos, $result);
+        }
+        return $passos;
     }
 
     public function updatePassos($manobra, $passo, $monabra_id) {

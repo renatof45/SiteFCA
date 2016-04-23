@@ -48,9 +48,7 @@ function showScroll() {
 function processo(type, object) {
     if (type === '3') {
 
-    }
-
-    else if (type.name === 'relatorio') {
+    } else if (type.name === 'relatorio') {
         $('#dvLoading').hide();
         $("#salvarRelatorioForm").html('<ul id="tab1" class="tabs"></ul>');
         $("#dialog-unidades").dialog('open');
@@ -61,8 +59,7 @@ function processo(type, object) {
             $("#app").scrollTo(110);
             var editor = CKEDITOR.instances.editor;
             editor.resize('100%', $("#app")[0].offsetHeight - 40);
-        }
-        else {
+        } else {
             type.value = 'Maximizar editor';
             $("#app").scrollTo(0);
             var editor = CKEDITOR.instances.editor;
@@ -76,8 +73,7 @@ function processo(type, object) {
         if (type.value === 'Mostrar relatório') {
             $("#relatorio" + type.getAttribute('index')).show();
             type.value = 'Ocultar relatório';
-        }
-        else {
+        } else {
             $("#relatorio" + type.getAttribute('index')).hide();
             type.value = 'Mostrar relatório';
         }
@@ -177,8 +173,7 @@ function processo(type, object) {
                                         $(this)[0].attributes[i].value = index;
                                     }
                                 }
-                            }
-                            else if ($(this)[0].nodeName === 'LABEL') {
+                            } else if ($(this)[0].nodeName === 'LABEL') {
                                 //console.log($(this));
                                 $(this)[0].innerHTML = 'Passo ' + index + ':';
                             }
@@ -210,8 +205,7 @@ function processo(type, object) {
             }
             $("#dialog-alertas").data('step', type)
                     .dialog("open");
-        }
-        else {
+        } else {
             var step = (alertas[parseInt(type.getAttribute('index'))]);
             $("#equipamento_value").val(step.equipamento_id);
             $("#equipamento_value").attr('name', step.name);
@@ -285,8 +279,7 @@ function processo(type, object) {
         if ($('#relatorio').is(":visible")) {
             $("#relatorio").hide();
             $("#ocultar").val("Mostrar relatorio");
-        }
-        else {
+        } else {
             $("#relatorio").show();
             $("#ocultar").val("Ocultar relatorio");
         }
@@ -313,8 +306,7 @@ function processo(type, object) {
                                 index++;
                             }
                         });
-                    }
-                    else {
+                    } else {
                         $(this).children().each(function () {
                             if ($(this)[0].nodeName === 'TEXTAREA') {
                                 title = $(this)[0].value;
@@ -381,7 +373,6 @@ function processo(type, object) {
                 monobra_id = moment().format('MMMM Do YYYY, h:mm:ss a').replace(/\s/g, '');
                 proc_id = object.getAttribute('id');
                 var proc = JSON.parse(JSON.parse(JSON.parse(data)['manobra']));
-                console.log(proc[2]['alertas']);
                 alertas = proc[2]['alertas'];
                 for (var i = 0; i < proc[2]['steps'].length; i++) {
                     if (proc[2]['steps'][i]['title'] !== '') {
@@ -396,8 +387,7 @@ function processo(type, object) {
                         if (alertas[i] !== null) {
                             getAlerta($("#salvar" + i), i);
                         }
-                    }
-                    else {
+                    } else {
                         $("#procedimentos").append('<tr><td style="width: 80px;"><label> Passo ' + i + '</label></td><td style="padding: 5px;">' + proc[2]['steps'][i]['step'] + '</td><td style="width:150px"></td><td style="width:80px"></td></tr>');
 
                     }
@@ -408,7 +398,13 @@ function processo(type, object) {
     }
 
     if (type === 'show_proc_pending') {
-
+        $.post("index.php/processo?show_proc=&proc=" + object.getAttribute('proc_id'), function (data) {
+            var proc = JSON.parse(JSON.parse(JSON.parse(data)['manobra']));
+            alertas = proc[2]['alertas'];
+            $.post('index.php/processo?getpassos&manobra=' + object.id, function (data) {
+              
+            });
+        });
     }
 
     if (type === 5) {
@@ -425,7 +421,7 @@ function processo(type, object) {
                 for (var j = 0; j < manobras.length; j++) {
                     var div = '';
                     if (manobras[j].unidade === unidades[i].id) {
-                        div = '<div id="' + manobras[j].manobra_id + '" onMouseOut="pointer(this)" onMouseOver="pointer(this)" name="show_proc" onclick="processo(\'show_proc_pending\',this)"  class="field" style="height: 21px;background-color: #F3F3F3;"><label style="width:500px;margin-left:5px;">' + manobras[j].Nome + '</label></div>';
+                        div = '<div proc_id="' + manobras[j].proc_id + '" id="' + manobras[j].manobra_id + '" onMouseOut="pointer(this)" onMouseOver="pointer(this)" name="show_proc" onclick="processo(\'show_proc_pending\',this)"  class="field" style="height: 21px;background-color: #F3F3F3;"><label style="width:500px;margin-left:5px;">' + manobras[j].Nome + '</label></div>';
                         element.append(div);
                     }
                 }
@@ -506,8 +502,7 @@ function checkStep(step, index) {
                     monobra_id = data;
                 });
             });
-        }
-        else {
+        } else {
             $.post("index.php/processo?salvar_passo_proc&passo=" + index + "&monobra_id=" + monobra_id + "&proc_id=" + proc_id, function () {
 
             });
@@ -520,8 +515,7 @@ function checkStep(step, index) {
             $.post('index.php/processo?updatemanobra&manobra=' + monobra_id, function (data) {
 
             });
-        }
-        else {
+        } else {
             if ($("#" + step.id).parent().parent().next().attr('type') === 'title') {
                 $("#" + step.id).parent().parent().next().next().css('border', '2px solid #FA4616 ')
                         .css('border-bottom', '0');
@@ -534,8 +528,7 @@ function checkStep(step, index) {
                     getAlerta($("#anular" + (index + 1)), index + 1);
                 }
                 $("#" + step.id).parent().parent().remove();
-            }
-            else {
+            } else {
 
                 $("#" + step.id).parent().parent().next().css('border', '2px solid #FA4616 ')
                         .css('border-bottom', '0');
@@ -551,8 +544,7 @@ function checkStep(step, index) {
                 $("#" + step.id).parent().parent().remove();
             }
         }
-    }
-    else if (step.name === 'anular_passo_proc') {
+    } else if (step.name === 'anular_passo_proc') {
         if ($("#" + step.id).parent().parent().prev().prev().attr('type') === 'title') {
             $("#" + step.id).parent().parent().prev().prev().prev().css('border', '2px solid #FA4616 ')
                     .css('border-bottom', '0');
@@ -571,8 +563,7 @@ function checkStep(step, index) {
             }
             $("#" + step.id).parent().parent().prev().prev().prev().first().children().first().children().last().remove();
             $("#" + step.id).parent().parent().remove();
-        }
-        else {
+        } else {
             $("#" + step.id).parent().parent().prev().prev().css('border', '2px solid #FA4616 ')
                     .css('border-bottom', '0');
             $("#" + step.id).parent().parent().prev().css('border', '1px solid');
@@ -678,8 +669,7 @@ function showRequest(formData, jqForm, options) {
             $("#informacao").html('Procedimento actulizado!');
             $("#dialog-informacao").dialog('open');
         });
-    }
-    else {
+    } else {
         update = true;
         $.post("index.php/processo?salvar=true&unidade=" + procedimento[0]['unidade']['value'] + '&nome=' + procedimento[1]['nome']['value'], {
             procidimento: JSON.stringify(procedimento),

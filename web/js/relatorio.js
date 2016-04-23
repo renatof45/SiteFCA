@@ -464,7 +464,6 @@ function relatorio(type, obj) {
 
             document.getElementById("app").innerHTML = data;
             $.post("index.php/relatorio?type=" + type, function (data) {
-                console.log(data);
                 versao = (JSON.parse(data)['versao']);
                 if (data !== 'null') {
                     number_of_blocks = 0;

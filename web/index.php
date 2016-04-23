@@ -275,6 +275,9 @@ $app->post('/processo', 'checkLogIn', function() use ($app) {
         $manobras=$processodao->getAllPendentes();
         echo json_encode(array('manobra' => $manobras, 'unidades' => $unidades));
     }
+    elseif(array_key_exists('getpassos', $_GET)){
+        $processodao->getProc($_GET['manobra']);
+    }
     elseif(array_key_exists('novamanobra', $_GET)){
         echo $processodao->novaManobra($_GET['proc'], 0);
     }
