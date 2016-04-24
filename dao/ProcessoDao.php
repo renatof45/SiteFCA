@@ -62,6 +62,17 @@ final class ProcessoDao extends DAO {
         $statement = parent::getDb()->prepare($sql);
         parent::executeStatement($statement, array(':manobra' => $manobra, ':passo' => $passo, ':concluido' => 0, ':manobra_id' => $monabra_id, ':relatorio' => $_SESSION['relatorio'], ':user' => $_SESSION['user']));
     }
+    
+    public function deletePassos($manobra, $passo){
+        $sql="DELETE FROM `galp`.`manobras-processo-passos` WHERE `manobra_id`=:manobra and `passo`=:passo;";
+        $statement=  parent::getDb()->prepare($sql);
+        parent::executeStatement($statement, array(':manobra'=>$manobra,':passo'=>$passo));
+        if($passo==0){
+            $sql='delete from `galp`.`manobras-processo-activas` where `id`=:id';
+            $statement=  parent::getDb()->prepare($sql);
+            parent::executeStatement($statement, array(':id'=>$manobra));
+        }
+    }
 
     public function getAll() {
         $manobras = array();

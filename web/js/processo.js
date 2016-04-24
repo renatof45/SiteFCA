@@ -538,6 +538,7 @@ function checkStep(step, index) {
                     $("#" + step.id).parent().parent().next().next().css('border', '2px solid #FA4616 ')
                             .css('border-bottom', '0');
                     $("#" + step.id).parent().parent().prev().css('border', '1px solid');
+                    $("#" + step.id).parent().parent().prev().attr('owner', userid);
                     $("#" + step.id).parent().parent().next().next().after('<tr style="border:2px solid #FA4616;border-top:0"><td colspan="4">' +
                             '<input type="button" onclick="processo(this,' + (index) + ');" id="relatorio' + index + '" name="relatorio" style="width:110px;margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
                             '<input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="salvar' + (index + 1) + '" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
@@ -551,6 +552,7 @@ function checkStep(step, index) {
                     $("#" + step.id).parent().parent().next().css('border', '2px solid #FA4616 ')
                             .css('border-bottom', '0');
                     $("#" + step.id).parent().parent().prev().css('border', '1px solid');
+                    $("#" + step.id).parent().parent().prev().attr('owner', userid);
                     $("#" + step.id).parent().parent().next().after('<tr style="border:2px solid #FA4616;border-top:0"><td colspan="4">' +
                             '<input type="button" onclick="processo(this,' + (index) + ');" id="relatorio' + index + '" name="relatorio" style="width:110px;margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
                             '<input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="salvar' + (index + 1) + '" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
@@ -585,9 +587,9 @@ function checkStep(step, index) {
             });
         }
     } else if (step.name === 'anular_passo_proc') {
-        console.log($("#" + step.id).parent().parent().prev().prev().attr('owner'));
-        if ($("#" + step.id).parent().parent().prev().prev().attr('type') === 'title') {
-            if ($("#" + step.id).parent().parent().prev().prev().prev().attr('owner') === userid) {
+        var prevStep = function () {
+            if ($("#" + step.id).parent().parent().prev().prev().attr('type') === 'title') {
+
                 $("#" + step.id).parent().parent().prev().prev().prev().css('border', '2px solid #FA4616 ')
                         .css('border-bottom', '0');
                 $("#" + step.id).parent().parent().prev().css('border', '1px solid');
@@ -607,12 +609,10 @@ function checkStep(step, index) {
                 }
                 $("#" + step.id).parent().parent().prev().prev().prev().first().children().first().children().last().remove();
                 $("#" + step.id).parent().parent().remove();
-            } else {
-                $("#informacao").html('Não tem permisão para anular este passo!');
-                $("#dialog-informacao").dialog('open');
+
             }
-        } else {
-            if ($("#" + step.id).parent().parent().prev().prev().attr('owner') === userid) {
+            else {
+
                 $("#" + step.id).parent().parent().prev().prev().css('border', '2px solid #FA4616 ')
                         .css('border-bottom', '0');
                 $("#" + step.id).parent().parent().prev().css('border', '1px solid');
@@ -632,12 +632,32 @@ function checkStep(step, index) {
                 }
                 ($("#" + step.id).parent().parent().prev().prev().prev().first().children().first().children().last().remove());
                 $("#" + step.id).parent().parent().remove();
-            } else {
-                $("#informacao").html('Não tem permisão para anular este passo!');
-                $("#dialog-informacao").dialog('open');
+
             }
-        }
+        };
+        $.post('index.php/processo?deletepassos&manobra=' + monobra_id + '&passo=' + (index - 1), function (data) {
+            if ($("#" + step.id).parent().parent().prev().prev().attr('type') === 'title') {
+                if ($("#" + step.id).parent().parent().prev().prev().prev().attr('owner') === userid) { 
+                    prevStep();
+                } else {
+                    $("#dvLoading").hide();
+                    $("#informacao").html('Não tem permisão para anular este passo!');
+                    $("#dialog-informacao").dialog('open');
+                }
+            }
+            else {
+                if ($("#" + step.id).parent().parent().prev().prev().attr('owner') === userid) {
+                    prevStep();
+                }
+                else {
+                    $("#dvLoading").hide();
+                    $("#informacao").html('Não tem permisão para anular este passo!');
+                    $("#dialog-informacao").dialog('open');
+                }
+            }
+        });
     }
+
 }
 
 

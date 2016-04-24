@@ -270,23 +270,20 @@ $app->post('/processo', 'checkLogIn', function() use ($app) {
         $processodao->novoProc($_GET['nome'], $_GET['unidade'], json_encode($_POST['procidimento']), json_encode($_POST['descricao']));
 
         //require "../page/processo/nova_manobra.phtml";
-    }
-    elseif($type==5){
-        $manobras=$processodao->getAllPendentes();
+    } elseif ($type == 5) {
+        $manobras = $processodao->getAllPendentes();
         echo json_encode(array('manobra' => $manobras, 'unidades' => $unidades));
-    }
-    elseif(array_key_exists('getpassos', $_GET)){
-        echo json_encode(array('passos'=>$processodao->getPassos($_GET['manobra'])));
-    }
-    elseif(array_key_exists('novamanobra', $_GET)){
+    } elseif (array_key_exists('getpassos', $_GET)) {
+        echo json_encode(array('passos' => $processodao->getPassos($_GET['manobra'])));
+    } elseif (array_key_exists('deletepassos', $_GET)) {
+        $processodao->deletePassos($_GET['manobra'], $_GET['passo']);
+    } elseif (array_key_exists('novamanobra', $_GET)) {
         echo $processodao->novaManobra($_GET['proc'], 0);
-    }
-    elseif(array_key_exists('updatemanobra', $_GET)){
+    } elseif (array_key_exists('updatemanobra', $_GET)) {
         $processodao->updateManobra($_GET['manobra'], 1);
         date_default_timezone_set('Europe/Lisbon');
         echo date('Y-m-d H:i:s');
-    }
-    elseif (array_key_exists('update', $_GET)) {
+    } elseif (array_key_exists('update', $_GET)) {
         $processodao->updateProc($_GET['id'], $_GET['nome'], $_GET['unidade'], json_encode($_POST['procidimento']), json_encode($_POST['descricao']));
     } elseif (array_key_exists('salvar_passo_proc', $_GET)) {
         $processodao->updatePassos($_GET['proc_id'], $_GET['passo'], $_GET['monobra_id']);
@@ -300,7 +297,7 @@ $app->post('/processo', 'checkLogIn', function() use ($app) {
         $manobras = $processodao->getAll();
         //$procedimentos=  object_to_array(json_decode(object_to_array(json_decode($manobras['manobra']))['procidimento']));
         echo json_encode(array('manobra' => $manobras, 'unidades' => $unidades));
-     } elseif (array_key_exists('getprocedimentos', $_GET)) {
+    } elseif (array_key_exists('getprocedimentos', $_GET)) {
         $manobras = $processodao->getProc($_GET['proc']);
         echo json_encode($manobras);
     } elseif ($type == 2) {
@@ -591,14 +588,14 @@ $app->post('/user_qualification', function () use($app) {
     }
 });
 
-$app->get('/lostpass',function(){
+$app->get('/lostpass', function() {
     require '../layout/lost_pass.phtml';
 });
 
-$app->post('/lostpass',function(){
-    $pass=generateRandomString();
-    $pedido= '<p>A seu pedido foi feito o reset da sua password de acesso ao Site FCA</p><br><p>Nova password: <b>'.$pass.'</b></p>';
-    $userdao=new UtilizadorDao();
+$app->post('/lostpass', function() {
+    $pass = generateRandomString();
+    $pedido = '<p>A seu pedido foi feito o reset da sua password de acesso ao Site FCA</p><br><p>Nova password: <b>' . $pass . '</b></p>';
+    $userdao = new UtilizadorDao();
     $userdao->resetPass($_POST['numero'], $pass);
     echo $pass;
     //    try {
