@@ -276,19 +276,22 @@ $app->post('/processo', 'checkLogIn', function() use ($app) {
         echo json_encode(array('manobra' => $manobras, 'unidades' => $unidades));
     }
     elseif(array_key_exists('getpassos', $_GET)){
-        $processodao->getProc($_GET['manobra']);
+        echo json_encode(array('passos'=>$processodao->getPassos($_GET['manobra'])));
     }
     elseif(array_key_exists('novamanobra', $_GET)){
         echo $processodao->novaManobra($_GET['proc'], 0);
     }
     elseif(array_key_exists('updatemanobra', $_GET)){
         $processodao->updateManobra($_GET['manobra'], 1);
+        date_default_timezone_set('Europe/Lisbon');
+        echo date('Y-m-d H:i:s');
     }
     elseif (array_key_exists('update', $_GET)) {
         $processodao->updateProc($_GET['id'], $_GET['nome'], $_GET['unidade'], json_encode($_POST['procidimento']), json_encode($_POST['descricao']));
     } elseif (array_key_exists('salvar_passo_proc', $_GET)) {
         $processodao->updatePassos($_GET['proc_id'], $_GET['passo'], $_GET['monobra_id']);
-        print_r($_POST);
+        date_default_timezone_set('Europe/Lisbon');
+        echo date('Y-m-d H:i:s');
     } elseif (array_key_exists('show_proc', $_GET)) {
         $manobras = $processodao->getProc($_GET['proc']);
         $passos_count = 1;

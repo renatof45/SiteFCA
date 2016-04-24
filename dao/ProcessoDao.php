@@ -46,10 +46,11 @@ final class ProcessoDao extends DAO {
 
     public function getPassos($manobra) {
         $passos = array();
-        foreach (parent::query('SELECT * FROM galp.`manobras-processo-passos` where manobra_id=' . $manobra) as $row) {
+        foreach (parent::query('SELECT * FROM galp.`manobras-processo-passos` join utilizador on utilizador.ID= `manobras-processo-passos`.user where manobra_id=' . $manobra) as $row) {
             $result = array();
             $result['observacoes'] = $row['observacoes'];
-            $result['utilizador'] = $row['utilizador'];
+            $result['utilizador'] = $row['Nome'];
+            $result['user_id']=$row['ID'];
             $result['data'] = $row['data'];
             array_push($passos, $result);
         }
