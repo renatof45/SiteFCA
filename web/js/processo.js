@@ -567,21 +567,34 @@ function checkStep(step, index) {
 
         };
         if (index === 0) {
+            detach = false;
             $.post('index.php/processo?novamanobra&proc=' + proc_id, function (data) {
+                detach = false;
                 $.post("index.php/processo?salvar_passo_proc&passo=" + index + "&monobra_id=" + data + "&proc_id=" + proc_id, function (resp) {
                     nextStep();
+                    if (alertas[index]['equipamento_id'] !== '') {
+                        $.post("index.php/equipamento?change_satus", {
+                            equipamento: alertas[index]['equipamento_id'],
+                            status: $("#halt-status option:selected").html(),
+                            descricao: '',
+                            comentario: ''
+                        }, function () {
+
+                        });
+                    }
                     monobra_id = data;
-                    console.log($("#" + step.id).parent().parent().prev().first().children().last().append(username));
-                    $("#" + step.id).parent().parent().prev().first().children().last().prev().append(resp)
+                    $("#" + step.id).parent().parent().prev().first().children().last().append(username);
+                    $("#" + step.id).parent().parent().prev().first().children().last().prev().append(resp);
                     $("#" + step.id).parent().parent().remove();
                     $("#dvLoading").hide();
                 });
             });
         } else {
+            detach = false;
             $.post("index.php/processo?salvar_passo_proc&passo=" + index + "&monobra_id=" + monobra_id + "&proc_id=" + proc_id, function (data) {
                 nextStep();
-                console.log($("#" + step.id).parent().parent().prev().first().children().last().append(username));
-                $("#" + step.id).parent().parent().prev().first().children().last().prev().append(data)
+                $("#" + step.id).parent().parent().prev().first().children().last().append(username);
+                $("#" + step.id).parent().parent().prev().first().children().last().prev().append(data);
                 $("#" + step.id).parent().parent().remove();
                 $("#dvLoading").hide();
             });
@@ -589,7 +602,6 @@ function checkStep(step, index) {
     } else if (step.name === 'anular_passo_proc') {
         var prevStep = function () {
             if ($("#" + step.id).parent().parent().prev().prev().attr('type') === 'title') {
-
                 $("#" + step.id).parent().parent().prev().prev().prev().css('border', '2px solid #FA4616 ')
                         .css('border-bottom', '0');
                 $("#" + step.id).parent().parent().prev().css('border', '1px solid');
@@ -610,8 +622,7 @@ function checkStep(step, index) {
                 $("#" + step.id).parent().parent().prev().prev().prev().first().children().first().children().last().remove();
                 $("#" + step.id).parent().parent().remove();
 
-            }
-            else {
+            } else {
 
                 $("#" + step.id).parent().parent().prev().prev().css('border', '2px solid #FA4616 ')
                         .css('border-bottom', '0');
@@ -635,27 +646,32 @@ function checkStep(step, index) {
 
             }
         };
-        $.post('index.php/processo?deletepassos&manobra=' + monobra_id + '&passo=' + (index - 1), function (data) {
-            if ($("#" + step.id).parent().parent().prev().prev().attr('type') === 'title') {
-                if ($("#" + step.id).parent().parent().prev().prev().prev().attr('owner') === userid) { 
+        if ($("#" + step.id).parent().parent().prev().prev().attr('type') === 'title') {
+
+            if ($("#" + step.id).parent().parent().prev().prev().prev().attr('owner') === userid) {
+                detach = false;
+                $.post('index.php/processo?deletepassos&manobra=' + monobra_id + '&passo=' + (index - 1), function (data) {
                     prevStep();
-                } else {
-                    $("#dvLoading").hide();
-                    $("#informacao").html('Não tem permisão para anular este passo!');
-                    $("#dialog-informacao").dialog('open');
-                }
+                });
+            } else {
+                $("#dvLoading").hide();
+                $("#informacao").html('Não tem permisão para anular este passo!');
+                $("#dialog-informacao").dialog('open');
             }
-            else {
-                if ($("#" + step.id).parent().parent().prev().prev().attr('owner') === userid) {
+
+        } else {
+            if ($("#" + step.id).parent().parent().prev().prev().attr('owner') === userid) {
+                detach = false;
+                $.post('index.php/processo?deletepassos&manobra=' + monobra_id + '&passo=' + (index - 1), function (data) {
                     prevStep();
-                }
-                else {
-                    $("#dvLoading").hide();
-                    $("#informacao").html('Não tem permisão para anular este passo!');
-                    $("#dialog-informacao").dialog('open');
-                }
+                });
+            } else {
+                $("#dvLoading").hide();
+                $("#informacao").html('Não tem permisão para anular este passo!');
+                $("#dialog-informacao").dialog('open');
             }
-        });
+        }
+
     }
 
 }
@@ -664,7 +680,6 @@ function checkStep(step, index) {
 
 function getAlerta(tag, index) {
     var alerta = '';
-    console.log(alertas);
     if (alertas.length > 0) {
         tag.after('<div style="clear: left;float:left;padding: 5px;" id="alert' + index + '"></div>');
         if (alertas[index]['relatrio']) {
@@ -682,7 +697,7 @@ function getAlerta(tag, index) {
                 $.post("index.php/equipamento?get_accoes&tipo=" + equipamento.equipamento.tipo, function (data) {
                     $('#dvLoading').hide();
                     var accoes = JSON.parse(data);
-                    var element = '<select onchange="equipamento(this,' + equipamento.equipamento.tipo + ');" id="halt-status' + equipamento.id + '" name="halt-status">';
+                    var element = '<select onchange="equipamento(this,' + equipamento.equipamento.tipo + ');" id="halt-status" name="halt-status">';
                     for (var i = 0; i < accoes.length; i++) {
                         element += '<option value="' + i + '">' + accoes[i] + '</option>';
                     }

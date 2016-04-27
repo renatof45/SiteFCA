@@ -542,14 +542,14 @@ function equipamento(object, tipo) {
     }
     else if(object==='flip_status'){
        console.log(tipo.src);
-       if(tipo.src==='http://localhost:8080/img/status/DONE.png'){
+       if(tipo.src==='http://localhost/img/status/DONE.png'){
         $.post("index.php/equipamento?change_satus", {
                 equipamento: tipo.getAttribute('equipamento_id'),
                 status: 'Parada - Disponível',
                 descricao: '',
                 comentario: ''
             }, function (dat) {
-            tipo.src='http://localhost:8080/img/status/VOIDED.png';
+            tipo.src='http://localhost/img/status/VOIDED.png';
             ($("#icon"+tipo.getAttribute('equipamento_id')).next().html('Parada - Disponível'));
        })
     }
@@ -560,15 +560,15 @@ function equipamento(object, tipo) {
                 descricao: '',
                 comentario: ''
             }, function (dat) {
-            tipo.src='http://localhost:8080/img/status/DONE.png';
-            $("#icon"+tipo.getAttribute('equipamento_id')).next().html('Em Serviço')
-       })
+            tipo.src='http://localhost/img/status/DONE.png';
+            $("#icon"+tipo.getAttribute('equipamento_id')).next().html('Em Serviço');
+       });
        }
 
     }
     else if (object.name === 'salvar_status') {
         console.log($("#div" + object.getAttribute('equipamento_id')).next());
-
+        
         detach = false;
         if ($("#" + object.id).prev().children().length === 2) {
             $.post("index.php/equipamento?change_satus", {
