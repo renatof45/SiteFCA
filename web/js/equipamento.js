@@ -48,12 +48,12 @@ function equipamento_estatico(object) {
                 for (var j = 0; j < equipamentos.length; j++) {
                     var div = ''
                     if (equipamentos[j].unidade === unidades[i].id) {
-                        div = '<div id=div' + equipamentos[j].id + ' class="field" style="height: 21px;background-color: #F3F3F3;"><label style="margin-left:5px;">' + equipamentos[j].Equipamento + ':</label>';
+                        div = '<div id=div' + equipamentos[j].id + ' class="field" style="height: 22px;background-color: #F3F3F3;"><label style="margin-left:5px;">' + equipamentos[j].Equipamento + ':</label>';
                         div += ('<p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamentos[j].estado + '</p>');
-                        div += ('<input type="button" estado="' + equipamentos[j].estado + '" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados" onclick="equipamento(this,3);" style="margin-top: 1px;float: left;" value="Mais dados" class="button">' +
-                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  unidade="' + unidades[i].id + '" name="alterar_status" onclick="equipamento(this,3);" style="width:110px;margin-top: 1px;float: left;" value="Alterar status" class="button">' +
-                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="inspecoes" onclick="equipamento(this,3);" style="width:100px;margin-top: 1px;float: left;" value="Inspeções" class="button">' +
-                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="alterar" onclick="equipamento(this,3);" style="width:120px;margin-top: 1px;float: left;" value="Alterar equipamento" class="button"></div>');
+                        div += ('<input type="button" estado="' + equipamentos[j].estado + '" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados" onclick="equipamento(this,3);" style="background-image: url(img/buttons/b_view.png);margin-top: 1px;float: left;" value="Mais dados" class="button">' +
+                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  unidade="' + unidades[i].id + '" name="alterar_status" onclick="equipamento(this,3);" style="background-image: url(img/buttons/exec.png);alterarmargin-top: 1px;float: left;" value="Alterar status" class="button">' +
+                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="inspecoes" onclick="equipamento(this,3);" style="background-image: url(img/buttons/b_usredit.png);margin-top: 1px;float: left;" value="Inspeções" class="button">' +
+                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="alterar" onclick="equipamento(this,3);" style="background-image: url(img/buttons/b_edit.png);margin-top: 1px;float: left;" value="Alterar equipamento" class="button"></div>');
                         element.append(div);
                     }
                 }
@@ -107,7 +107,7 @@ function equipamento_dinamico(object) {
                 for (var j = 0; j < equipamentos.length; j++) {
                     var div = ''
                     if (equipamentos[j].unidade === unidades[i].id) {
-                        div = '<div id=div' + equipamentos[j].id + ' class="field" style="height: 21px;background-color: #F3F3F3;"><label style="margin-left:5px;">' + equipamentos[j].Equipamento + ':</label>';
+                        div = '<div id=div' + equipamentos[j].id + ' class="field" style="height: 22px;background-color: #F3F3F3;"><label style="margin-left:5px;">' + equipamentos[j].Equipamento + ':</label>';
                         if(equipamentos[j].estado==='Em Serviço' || equipamentos[j].estado==='Em Serviço - Em observação' )
                             div += ('<img equipamento_id="' + equipamentos[j].id + '" class="status_icon" id="icon'+equipamentos[j].id+'" onclick="equipamento(\'flip_status\',this)" src="img/status/DONE.png" alt="Smiley face" height="16" width="16"><p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamentos[j].estado + '</p>');
                         else  if(equipamentos[j].estado==='Em Serviço - Com anomalia')
@@ -116,10 +116,10 @@ function equipamento_dinamico(object) {
                             div += ('<img equipamento_id="' + equipamentos[j].id + '" class="status_icon" id="icon'+equipamentos[j].id+'" src="img/action/edit.png" alt="Smiley face" height="16" width="16"><p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamentos[j].estado + '</p>');
                         else
                             div += ('<img equipamento_id="' + equipamentos[j].id + '" class="status_icon" id="icon'+equipamentos[j].id+'" onclick="equipamento(\'flip_status\',this)" src="img/status/VOIDED.png" alt="Smiley face" height="16" width="16"><p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamentos[j].estado + '</p>');                           
-                        div += ('<input type="button" estado="' + equipamentos[j].estado + '" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados" onclick="equipamento(this,1);" style="margin-top: 1px;float: left;" value="Mais dados" class="button">' +
-                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  unidade="' + unidades[i].id + '" name="alterar_status" onclick="equipamento(this,1);" style="width:110px;margin-top: 1px;float: left;" value="Alterar status" class="button">' +
-                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="inspecoes" onclick="equipamento(this,1);" style="width:100px;margin-top: 1px;float: left;" value="Inspeções" class="button">' +
-                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="alterar" onclick="equipamento(this,1);" style="width:120px;margin-top: 1px;float: left;" value="Alterar equipamento" class="button"></div>');
+                        div += ('<input type="button" estado="' + equipamentos[j].estado + '" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados" onclick="equipamento(this,1);" style="background-image: url(img/buttons/b_view.png);margin-top: 1px;float: left;" value="Mais dados" class="button">' +
+                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  unidade="' + unidades[i].id + '" name="alterar_status" onclick="equipamento(this,1);" style="background-image: url(img/buttons/exec.png);margin-top: 1px;float: left;" value="Alterar status" class="button">' +
+                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="inspecoes" onclick="equipamento(this,1);" style="background-image: url(img/buttons/b_usredit.png);margin-top: 1px;float: left;" value="Inspeções" class="button">' +
+                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="alterar" onclick="equipamento(this,1);" style="background-image: url(img/buttons/b_edit.png);margin-top: 1px;float: left;" value="Alterar equipamento" class="button"></div>');
                         element.append(div);
                     }
                 }
@@ -222,7 +222,7 @@ function instrumentos(object) {
                 for (var j = 0; j < equipamentos.length; j++) {
                     var div = ''
                     if (equipamentos[j].unidade === unidades[i].id) {
-                        div = '<div id=div' + equipamentos[j].id + ' class="field" style="height: 21px;background-color: #F3F3F3;"><label style="margin-left:5px;">' + equipamentos[j].Equipamento + ':</label>';
+                        div = '<div id=div' + equipamentos[j].id + ' class="field" style="height: 22px;background-color: #F3F3F3;"><label style="margin-left:5px;">' + equipamentos[j].Equipamento + ':</label>';
                         if(equipamentos[j].estado==='Em Serviço' || equipamentos[j].estado==='Em Serviço - Em observação' )
                             div += ('<img equipamento_id="' + equipamentos[j].id + '" class="status_icon" id="icon'+equipamentos[j].id+'" onclick="equipamento(\'flip_status\',this)" src="img/status/DONE.png" alt="Smiley face" height="16" width="16"><p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamentos[j].estado + '</p>');
                         else  if(equipamentos[j].estado==='Em Serviço - Com anomalia')
@@ -231,10 +231,10 @@ function instrumentos(object) {
                             div += ('<img equipamento_id="' + equipamentos[j].id + '" class="status_icon" id="icon'+equipamentos[j].id+'" src="img/action/edit.png" alt="Smiley face" height="16" width="16"><p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamentos[j].estado + '</p>');
                         else
                             div += ('<img equipamento_id="' + equipamentos[j].id + '" class="status_icon" id="icon'+equipamentos[j].id+'" onclick="equipamento(\'flip_status\',this)" src="img/status/VOIDED.png" alt="Smiley face" height="16" width="16"><p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamentos[j].estado + '</p>');                           
-                        div += ('<input type="button" estado="' + equipamentos[j].estado + '" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados" onclick="equipamento(this,2);" style="margin-top: 1px;float: left;" value="Mais dados" class="button">' +
-                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  unidade="' + unidades[i].id + '" name="alterar_status" onclick="equipamento(this,2);" style="width:110px;margin-top: 1px;float: left;" value="Alterar status" class="button">' +
-                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="inspecoes" onclick="equipamento(this,2);" style="width:100px;margin-top: 1px;float: left;" value="Inspeções" class="button">' +
-                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"   unidade="' + unidades[i].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="alterar" onclick="equipamento(this,2);" style="width:100px;margin-top: 1px;float: left;" value="Alterar equipamento" class="button"></div>');
+                        div += ('<input type="button" estado="' + equipamentos[j].estado + '" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados" onclick="equipamento(this,2);" style="background-image: url(img/buttons/b_view.png);margin-top: 1px;float: left;" value="Mais dados" class="button">' +
+                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  unidade="' + unidades[i].id + '" name="alterar_status" onclick="equipamento(this,2);" style="background-image: url(img/buttons/exec.png);margin-top: 1px;float: left;" value="Alterar status" class="button">' +
+                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="inspecoes" onclick="equipamento(this,2);" style="background-image: url(img/buttons/b_usredit.png);margin-top: 1px;float: left;" value="Inspeções" class="button">' +
+                                '<input type="button" equipamento_id="' + equipamentos[j].id + '"   unidade="' + unidades[i].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="alterar" onclick="equipamento(this,2);" style="background-image: url(img/buttons/b_edit.png);margin-top: 1px;float: left;" value="Alterar equipamento" class="button"></div>');
                         element.append(div);
                     }
                 }
@@ -283,9 +283,9 @@ function equipamento(object, tipo) {
                     '<label>Descrição:</label>' +
                     '<textarea style="height: 50px;width: 550px" name="descricao">' + equipamento['descricao'] + '</textarea>' +
                     '</div>' +
-                    '<input type="button" unidade="' + object.getAttribute('unidade') + '" id="salvar' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="salvar_equipamneto" onclick="equipamento(this,' + tipo + ');" style="width:80px;margin-bottom: 5px;float: left;" value="Salvar" class="button">' +
-                    '<input type="button" id="pedido' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="eliminar_equipamento" onclick="equipamento(this,' + tipo + ');" style="width:110px;margin-bottom: 5px;float: left;" value="Eliminar" class="button">' +
-                    '<input type="button" onclick="$(\'#div' + object.getAttribute('equipamento_id') + '\').next().remove();" style="width:110px;margin-bottom: 5px;float: left;" value="Cancelar" class="button">' +
+                    '<input type="button" unidade="' + object.getAttribute('unidade') + '" id="salvar' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="salvar_equipamneto" onclick="equipamento(this,' + tipo + ');" style="background-image: url(img/buttons/save.png);margin-bottom: 5px;float: left;" value="Salvar" class="button">' +
+                    '<input type="button" id="pedido' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="eliminar_equipamento" onclick="equipamento(this,' + tipo + ');" style="background-image: url(img/buttons/b_drop.png);margin-bottom: 5px;float: left;" value="Eliminar" class="button">' +
+                    '<input type="button" onclick="$(\'#div' + object.getAttribute('equipamento_id') + '\').next().remove();" style="background-image: url(img/buttons/s_cancel.png);margin-bottom: 5px;float: left;" value="Cancelar" class="button">' +
                     '</div>';
             $("#div" + object.getAttribute('equipamento_id')).after(element);
         });
@@ -346,9 +346,9 @@ function equipamento(object, tipo) {
                             div += ('<li style="margin-left: 10px;">-' + etapas[i].accao + ' em ' + etapas[i].data + '</li>');
                         }
                         div += '</ul>';
-                        div += '<input type="button" id="adicionar_etapa' + object.getAttribute('equipamento_id') + '" estado="' + estado.id + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="etapas" onclick="equipamento(this,' + tipo + ');" style="width:110px;margin-bottom: 5px;float: left;" value="Adicionar etapa" class="button">'
-                        div += '<input type="button" id="historico' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="historico" onclick="equipamento(this,' + tipo + ');" style="width:110px;margin-bottom: 5px;float: left;" value="Histórico completo" class="button">';
-                        div += '<input type="button" onclick="$(\'#div' + object.getAttribute('equipamento_id') + '\').next().remove();" style="width:110px;margin-bottom: 5px;float: left;" value="Cancelar" class="button"></div>';
+                        div += '<input type="button" id="adicionar_etapa' + object.getAttribute('equipamento_id') + '" estado="' + estado.id + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="etapas" onclick="equipamento(this,' + tipo + ');" style="background-image: url(img/buttons/b_snewtbl.png);margin-bottom: 5px;float: left;" value="Adicionar etapa" class="button">'
+                        div += '<input type="button" id="historico' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="historico" onclick="equipamento(this,' + tipo + ');" style="background-image: url(img/buttons/b_view_add.png);margin-bottom: 5px;float: left;" value="Histórico completo" class="button">';
+                        div += '<input type="button" onclick="$(\'#div' + object.getAttribute('equipamento_id') + '\').next().remove();" style="background-image: url(img/buttons/s_cancel.png);margin-bottom: 5px;float: left;" value="Cancelar" class="button"></div>';
                         $("#div" + object.getAttribute('equipamento_id')).after(div + '</div>');
                     });
 
@@ -367,8 +367,8 @@ function equipamento(object, tipo) {
                     else
                         div += '<p>' + estado['comentario'] + '</p>';
                     div += '</div>';
-                    div += '<input type="button" id="historico' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="historico" onclick="equipamento(this,' + tipo + ');" style="margin-left:100px;width:110px;margin-bottom: 5px;float: left;" value="Histórico completo" class="button">';
-                    div += '<input type="button" onclick="$(\'#div' + object.getAttribute('equipamento_id') + '\').next().remove();" style="width:110px;margin-bottom: 5px;float: left;" value="Cancelar" class="button"></div>';
+                    div += '<input type="button" id="historico' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="historico" onclick="equipamento(this,' + tipo + ');" style="background-image: url(img/buttons/b_view_add.png);margin-bottom: 5px;float: left;" value="Histórico completo" class="button">';
+                    div += '<input type="button" onclick="$(\'#div' + object.getAttribute('equipamento_id') + '\').next().remove();" style="background-image: url(img/buttons/s_cancel.png);margin-bottom: 5px;float: left;" value="Cancelar" class="button"></div>';
                     $("#div" + object.getAttribute('equipamento_id')).after(div + '</div>');
                 }
                 else if (estado['estado'] === 'Parada - Indisponível') {
@@ -385,13 +385,13 @@ function equipamento(object, tipo) {
                     else
                         div += '<p>' + estado['comentario'] + '</p>';
                     div += '</div>';
-                    div += '<input type="button" id="historico' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="historico" onclick="equipamento(this,' + tipo + ');" style="margin-left:100px;width:110px;margin-bottom: 5px;float: left;" value="Histórico completo" class="button">';
-                    div += '<input type="button" onclick="$(\'#div' + object.getAttribute('equipamento_id') + '\').next().remove();" style="width:110px;margin-bottom: 5px;float: left;" value="Cancelar" class="button"></div>';
+                    div += '<input type="button" id="historico' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="historico" onclick="equipamento(this,' + tipo + ');" style="background-image: url(img/buttons/b_view_add.png);margin-left: 100px;margin-bottom: 5px;float: left;" value="Histórico completo" class="button">';
+                    div += '<input type="button" onclick="$(\'#div' + object.getAttribute('equipamento_id') + '\').next().remove();" style="background-image: url(img/buttons/s_cancel.png);margin-bottom: 5px;float: left;" value="Cancelar" class="button"></div>';
                     $("#div" + object.getAttribute('equipamento_id')).after(div + '</div>');
                 }
                 else {
-                    div += '<input type="button" id="historico' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="historico" onclick="equipamento(this,' + tipo + ');" style="margin-left:100px;width:110px;margin-bottom: 5px;float: left;" value="Histórico completo" class="button">';
-                    div += '<input type="button" onclick="$(\'#div' + object.getAttribute('equipamento_id') + '\').next().remove();" style="width:110px;margin-bottom: 5px;float: left;" value="Cancelar" class="button"></div>';
+                    div += '<input type="button" id="historico' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="historico" onclick="equipamento(this,' + tipo + ');" style="background-image: url(img/buttons/b_view_add.png);margin-left: 100px;margin-bottom: 5px;float: left;" value="Histórico completo" class="button">';
+                    div += '<input type="button" onclick="$(\'#div' + object.getAttribute('equipamento_id') + '\').next().remove();" style="background-image: url(img/buttons/s_cancel.png);margin-bottom: 5px;float: left;" value="Cancelar" class="button"></div>';
                     $("#div" + object.getAttribute('equipamento_id')).after(div + '</div>');
                 }
 
@@ -492,10 +492,10 @@ function equipamento(object, tipo) {
                 }
                 element += '</select>' +
                         '</div>' +
-                        '<input type="button" unidade="' + object.getAttribute('unidade') + '" id="salvar' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="salvar_status" onclick="equipamento(this,' + tipo + ');" style="width:80px;margin-bottom: 5px;float: left;" value="Salvar" class="button">' +
-                        '<input type="button" id="pedido' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="pedido_trabalho" onclick="equipamento(this,' + tipo + ');" style="width:110px;margin-bottom: 5px;float: left;" value="Pedido de trabalho" class="button">' +
-                        '<input type="button" id="relatorio' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="relatorio" onclick="equipamento(this,' + tipo + ');" style="width:110px;margin-bottom: 5px;float: left;" value="Alterar relatório" class="button">' +
-                        '<input type="button"  onclick="$(\'#div' + object.getAttribute('equipamento_id') + '\').next().remove();" style="width:90px;margin-bottom: 5px;float: left;" value="Cancelar" class="button">' +
+                        '<input type="button" unidade="' + object.getAttribute('unidade') + '" id="salvar' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="salvar_status" onclick="equipamento(this,' + tipo + ');" style="background-image: url(img/buttons/save.png);margin-bottom: 5px;float: left;" value="Salvar" class="button">' +
+                        '<input type="button" id="pedido' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="pedido_trabalho" onclick="equipamento(this,' + tipo + ');" style="background-image: url(img/buttons/normalize.png);margin-bottom: 5px;float: left;" value="Pedido de trabalho" class="button">' +
+                        '<input type="button" id="relatorio' + object.getAttribute('equipamento_id') + '" equipamento_id="' + object.getAttribute('equipamento_id') + '"  name="relatorio" onclick="equipamento(this,' + tipo + ');" style="background-image: url(img/buttons/b_edit.png);margin-bottom: 5px;float: left;" value="Alterar relatório" class="button">' +
+                        '<input type="button"  onclick="$(\'#div' + object.getAttribute('equipamento_id') + '\').next().remove();" style="background-image: url(img/buttons/s_cancel.png);margin-bottom: 5px;float: left;" value="Cancelar" class="button">' +
                         '</div>';
                 $("#div" + object.getAttribute('equipamento_id')).after(element);
             });

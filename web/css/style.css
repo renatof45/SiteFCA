@@ -4,7 +4,7 @@
     padding: 0;
 }
 body {
-    
+
     font-family: Tahoma, Geneva, sans-serif;
     font-size: 100%;
     line-height: 1em;
@@ -33,7 +33,7 @@ h3 a:hover {
 
 p {
     margin: 0;
-    
+
     line-height: 18px;
     width: 650px;
 }
@@ -113,18 +113,18 @@ input.text {
     width: 170px;
     padding: 1px 0 1px 3px;
     margin-top: 0px;
-    
-    
+
+
     float: left;
 }
 textarea {
     width: 340px;
     height: 50px;
     padding: 1px 0 1px 3px;
-    
+
     color: #414141;
     overflow: auto;
-   
+
 }
 form input.submit {
     border: 1px solid #d6d6d6;
@@ -135,16 +135,16 @@ form input.submit {
     width: 80px;
     background: transparent;
     border-radius: 4px;
-    height: 18px;
-   
+    height: 21px;
+
 }
 
 form input.submit:hover {
     border: 1px solid #FA4616;
-    
+
 }
 form input.button {
-   border: 1px solid #d6d6d6;
+    border: 1px solid #d6d6d6;
     float: right;
     color: black;
     margin-left: 5px;
@@ -152,12 +152,22 @@ form input.button {
     width: 80px;
     background: transparent;
     border-radius: 4px;
-    height: 20px;
+    height: 21px;
+    background-position-y: center;
+    background-position-x: 2px;
+    text-align: right;
+    padding-right: 4px;
+    padding-left: 21px;
+    width: auto;
+    background-repeat: no-repeat;
     
+}
+.edit{
+    background-image: url(../img/buttons/b_edit.png);
 }
 form input.button:hover {
     border: 1px solid #FA4616;
-    
+
 }
 .errors {
     margin-bottom: 20px;
@@ -232,7 +242,7 @@ form input.button:hover {
     top: 0;
     width: 50%;
     height: 244px;
-    
+
 }
 
 .statuses {
@@ -319,15 +329,15 @@ ul#flashes li {
 /** jquery ui **/
 .ui-widget {
     font-family: Tahoma, Geneva, sans-serif;
-    
+
 }
 .ui-widget button {
     width: 100px;
 }
 
 .stop-scrolling {
-  height: 100%;
-  overflow: hidden;
+    height: 100%;
+    overflow: hidden;
 }
 
 .status_icon{
@@ -340,5 +350,5 @@ ul#flashes li {
 }
 
 .start_button{
-   background-image: url(/images/buttons/play.png); 
+    background-image: url(/images/buttons/play.png); 
 }

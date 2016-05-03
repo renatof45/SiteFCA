@@ -58,12 +58,14 @@ function processo(type, object) {
     }
     if (type.name === 'maximizar') {
         if (type.value === 'Maximizar editor') {
-            type.value = "Restaurar editor"
+            type.value = "Restaurar editor";
+            console.log($( "[name='"+type.name+"']" ).css('background-image','url(img/buttons/exitFullscreen.png'));
             $("#app").scrollTo(110);
             var editor = CKEDITOR.instances.editor;
             editor.resize('100%', $("#app")[0].offsetHeight - 40);
         } else {
             type.value = 'Maximizar editor';
+            $( "[name='"+type.name+"']" ).css('background-image','url(img/buttons/viewInFullscreen.png');
             $("#app").scrollTo(0);
             var editor = CKEDITOR.instances.editor;
             editor.resize('100%', 200);
@@ -389,8 +391,8 @@ function processo(type, object) {
                             if (i === 0) {
                                 $("#procedimentos").append('<tr style="border:2px solid #FA4616;border-bottom:0"><td style="width: 80px;"><label> Passo ' + i + '</label></td><td style="padding: 5px;">' + proc[2]['steps'][i]['step'] + '</td><td style="width:110px"></td><td style="width:120px"></td></tr>');
                                 $("#procedimentos").append('<tr style="border:2px solid #FA4616;border-top:0"><td colspan="4">' +
-                                        '<input type="button" onclick="processo(this,' + (i) + ');" accao="'+i+'-'+monobra_id+'"  id="relatorio' + i + '" name="relatorio" style="background-repeat: no-repeat;background-image: url(img/buttons/b_edit.png);width:115px;margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
-                                        '<input type="button" onclick="checkStep(this,' + (i) + ');" id="salvar' + i + '" name="salvar_passo_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/save.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
+                                        '<input type="button" onclick="processo(this,' + (i) + ');" accao="'+i+'-'+monobra_id+'"  id="relatorio' + i + '" name="relatorio" style="background-image: url(img/buttons/b_edit.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
+                                        '<input type="button" onclick="checkStep(this,' + (i) + ');" id="salvar' + i + '" name="salvar_passo_proc" style="background-image: url(img/buttons/save.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
                                         '</td></tr>');
                                 if (alertas[i] !== null) {
                                     getAlerta($("#salvar" + i), i);
@@ -434,8 +436,8 @@ function processo(type, object) {
                             $("#procedimentos").append('<tr style="border:2px solid #FA4616;border-bottom:0"><td style="width: 80px;"><label> Passo ' + i + '</label></td><td style="padding: 5px;">' + proc[2]['steps'][i]['step'] + '</td><td style="width:110px"></td><td style="width:120px"></td></tr>');
                             $("#procedimentos").append('<tr style="border:2px solid #FA4616;border-top:0"><td colspan="4">' +
                                     '<input type="button" onclick="processo(this,' + (i) + ');" accao="'+i+'-'+monobra_id+'" id="relatorio' + i + '" name="relatorio" style="background-repeat: no-repeat;background-image: url(img/buttons/b_edit.png);width:115px;margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
-                                    '<input type="button" onclick="checkStep(this,' + (i) + ');" id="salvar' + i + '" name="salvar_passo_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/save.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
-                                    '<input type="button" onclick="checkStep(this,' + (i) + ');" id="anular' + (i) + '" name="anular_passo_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/b_drop.png);margin-bottom: 5px;margin-top: 5px;float: left;width:110px" value="Anular anterior" class="button">' +
+                                    '<input type="button" onclick="checkStep(this,' + (i) + ');" id="salvar' + i + '" name="salvar_passo_proc" style="background-image: url(img/buttons/save.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
+                                    '<input type="button" onclick="checkStep(this,' + (i) + ');" id="anular' + (i) + '" name="anular_passo_proc" style="background-image: url(img/buttons/b_drop.png);margin-bottom: 5px;margin-top: 5px;float: left;" value="Anular anterior" class="button">' +
                                     '</td></tr>');
                             if (alertas[i] !== null) {
                                 getAlerta($("#anular" + i), i);
@@ -558,9 +560,9 @@ function checkStep(step, index) {
                     $("#" + step.id).parent().parent().prev().css('border', '1px solid');
                     $("#" + step.id).parent().parent().prev().attr('owner', userid);
                     $("#" + step.id).parent().parent().next().next().after('<tr style="border:2px solid #FA4616;border-top:0"><td colspan="4">' +
-                            '<input type="button" onclick="processo(this,' + (index) + ');" accao="' + (index + 1) + '-' + monobra_id + '" id="relatorio' + index + '" name="relatorio" style="background-repeat: no-repeat;background-image: url(img/buttons/b_edit.png);width:115px;margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
-                            '<input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="salvar' + (index + 1) + '" name="salvar_passo_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/save.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
-                            '<input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="anular' + (index + 1) + '" name="anular_passo_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/b_drop.png);margin-bottom: 5px;margin-top: 5px;float: left;width:110px" value="Anular anterior" class="button"></td></tr>');
+                            '<input type="button" onclick="processo(this,' + (index) + ');" accao="' + (index + 1) + '-' + monobra_id + '" id="relatorio' + index + '" name="relatorio" style="background-image: url(img/buttons/b_edit.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
+                            '<input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="salvar' + (index + 1) + '" name="salvar_passo_proc" style="background-image: url(img/buttons/save.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
+                            '<input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="anular' + (index + 1) + '" name="anular_passo_proc" style="background-image: url(img/buttons/b_drop.png);margin-bottom: 5px;margin-top: 5px;float: left;" value="Anular anterior" class="button"></td></tr>');
                     if (alertas[index + 1] !== null) {
                         getAlerta($("#anular" + (index + 1)), index + 1);
                     }
@@ -572,9 +574,9 @@ function checkStep(step, index) {
                     $("#" + step.id).parent().parent().prev().css('border', '1px solid');
                     $("#" + step.id).parent().parent().prev().attr('owner', userid);
                     $("#" + step.id).parent().parent().next().after('<tr style="border:2px solid #FA4616;border-top:0"><td colspan="4">' +
-                            '<input type="button" onclick="processo(this,' + (index) + ');" accao="' + (index + 1) + '-' + monobra_id + '" id="relatorio' + index + '" name="relatorio" style="background-repeat: no-repeat;background-image: url(img/buttons/b_edit.png);width:115px;margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
-                            '<input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="salvar' + (index + 1) + '" name="salvar_passo_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/save.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
-                            '<input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="anular' + (index + 1) + '" name="anular_passo_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/b_drop.png);margin-bottom: 5px;margin-top: 5px;float: left;width:110px" value="Anular anterior" class="button"></td></tr>');
+                            '<input type="button" onclick="processo(this,' + (index) + ');" accao="' + (index + 1) + '-' + monobra_id + '" id="relatorio' + index + '" name="relatorio" style="background-image: url(img/buttons/b_edit.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
+                            '<input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="salvar' + (index + 1) + '" name="salvar_passo_proc" style="background-image: url(img/buttons/save.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
+                            '<input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="anular' + (index + 1) + '" name="anular_passo_proc" style="background-image: url(img/buttons/b_drop.png);margin-bottom: 5px;margin-top: 5px;float: left;" value="Anular anterior" class="button"></td></tr>');
                     if (alertas[index + 1] !== null) {
                         getAlerta($("#anular" + (index + 1)), index + 1);
                     }
@@ -603,10 +605,10 @@ function checkStep(step, index) {
                 $("#" + step.id).parent().parent().prev().prev().prev().children().last().html('');
                 $("#" + step.id).parent().parent().prev().prev().prev().children().last().prev().html('');
                 $("#" + step.id).parent().parent().prev().prev().prev().after('<tr style="border:2px solid #FA4616;border-top:0"><td colspan="4">' +
-                        '<input type="button" onclick="processo(this,' + (index) + ');" accao="' + (index - 1) + '-' + monobra_id + '" id="relatorio' + index + '" name="relatorio" style="background-repeat: no-repeat;background-image: url(img/buttons/b_edit.png);width:115px;margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
-                        '<input type="button" onclick="checkStep(this,' + (index - 1) + ');" id="salvar' + (index - 1) + '" name="salvar_passo_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/save.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button"></td></tr>');
+                        '<input type="button" onclick="processo(this,' + (index) + ');" accao="' + (index - 1) + '-' + monobra_id + '" id="relatorio' + index + '" name="relatorio" style="background-image: url(img/buttons/b_edit.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
+                        '<input type="button" onclick="checkStep(this,' + (index - 1) + ');" id="salvar' + (index - 1) + '" name="salvar_passo_proc" style="background-image: url(img/buttons/save.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button"></td></tr>');
                 if ((index - 1) > 0)
-                    $("#salvar" + (index - 1)).after('<input type="button" onclick="checkStep(this,' + (index - 1) + ');" id="anular' + (index - 1) + '" name="anular_passo_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/b_drop.png);margin-bottom: 5px;margin-top: 5px;float: left;width:110px" value="Anular anterior" class="button"></td></tr>');
+                    $("#salvar" + (index - 1)).after('<input type="button" onclick="checkStep(this,' + (index - 1) + ');" id="anular' + (index - 1) + '" name="anular_passo_proc" style="background-image: url(img/buttons/b_drop.png);margin-bottom: 5px;margin-top: 5px;float: left;" value="Anular anterior" class="button"></td></tr>');
                 if (alertas[index - 1] !== null) {
                     if ((index - 1) > 0)
                         getAlerta($("#anular" + (index - 1)), index - 1);
@@ -625,10 +627,10 @@ function checkStep(step, index) {
                 $("#" + step.id).parent().parent().prev().prev().children().last().html('');
                 $("#" + step.id).parent().parent().prev().prev().children().last().prev().html('');
                 $("#" + step.id).parent().parent().prev().prev().after('<tr style="border:2px solid #FA4616;border-top:0"><td colspan="4">' +
-                        '<input type="button" onclick="processo(this,' + (index) + ');" accao="' + (index - 1) + '-' + monobra_id + '" id="relatorio' + index + '" name="relatorio" style="background-repeat: no-repeat;background-image: url(img/buttons/b_edit.png);width:115px;margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
+                        '<input type="button" onclick="processo(this,' + (index) + ');" accao="' + (index - 1) + '-' + monobra_id + '" id="relatorio' + index + '" name="relatorio" style="background-image: url(img/buttons/b_edit.png);width:115px;margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
                         '<input type="button" onclick="checkStep(this,' + (index - 1) + ');" id="salvar' + (index - 1) + '" name="salvar_passo_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/save.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button"></td></tr>');
                 if ((index - 1) > 0)
-                    $("#salvar" + (index - 1)).after('<input type="button" onclick="checkStep(this,' + (index - 1) + ');" id="anular' + (index - 1) + '" name="anular_passo_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/b_drop.png);margin-bottom: 5px;margin-top: 5px;float: left;width:110px" value="Anular anterior" class="button">');
+                    $("#salvar" + (index - 1)).after('<input type="button" onclick="checkStep(this,' + (index - 1) + ');" id="anular' + (index - 1) + '" name="anular_passo_proc" style="background-image: url(img/buttons/b_drop.png);margin-bottom: 5px;margin-top: 5px;float: left;" value="Anular anterior" class="button">');
                 if (alertas[index - 1] !== null) {
                     if ((index - 1) > 0)
                         getAlerta($("#anular" + (index - 1)), index - 1);

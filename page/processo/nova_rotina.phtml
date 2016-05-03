@@ -1,14 +1,54 @@
-<h1>Nova Rotina</h1>
+
 <form id="ajaxform1" method="post">
     <fieldset style="z-index: 100; position: fixed;background-color: rgb(243,243,243);width: 863px;">
         <div class="field">
-            <input type="button" proc_id="<?php echo $manobras['id']; ?>" onclick="processo(this,null);" name="editar_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Editar" class="button">
+            <input type="button"  onclick="processo(this,null);" name="editar_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Editar" class="button">
             <input type="button" onclick="processo(this);" name="comentar" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Comentar" class="button">
             <input type="button" onclick="processo(this);" name="comentarios" style="width: 110px;margin-bottom: 5px;margin-top: 5px;float: left" value="Ver comentários" class="button">
-            <input type="button" name="imprimir" proc_id="<?php echo $manobras['id']; ?>" onclick="processo(this);" style="margin-top: 5px;float: left;" value="Imprimir" class="button">
+            <input type="button" name="imprimir"  onclick="processo(this);" style="margin-top: 5px;float: left;" value="Imprimir" class="button">
 
         </div> 
     </fieldset>
 </form>
+<h1 style="margin-top: 30px">Nova Rotina</h1>
+
+<form id="adicionarManobraForm" method="post">
+    <fieldset>
+
+        <div class="field">
+            <label>Unidade:</label>
+            <select id="unidade" name="manobra[unidade]">
+                <?php foreach ($unidades as $unidade): ?>
+                    <option 
+                    <?php
+                    if (array_key_exists('unidade', $_GET))
+                        if ($_GET['unidade'] == $unidade['id'])
+                            echo ' selected ';
+                    ?> 
+                        value="<?php echo $unidade['id'] ?>"><?php echo $unidade['designacao']; ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="field">
+            <label>Nome:</label>
+            <input type="text" style="width: 400px" id="manobra_nome" name="manobra[nome]"/>
+        </div>
+        <div class="field">
+            <label>Descrição:</label>
+            <input type="hidden" name="texto" id="texto"/>
+            <div  onmouseover="stopScroll()" onmouseout="showScroll()" style="margin-left: 97px">
+            <div  id="editor">
+
+              
+            </div>
+            </div>
+        </div>
+       
 
 
+        <!--<div class="clear separator"></div>-->
+
+
+    </fieldset>
+</form>
