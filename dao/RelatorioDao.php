@@ -18,13 +18,19 @@ class RelatorioDao extends DAO {
         return 0;
     }
 
-    public function updateRelatrio($dados) {
+    public function updateRelatrio1($dados) {
         $sql = 'UPDATE galp.`relatorios-output` SET `dados`=:dados WHERE `relatorio`=:relatorio';
         $statement = parent::getDb()->prepare($sql);
         parent::executeStatement($statement, array(
             ':dados' => $dados,
             ':relatorio' => $_SESSION['relatorio']
         ));
+    }
+    
+    public function updateRelatrio($dados,$accao){
+        $sql = "INSERT INTO `galp`.`relatorios-output` (`dados`, `relatorio`, `area`, `versao`,`accao`) VALUES (:dados, :relatorio, :area, :versao, :accao);";
+        $statement = parent::getDb()->prepare($sql);
+        parent::executeStatement($statement, array(':accao'=>$accao,  ':dados' => $dados, ':relatorio' => $_SESSION['relatorio'], ':versao' => self::getCurrentVersao(), ':area' => $_SESSION['area']));
     }
 
     public function getLastRelatorio() {

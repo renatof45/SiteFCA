@@ -1,10 +1,10 @@
 <form id="ajaxform1" method="post">
     <fieldset style="z-index: 100; position: fixed;background-color: rgb(243,243,243);width: 863px;">
         <div class="field">
-            <input type="button" proc_id="<?php echo $manobras['id']; ?>" onclick="processo(this,null);" name="editar_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Editar" class="button">
-            <input type="button" onclick="processo(this);" name="comentar" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Comentar" class="button">
-            <input type="button" onclick="processo(this);" name="comentarios" style="width: 110px;margin-bottom: 5px;margin-top: 5px;float: left" value="Ver comentários" class="button">
-            <input type="button" name="imprimir" proc_id="<?php echo $manobras['id']; ?>" onclick="processo(this);" style="margin-top: 5px;float: left;" value="Imprimir" class="button">
+            <input type="button" proc_id="<?php echo $manobras['id']; ?>" onclick="processo(this,null);" name="editar_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/b_edit.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Editar" class="button">
+            <input type="button" onclick="processo(this);" name="comentar" style="background-repeat: no-repeat;background-image: url(img/buttons/b_comment.png);width: 90px;margin-bottom: 5px;margin-top: 5px;float: left" value="Comentar" class="button">
+            <input type="button" onclick="processo(this);" name="comentarios" style="background-repeat: no-repeat;background-image: url(img/buttons/b_comment.png);width: 115px;margin-bottom: 5px;margin-top: 5px;float: left" value="Ver comentários" class="button">
+            <input type="button" name="imprimir" proc_id="<?php echo $manobras['id']; ?>" onclick="processo(this);" style="background-repeat: no-repeat;background-image: url(img/buttons/b_print.png);margin-top: 5px;float: left;" value="Imprimir" class="button">
 
         </div> 
     </fieldset>
@@ -27,6 +27,7 @@
     <div class="field">
         
     </div>
+    <input type="button" onclick="processo('start_proc');" id="start_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/play.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Começar" class="button">
     <div  class="field">
         <label>Procedimentos:</label>
         <table id="procedimentos" style="margin-left: 5px;width: 850px;clear: both;">
@@ -41,6 +42,10 @@
     <p style="width: 250px;" id="alerta_mensagem"></p> 
 </div>
 <div id="dialog-unidades" title="Unidades">
+    <span id="accao_id"></span>
+    <div style="height: 60px;text-align: center">
+    <strong id="accao">Abrir a linha de re-run na admissão das P-1211</strong>
+    </div>
     <form id="salvarRelatorioForm" method="post">
     
 

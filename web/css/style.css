@@ -123,9 +123,8 @@ textarea {
     padding: 1px 0 1px 3px;
     
     color: #414141;
-    //margin-bottom: 15px;
     overflow: auto;
-    //float: left;
+   
 }
 form input.submit {
     border: 1px solid #d6d6d6;
@@ -137,6 +136,7 @@ form input.submit {
     background: transparent;
     border-radius: 4px;
     height: 18px;
+   
 }
 
 form input.submit:hover {
@@ -152,7 +152,8 @@ form input.button {
     width: 80px;
     background: transparent;
     border-radius: 4px;
-    height: 18px;
+    height: 20px;
+    
 }
 form input.button:hover {
     border: 1px solid #FA4616;
@@ -318,7 +319,7 @@ ul#flashes li {
 /** jquery ui **/
 .ui-widget {
     font-family: Tahoma, Geneva, sans-serif;
-    //font-size: 0.6em;
+    
 }
 .ui-widget button {
     width: 100px;
@@ -336,4 +337,8 @@ ul#flashes li {
 }
 .status_icon:hover{
     cursor: pointer;
+}
+
+.start_button{
+   background-image: url(/images/buttons/play.png); 
 }

@@ -211,7 +211,7 @@ $app->post('/relatorio', 'checkLogIn', function() use ($app) {
         $relatoriodao->updateTemplate($_POST['content'], $_POST['separadores'], $_POST['versao']);
     } elseif (array_key_exists('salvarrelatorio', $_GET)) {
         $relatoriodao = new RelatorioDao();
-        $relatoriodao->updateRelatrio($_POST['dados']);
+        $relatoriodao->updateRelatrio($_POST['dados'],$_POST['accao']);
     }
 });
 

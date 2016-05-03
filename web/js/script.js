@@ -157,7 +157,7 @@ $(document).ajaxStop(function () {
             allFields.val("").removeClass("ui-state-error");
         }
     });
-   
+
     $("#dialog-novobloco").dialog({
         autoOpen: false,
         height: 350,
@@ -188,8 +188,7 @@ $(document).ajaxStop(function () {
                             });
                             bloco += $("#tabelabloco" + selected_block).html();
                             pickerheight = $("#MatrixTable" + selected_block).height();
-                        }
-                        else if ($(this)[0].id === 'multipla') {
+                        } else if ($(this)[0].id === 'multipla') {
                             tipo = 1;
                             pickerheight = 18;
                             var index = 0;
@@ -204,8 +203,7 @@ $(document).ajaxStop(function () {
                                 pickerheight += 16;
                             });
                             bloco += '</ul>'
-                        }
-                        else {
+                        } else {
                             tipo = 2;
                             pickerwith = $.fn.textWidth($("#titulo").val(), '11px arial') + 62;
                             $(this).children().each(function () {
@@ -362,17 +360,17 @@ $(document).ajaxStop(function () {
         modal: true,
         buttons: {
             "OK": function () {
-                var isto=$(this);
-               $(this).children().children().each(function(){
-                    $(this).children().children().children().children().children().children().each(function(){
-                        if($(this)[0].nodeName==='INPUT'){
-                            if($(this)[0].checked)
-                              //console.log($(this).attr('equipamento_id'));
-                              isto.data('callback')({id:$(this).attr('equipamento_id'),name:$(this).attr('equipamento')});
+                var isto = $(this);
+                $(this).children().children().each(function () {
+                    $(this).children().children().children().children().children().children().each(function () {
+                        if ($(this)[0].nodeName === 'INPUT') {
+                            if ($(this)[0].checked)
+                                //console.log($(this).attr('equipamento_id'));
+                                isto.data('callback')({id: $(this).attr('equipamento_id'), name: $(this).attr('equipamento')});
                         }
                     });
                 });
-                
+
                 $(this).dialog("close");
             }
         },
@@ -380,9 +378,9 @@ $(document).ajaxStop(function () {
             allFields.val("").removeClass("ui-state-error");
         }
     });
-     $("#dialog-listar-equipamento").off("dialogopen");
-     $("#dialog-listar-equipamento").on("dialogopen",function(){
-         $.post("index.php/equipamento?get_status=1", function (data) {
+    $("#dialog-listar-equipamento").off("dialogopen");
+    $("#dialog-listar-equipamento").on("dialogopen", function () {
+        $.post("index.php/equipamento?get_status=1", function (data) {
             $("#salvarStatusEquipamneto").html('<form id="ajaxform1" method="post">' +
                     '<fieldset style="z-index: 100;background-color: rgb(243,243,243);width: 870px;">' +
                     '<div class="field">' +
@@ -444,7 +442,7 @@ $(document).ajaxStop(function () {
                     if (equipamentos[j].unidade === unidades[i].id && equipamentos[j].tipo === '3') {
                         div = '<div id=div' + equipamentos[j].id + ' class="field" style="height: 21px;background-color: #F3F3F3;"><label style="margin-left:5px;">' + equipamentos[j].Equipamento + ':</label>';
                         div += ('<p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamentos[j].estado + '</p>');
-                       div += ('<input type="checkbox" estado="' + equipamentos[j].estado + '" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados"  style="margin-top: 1px;float: left;" value="Mais dados" class="button">');
+                        div += ('<input type="checkbox" estado="' + equipamentos[j].estado + '" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados"  style="margin-top: 1px;float: left;" value="Mais dados" class="button">');
                         element.append(div);
                     }
                 }
@@ -456,7 +454,7 @@ $(document).ajaxStop(function () {
                     TABS.AddTab(unidades[i].designacao, false, element[0].outerHTML, 'tab4', 360);
             }
         });
-     });
+    });
 
     $("#dialog-status-equipamento").dialog({
         autoOpen: false,
@@ -474,7 +472,7 @@ $(document).ajaxStop(function () {
     });
     $("#dialog-status-equipamento").off("dialogopen");
     $("#dialog-status-equipamento").on("dialogopen", function () {
-        detach=false;
+        detach = false;
         $.post("index.php/equipamento?get_status=1", function (data) {
             $("#salvarStatusEquipamneto").html('<form id="ajaxform1" method="post">' +
                     '<fieldset style="z-index: 100;background-color: rgb(243,243,243);width: 870px;">' +
@@ -563,7 +561,7 @@ $(document).ajaxStop(function () {
 
     $("#dialog-unidades").dialog({
         autoOpen: false,
-        height: 500,
+        height: 560,
         width: 900,
         modal: true,
         buttons: {
@@ -574,7 +572,7 @@ $(document).ajaxStop(function () {
                 $(this).dialog("close");
             },
             "Cancelar": function () {
-
+                $(this).dialog("close");
             }
         },
         close: function () {
@@ -583,7 +581,8 @@ $(document).ajaxStop(function () {
     });
     $("#dialog-unidades").off("dialogopen");
     $("#dialog-unidades").on("dialogopen", function () {
-
+        $("#accao").html($(this).data('passo'));
+        $("#accao_id").val($(this).data('accao'));
         $.post("index.php/relatorio?type=2", function (data) {
             detach = false;
             var content = (JSON.parse((JSON.parse(data)['template'])));
@@ -668,8 +667,7 @@ $(document).ajaxStop(function () {
                     for (i = 0; i < dados.length; i++) {
                         if (dados[i]['type'] === "checkbox") {
                             $('[name="' + dados[i]['name'] + '"]').prop("checked", true);
-                        }
-                        else
+                        } else
                             ($('[name="' + dados[i]['name'] + '"]').val(dados[i]['value']));
                     }
                 }
@@ -695,12 +693,12 @@ $(document).ajaxStop(function () {
                 if ($("#alerta_equipamento").is(":checked")) {
                     equipamento = true;
                 }
-                alertas[$(this).data('step').getAttribute('index')] = ({'setp': $(this).data('step').getAttribute('index'), 'relatrio': relatorio, 'equipamento': equipamento,'name': $('#equipamento_value').attr('name'),'equipamento_id':$("#equipamento_value").val(),'texto': $("#mensagem").val()});
-                
+                alertas[$(this).data('step').getAttribute('index')] = ({'setp': $(this).data('step').getAttribute('index'), 'relatrio': relatorio, 'equipamento': equipamento, 'name': $('#equipamento_value').attr('name'), 'equipamento_id': $("#equipamento_value").val(), 'texto': $("#mensagem").val()});
+
                 $(this).dialog("close");
             },
             "Remover": function () {
-                alertas[$(this).data('step').getAttribute('index')]=null;
+                alertas[$(this).data('step').getAttribute('index')] = null;
                 $("#alerta_ralatorio")[0].checked = false;
                 $("#alerta_equipamento")[0].checked = false;
                 $("#mensagem").val('');
@@ -758,12 +756,11 @@ $(document).ajaxStop(function () {
         modal: true,
         buttons: {
             "OK": function () {
-                    if ($(this).data().equipamento || ($(this).data().equipamento && $(this).data().relatorio)){
+                if ($(this).data().equipamento || ($(this).data().equipamento && $(this).data().relatorio)) {
                     $("#salvarRelatorioForm").html('<ul id="tab1" class="tabs"></ul>');
                     $("#salvarStatusEquipamneto").html('<ul id="tab1" class="tabs"></ul>');
                     $("#dialog-status-equipamento").dialog('open');
-                }
-                else if ($(this).data().relatorio) {
+                } else if ($(this).data().relatorio) {
                     $("#salvarRelatorioForm").html('<ul id="tab1" class="tabs"></ul>');
                     $("#dialog-unidades").dialog("open");
                 }
@@ -782,7 +779,7 @@ $(document).ajaxStop(function () {
         modal: true,
         buttons: {
             "OK": function () {
-                  
+
                 $(this).dialog("close");
             }
         },

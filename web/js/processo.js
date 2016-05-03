@@ -49,9 +49,12 @@ function processo(type, object) {
     if (type === '3') {
 
     } else if (type.name === 'relatorio') {
+        console.log($("#"+type.id).parent().parent().prev().children().first().next().html());
         $('#dvLoading').hide();
         $("#salvarRelatorioForm").html('<ul id="tab1" class="tabs"></ul>');
-        $("#dialog-unidades").dialog('open');
+        $("#dialog-unidades").data('passo',$("#"+type.id).parent().parent().prev().children().first().next().html())
+                .data('accao',type.getAttribute('accao'))
+                .dialog('open');
     }
     if (type.name === 'maximizar') {
         if (type.value === 'Maximizar editor') {
@@ -364,36 +367,51 @@ function processo(type, object) {
             });
         });
     }
+    if (type === "start_proc") {
+        if ($("#start_proc").val() === 'Cancelar') {
 
+        } else {
+            detach = false;
+            $.post('index.php/processo?novamanobra&proc=' + proc_id, function (data) {
+                detach = false;
+                $.post("index.php/processo?salvar_passo_proc&passo=" + index + "&monobra_id=" + data + "&proc_id=" + proc_id, function (resp) {
+                    monobra_id = data;                   
+                    detach = false;
+                    $.post('index.php/processo?getprocedimentos&proc=' + proc_id, function (data) {
+                        $("#start_proc").css('background-image', 'url(img/buttons/b_drop.png)');
+                        $("#start_proc").val('Cancelar');
+                        var proc = JSON.parse(JSON.parse(JSON.parse(data)['manobra']));
+                        alertas = proc[2]['alertas'];
+                        for (var i = 0; i < proc[2]['steps'].length; i++) {
+                            if (proc[2]['steps'][i]['title'] !== '') {
+                                $("#procedimentos").append('<tr type="title"><td  colspan="4" style="text-align: center;padding: 5px;"><label>' + proc[2]['steps'][i]['title'] + '</label></td></tr>');
+                            }
+                            if (i === 0) {
+                                $("#procedimentos").append('<tr style="border:2px solid #FA4616;border-bottom:0"><td style="width: 80px;"><label> Passo ' + i + '</label></td><td style="padding: 5px;">' + proc[2]['steps'][i]['step'] + '</td><td style="width:110px"></td><td style="width:120px"></td></tr>');
+                                $("#procedimentos").append('<tr style="border:2px solid #FA4616;border-top:0"><td colspan="4">' +
+                                        '<input type="button" onclick="processo(this,' + (i) + ');" accao="'+i+'-'+monobra_id+'"  id="relatorio' + i + '" name="relatorio" style="background-repeat: no-repeat;background-image: url(img/buttons/b_edit.png);width:115px;margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
+                                        '<input type="button" onclick="checkStep(this,' + (i) + ');" id="salvar' + i + '" name="salvar_passo_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/save.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
+                                        '</td></tr>');
+                                if (alertas[i] !== null) {
+                                    getAlerta($("#salvar" + i), i);
+                                }
+                            } else {
+                                $("#procedimentos").append('<tr><td style="width: 80px;"><label> Passo ' + i + '</label></td><td style="padding: 5px;">' + proc[2]['steps'][i]['step'] + '</td><td style="width:110px"></td><td style="width:120px"></td></tr>');
+
+                            }
+                        }
+                    });
+                    $("#dvLoading").hide();
+                });
+            });
+
+        }
+    }
     if (type === 'show_proc') {
+
         $.post("index.php/processo?show_proc=&proc=" + object.getAttribute('id'), function (data) {
             document.getElementById("app").innerHTML = data;
-            detach = false;
-            $.post('index.php/processo?getprocedimentos&proc=' + object.getAttribute('id'), function (data) {
-                monobra_id = moment().format('MMMM Do YYYY, h:mm:ss a').replace(/\s/g, '');
-                proc_id = object.getAttribute('id');
-                var proc = JSON.parse(JSON.parse(JSON.parse(data)['manobra']));
-                alertas = proc[2]['alertas'];
-                for (var i = 0; i < proc[2]['steps'].length; i++) {
-                    if (proc[2]['steps'][i]['title'] !== '') {
-                        $("#procedimentos").append('<tr type="title"><td  colspan="4" style="text-align: center;padding: 5px;"><label>' + proc[2]['steps'][i]['title'] + '</label></td></tr>');
-                    }
-                    if (i === 0) {
-                        $("#procedimentos").append('<tr style="border:2px solid #FA4616;border-bottom:0"><td style="width: 80px;"><label> Passo ' + i + '</label></td><td style="padding: 5px;">' + proc[2]['steps'][i]['step'] + '</td><td style="width:110px"></td><td style="width:120px"></td></tr>');
-                        $("#procedimentos").append('<tr style="border:2px solid #FA4616;border-top:0"><td colspan="4">' +
-                                '<input type="button" onclick="processo(this,' + (i) + ');" id="relatorio' + i + '" name="relatorio" style="width:110px;margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
-                                '<input type="button" onclick="checkStep(this,' + (i) + ');" id="salvar' + i + '" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
-                                '</td></tr>');
-                        if (alertas[i] !== null) {
-                            getAlerta($("#salvar" + i), i);
-                        }
-                    } else {
-                        $("#procedimentos").append('<tr><td style="width: 80px;"><label> Passo ' + i + '</label></td><td style="padding: 5px;">' + proc[2]['steps'][i]['step'] + '</td><td style="width:110px"></td><td style="width:120px"></td></tr>');
-
-                    }
-
-                }
-            });
+            proc_id = object.getAttribute('id');
         });
     }
 
@@ -415,9 +433,9 @@ function processo(type, object) {
                         if (i === passos.length) {
                             $("#procedimentos").append('<tr style="border:2px solid #FA4616;border-bottom:0"><td style="width: 80px;"><label> Passo ' + i + '</label></td><td style="padding: 5px;">' + proc[2]['steps'][i]['step'] + '</td><td style="width:110px"></td><td style="width:120px"></td></tr>');
                             $("#procedimentos").append('<tr style="border:2px solid #FA4616;border-top:0"><td colspan="4">' +
-                                    '<input type="button" onclick="processo(this,' + (i) + ');" id="relatorio' + i + '" name="relatorio" style="width:110px;margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
-                                    '<input type="button" onclick="checkStep(this,' + (i) + ');" id="salvar' + i + '" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
-                                    '<input type="button" onclick="checkStep(this,' + (i) + ');" id="anular' + (i) + '" name="anular_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left;width:110px" value="Anular anterior" class="button">' +
+                                    '<input type="button" onclick="processo(this,' + (i) + ');" accao="'+i+'-'+monobra_id+'" id="relatorio' + i + '" name="relatorio" style="background-repeat: no-repeat;background-image: url(img/buttons/b_edit.png);width:115px;margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
+                                    '<input type="button" onclick="checkStep(this,' + (i) + ');" id="salvar' + i + '" name="salvar_passo_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/save.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
+                                    '<input type="button" onclick="checkStep(this,' + (i) + ');" id="anular' + (i) + '" name="anular_passo_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/b_drop.png);margin-bottom: 5px;margin-top: 5px;float: left;width:110px" value="Anular anterior" class="button">' +
                                     '</td></tr>');
                             if (alertas[i] !== null) {
                                 getAlerta($("#anular" + i), i);
@@ -540,9 +558,9 @@ function checkStep(step, index) {
                     $("#" + step.id).parent().parent().prev().css('border', '1px solid');
                     $("#" + step.id).parent().parent().prev().attr('owner', userid);
                     $("#" + step.id).parent().parent().next().next().after('<tr style="border:2px solid #FA4616;border-top:0"><td colspan="4">' +
-                            '<input type="button" onclick="processo(this,' + (index) + ');" id="relatorio' + index + '" name="relatorio" style="width:110px;margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
-                            '<input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="salvar' + (index + 1) + '" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
-                            '<input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="anular' + (index + 1) + '" name="anular_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left;width:110px" value="Anular anterior" class="button"></td></tr>');
+                            '<input type="button" onclick="processo(this,' + (index) + ');" accao="' + (index + 1) + '-' + monobra_id + '" id="relatorio' + index + '" name="relatorio" style="background-repeat: no-repeat;background-image: url(img/buttons/b_edit.png);width:115px;margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
+                            '<input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="salvar' + (index + 1) + '" name="salvar_passo_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/save.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
+                            '<input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="anular' + (index + 1) + '" name="anular_passo_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/b_drop.png);margin-bottom: 5px;margin-top: 5px;float: left;width:110px" value="Anular anterior" class="button"></td></tr>');
                     if (alertas[index + 1] !== null) {
                         getAlerta($("#anular" + (index + 1)), index + 1);
                     }
@@ -554,9 +572,9 @@ function checkStep(step, index) {
                     $("#" + step.id).parent().parent().prev().css('border', '1px solid');
                     $("#" + step.id).parent().parent().prev().attr('owner', userid);
                     $("#" + step.id).parent().parent().next().after('<tr style="border:2px solid #FA4616;border-top:0"><td colspan="4">' +
-                            '<input type="button" onclick="processo(this,' + (index) + ');" id="relatorio' + index + '" name="relatorio" style="width:110px;margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
-                            '<input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="salvar' + (index + 1) + '" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
-                            '<input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="anular' + (index + 1) + '" name="anular_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left;width:110px" value="Anular anterior" class="button"></td></tr>');
+                            '<input type="button" onclick="processo(this,' + (index) + ');" accao="' + (index + 1) + '-' + monobra_id + '" id="relatorio' + index + '" name="relatorio" style="background-repeat: no-repeat;background-image: url(img/buttons/b_edit.png);width:115px;margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
+                            '<input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="salvar' + (index + 1) + '" name="salvar_passo_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/save.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
+                            '<input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="anular' + (index + 1) + '" name="anular_passo_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/b_drop.png);margin-bottom: 5px;margin-top: 5px;float: left;width:110px" value="Anular anterior" class="button"></td></tr>');
                     if (alertas[index + 1] !== null) {
                         getAlerta($("#anular" + (index + 1)), index + 1);
                     }
@@ -566,39 +584,16 @@ function checkStep(step, index) {
             }
 
         };
-        if (index === 0) {
-            detach = false;
-            $.post('index.php/processo?novamanobra&proc=' + proc_id, function (data) {
-                detach = false;
-                $.post("index.php/processo?salvar_passo_proc&passo=" + index + "&monobra_id=" + data + "&proc_id=" + proc_id, function (resp) {
-                    nextStep();
-                    if (alertas[index]['equipamento_id'] !== '') {
-                        $.post("index.php/equipamento?change_satus", {
-                            equipamento: alertas[index]['equipamento_id'],
-                            status: $("#halt-status option:selected").html(),
-                            descricao: '',
-                            comentario: ''
-                        }, function () {
 
-                        });
-                    }
-                    monobra_id = data;
-                    $("#" + step.id).parent().parent().prev().first().children().last().append(username);
-                    $("#" + step.id).parent().parent().prev().first().children().last().prev().append(resp);
-                    $("#" + step.id).parent().parent().remove();
-                    $("#dvLoading").hide();
-                });
-            });
-        } else {
-            detach = false;
-            $.post("index.php/processo?salvar_passo_proc&passo=" + index + "&monobra_id=" + monobra_id + "&proc_id=" + proc_id, function (data) {
-                nextStep();
-                $("#" + step.id).parent().parent().prev().first().children().last().append(username);
-                $("#" + step.id).parent().parent().prev().first().children().last().prev().append(data);
-                $("#" + step.id).parent().parent().remove();
-                $("#dvLoading").hide();
-            });
-        }
+        detach = false;
+        $.post("index.php/processo?salvar_passo_proc&passo=" + index + "&monobra_id=" + monobra_id + "&proc_id=" + proc_id, function (data) {
+            nextStep();
+            $("#" + step.id).parent().parent().prev().first().children().last().append(username);
+            $("#" + step.id).parent().parent().prev().first().children().last().prev().append(data);
+            $("#" + step.id).parent().parent().remove();
+            $("#dvLoading").hide();
+        });
+
     } else if (step.name === 'anular_passo_proc') {
         var prevStep = function () {
             if ($("#" + step.id).parent().parent().prev().prev().attr('type') === 'title') {
@@ -608,10 +603,10 @@ function checkStep(step, index) {
                 $("#" + step.id).parent().parent().prev().prev().prev().children().last().html('');
                 $("#" + step.id).parent().parent().prev().prev().prev().children().last().prev().html('');
                 $("#" + step.id).parent().parent().prev().prev().prev().after('<tr style="border:2px solid #FA4616;border-top:0"><td colspan="4">' +
-                        '<input type="button" onclick="processo(this,' + (index) + ');" id="relatorio' + index + '" name="relatorio" style="width:110px;margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
-                        '<input type="button" onclick="checkStep(this,' + (index - 1) + ');" id="salvar' + (index - 1) + '" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button"></td></tr>');
+                        '<input type="button" onclick="processo(this,' + (index) + ');" accao="' + (index - 1) + '-' + monobra_id + '" id="relatorio' + index + '" name="relatorio" style="background-repeat: no-repeat;background-image: url(img/buttons/b_edit.png);width:115px;margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
+                        '<input type="button" onclick="checkStep(this,' + (index - 1) + ');" id="salvar' + (index - 1) + '" name="salvar_passo_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/save.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button"></td></tr>');
                 if ((index - 1) > 0)
-                    $("#salvar" + (index - 1)).after('<input type="button" onclick="checkStep(this,' + (index - 1) + ');" id="anular' + (index - 1) + '" name="anular_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left;width:110px" value="Anular anterior" class="button"></td></tr>');
+                    $("#salvar" + (index - 1)).after('<input type="button" onclick="checkStep(this,' + (index - 1) + ');" id="anular' + (index - 1) + '" name="anular_passo_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/b_drop.png);margin-bottom: 5px;margin-top: 5px;float: left;width:110px" value="Anular anterior" class="button"></td></tr>');
                 if (alertas[index - 1] !== null) {
                     if ((index - 1) > 0)
                         getAlerta($("#anular" + (index - 1)), index - 1);
@@ -630,10 +625,10 @@ function checkStep(step, index) {
                 $("#" + step.id).parent().parent().prev().prev().children().last().html('');
                 $("#" + step.id).parent().parent().prev().prev().children().last().prev().html('');
                 $("#" + step.id).parent().parent().prev().prev().after('<tr style="border:2px solid #FA4616;border-top:0"><td colspan="4">' +
-                        '<input type="button" onclick="processo(this,' + (index) + ');" id="relatorio' + index + '" name="relatorio" style="width:110px;margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
-                        '<input type="button" onclick="checkStep(this,' + (index - 1) + ');" id="salvar' + (index - 1) + '" name="salvar_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button"></td></tr>');
+                        '<input type="button" onclick="processo(this,' + (index) + ');" accao="' + (index - 1) + '-' + monobra_id + '" id="relatorio' + index + '" name="relatorio" style="background-repeat: no-repeat;background-image: url(img/buttons/b_edit.png);width:115px;margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
+                        '<input type="button" onclick="checkStep(this,' + (index - 1) + ');" id="salvar' + (index - 1) + '" name="salvar_passo_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/save.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button"></td></tr>');
                 if ((index - 1) > 0)
-                    $("#salvar" + (index - 1)).after('<input type="button" onclick="checkStep(this,' + (index - 1) + ');" id="anular' + (index - 1) + '" name="anular_passo_proc" style="margin-bottom: 5px;margin-top: 5px;float: left;width:110px" value="Anular anterior" class="button">');
+                    $("#salvar" + (index - 1)).after('<input type="button" onclick="checkStep(this,' + (index - 1) + ');" id="anular' + (index - 1) + '" name="anular_passo_proc" style="background-repeat: no-repeat;background-image: url(img/buttons/b_drop.png);margin-bottom: 5px;margin-top: 5px;float: left;width:110px" value="Anular anterior" class="button">');
                 if (alertas[index - 1] !== null) {
                     if ((index - 1) > 0)
                         getAlerta($("#anular" + (index - 1)), index - 1);
