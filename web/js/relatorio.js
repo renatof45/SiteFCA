@@ -82,8 +82,9 @@ function showRequestUnidades(responseText, statusText, xhr, $form) {
     else{
         accao=$("#accao_id").val();
     }
+    console.log(accao.split('-')[1])
     $.post("index.php/relatorio?salvarrelatorio=true", {
-        dados: JSON.stringify(responseText), accao: accao
+        dados: JSON.stringify(responseText), accao: accao, manobra:accao.split('-')[1]
     }, function (data) {
         $('#dvLoading').hide();
     });

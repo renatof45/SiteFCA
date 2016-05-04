@@ -27,10 +27,16 @@ class RelatorioDao extends DAO {
         ));
     }
     
-    public function updateRelatrio($dados,$accao){
-        $sql = "INSERT INTO `galp`.`relatorios-output` (`dados`, `relatorio`, `area`, `versao`,`accao`) VALUES (:dados, :relatorio, :area, :versao, :accao);";
+    public function updateRelatrio($dados,$accao,$manobra){
+        $sql = "INSERT INTO `galp`.`relatorios-output` (`dados`, `relatorio`, `area`, `versao`,`accao`,`manobra`) VALUES (:dados, :relatorio, :area, :versao, :accao,:manobra);";
         $statement = parent::getDb()->prepare($sql);
-        parent::executeStatement($statement, array(':accao'=>$accao,  ':dados' => $dados, ':relatorio' => $_SESSION['relatorio'], ':versao' => self::getCurrentVersao(), ':area' => $_SESSION['area']));
+        parent::executeStatement($statement, array(':manobra'=>$manobra,  ':accao'=>$accao,  ':dados' => $dados, ':relatorio' => $_SESSION['relatorio'], ':versao' => self::getCurrentVersao(), ':area' => $_SESSION['area']));
+    }
+    
+    public function deleteRelatorio($accao){
+        $sql='DELETE FROM `galp`.`relatorios-output` where accao=:accao';
+        $statement = parent::getDb()->prepare($sql);
+        parent::executeStatement($statement, array(':accao'=>$accao));
     }
 
     public function getLastRelatorio() {

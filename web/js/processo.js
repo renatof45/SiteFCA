@@ -49,23 +49,23 @@ function processo(type, object) {
     if (type === '3') {
 
     } else if (type.name === 'relatorio') {
-        console.log($("#"+type.id).parent().parent().prev().children().first().next().html());
+        console.log($("#" + type.id).parent().parent().prev().children().first().next().html());
         $('#dvLoading').hide();
         $("#salvarRelatorioForm").html('<ul id="tab1" class="tabs"></ul>');
-        $("#dialog-unidades").data('passo',$("#"+type.id).parent().parent().prev().children().first().next().html())
-                .data('accao',type.getAttribute('accao'))
+        $("#dialog-unidades").data('passo', $("#" + type.id).parent().parent().prev().children().first().next().html())
+                .data('accao', type.getAttribute('accao'))
                 .dialog('open');
     }
     if (type.name === 'maximizar') {
         if (type.value === 'Maximizar editor') {
             type.value = "Restaurar editor";
-            console.log($( "[name='"+type.name+"']" ).css('background-image','url(img/buttons/exitFullscreen.png'));
+            console.log($("[name='" + type.name + "']").css('background-image', 'url(img/buttons/exitFullscreen.png'));
             $("#app").scrollTo(110);
             var editor = CKEDITOR.instances.editor;
             editor.resize('100%', $("#app")[0].offsetHeight - 40);
         } else {
             type.value = 'Maximizar editor';
-            $( "[name='"+type.name+"']" ).css('background-image','url(img/buttons/viewInFullscreen.png');
+            $("[name='" + type.name + "']").css('background-image', 'url(img/buttons/viewInFullscreen.png');
             $("#app").scrollTo(0);
             var editor = CKEDITOR.instances.editor;
             editor.resize('100%', 200);
@@ -370,41 +370,49 @@ function processo(type, object) {
         });
     }
     if (type === "start_proc") {
-        if ($("#start_proc").val() === 'Cancelar') {
-
+        if ($("#start_proc").val() === 'Anular manobra') {
+            detach = false;
+            $('#dvLoading').show();
+            $.post('index.php/processo?anularmanobra&manobra=' + monobra_id, function (data) {
+                $("#start_proc").css('background-image', 'url(img/buttons/play.png)');
+                $("#start_proc").val('Começar');
+                $("#procedimentos").html('');
+            });
         } else {
             detach = false;
             $.post('index.php/processo?novamanobra&proc=' + proc_id, function (data) {
                 detach = false;
-                $.post("index.php/processo?salvar_passo_proc&passo=" + index + "&monobra_id=" + data + "&proc_id=" + proc_id, function (resp) {
-                    monobra_id = data;                   
-                    detach = false;
-                    $.post('index.php/processo?getprocedimentos&proc=' + proc_id, function (data) {
-                        $("#start_proc").css('background-image', 'url(img/buttons/b_drop.png)');
-                        $("#start_proc").val('Cancelar');
-                        var proc = JSON.parse(JSON.parse(JSON.parse(data)['manobra']));
-                        alertas = proc[2]['alertas'];
-                        for (var i = 0; i < proc[2]['steps'].length; i++) {
-                            if (proc[2]['steps'][i]['title'] !== '') {
-                                $("#procedimentos").append('<tr type="title"><td  colspan="4" style="text-align: center;padding: 5px;"><label>' + proc[2]['steps'][i]['title'] + '</label></td></tr>');
-                            }
-                            if (i === 0) {
-                                $("#procedimentos").append('<tr style="border:2px solid #FA4616;border-bottom:0"><td style="width: 80px;"><label> Passo ' + i + '</label></td><td style="padding: 5px;">' + proc[2]['steps'][i]['step'] + '</td><td style="width:110px"></td><td style="width:120px"></td></tr>');
-                                $("#procedimentos").append('<tr style="border:2px solid #FA4616;border-top:0"><td colspan="4">' +
-                                        '<input type="button" onclick="processo(this,' + (i) + ');" accao="'+i+'-'+monobra_id+'"  id="relatorio' + i + '" name="relatorio" style="background-image: url(img/buttons/b_edit.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
-                                        '<input type="button" onclick="checkStep(this,' + (i) + ');" id="salvar' + i + '" name="salvar_passo_proc" style="background-image: url(img/buttons/save.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
-                                        '</td></tr>');
-                                if (alertas[i] !== null) {
-                                    getAlerta($("#salvar" + i), i);
-                                }
-                            } else {
-                                $("#procedimentos").append('<tr><td style="width: 80px;"><label> Passo ' + i + '</label></td><td style="padding: 5px;">' + proc[2]['steps'][i]['step'] + '</td><td style="width:110px"></td><td style="width:120px"></td></tr>');
-
-                            }
+                monobra_id = data;
+                detach = false;
+                $.post('index.php/processo?getprocedimentos&proc=' + proc_id, function (data) {
+                    $("#start_proc").css('background-image', 'url(img/buttons/b_drop.png)');
+                    $("#start_proc").val('Anular manobra');
+                    var proc = JSON.parse(JSON.parse(JSON.parse(data)['manobra']));
+                    alertas = proc[2]['alertas'];
+                    for (var i = 0; i < proc[2]['steps'].length; i++) {
+                        if (proc[2]['steps'][i]['title'] !== '') {
+                            $("#procedimentos").append('<tr type="title"><td  colspan="4" style="text-align: center;padding: 5px;"><label>' + proc[2]['steps'][i]['title'] + '</label></td></tr>');
                         }
-                    });
-                    $("#dvLoading").hide();
+                        if (i === 0) {
+                            $("#procedimentos").append('<tr style="border:2px solid #FA4616;border-bottom:0"><td style="width: 80px;"><label> Passo ' + i + '</label></td><td style="padding: 5px;">' + proc[2]['steps'][i]['step'] + '</td><td style="width:110px"></td><td style="width:120px"></td></tr>');
+                            $("#procedimentos").append('<tr style="border:2px solid #FA4616;border-top:0"><td colspan="4">' +
+                                    '<input type="button" onclick="processo(this,' + (i) + ');" accao="' + i + '-' + monobra_id + '"  id="relatorio' + i + '" name="relatorio" style="background-image: url(img/buttons/b_edit.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
+                                    '<input type="button" onclick="checkStep(this,' + (i) + ');" id="salvar' + i + '" name="salvar_passo_proc" style="background-image: url(img/buttons/save.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
+                                    '</td></tr>');
+                            if (alertas[i] !== null) {
+                                getAlerta($("#salvar" + i), i);
+                            }
+                            else{
+                                $("#salvar" + (i)).after('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea id="observacoes" rows="4" cols="40"></textarea></div>'); 
+                            }
+                        } else {
+                            $("#procedimentos").append('<tr><td style="width: 80px;"><label> Passo ' + i + '</label></td><td style="padding: 5px;">' + proc[2]['steps'][i]['step'] + '</td><td style="width:110px"></td><td style="width:120px"></td></tr>');
+
+                        }
+                    }
                 });
+                $("#dvLoading").hide();
+
             });
 
         }
@@ -420,6 +428,8 @@ function processo(type, object) {
     if (type === 'show_proc_pending') {
         $.post("index.php/processo?show_proc=&proc=" + object.getAttribute('proc_id'), function (data) {
             document.getElementById("app").innerHTML = data;
+            $("#start_proc").css('background-image', 'url(img/buttons/b_drop.png)');
+            $("#start_proc").val('Anular manobra');
             detach = false;
             $.post("index.php/processo?getprocedimentos=&proc=" + object.getAttribute('proc_id'), function (data) {
                 var proc = JSON.parse(JSON.parse(JSON.parse(data)['manobra']));
@@ -435,12 +445,15 @@ function processo(type, object) {
                         if (i === passos.length) {
                             $("#procedimentos").append('<tr style="border:2px solid #FA4616;border-bottom:0"><td style="width: 80px;"><label> Passo ' + i + '</label></td><td style="padding: 5px;">' + proc[2]['steps'][i]['step'] + '</td><td style="width:110px"></td><td style="width:120px"></td></tr>');
                             $("#procedimentos").append('<tr style="border:2px solid #FA4616;border-top:0"><td colspan="4">' +
-                                    '<input type="button" onclick="processo(this,' + (i) + ');" accao="'+i+'-'+monobra_id+'" id="relatorio' + i + '" name="relatorio" style="background-repeat: no-repeat;background-image: url(img/buttons/b_edit.png);width:115px;margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
+                                    '<input type="button" onclick="processo(this,' + (i) + ');" accao="' + i + '-' + monobra_id + '" id="relatorio' + i + '" name="relatorio" style="background-repeat: no-repeat;background-image: url(img/buttons/b_edit.png);width:115px;margin-bottom: 5px;margin-top: 5px;float: left" value="Alterar relatorio" class="button">' +
                                     '<input type="button" onclick="checkStep(this,' + (i) + ');" id="salvar' + i + '" name="salvar_passo_proc" style="background-image: url(img/buttons/save.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">' +
                                     '<input type="button" onclick="checkStep(this,' + (i) + ');" id="anular' + (i) + '" name="anular_passo_proc" style="background-image: url(img/buttons/b_drop.png);margin-bottom: 5px;margin-top: 5px;float: left;" value="Anular anterior" class="button">' +
                                     '</td></tr>');
                             if (alertas[i] !== null) {
                                 getAlerta($("#anular" + i), i);
+                            }
+                            else{
+                                $("#anular" + (i)).after('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea id="observacoes" rows="4" cols="40"></textarea></div>'); 
                             }
                         } else {
                             if (i > passos.length)
@@ -566,6 +579,9 @@ function checkStep(step, index) {
                     if (alertas[index + 1] !== null) {
                         getAlerta($("#anular" + (index + 1)), index + 1);
                     }
+                    else{
+                       $("#anular" + (index + 1)).after('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea id="observacoes" rows="4" cols="40"></textarea></div>'); 
+                    }
                     $("#" + step.id).parent().parent().remove();
                 } else {
 
@@ -580,6 +596,9 @@ function checkStep(step, index) {
                     if (alertas[index + 1] !== null) {
                         getAlerta($("#anular" + (index + 1)), index + 1);
                     }
+                    else{
+                        $("#anular" + (index + 1)).after('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea id="observacoes" rows="4" cols="40"></textarea></div>');
+                    }
                     ($("#" + step.id).parent().parent().prev().first().children().first().append('<img style="margin-left:10px" src="img/status/DONE.png" alt="Smiley face" height="16" width="16">'))
 
                 }
@@ -588,8 +607,21 @@ function checkStep(step, index) {
         };
 
         detach = false;
-        $.post("index.php/processo?salvar_passo_proc&passo=" + index + "&monobra_id=" + monobra_id + "&proc_id=" + proc_id, function (data) {
+        console.log($("#observacoes").val());
+        $.post("index.php/processo?salvar_passo_proc&passo=" + index + "&obs="+$("#observacoes").val()+"&monobra_id=" + monobra_id + "&proc_id=" + proc_id, function (data) {
             nextStep();
+            if (alertas[index] !== null && alertas[index]['equipamento_id'] !== '') {
+                $.post("index.php/equipamento?change_satus", {
+                    equipamento: alertas[index]['equipamento_id'],
+                    status: $("#halt-status option:selected").html(),
+                    descricao: '',
+                    comentario: '',
+                    accao: index + '-' + monobra_id,
+                    manobra:monobra_id
+                }, function (dat) {
+                    console.log(dat);
+                });
+            }
             $("#" + step.id).parent().parent().prev().first().children().last().append(username);
             $("#" + step.id).parent().parent().prev().first().children().last().prev().append(data);
             $("#" + step.id).parent().parent().remove();
@@ -615,6 +647,15 @@ function checkStep(step, index) {
                     else {
                         getAlerta($("#salvar" + (index - 1)), index - 1);
                     }
+                }else{
+                     if ((index - 1) > 0)
+                        $("#anular" + (index - 1)).after('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea id="observacoes" rows="4" cols="40"></textarea></div>');
+                        
+                    else {
+                        $("#salvar" + (index - 1)).after('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea id="observacoes" rows="4" cols="40"></textarea></div>');
+                        
+                    }
+                    
                 }
                 $("#" + step.id).parent().parent().prev().prev().prev().first().children().first().children().last().remove();
                 $("#" + step.id).parent().parent().remove();
@@ -637,6 +678,15 @@ function checkStep(step, index) {
                     else {
                         getAlerta($("#salvar" + (index - 1)), index - 1);
                     }
+                }else{
+                     if ((index - 1) > 0)
+                        $("#anular" + (index - 1)).after('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea id="observacoes" rows="4" cols="40"></textarea></div>');
+                        
+                    else {
+                        $("#salvar" + (index - 1)).after('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea id="observacoes" rows="4" cols="40"></textarea></div>');
+                        
+                    }
+                    
                 }
                 ($("#" + step.id).parent().parent().prev().prev().prev().first().children().first().children().last().remove());
                 $("#" + step.id).parent().parent().remove();
@@ -647,7 +697,7 @@ function checkStep(step, index) {
 
             if ($("#" + step.id).parent().parent().prev().prev().prev().attr('owner') === userid) {
                 detach = false;
-                $.post('index.php/processo?deletepassos&manobra=' + monobra_id + '&passo=' + (index - 1), function (data) {
+                $.post('index.php/processo?deletepassos&manobra=' + monobra_id + '&passo=' + (index - 1) + '&accao=' + (index - 1) + '-' + monobra_id + '&relatorio=' + (index - 1) + '-' + monobra_id, function (data) {
                     prevStep();
                 });
             } else {
@@ -659,7 +709,7 @@ function checkStep(step, index) {
         } else {
             if ($("#" + step.id).parent().parent().prev().prev().attr('owner') === userid) {
                 detach = false;
-                $.post('index.php/processo?deletepassos&manobra=' + monobra_id + '&passo=' + (index - 1), function (data) {
+                $.post('index.php/processo?deletepassos&manobra=' + monobra_id + '&passo=' + (index - 1) + '&accao=' + (index - 1) + '-' + monobra_id + '&relatorio=' + (index - 1) + '-' + monobra_id, function (data) {
                     prevStep();
                 });
             } else {
@@ -685,7 +735,7 @@ function getAlerta(tag, index) {
         if (alertas[index]['equipamento']) {
             $("#alert" + index).append('<br><label style="color:red;line-height:18px">-Não se esqueça de actualizar o estado do equipamento</label>');
         }
-        $("#alert" + index).append('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea rows="4" cols="40"></textarea></div>');
+        $("#alert" + index).append('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea id="observacoes" rows="4" cols="40"></textarea></div>');
         if (alertas[index]['equipamento_id'] !== '') {
             detach = false;
             $.post("index.php/equipamento?get_status_equipamento&equipamento=" + alertas[index]['equipamento_id'], function (data) {
@@ -707,6 +757,7 @@ function getAlerta(tag, index) {
             });
         }
     }
+   
 }
 
 function selectbloco(bloco) {

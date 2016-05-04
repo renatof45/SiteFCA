@@ -211,7 +211,7 @@ $app->post('/relatorio', 'checkLogIn', function() use ($app) {
         $relatoriodao->updateTemplate($_POST['content'], $_POST['separadores'], $_POST['versao']);
     } elseif (array_key_exists('salvarrelatorio', $_GET)) {
         $relatoriodao = new RelatorioDao();
-        $relatoriodao->updateRelatrio($_POST['dados'],$_POST['accao']);
+        $relatoriodao->updateRelatrio($_POST['dados'],$_POST['accao'],$_POST['manobra']);
     }
 });
 
@@ -277,6 +277,12 @@ $app->post('/processo', 'checkLogIn', function() use ($app) {
         echo json_encode(array('passos' => $processodao->getPassos($_GET['manobra'])));
     } elseif (array_key_exists('deletepassos', $_GET)) {
         $processodao->deletePassos($_GET['manobra'], $_GET['passo']);
+         $equipamneto=new EquipamentoDao();
+        $equipamneto->deleteStatus($_GET['accao']);
+        $relatorio =new RelatorioDao();
+        $relatorio->deleteRelatorio($_GET['accao']);
+        $relatorio =new RelatorioDao();
+        $relatorio->deleteRelatorio($_GET['relatorio']);
     } elseif (array_key_exists('novamanobra', $_GET)) {
         echo $processodao->novaManobra($_GET['proc'], 0);
     } elseif (array_key_exists('updatemanobra', $_GET)) {
@@ -286,7 +292,7 @@ $app->post('/processo', 'checkLogIn', function() use ($app) {
     } elseif (array_key_exists('update', $_GET)) {
         $processodao->updateProc($_GET['id'], $_GET['nome'], $_GET['unidade'], json_encode($_POST['procidimento']), json_encode($_POST['descricao']));
     } elseif (array_key_exists('salvar_passo_proc', $_GET)) {
-        $processodao->updatePassos($_GET['proc_id'], $_GET['passo'], $_GET['monobra_id']);
+        $processodao->updatePassos($_GET['obs'],$_GET['proc_id'], $_GET['passo'], $_GET['monobra_id']);
         date_default_timezone_set('Europe/Lisbon');
         echo date('Y-m-d H:i:s');
     } elseif (array_key_exists('show_proc', $_GET)) {
@@ -312,6 +318,9 @@ $app->post('/processo', 'checkLogIn', function() use ($app) {
 
         require "../page/processo/nova_rotina.phtml";
     }
+    elseif(array_key_exists('anularmanobra', $_GET)){
+       $processodao->deleteManobra($_GET['manobra']);
+    }
 });
 
 $app->post('/equipamento', 'checkLogIn', function() use($app) {
@@ -326,7 +335,7 @@ $app->post('/equipamento', 'checkLogIn', function() use($app) {
     if (array_key_exists('get_status', $_GET)) {
         $unidadesdao = new UnidadesDao();
         $unidades = $unidadesdao->findUnidades($_SESSION['area']);
-
+        
         if (array_key_exists('unidade', $_GET)) {
             $unidade = $_GET['unidade'];
         } else
@@ -336,8 +345,11 @@ $app->post('/equipamento', 'checkLogIn', function() use($app) {
         else
             $equipamentos = $equipamentodao->getAllByType($_GET['tipo']);
         $estados = $equipamentodao->getEstados();
-
-        echo json_encode(array('unidades' => $unidades, 'estados' => $estados, 'equipamentos' => $equipamentos));
+        $status=array();
+        foreach ($equipamentos as $equipamento){
+            array_push($status, $equipamentodao->getEstadoByEquipamento($equipamento['id']));
+        }
+        echo json_encode(array('status'=>$status, 'unidades' => $unidades, 'estados' => $estados, 'equipamentos' => $equipamentos));
         //require "../page/equipamento/status_dinamico.phtml";
     }
 
@@ -412,8 +424,8 @@ $app->post('/equipamento', 'checkLogIn', function() use($app) {
 
         require "../page/equipamento/novo_estatico.phtml";
     } elseif (array_key_exists('change_satus', $_GET)) {
-        //print_r($_POST);
-        $equipamentodao->updateStatus($_POST['equipamento'], $_POST['status'], $_POST['comentario'], $_POST['descricao']);
+        //print_r($_POST['accao']);
+        $equipamentodao->updateStatus($_POST['manobra'],$_POST['equipamento'],$_POST['accao'], $_POST['status'], $_POST['comentario'], $_POST['descricao']);
     } elseif (array_key_exists('history', $_GET)) {
         $history = $equipamentodao->getHistory($_GET["history"]);
         echo json_encode($history);

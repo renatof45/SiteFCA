@@ -50,28 +50,39 @@ final class ProcessoDao extends DAO {
             $result = array();
             $result['observacoes'] = $row['observacoes'];
             $result['utilizador'] = $row['Nome'];
-            $result['user_id']=$row['ID'];
+            $result['user_id'] = $row['ID'];
             $result['data'] = $row['data'];
             array_push($passos, $result);
         }
         return $passos;
     }
 
-    public function updatePassos($manobra, $passo, $monabra_id) {
-        $sql = "INSERT INTO `galp`.`manobras-processo-passos` (`manobra`, `passo`, `user`, `concluido`, `relatorio`, `manobra_id`) VALUES (:manobra, :passo, :user, :concluido, :relatorio, :manobra_id);";
+    public function updatePassos($obs,$manobra, $passo, $monabra_id) {
+        $sql = "INSERT INTO `galp`.`manobras-processo-passos` (`observacoes`,`manobra`, `passo`, `user`, `concluido`, `relatorio`, `manobra_id`) VALUES (:observacoes,:manobra, :passo, :user, :concluido, :relatorio, :manobra_id);";
         $statement = parent::getDb()->prepare($sql);
-        parent::executeStatement($statement, array(':manobra' => $manobra, ':passo' => $passo, ':concluido' => 0, ':manobra_id' => $monabra_id, ':relatorio' => $_SESSION['relatorio'], ':user' => $_SESSION['user']));
+        parent::executeStatement($statement, array(':observacoes'=>$obs, ':manobra' => $manobra, ':passo' => $passo, ':concluido' => 0, ':manobra_id' => $monabra_id, ':relatorio' => $_SESSION['relatorio'], ':user' => $_SESSION['user']));
     }
-    
-    public function deletePassos($manobra, $passo){
-        $sql="DELETE FROM `galp`.`manobras-processo-passos` WHERE `manobra_id`=:manobra and `passo`=:passo;";
-        $statement=  parent::getDb()->prepare($sql);
-        parent::executeStatement($statement, array(':manobra'=>$manobra,':passo'=>$passo));
-        if($passo==0){
-            $sql='delete from `galp`.`manobras-processo-activas` where `id`=:id';
-            $statement=  parent::getDb()->prepare($sql);
-            parent::executeStatement($statement, array(':id'=>$manobra));
-        }
+
+    public function deletePassos($manobra, $passo) {
+        $sql = "DELETE FROM `galp`.`manobras-processo-passos` WHERE `manobra_id`=:manobra and `passo`=:passo;";
+        $statement = parent::getDb()->prepare($sql);
+        parent::executeStatement($statement, array(':manobra' => $manobra, ':passo' => $passo));
+    }
+
+    public function deleteManobra($manobra) {
+        $sql = 'delete from `galp`.`manobras-processo-activas` where `id`=:id';
+        $statement = parent::getDb()->prepare($sql);
+        parent::executeStatement($statement, array(':id' => $manobra));
+        $sql = "DELETE FROM `galp`.`manobras-processo-passos` WHERE `manobra_id`=:manobra";
+        $statement = parent::getDb()->prepare($sql);
+        parent::executeStatement($statement, array(':manobra' => $manobra));
+        $sql = "DELETE FROM `galp`.`status-equipamento` WHERE `manobra`=:manobra";
+        $statement = parent::getDb()->prepare($sql);
+        parent::executeStatement($statement, array(':manobra' => $manobra));
+         $sql = "DELETE FROM `galp`.`relatorios-output` WHERE `manobra`=:manobra";
+        $statement = parent::getDb()->prepare($sql);
+        parent::executeStatement($statement, array(':manobra' => $manobra));
+        
     }
 
     public function getAll() {

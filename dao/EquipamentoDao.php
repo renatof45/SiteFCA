@@ -98,7 +98,7 @@ final class EquipamentoDao extends DAO {
                                where equipamento =" . $equipamento . "  and `data` <= now()
                                ORDER BY `data` DESC
                                LIMIT 1;") as $row) {
-            return array('id' => $row['id'], 'estado' => $row['status'], 'data' => $row['data'], 'descricao' => $row['descricao'], 'comentario' => $row['comentario'], 'equipamento' => $this->getEqipmentoById($equipamento));
+            return array('equipamento_id'=>$equipamento, 'id' => $row['id'], 'estado' => $row['status'], 'data' => $row['data'], 'descricao' => $row['descricao'], 'comentario' => $row['comentario'], 'equipamento' => $this->getEqipmentoById($equipamento));
         }
     }
 
@@ -145,14 +145,20 @@ final class EquipamentoDao extends DAO {
         return $etapas;
     }
 
-    public function updateStatus($equipamento, $status, $comentario, $descricao) {
+    public function updateStatus($manobra,$equipamento,$accao, $status, $comentario, $descricao) {
         $sql = 'UPDATE `galp`.`equipamento` SET `status`=:status,`relatorio`=:relatorio WHERE `id`=:equipamento';
         $statement = parent::getDb()->prepare($sql);
         parent::executeStatement($statement, array(':equipamento' => $equipamento, ':status' => $status, ':relatorio' => $_SESSION['relatorio']));
-
-        $sql = 'INSERT INTO `galp`.`status-equipamento` (`relatorio`, `equipamento`, `status`,`comentario`,`descricao`) VALUES (:relatorio, :equipamento, :status,:comentario,:descricao);';
+        //echo $accao;
+        $sql = 'INSERT INTO `galp`.`status-equipamento` (`relatorio`, `equipamento`, `status`,`comentario`,`descricao`,`accao`,`manobra`) VALUES (:relatorio, :equipamento, :status,:comentario,:descricao,:accao,:manobra);';
         $statement = parent::getDb()->prepare($sql);
-        parent::executeStatement($statement, array(':equipamento' => $equipamento, ':status' => $status, ':relatorio' => $_SESSION['relatorio'], ':descricao' => $descricao, ':comentario' => $comentario));
+        parent::executeStatement($statement, array(':manobra'=>$manobra, ':accao'=>$accao, ':equipamento' => $equipamento, ':status' => $status, ':relatorio' => $_SESSION['relatorio'], ':descricao' => $descricao, ':comentario' => $comentario));
+    }
+    
+    public function deleteStatus($accao){
+        $sql='DELETE FROM galp.`status-equipamento` where accao=:accao';
+        $statement = parent::getDb()->prepare($sql);
+        parent::executeStatement($statement, array(':accao'=>$accao));
     }
 
     public function getAccoes($tipo) {
