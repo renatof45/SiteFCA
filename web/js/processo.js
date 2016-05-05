@@ -295,41 +295,46 @@ function processo(type, object) {
         $("#ajaxform1").submit();
     }
     if (type.name === "salvar") {
-        var index = 0;
-        var title = '';
-        $("#passos").children().each(function () {
-            for (var i = 0; i < $(this)[0].attributes.length; i++) {
-                if ($(this)[0].attributes[i].name === 'tipo') {
-                    if ($(this)[0].attributes[i].value === 'passo') {
-                        $(this).children().each(function () {
-                            if ($(this)[0].nodeName === 'TEXTAREA') {
-                                steps_array[index] = {
-                                    'title': title,
-                                    'step': $(this)[0].value
-                                };
-                                title = '';
-                                index++;
-                            }
-                        });
-                    } else {
-                        $(this).children().each(function () {
-                            if ($(this)[0].nodeName === 'TEXTAREA') {
-                                title = $(this)[0].value;
-                                //title = '';
-                            }
-                        });
+        if ($("#manobra_nome").val() === '') {
+            $("#informacao").html('Tem de atribuir um nome ao procedimento!');
+            $("#dialog-informacao").dialog('open');
+        } else {
+            var index = 0;
+            var title = '';
+            $("#passos").children().each(function () {
+                for (var i = 0; i < $(this)[0].attributes.length; i++) {
+                    if ($(this)[0].attributes[i].name === 'tipo') {
+                        if ($(this)[0].attributes[i].value === 'passo') {
+                            $(this).children().each(function () {
+                                if ($(this)[0].nodeName === 'TEXTAREA') {
+                                    steps_array[index] = {
+                                        'title': title,
+                                        'step': $(this)[0].value
+                                    };
+                                    title = '';
+                                    index++;
+                                }
+                            });
+                        } else {
+                            $(this).children().each(function () {
+                                if ($(this)[0].nodeName === 'TEXTAREA') {
+                                    title = $(this)[0].value;
+                                    //title = '';
+                                }
+                            });
+                        }
                     }
                 }
-            }
-        });
-        $('#adicionarManobraForm').ajaxForm(processoptions);
-        $('#dvLoading').show();
-        $("#adicionarManobraForm").attr('action', 'index.php/processo?adicionar=true');
-        $("#adicionarManobraForm").submit();
+            });
+            $('#adicionarManobraForm').ajaxForm(processoptions);
+            $('#dvLoading').show();
+            $("#adicionarManobraForm").attr('action', 'index.php/processo?adicionar=true');
+            $("#adicionarManobraForm").submit();
+        }
     }
     if (type.name === 'editar_proc') {
         update = true;
-        $.post("index.php/processo?novoproc=" + type, function (data) {
+        $.post("index.php/processo?novoproc&unidade=" + $("#unidade").val(), function (data) {
             document.getElementById("app").innerHTML = data;
             CKEDITOR.config.height = 200;
             CKEDITOR.config.width = 750;
@@ -401,9 +406,8 @@ function processo(type, object) {
                                     '</td></tr>');
                             if (alertas[i] !== null) {
                                 getAlerta($("#salvar" + i), i);
-                            }
-                            else{
-                                $("#salvar" + (i)).after('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea id="observacoes" rows="4" cols="40"></textarea></div>'); 
+                            } else {
+                                $("#salvar" + (i)).after('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea id="observacoes" rows="4" cols="40"></textarea></div>');
                             }
                         } else {
                             $("#procedimentos").append('<tr><td style="width: 80px;"><label> Passo ' + i + '</label></td><td style="padding: 5px;">' + proc[2]['steps'][i]['step'] + '</td><td style="width:110px"></td><td style="width:120px"></td></tr>');
@@ -451,9 +455,8 @@ function processo(type, object) {
                                     '</td></tr>');
                             if (alertas[i] !== null) {
                                 getAlerta($("#anular" + i), i);
-                            }
-                            else{
-                                $("#anular" + (i)).after('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea id="observacoes" rows="4" cols="40"></textarea></div>'); 
+                            } else {
+                                $("#anular" + (i)).after('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea id="observacoes" rows="4" cols="40"></textarea></div>');
                             }
                         } else {
                             if (i > passos.length)
@@ -578,9 +581,8 @@ function checkStep(step, index) {
                             '<input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="anular' + (index + 1) + '" name="anular_passo_proc" style="background-image: url(img/buttons/b_drop.png);margin-bottom: 5px;margin-top: 5px;float: left;" value="Anular anterior" class="button"></td></tr>');
                     if (alertas[index + 1] !== null) {
                         getAlerta($("#anular" + (index + 1)), index + 1);
-                    }
-                    else{
-                       $("#anular" + (index + 1)).after('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea id="observacoes" rows="4" cols="40"></textarea></div>'); 
+                    } else {
+                        $("#anular" + (index + 1)).after('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea id="observacoes" rows="4" cols="40"></textarea></div>');
                     }
                     $("#" + step.id).parent().parent().remove();
                 } else {
@@ -595,8 +597,7 @@ function checkStep(step, index) {
                             '<input type="button" onclick="checkStep(this,' + (index + 1) + ');" id="anular' + (index + 1) + '" name="anular_passo_proc" style="background-image: url(img/buttons/b_drop.png);margin-bottom: 5px;margin-top: 5px;float: left;" value="Anular anterior" class="button"></td></tr>');
                     if (alertas[index + 1] !== null) {
                         getAlerta($("#anular" + (index + 1)), index + 1);
-                    }
-                    else{
+                    } else {
                         $("#anular" + (index + 1)).after('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea id="observacoes" rows="4" cols="40"></textarea></div>');
                     }
                     ($("#" + step.id).parent().parent().prev().first().children().first().append('<img style="margin-left:10px" src="img/status/DONE.png" alt="Smiley face" height="16" width="16">'))
@@ -608,7 +609,7 @@ function checkStep(step, index) {
 
         detach = false;
         console.log($("#observacoes").val());
-        $.post("index.php/processo?salvar_passo_proc&passo=" + index + "&obs="+$("#observacoes").val()+"&monobra_id=" + monobra_id + "&proc_id=" + proc_id, function (data) {
+        $.post("index.php/processo?salvar_passo_proc&passo=" + index + "&obs=" + $("#observacoes").val() + "&monobra_id=" + monobra_id + "&proc_id=" + proc_id, function (data) {
             nextStep();
             if (alertas[index] !== null && alertas[index]['equipamento_id'] !== '') {
                 $.post("index.php/equipamento?change_satus", {
@@ -617,7 +618,7 @@ function checkStep(step, index) {
                     descricao: '',
                     comentario: '',
                     accao: index + '-' + monobra_id,
-                    manobra:monobra_id
+                    manobra: monobra_id
                 }, function (dat) {
                     console.log(dat);
                 });
@@ -647,15 +648,15 @@ function checkStep(step, index) {
                     else {
                         getAlerta($("#salvar" + (index - 1)), index - 1);
                     }
-                }else{
-                     if ((index - 1) > 0)
+                } else {
+                    if ((index - 1) > 0)
                         $("#anular" + (index - 1)).after('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea id="observacoes" rows="4" cols="40"></textarea></div>');
-                        
+
                     else {
                         $("#salvar" + (index - 1)).after('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea id="observacoes" rows="4" cols="40"></textarea></div>');
-                        
+
                     }
-                    
+
                 }
                 $("#" + step.id).parent().parent().prev().prev().prev().first().children().first().children().last().remove();
                 $("#" + step.id).parent().parent().remove();
@@ -678,15 +679,15 @@ function checkStep(step, index) {
                     else {
                         getAlerta($("#salvar" + (index - 1)), index - 1);
                     }
-                }else{
-                     if ((index - 1) > 0)
+                } else {
+                    if ((index - 1) > 0)
                         $("#anular" + (index - 1)).after('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea id="observacoes" rows="4" cols="40"></textarea></div>');
-                        
+
                     else {
                         $("#salvar" + (index - 1)).after('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea id="observacoes" rows="4" cols="40"></textarea></div>');
-                        
+
                     }
-                    
+
                 }
                 ($("#" + step.id).parent().parent().prev().prev().prev().first().children().first().children().last().remove());
                 $("#" + step.id).parent().parent().remove();
@@ -757,7 +758,7 @@ function getAlerta(tag, index) {
             });
         }
     }
-   
+
 }
 
 function selectbloco(bloco) {

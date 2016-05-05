@@ -101,7 +101,7 @@ final class ProcessoDao extends DAO {
     public function getProc($manobra) {
         $manobras = array();
 
-        foreach (parent::query("SELECT descricao,manobra,designacao,`manobras-processo`.id as id,Nome FROM galp.`manobras-processo`
+        foreach (parent::query("SELECT unidades.id as unidade_id, descricao,manobra,designacao,`manobras-processo`.id as id,Nome FROM galp.`manobras-processo`
                                 join unidades on unidades.id=`manobras-processo`.unidade
                                 where `manobras-processo`.id=" . $manobra) as $row) {
             //$result=array();
@@ -110,6 +110,7 @@ final class ProcessoDao extends DAO {
             $manobras['unidade'] = $row['designacao'];
             $manobras['manobra'] = $row['manobra'];
             $manobras['descricao'] = $row['descricao'];
+            $manobras['unidade_id'] = $row['unidade_id'];
         }
         return $manobras;
     }

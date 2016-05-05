@@ -13,7 +13,7 @@
 </form>
 
 
-<h1 style="margin-top: 30px">Novo Procedimento</h1>
+<h1 style="margin-bottom: 10px;margin-top: 30px">Novo Procedimento</h1>
 
 <form id="adicionarManobraForm" method="post">
     <fieldset>
@@ -36,6 +36,13 @@
         <div class="field">
             <label>Nome:</label>
             <input type="text" style="width: 400px" id="manobra_nome" name="manobra[nome]"/>
+        </div>
+        <div class="field">
+            <label>Publicar:</label>
+            <select name="publicar">
+                <option <?php if (array_key_exists("edit", $_GET)){if ($feed['publicar']==0) echo "selected";} ?> value="0">Não</option>
+                <option <?php if (array_key_exists("edit", $_GET)){if ($feed['publicar']==1) echo "selected";} ?> value="1">Sim</option>
+            </select>
         </div>
         <div class="field">
             <label>Descrição:</label>

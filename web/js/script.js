@@ -787,7 +787,30 @@ $(document).ajaxStop(function () {
             allFields.val("").removeClass("ui-state-error");
         }
     });
-
+    $("#dialog-novaversao").dialog({
+        autoOpen: false,
+        height: 180,
+        width: 350,
+        modal: true,
+        buttons: {
+            "OK": function () {
+                $("#ajaxform1").attr('action', 'index.php/relatorio?criarversao');
+                $("#ajaxform1").ajaxForm(versoesoptions);
+                $("#ajaxform1").submit();
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            allFields.val("").removeClass("ui-state-error");
+        }
+    });
+    var versoesoptions = {
+        success: showResponseversa
+                //beforeSubmit: showRequestUnidades, // pre-submit callback 
+    };
+    function showResponseversa(responseText, statusText, xhr, $form) {
+        console.log(responseText);
+    }
 });
 
 

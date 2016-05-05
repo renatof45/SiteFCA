@@ -76,15 +76,17 @@ var separator_array = [];
 function showRequestUnidades(responseText, statusText, xhr, $form) {
     detach = false;
     var accao;
-    if($("#accao_id").val()===undefined){
-        accao=0;
+    var manobra;
+    if ($("#accao_id").val() === undefined) {
+        accao = 0;
+        manobra=0;
+    } else {
+        accao = $("#accao_id").val();
+        manobra=accao.split('-')[1];
     }
-    else{
-        accao=$("#accao_id").val();
-    }
-    console.log(accao.split('-')[1])
+    //console.log(accao.split('-')[1])
     $.post("index.php/relatorio?salvarrelatorio=true", {
-        dados: JSON.stringify(responseText), accao: accao, manobra:accao.split('-')[1]
+        dados: JSON.stringify(responseText), accao: accao, manobra: manobra
     }, function (data) {
         $('#dvLoading').hide();
     });
@@ -99,6 +101,19 @@ function eliminar_separador(id, index) {
 }
 
 function relatorio(type, obj) {
+    console.log(type.name);
+    if(type.name==='nova_versao'){
+        $("#dialog-novaversao").dialog('open');
+    }
+    if (type.name === 'set_as_default') {
+        $('#dvLoading').show();
+        $.post('index.php/relatorio?setdefaultversao=' + type.getAttribute('versao'), function () {
+            $.post("index.php/relatorio?getversoes=" + type, function (data) {
+                //console.log(JSON.parse(data));
+                document.getElementById("app").innerHTML = data;
+            });
+        });
+    }
     if (type === 'salvar_relatorio') {
         $('#dvLoading').show();
         $('#salvarRelatorioForm').ajaxForm(unidadesoptions);
@@ -442,11 +457,11 @@ function relatorio(type, obj) {
                 });
             });
         });
-    } else if (type === 3) {
+    } else if (type.name === 'editar_versao') {
         $.post("index.php/relatorio?getteemplate=" + type, function (data) {
-
+            
             document.getElementById("app").innerHTML = data;
-            $.post("index.php/relatorio?type=" + type, function (data) {
+            $.post("index.php/relatorio?type=3&versao=" + type.getAttribute('versao'), function (data) {
                 versao = (JSON.parse(data)['versao']);
                 if (data !== 'null') {
                     number_of_blocks = 0;
@@ -519,6 +534,11 @@ function relatorio(type, obj) {
             });
         });
 
+    } else if (type === 4) {
+        $.post("index.php/relatorio?getversoes=" + type, function (data) {
+            //console.log(JSON.parse(data));
+            document.getElementById("app").innerHTML = data;
+        });
     }
 }
 
