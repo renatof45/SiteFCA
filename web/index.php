@@ -531,14 +531,14 @@ $app->post('/trab-em-curso', 'checkLogIn', function() {
 
 $app->get('/sair', function() use($app) {
     session_destroy();
-    $app->redirect('/');
+    $app->redirect('/SiteFCA-master/web/');
 });
 
-$app->post('/signin', function() use($app) {
-    if (array_key_exists('newuser', $_GET)) {
-        $app->redirect('/');
+$app->post('/signin',function() use($app){
+    if(array_key_exists('newuser', $_GET)){
+      $app->redirect('/');
     }
-    $utilizador = new Utilizador(null);
+     $utilizador = new Utilizador(null);
     $dao = new UtilizadorDao();
     $errors = array();
 
@@ -576,7 +576,7 @@ $app->post('/signin', function() use($app) {
             $dao = new UtilizadorDao();
             $dao->insert($utilizador);
             //Flash::addFlash('Utilizador gravado com sucesso!');
-            $app->redirect('/?newuser');
+            $app->redirect('/SiteFCA-master/web/index.php?newuser');
             //Utils::redirect('home', array());
         } else
             require "../layout/signin.phtml";
@@ -584,51 +584,58 @@ $app->post('/signin', function() use($app) {
         require "../layout/signin.phtml";
 });
 
-$app->get('/signin', function() use($app) {
+
+
+$app->get('/signin',function() use($app){
     //$template = '../layout/user_qualification.phtml';
     require '../layout/signin.phtml';
 });
 
-$app->get('/user_qualification', function() use($app) {
+$app->get('/user_qualification',function() use($app){
+
     require '../layout/user_qualification.phtml';
 });
 
 $app->post('/user_qualification', function () use($app) {
     $pedido = "<p>Nome: " . $_POST['nome'] . "</p><br><p>Numero: " . $_POST['numero'] . "</p><br><p>Categoria: " . $_POST['posto'] . "</p>";
 
-//    try {
-//        new EwsSendEmail($_POST['pass'], $pedido);
-//    } catch (SoapFault $ex) {
-//        $errors[] = new Error('numero', $ex->getMessage());
-//        require '../layout/user_qualification.phtml';
-//    } catch (EWS_Exception $ex) {
-//        $errors[] = new Error('numero', $ex->getMessage());
-//        require '../layout/user_qualification.phtml';
-//    }
+    try {
+        new EwsSendEmail($_POST['pass'], $pedido,'Pedido de qualificação','711241',$_SESSION['user']);
+   } catch (SoapFault $ex) {
+        $errors[] = new Error('numero', $ex->getMessage());
+        require '../layout/user_qualification.phtml';
+    } catch (EWS_Exception $ex) {
+        $errors[] = new Error('numero', $ex->getMessage());
+        require '../layout/user_qualification.phtml';
+    }
     if (empty($errors)) {
-        $app->redirect('/?request');
+        $app->redirect('/SiteFCA-master/web/index.php?request_qualification');
     }
 });
 
-$app->get('/lostpass', function() {
+$app->get('/lostpass',function(){
     require '../layout/lost_pass.phtml';
 });
 
-$app->post('/lostpass', function() {
-    $pass = generateRandomString();
-    $pedido = '<p>A seu pedido foi feito o reset da sua password de acesso ao Site FCA</p><br><p>Nova password: <b>' . $pass . '</b></p>';
-    $userdao = new UtilizadorDao();
-    $userdao->resetPass($_POST['numero'], $pass);
+$app->post('/lostpass',function() use($app){
+    $pass=generateRandomString();
+    $pedido= '<p>A seu pedido foi feito o reset da sua password de acesso ao Site FCA</p><br><p>Nova password: <b>'.$pass.'</b></p>';
+    
     echo $pass;
-    //    try {
-//        new EwsSendEmail($_POST['pass'], $pedido);
-//    } catch (SoapFault $ex) {
-//        $errors[] = new Error('numero', $ex->getMessage());
-//        require '../layout/user_qualification.phtml';
-//    } catch (EWS_Exception $ex) {
-//        $errors[] = new Error('numero', $ex->getMessage());
-//        require '../layout/user_qualification.phtml';
-//    } 
+        try {
+        new EwsSendEmail($_POST['password'], $pedido,'Reset de password',$_POST['numero'],'711241');
+    } catch (SoapFault $ex) {
+        $errors[] = new Error('numero', $ex->getMessage());
+        require '../layout/lost_pass.phtml';
+    } catch (EWS_Exception $ex) {
+        $errors[] = new Error('numero', $ex->getMessage());
+        require '../layout/lost_pass.phtml';
+    }
+    if (empty($errors)) {
+        $userdao=new UtilizadorDao();
+        $userdao->resetPass($_POST['numero'], $pass);
+        $app->redirect('/SiteFCA-master/web/index.php?request_pass');
+    } 
 });
 
 $app->get('/', function() use ($app) {
@@ -637,6 +644,7 @@ $app->get('/', function() use ($app) {
     $db = new DAO();
     $sql = file_get_contents('../db/galp.sql');
     $qr = $db->getDb()->exec($sql);
+
     $dao = new UtilizadorDao();
     if (array_key_exists('numero', $_POST))
         $user = $dao->getUser($_POST['numero']);
@@ -653,14 +661,14 @@ $app->get('/', function() use ($app) {
             $template = '../layout/intro.html';
         }
     } else {
-        if ($user['tipo'] == 2) {
-            $template = '../layout/area-de-trabalho.html';
-        } else {
-            $template = '../layout/layout_exterior.phtml';
-        }
+        if($user['tipo']==2)
+        $template = '../layout/area-de-trabalho.html';
+     else{
+         $template = '../layout/layout_exterior.phtml';
+     }
     }
-
     require '../layout/index.phtml';
+
 });
 
 
@@ -679,7 +687,7 @@ $app->post('/login', function() use ($app) {
 
         if ($_POST['numero'] == '' || !is_numeric($_POST['numero'])) {
 
-            $app->redirect('/index.php?error');
+            $app->redirect('/SiteFCA-master/web/index.php?error');
         } else {
             $dao = new UtilizadorDao();
             $user = $dao->getUser($_POST['numero']);
@@ -692,60 +700,59 @@ $app->post('/login', function() use ($app) {
                     $_SESSION['user_name'] = $user['nome'];
                     $_SESSION['user_type'] = $user['tipo'];
                     $relatoriodao = new RelatorioDao();
-                    date_default_timezone_set('Europe/Lisbon');
-                    $hora = date("H:i:s");
-                    if ($hora > "06:00:00" && $hora < "14:00:00") {
-                        if ($hora > "00:00:00") {
-                            $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d'), 1);
-                            if ($relatorio) {
-                                $_SESSION['relatorio'] = $relatorio;
-                            } else {
-                                $relatorio = $relatoriodao->insert(1, date('Y-m-d'));
-                                $_SESSION['relatorio'] = $relatorio;
+                     date_default_timezone_set('Europe/Lisbon');
+                        $hora = date("H:i:s");
+                        if ($hora > "06:00:00" && $hora < "14:00:00") {
+                            if ($hora > "00:00:00") {
+                                $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d'), 1);
+                                if ($relatorio) {
+                                    $_SESSION['relatorio'] = $relatorio;
+                                } else {
+                                    $relatorio = $relatoriodao->insert(1, date('Y-m-d'));
+                                    $_SESSION['relatorio'] = $relatorio;
+                                }
                             }
-                        }
-                        $_SESSION['turno'] = 1;
-                    } else if ($hora > "14:00:00" && $hora < "22:00:00") {
-                        if ($hora > "00:00:00") {
-                            $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d'), 2);
-                            if ($relatorio) {
-                                $_SESSION['relatorio'] = $relatorio;
-                            } else {
-                                $relatorio = $relatoriodao->insert(2, date('Y-m-d'));
-                                $_SESSION['relatorio'] = $relatorio;
+                            $_SESSION['turno'] = 1;
+                        } else if ($hora > "14:00:00" && $hora < "22:00:00") {
+                            if ($hora > "00:00:00") {
+                                $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d'), 2);
+                                if ($relatorio) {
+                                    $_SESSION['relatorio'] = $relatorio;
+                                } else {
+                                    $relatorio = $relatoriodao->insert(2, date('Y-m-d'));
+                                    $_SESSION['relatorio'] = $relatorio;
+                                }
                             }
-                        }
 
-                        $_SESSION['turno'] = 2;
-                    } else {
-                        if ($hora > "22:00:00") {
-                            $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d'), 3);
-                            if ($relatorio) {
-                                $_SESSION['relatorio'] = $relatorio;
-                            } else {
-                                $relatorio = $relatoriodao->insert(3, date('Y-m-d'));
-                                $_SESSION['relatorio'] = $relatorio;
-                            }
+                            $_SESSION['turno'] = 2;
                         } else {
-                            $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d', (strtotime('-1 day'))), 3);
-                            if ($relatorio) {
-                                $_SESSION['relatorio'] = $relatorio;
+                            if ($hora > "22:00:00") {
+                                $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d'), 3);
+                                if ($relatorio) {
+                                    $_SESSION['relatorio'] = $relatorio;
+                                } else {
+                                    $relatorio = $relatoriodao->insert(3, date('Y-m-d'));
+                                    $_SESSION['relatorio'] = $relatorio;
+                                }
                             } else {
-                                $relatorio = $relatoriodao->insert(3, date('Y-m-d', (strtotime('-1 day'))));
-                                $_SESSION['relatorio'] = $relatorio;
+                                $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d', (strtotime('-1 day'))), 3);
+                                if ($relatorio) {
+                                    $_SESSION['relatorio'] = $relatorio;
+                                } else {
+                                    $relatorio = $relatoriodao->insert(3, date('Y-m-d', (strtotime('-1 day'))));
+                                    $_SESSION['relatorio'] = $relatorio;
+                                }
                             }
+                            $_SESSION['turno'] = 3;
                         }
-                        $_SESSION['turno'] = 3;
-                    }
-                    //echo $_SESSION['turno'];
-                    $app->redirect('/index.php');
+                        //echo $_SESSION['turno'];
+                        $app->redirect('/SiteFCA-master/web/index.php');
                 } else
-                    $app->redirect('/index.php?error');
+                    $app->redirect('/SiteFCA-master/web/index.php?error');
             } else
-                $app->redirect('/index.php?error');
+                $app->redirect('/SiteFCA-master/web/index.php?error');
         }
     }
 });
-
 $app->run();
 ?>
