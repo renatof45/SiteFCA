@@ -41,20 +41,20 @@
         </div>
         <div class="field">
             <label>Area(s):</label>
-            <input type="checkbox" name="option1" value="1" <?php if (array_key_exists('1', $utilizador->getArea())) echo 'checked' ?> >Area A</input>
+            <input type="radio" name="area" value="1" <?php if (array_key_exists('1', $utilizador->getArea())) echo 'checked' ?> >Area A</input>
             &nbsp;
-            <input type="checkbox" name="option2" value="2" <?php if (array_key_exists('2', $utilizador->getArea())) echo 'checked' ?> >Area B</input>
+            <input type="radio" name="area" value="2" <?php if (array_key_exists('2', $utilizador->getArea())) echo 'checked' ?> >Area B</input>
             &nbsp;
-            <input type="checkbox" name="option3" value="3" <?php if (array_key_exists('3', $utilizador->getArea())) echo 'checked' ?> >Area C</input>
+            <input type="radio" name="area" value="3" <?php if (array_key_exists('3', $utilizador->getArea())) echo 'checked' ?> >Area C</input>
             &nbsp;
-            <input type="checkbox" name="option4" value="4" <?php if (array_key_exists('4', $utilizador->getArea())) echo 'checked' ?> >Area D</input>
+            <input type="radio" name="area" value="4" <?php if (array_key_exists('4', $utilizador->getArea())) echo 'checked' ?> >Area D</input>
             
         </div>
 
         &nbsp;
         &nbsp;
         <div class="wrapper">
-            <input type="submit" name="alterar" onclick="$('#dvLoading').show();" style="width: 95px" id="alt" class="button" value="Alterar"/>
+            <input type="submit" name="alterar" onclick="$('#dvLoading').show();" style="background-image: url(img/buttons/b_usredit.png);" id="alt" class="button" value="Alterar"/>
         </div>
         </feildset>
 </form>

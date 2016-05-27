@@ -57,9 +57,9 @@ function equipamento_estatico(object) {
                                 break;
                             }
                         }
-                        div = '<div id=div' + equipamentos[j].id + ' class="field" style="height: 22px;background-color: #F3F3F3;"><label style="margin-left:5px;">' + equipamentos[j].Equipamento + ':</label>';
+                        div = '<div id=div' + equipamentos[j].id + ' onMouseOut="pointer(this)" onMouseOver="pointer(this)" class="field" style="height: 23px;background-color: #F3F3F3;"><label style="margin-left:5px;">' + equipamentos[j].Equipamento + ':</label>';
                         div += ('<p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamento_estado + '</p>');
-                        div += ('<input type="button" estado="' + equipamento_estado + '" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados" onclick="equipamento(this,3);" style="background-image: url(img/buttons/b_view.png);margin-top: 1px;float: left;" value="Mais dados" class="button">' +
+                        div += ('<input type="button" estado="' + equipamento_estado + '" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados" onclick="equipamento(this,3);" style="background-image: url(img/buttons/s_info.png);margin-top: 1px;float: left;" value="Mais dados" class="button">' +
                                 '<input type="button" equipamento_id="' + equipamentos[j].id + '"  unidade="' + unidades[i].id + '" name="alterar_status" onclick="equipamento(this,3);" style="background-image: url(img/buttons/exec.png);alterarmargin-top: 1px;float: left;" value="Alterar status" class="button">' +
                                 '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="inspecoes" onclick="equipamento(this,3);" style="background-image: url(img/buttons/b_usredit.png);margin-top: 1px;float: left;" value="Inspeções" class="button">' +
                                 '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="alterar" onclick="equipamento(this,3);" style="background-image: url(img/buttons/b_edit.png);margin-top: 1px;float: left;" value="Alterar equipamento" class="button"></div>');
@@ -123,7 +123,7 @@ function equipamento_dinamico(object) {
                     }
                     var div = ''
                     if (equipamentos[j].unidade === unidades[i].id) {
-                        div = '<div id=div' + equipamentos[j].id + ' class="field" style="height: 22px;background-color: #F3F3F3;"><label style="margin-left:5px;">' + equipamentos[j].Equipamento + ':</label>';
+                        div = '<div id=div' + equipamentos[j].id + ' onMouseOut="pointer(this)" onMouseOver="pointer(this)" class="field" style="height: 23px;background-color: #F3F3F3;"><label style="margin-left:5px;">' + equipamentos[j].Equipamento + ':</label>';
                         if (equipamento_estado === 'Em Serviço' || equipamento_estado === 'Em Serviço - Em observação')
                             div += ('<img equipamento_id="' + equipamentos[j].id + '" class="status_icon" id="icon' + equipamentos[j].id + '" onclick="equipamento(\'flip_status\',this)" src="img/status/DONE.png" alt="Smiley face" height="16" width="16"><p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamento_estado + '</p>');
                         else if (equipamento_estado === 'Em Serviço - Com anomalia')
@@ -132,7 +132,7 @@ function equipamento_dinamico(object) {
                             div += ('<img equipamento_id="' + equipamentos[j].id + '" class="status_icon" id="icon' + equipamentos[j].id + '" src="img/action/edit.png" alt="Smiley face" height="16" width="16"><p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamento_estado + '</p>');
                         else
                             div += ('<img equipamento_id="' + equipamentos[j].id + '" class="status_icon" id="icon' + equipamentos[j].id + '" onclick="equipamento(\'flip_status\',this)" src="img/status/VOIDED.png" alt="Smiley face" height="16" width="16"><p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamento_estado + '</p>');
-                        div += ('<input type="button" estado="' + equipamento_estado + '" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados" onclick="equipamento(this,1);" style="background-image: url(img/buttons/b_view.png);margin-top: 1px;float: left;" value="Mais dados" class="button">' +
+                        div += ('<input type="button" estado="' + equipamento_estado + '" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados" onclick="equipamento(this,1);" style="background-image: url(img/buttons/s_info.png);margin-top: 1px;float: left;" value="Mais dados" class="button">' +
                                 '<input type="button" equipamento_id="' + equipamentos[j].id + '"  unidade="' + unidades[i].id + '" name="alterar_status" onclick="equipamento(this,1);" style="background-image: url(img/buttons/exec.png);margin-top: 1px;float: left;" value="Alterar status" class="button">' +
                                 '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="inspecoes" onclick="equipamento(this,1);" style="background-image: url(img/buttons/b_usredit.png);margin-top: 1px;float: left;" value="Inspeções" class="button">' +
                                 '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="alterar" onclick="equipamento(this,1);" style="background-image: url(img/buttons/b_edit.png);margin-top: 1px;float: left;" value="Alterar equipamento" class="button"></div>');
@@ -243,7 +243,7 @@ function instrumentos(object) {
                     }
                     var div = ''
                     if (equipamentos[j].unidade === unidades[i].id) {
-                        div = '<div id=div' + equipamentos[j].id + ' class="field" style="height: 22px;background-color: #F3F3F3;"><label style="margin-left:5px;">' + equipamentos[j].Equipamento + ':</label>';
+                        div = '<div id=div' + equipamentos[j].id + ' onMouseOut="pointer(this)" onMouseOver="pointer(this)" class="field" style="height: 23px;background-color: #F3F3F3;"><label style="margin-left:5px;">' + equipamentos[j].Equipamento + ':</label>';
                         if (equipamentos[j].estado === 'Em Serviço' || equipamento_estado === 'Em Serviço - Em observação')
                             div += ('<img equipamento_id="' + equipamentos[j].id + '" class="status_icon" id="icon' + equipamentos[j].id + '" onclick="equipamento(\'flip_status\',this)" src="img/status/DONE.png" alt="Smiley face" height="16" width="16"><p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamento_estado + '</p>');
                         else if (equipamento_estado === 'Em Serviço - Com anomalia')
@@ -252,7 +252,7 @@ function instrumentos(object) {
                             div += ('<img equipamento_id="' + equipamentos[j].id + '" class="status_icon" id="icon' + equipamentos[j].id + '" src="img/action/edit.png" alt="Smiley face" height="16" width="16"><p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamento_estado + '</p>');
                         else
                             div += ('<img equipamento_id="' + equipamentos[j].id + '" class="status_icon" id="icon' + equipamentos[j].id + '" onclick="equipamento(\'flip_status\',this)" src="img/status/VOIDED.png" alt="Smiley face" height="16" width="16"><p id="' + equipamentos[j].id + '" style="width: 200px;float: left;">' + equipamento_estado + '</p>');
-                        div += ('<input type="button" estado="' + equipamento_estado + '" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados" onclick="equipamento(this,2);" style="background-image: url(img/buttons/b_view.png);margin-top: 1px;float: left;" value="Mais dados" class="button">' +
+                        div += ('<input type="button" estado="' + equipamento_estado + '" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="mais_dados" onclick="equipamento(this,2);" style="background-image: url(img/buttons/s_info.png);margin-top: 1px;float: left;" value="Mais dados" class="button">' +
                                 '<input type="button" equipamento_id="' + equipamentos[j].id + '"  unidade="' + unidades[i].id + '" name="alterar_status" onclick="equipamento(this,2);" style="background-image: url(img/buttons/exec.png);margin-top: 1px;float: left;" value="Alterar status" class="button">' +
                                 '<input type="button" equipamento_id="' + equipamentos[j].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="inspecoes" onclick="equipamento(this,2);" style="background-image: url(img/buttons/b_usredit.png);margin-top: 1px;float: left;" value="Inspeções" class="button">' +
                                 '<input type="button" equipamento_id="' + equipamentos[j].id + '"   unidade="' + unidades[i].id + '"  equipamento="' + equipamentos[j].Equipamento + '" name="alterar" onclick="equipamento(this,2);" style="background-image: url(img/buttons/b_edit.png);margin-top: 1px;float: left;" value="Alterar equipamento" class="button"></div>');
@@ -546,7 +546,7 @@ function equipamento(object, tipo) {
         $("#dialog-unidades").dialog('open');
     } else if (object === 'flip_status') {
         console.log(tipo.src);
-        if (tipo.src === 'http://localhost/img/status/DONE.png') {
+        if (tipo.src === 'http://localhost/SiteFCA-master/web/img/status/DONE.png') {
             $.post("index.php/equipamento?change_satus", {
                 equipamento: tipo.getAttribute('equipamento_id'),
                 status: 'Parada - Disponível',
@@ -555,7 +555,7 @@ function equipamento(object, tipo) {
                 accao: 0,
                 manobra: 0
             }, function (dat) {
-                tipo.src = 'http://localhost/img/status/VOIDED.png';
+                tipo.src = 'http://localhost/SiteFCA-master/web/img/status/VOIDED.png';
                 ($("#icon" + tipo.getAttribute('equipamento_id')).next().html('Parada - Disponível'));
             })
         } else {
@@ -567,7 +567,7 @@ function equipamento(object, tipo) {
                 accao: 0,
                 manobra: 0
             }, function (dat) {
-                tipo.src = 'http://localhost/img/status/DONE.png';
+                tipo.src = 'http://localhost/SiteFCA-master/web/img/status/DONE.png';
                 $("#icon" + tipo.getAttribute('equipamento_id')).next().html('Em Serviço');
             });
         }

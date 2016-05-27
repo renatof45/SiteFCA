@@ -1,4 +1,3 @@
-
 var relatorios_passos = [];
 var alertas = [];
 var steps_array = [];
@@ -6,6 +5,12 @@ var last_index = 0;
 var proc_id = 0;
 var update = false;
 var monobra_id;
+var rotina_id = 0;
+
+var rotinaFormOptions = {
+    beforeSubmit: showRequestRotina
+};
+
 var processoptions = {
     beforeSubmit: showRequest, // pre-submit callback 
 };
@@ -14,7 +19,96 @@ var listequipamentos = {
     beforeSubmit: showRequestEquipamentos, // pre-submit callback 
 };
 
+var dias_do_mes = '<select style="margin-left:10px;float: left" name="diasmes" ><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select>';
+var dias_da_semana = '<ul id="diasemana" onclick="processo(\'diasemana\',this);" style="float: left;margin-left: 5px"><li><input name="segunda" type="checkbox">Segunda-feira</li><li><input name="terca" type="checkbox">Terça-feira</li><li><input name="quarta" type="checkbox">Quarta-feira</li><li><input name="quinta" type="checkbox">Quinta-feira</li><li><input name="sexta" type="checkbox">Sexta-feira</li><li><input name="sabado" type="checkbox">Sábado</li><li><input name="domingo" type="checkbox">Domingo</li></ul>'
+var turnos = '<ul style="margin-left: 15px"><li><input name="manha" type="checkbox">Manhã</li><li><input name="tarde" type="checkbox">Tarde</li><li><input name="noite" type="checkbox">Noite</li></ul>';
 
+function showRequestRotina(formData, jqForm, options) {
+    var frequencia = '';
+    frequencia += formData[4].value;
+    if (formData[4].value === '3') {
+        frequencia += '-' + formData[5].value;
+    }
+    if (formData[4].value === '1') {
+        for (var i = 5; i < formData.length; i++) {
+            frequencia += '-' + formData[i].name;
+        }
+    } else if (formData[4].value === '2') {
+        for (var i = 5; i < formData.length; i++) {
+            if (formData[i].name === 'segunda') {
+                frequencia += '-' + formData[i].name + '(;)';
+            } else if (formData[i].name === 'terca') {
+                frequencia = frequencia.replace(";", '');
+                frequencia += '-' + formData[i].name + '(;)';
+            } else if (formData[i].name === 'quarta') {
+                frequencia = frequencia.replace(";", '');
+                frequencia += '-' + formData[i].name + '(;)';
+            } else if (formData[i].name === 'quinta') {
+                frequencia = frequencia.replace(";", '');
+                frequencia += '-' + formData[i].name + '(;)';
+            } else if (formData[i].name === 'sexta') {
+                frequencia = frequencia.replace(";", '');
+                frequencia += '-' + formData[i].name + '(;)';
+            } else if (formData[i].name === 'sabado') {
+                frequencia = frequencia.replace(";", '');
+                frequencia += '-' + formData[i].name + '(;)';
+            } else if (formData[i].name === 'domingo') {
+                frequencia = frequencia.replace(";", '');
+                frequencia += '-' + formData[i].name + '(;)';
+            } else {
+                frequencia = frequencia.replace(";", formData[i].name + ',;');
+            }
+        }
+    } else if (formData[4].value === '3') {
+        if (formData[5].value === '2' || formData[5].value === '3') {
+            for (var i = 6; i < formData.length; i++) {
+                if (formData[i].name === 'segunda') {
+                    frequencia += '-' + formData[i].name + '(;)';
+                } else if (formData[i].name === 'terca') {
+                    frequencia = frequencia.replace(";", '');
+                    frequencia += '-' + formData[i].name + '(;)';
+                } else if (formData[i].name === 'quarta') {
+                    frequencia = frequencia.replace(";", '');
+                    frequencia += '-' + formData[i].name + '(;)';
+                } else if (formData[i].name === 'quinta') {
+                    frequencia = frequencia.replace(";", '');
+                    frequencia += '-' + formData[i].name + '(;)';
+                } else if (formData[i].name === 'sexta') {
+                    frequencia = frequencia.replace(";", '');
+                    frequencia += '-' + formData[i].name + '(;)';
+                } else if (formData[i].name === 'sabado') {
+                    frequencia = frequencia.replace(";", '');
+                    frequencia += '-' + formData[i].name + '(;)';
+                } else if (formData[i].name === 'domingo') {
+                    frequencia = frequencia.replace(";", '');
+                    frequencia += '-' + formData[i].name + '(;)';
+                } else {
+                    frequencia = frequencia.replace(";", formData[i].name + ',;');
+                }
+            }
+
+        } else {
+            frequencia += '-' + formData[6].value;
+        }
+
+    }
+    frequencia = frequencia.replace(";", '');
+    frequencia = frequencia.split(",)").join(')');
+    $("#dvLoading").show();
+    detach = false;
+    $.post('index.php/processo?novarotina&updaterotina=' + update + '&rotinaid=' + rotina_id, {unidade: formData[0].value, nome: formData[1].value, descricao: formData[2].value, alerta: formData[3].value, frequencia: frequencia}, function (data) {
+        if (update) {
+            rotina_id = data;
+            $("#informacao").html('Rotina actualizada!');
+            $("#dialog-informacao").dialog('open');
+        } else {
+            $("#informacao").html('Nova rotina criada!');
+            $("#dialog-informacao").dialog('open');
+        }
+        update = true;
+    });
+    return false;
+}
 
 function addNewTitle() {
     var index = 0;
@@ -41,22 +135,128 @@ function addNewTitle() {
 function stopScroll() {
     $("#app").css('overflow-y', 'hidden');
 }
+
 function showScroll() {
     $("#app").css('overflow-y', 'auto');
 }
 
 function processo(type, object) {
-    if (type === '3') {
+
+
+    if (type === 'para_hoje') {
+        $.post('index.php/processo?parahoje', function (data) {
+            var rotinas = (JSON.parse(data));
+            for (var i = 0; i < rotinas.length; i++) {
+                var etapas = rotinas[i].frequencia.split('-');
+                //console.log(etapas);
+                if (etapas[0] === '2') {
+                    var turnos=[];
+                    for (var j = 1; j < etapas.length; j++) {
+                        var rex = /\(.+\)/g;
+                        var matches = etapas[j].match(rex);
+                        matches[0] = matches[0].split(")").join('');
+                        matches[0] = matches[0].split("(").join('');
+                        turnos.push({'dia':etapas[j].split('(')[0],'trunos':matches[0].split(',')});
+                        
+                    }
+                    console.log(turnos);
+                }
+            }
+        });
+    }
+
+    if (type.name === 'salvar_nova_rotina') {
+        $('#adicionarRotinaForm').ajaxForm(rotinaFormOptions);
+        //$('#dvLoading').show();
+        //$("#adicionarManobraForm").attr('action', 'index.php/processo?adicionar=true');
+        $("#adicionarRotinaForm").submit();
+    }
+
+    if (type === 'mensal') {
+        console.log(object.value);
+        if (object.value === '1') {
+            $("[name='mensal']").next().remove();
+            $("[name='mensal']").next().remove();
+            $("[name='mensal']").after(dias_do_mes);
+        }
+        if (object.value === '2') {
+            $("[name='mensal']").next().remove();
+            $("[name='mensal']").next().remove();
+            $("[name='mensal']").after(dias_da_semana);
+        }
+        if (object.value === '3') {
+            $("[name='mensal']").next().remove();
+            $("[name='mensal']").next().remove();
+            $("[name='mensal']").after(dias_da_semana);
+        }
+    } else if (type === 'diasemana') {
+        $("#" + object.getAttribute('id')).children().each(function () {
+            if (!$(this).children().first().next().is("ul") && $(this).children().first().is(":checked")) {
+                $(this).append(turnos)
+            } else if (!$(this).children().is(":checked") && $(this).children().first().next().is("ul")) {
+                $(this).children().first().next().remove();
+            }
+        });
+    } else if (type.name === 'frequencia') {
+        if (type.value === '1') {
+            $("[name='frequencia']").next().remove();
+            $("[name='frequencia']").next().remove();
+            $("[name='frequencia']").after(turnos);
+        }
+        if (type.value === '2') {
+            $("[name='frequencia']").next().remove();
+            $("[name='frequencia']").next().remove();
+            $("[name='frequencia']").after(dias_da_semana);
+        }
+        if (type.value === '3') {
+            $("[name='frequencia']").next().remove();
+            $("[name='frequencia']").next().remove();
+            $("[name='frequencia']").after('<select style="margin-left:10px;float: left" name="mensal" onchange="processo(\'mensal\',this)"><option value="1">Todas os dias</option><option value="2">Todas as(os)</option><option value="3">Primeira(o)</option></select>' + dias_do_mes);
+        }
+    } else if (type.name === 'eliminar_proc') {
+        detach = false;
+        $("#dialog-warning").data('callback', function () {
+            $.post("index.php/processo?deleteproc&proc=" + $("#proc_id").val(), function () {
+                processo('myprocs');
+            });
+        })
+                .dialog('open');
+    } else if (type === 'show_my_proc') {
+        processo(object);
+    } else if (type === 'myprocs') {
+        detach = false;
+        $.post("index.php/processo?myprocs", function (data) {
+            document.getElementById("app").innerHTML =
+                    '<h1>Procedimentos</h1><form><ul id="tab2" class="tabs"></ul></form>';
+            var unidades = JSON.parse(data)['unidades'];
+            var manobras = JSON.parse(data)['manobra'];
+            TABS.CreateTabs('tab2');
+            for (var i = 0; i < unidades.length; i++) {
+                var element = $('<div></div>');
+                for (var j = 0; j < manobras.length; j++) {
+                    var div = '';
+                    if (manobras[j].unidade === unidades[i].id) {
+                        div = '<div id="' + manobras[j].id + '" proc_id="' + manobras[j].id + '" onMouseOut="pointer(this)" unidade="' + unidades[i].id + '" onMouseOver="pointer(this)" name="editar_proc" onclick="processo(\'show_my_proc\',this)"  class="field" style="height: 21px;background-color: #F3F3F3;"><label style="width:500px;margin-left:5px;">' + manobras[j].nome + '</label></div>';
+                        element.append(div);
+                    }
+                }
+                element.css('padding', '10px');
+                element.css('overflow', 'auto');
+                if (i === 0)
+                    TABS.AddTab(unidades[i].designacao, true, element[0].outerHTML, 'tab2');
+                else
+                    TABS.AddTab(unidades[i].designacao, false, element[0].outerHTML, 'tab2');
+            }
+        });
+    } else if (type === '3') {
 
     } else if (type.name === 'relatorio') {
-        console.log($("#" + type.id).parent().parent().prev().children().first().next().html());
         $('#dvLoading').hide();
         $("#salvarRelatorioForm").html('<ul id="tab1" class="tabs"></ul>');
         $("#dialog-unidades").data('passo', $("#" + type.id).parent().parent().prev().children().first().next().html())
                 .data('accao', type.getAttribute('accao'))
                 .dialog('open');
-    }
-    if (type.name === 'maximizar') {
+    } else if (type.name === 'maximizar') {
         if (type.value === 'Maximizar editor') {
             type.value = "Restaurar editor";
             console.log($("[name='" + type.name + "']").css('background-image', 'url(img/buttons/exitFullscreen.png'));
@@ -70,11 +270,9 @@ function processo(type, object) {
             var editor = CKEDITOR.instances.editor;
             editor.resize('100%', 200);
         }
-    }
-    if (type.name === 'imprimir') {
-        window.open('http://localhost:8080/index.php/processo?imprimir&proc=' + type.getAttribute('proc_id'));
-    }
-    if (type.name === 'mostrar_relatorio') {
+    } else if (type.name === 'imprimir') {
+        window.open('http://localhost/SiteFCA-master/web/index.php/processo?imprimir&proc=' + type.getAttribute('proc_id'));
+    } else if (type.name === 'mostrar_relatorio') {
         if (type.value === 'Mostrar relatório') {
             $("#relatorio" + type.getAttribute('index')).show();
             type.value = 'Ocultar relatório';
@@ -82,8 +280,7 @@ function processo(type, object) {
             $("#relatorio" + type.getAttribute('index')).hide();
             type.value = 'Mostrar relatório';
         }
-    }
-    if (type.name === 'novo_titulo') {
+    } else if (type.name === 'novo_titulo') {
         var index = 0;
         $("#position-title").html('');
         $("#passos").children().each(function () {
@@ -99,15 +296,13 @@ function processo(type, object) {
 
         });
         $("#dialog-add-title").dialog('open');
-    }
-    if (type.name === 'mover_passso') {
+    } else if (type.name === 'mover_passso') {
         var index = 0;
         $("#passos").children().each(function () {
 
         });
         $("#dialog-move-item").dialog('open');
-    }
-    if (type.name === 'remover_titulo') {
+    } else if (type.name === 'remover_titulo') {
         var index = (type.getAttribute('index'));
         var found = false;
         $("#passos").children().each(function () {
@@ -135,8 +330,7 @@ function processo(type, object) {
                 }
             }
         });
-    }
-    if (type.name === 'remover_passso') {
+    } else if (type.name === 'remover_passso') {
         var index = (type.getAttribute('index'));
         alertas.splice(parseInt(index), 1);
         var found = false;
@@ -201,14 +395,15 @@ function processo(type, object) {
                 }
             }
         });
-        if (type.value === 'Adicionar Alerta') {
+        if (type.value === 'Adicionar alerta') {
+            //console.log($("#"+type.id));
             $("#alerta_ralatorio")[0].checked = false;
             $("#alerta_equipamento")[0].checked = false;
             $("#mensagem").val('');
             if ($("#adicionar_equipamento").parent().parent().children().length > 2) {
                 $("#adicionar_equipamento").parent().next().remove();
             }
-            $("#dialog-alertas").data('step', type)
+            $("#dialog-alertas").data('step', $("#" + type.id))
                     .dialog("open");
         } else {
             var step = (alertas[parseInt(type.getAttribute('index'))]);
@@ -228,7 +423,7 @@ function processo(type, object) {
             if (step.equipamento_id !== '')
                 $("#adicionar_equipamento").parent().after('<div style="margin-top:5px;margin-left:100px;" class="feild"><label>Equipamento:</label><p style="width: 100px;float: left;">' + step.name + '</p><input type="button" onclick="processo(this);" id="eliminar_equipamento" name="eliminar_equipamento"  value="X" class="submit" style="float:none; width: 16px;" /></div>');
             $("#mensagem").val(step.texto);
-            $("#dialog-alertas").data('step', type)
+            $("#dialog-alertas").data('step', $("#" + type.id))
                     .dialog("open");
         }
     }
@@ -266,8 +461,8 @@ function processo(type, object) {
         $("#passos").append('<div style="margin-top:10px" class="field" index="' + index + '" tipo="passo">' +
                 '<label>Passo ' + index + ':</label>' +
                 '<textarea style="background-color: antiquewhite;height: 50px;width: 750px" name="manobra[passos][passo' + index + ']"></textarea>' +
-                '<input type="button" onclick="processo(this);" name="alerta" index="' + index + '" value="Adicionar Alerta" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;" />' +
-                '<input type="button" onclick="processo(this);" name="remover_passso" index="' + index + '" value="Remover passo" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
+                '<input type="button" onclick="processo(this);" id="alerta' + index + '" name="alerta" index="' + index + '" value="Adicionar alerta" class="button" style="background-image: url(img/buttons/b_snewtbl.png);float:none;margin-bottom: 10px;margin-top: 10px;" />' +
+                '<input type="button" onclick="processo(this);" name="remover_passso" index="' + index + '" value="Remover passo" class="button" style="background-image: url(img/buttons/b_drop.png);float:none;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
                 '<div class="clear separator"></div>' +
                 '</div>'
                 );
@@ -332,48 +527,56 @@ function processo(type, object) {
             $("#adicionarManobraForm").submit();
         }
     }
-    if (type.name === 'editar_proc') {
-        update = true;
-        $.post("index.php/processo?novoproc&unidade=" + $("#unidade").val(), function (data) {
-            document.getElementById("app").innerHTML = data;
-            CKEDITOR.config.height = 200;
-            CKEDITOR.config.width = 750;
-            $("#proc_id").val(type.getAttribute('proc_id'))
-
-
-            $.post('index.php/processo?getprocedimentos&proc=' + type.getAttribute('proc_id'), function (data) {
-                var proc = JSON.parse(JSON.parse(JSON.parse(data)['manobra']));
-                $("#manobra_nome").val(proc[1].nome.value);
-                $("#editor").html(JSON.parse(JSON.parse(data)['descricao']));
-                initSample();
-                var editar_alerta = '';
-                var
-                        alertas = proc[2]['alertas'];
-                for (var i = 0; i < proc[2]['steps'].length; i++) {
-                    if (proc[2]['steps'][i]['title'] !== '') {
-                        $("#passos").append('<div style="margin-top:10px" class="field" tipo="titulo">' +
-                                '<label>Titulo intermédio:</label>' +
-                                '<textarea style="background-color: aliceblue;height: 35px;width: 750px;" name="manobra[passos][passo1]">' + proc[2]['steps'][i]['title'] + '</textarea>' +
-                                '<input type="button" onclick="processo(this);" name="remover_titulo" index="' + i + '" value="Remover" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
+    if ($.type(type) === 'object')
+        if (type.name === 'editar_proc' || type.getAttribute('name') === 'editar_proc') {
+            update = true;
+            $.post("index.php/processo?novoproc&unidade=" + type.getAttribute('unidade'), function (data) {
+                document.getElementById("app").innerHTML = data;
+                CKEDITOR.config.height = 200;
+                CKEDITOR.config.width = 750;
+                $("#proc_id").val(type.getAttribute('proc_id'));
+                detach = false;
+                $.post('index.php/processo?getprocedimentos&proc=' + type.getAttribute('proc_id'), function (data) {
+                    var proc = JSON.parse(JSON.parse(JSON.parse(data)['manobra']));
+                    $("#manobra_nome").val(proc[1].nome.value);
+                    $("#editor").html(JSON.parse(JSON.parse(data)['descricao']));
+                    $("#publicar").val(JSON.parse(JSON.parse(data)['publicar'])).change();
+                    initSample();
+                    setTimeout(function () {
+                        var editor = CKEDITOR.instances.editor;
+                        editor.resize('100%', 200);
+                    }, 500);
+                    var editar_alerta = '';
+                    var back_img = ';'
+                    alertas = proc[2]['alertas'];
+                    for (var i = 0; i < proc[2]['steps'].length; i++) {
+                        if (proc[2]['steps'][i]['title'] !== '') {
+                            $("#passos").append('<div style="margin-top:10px" class="field" tipo="titulo">' +
+                                    '<label>Titulo intermédio:</label>' +
+                                    '<textarea style="background-color: aliceblue;height: 35px;width: 750px;" name="manobra[passos][passo1]">' + proc[2]['steps'][i]['title'] + '</textarea>' +
+                                    '<input type="button" onclick="processo(this);" name="remover_titulo" index="' + i + '" value="Remover" class="button" style="float:none;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
+                                    '<div class="clear separator"></div>' +
+                                    '</div>');
+                        }
+                        if (alertas.length > 0 && alertas[i] !== null) {
+                            editar_alerta = "Editar alerta";
+                            back_img = 'background-image: url(img/buttons/b_edit.png);';
+                        } else {
+                            editar_alerta = "Adicionar alerta";
+                            back_img = 'background-image: url(img/buttons/b_snewtbl.png);';
+                        }
+                        $("#passos").append('<div style="margin-top:10px" class="field" index="' + i + '" tipo="passo">' +
+                                '<label>Passo ' + i + ':</label>' +
+                                '<textarea style="background-color: antiquewhite;height: 50px;width: 750px" name="manobra[passos][passo' + i + ']">' + proc[2]['steps'][i]['step'] + '</textarea>' +
+                                '<input type="button" onclick="processo(this);" id="alerta' + i + '" name="alerta" index="' + i + '" value="' + editar_alerta + '" class="button" style="' + back_img + 'float:none;margin-bottom: 10px;margin-top: 10px;" />' +
+                                '<input type="button" onclick="processo(this);" id="alerta' + i + '" name="remover_passso" index="' + i + '" value="Remover passo" class="button" style="background-image: url(img/buttons/b_drop.png);float:none;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
                                 '<div class="clear separator"></div>' +
-                                '</div>');
+                                '</div>'
+                                );
                     }
-                    if (alertas[i] !== null)
-                        editar_alerta = "Editar Alerta";
-                    else
-                        editar_alerta = "Adicionar Alerta";
-                    $("#passos").append('<div style="margin-top:10px" class="field" index="' + i + '" tipo="passo">' +
-                            '<label>Passo ' + i + ':</label>' +
-                            '<textarea style="background-color: antiquewhite;height: 50px;width: 750px" name="manobra[passos][passo' + i + ']">' + proc[2]['steps'][i]['step'] + '</textarea>' +
-                            '<input type="button" onclick="processo(this);" name="alerta" index="' + i + '" value="' + editar_alerta + '" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;" />' +
-                            '<input type="button" onclick="processo(this);" name="remover_passso" index="' + i + '" value="Remover passo" class="submit" style="float:none; width: 100px;margin-bottom: 10px;margin-top: 10px;margin-right: 10px;" />' +
-                            '<div class="clear separator"></div>' +
-                            '</div>'
-                            );
-                }
+                });
             });
-        });
-    }
+        }
     if (type === "start_proc") {
         if ($("#start_proc").val() === 'Anular manobra') {
             detach = false;
@@ -508,7 +711,7 @@ function processo(type, object) {
                 for (var j = 0; j < manobras.length; j++) {
                     var div = '';
                     if (manobras[j].unidade === unidades[i].id) {
-                        div = '<div id="' + manobras[j].id + '" onMouseOut="pointer(this)" onMouseOver="pointer(this)" name="show_proc" onclick="processo(\'show_proc\',this)"  class="field" style="height: 21px;background-color: #F3F3F3;"><label style="width:500px;margin-left:5px;">' + manobras[j].nome + '</label></div>';
+                        div = '<div id="' + manobras[j].id + '" onMouseOut="pointer(this)" onMouseOver="pointer(this)"  name="show_proc" onclick="processo(\'show_proc\',this)"  class="field" style="height: 21px;background-color: #F3F3F3;"><label style="width:500px;margin-left:5px;">' + manobras[j].nome + '</label></div>';
                         element.append(div);
                     }
                 }
@@ -536,21 +739,41 @@ function processo(type, object) {
                 alert.pop();
             }
             initSample();
-            var editor = CKEDITOR.instances.editor;
-            //editor.resize('100%', 200);
+            setTimeout(function () {
+                var editor = CKEDITOR.instances.editor;
+                console.log(editor);
+                editor.resize('100%', 200);
+            }, 500);
             update = false;
         });
     }
     if (type === 3) {
         $.post("index.php/processo?type=" + type, function (data) {
             document.getElementById("app").innerHTML = data;
+
+
+            while (steps_array.length > 0) {
+                steps_array.pop();
+            }
+
+            while (alert.length > 0) {
+                alert.pop();
+            }
+            initSample();
+            setTimeout(function () {
+                var editor = CKEDITOR.instances.editor;
+                editor.resize('100%', 150);
+            }, 500);
+
+            update = false;
         });
     }
 }
 
 function pointer(div) {
+    console
     if ($("#" + div.id)[0].style.backgroundColor === 'rgb(243, 243, 243)')
-        $("#" + div.id).css('background-color', '#FA4616');
+        $("#" + div.id).css('background-color', '#FACCAB');
     else
         $("#" + div.id).css('background-color', 'rgb(243, 243, 243)');
 }
@@ -608,20 +831,25 @@ function checkStep(step, index) {
         };
 
         detach = false;
-        console.log($("#observacoes").val());
         $.post("index.php/processo?salvar_passo_proc&passo=" + index + "&obs=" + $("#observacoes").val() + "&monobra_id=" + monobra_id + "&proc_id=" + proc_id, function (data) {
             nextStep();
-            if (alertas[index] !== null && alertas[index]['equipamento_id'] !== '') {
-                $.post("index.php/equipamento?change_satus", {
-                    equipamento: alertas[index]['equipamento_id'],
-                    status: $("#halt-status option:selected").html(),
-                    descricao: '',
-                    comentario: '',
-                    accao: index + '-' + monobra_id,
-                    manobra: monobra_id
-                }, function (dat) {
-                    console.log(dat);
-                });
+            if (alertas.length > 0 && alertas[index] !== null) {
+                if (alertas[index] !== undefined && alertas[index].equipamento) {
+                    if (alertas[index]['equipamento_id'] !== '') {
+                        $.post("index.php/equipamento?change_satus", {
+                            equipamento: alertas[index]['equipamento_id'],
+                            status: $("#halt-status option:selected").html(),
+                            descricao: '',
+                            comentario: '',
+                            accao: index + '-' + monobra_id,
+                            manobra: monobra_id
+                        }, function (dat) {
+                            console.log(dat);
+                        });
+
+
+                    }
+                }
             }
             $("#" + step.id).parent().parent().prev().first().children().last().append(username);
             $("#" + step.id).parent().parent().prev().first().children().last().prev().append(data);
@@ -729,15 +957,16 @@ function checkStep(step, index) {
 function getAlerta(tag, index) {
     var alerta = '';
     if (alertas.length > 0) {
+        console.log(alertas[index]);
         tag.after('<div style="clear: left;float:left;padding: 5px;" id="alert' + index + '"></div>');
-        if (alertas[index]['relatrio']) {
+        if (alertas[index] !== undefined && alertas[index]['relatrio']) {
             $("#alert" + index).append('<label style="color:red;line-height:18px">-Não se esqueça de actualizar o relatorio</label>');
         }
-        if (alertas[index]['equipamento']) {
+        if (alertas[index] !== undefined && alertas[index]['equipamento']) {
             $("#alert" + index).append('<br><label style="color:red;line-height:18px">-Não se esqueça de actualizar o estado do equipamento</label>');
         }
         $("#alert" + index).append('<div class="field"><label style="float:left;width:120px">Observações:</label><textarea id="observacoes" rows="4" cols="40"></textarea></div>');
-        if (alertas[index]['equipamento_id'] !== '') {
+        if (alertas[index] !== undefined && alertas[index]['equipamento_id'] !== '') {
             detach = false;
             $.post("index.php/equipamento?get_status_equipamento&equipamento=" + alertas[index]['equipamento_id'], function (data) {
                 var equipamento = JSON.parse(data);
@@ -763,7 +992,7 @@ function getAlerta(tag, index) {
 
 function selectbloco(bloco) {
     $("#" + bloco.id).css('border', '2px solid');
-//console.log($("#div"+bloco.id));
+    //console.log($("#div"+bloco.id));
 }
 
 function setbloco(bloco) {
@@ -802,7 +1031,8 @@ function showRequest(formData, jqForm, options) {
 
         $.post("index.php/processo?update=true&id=" + id + "&unidade=" + procedimento[0]['unidade']['value'] + '&nome=' + procedimento[1]['nome']['value'], {
             procidimento: JSON.stringify(procedimento),
-            descricao: editor.getData()
+            descricao: editor.getData(),
+            publicar: $("#publicar").val()
         }, function (data) {
             $('#dvLoading').hide();
             $("#informacao").html('Procedimento actulizado!');
@@ -812,7 +1042,8 @@ function showRequest(formData, jqForm, options) {
         update = true;
         $.post("index.php/processo?salvar=true&unidade=" + procedimento[0]['unidade']['value'] + '&nome=' + procedimento[1]['nome']['value'], {
             procidimento: JSON.stringify(procedimento),
-            descricao: editor.getData()
+            descricao: editor.getData(),
+            publicar: $("#publicar").val()
         }, function (data) {
             $('#dvLoading').hide();
             $("#informacao").html('Novo procedimento gravado!');
@@ -823,7 +1054,3 @@ function showRequest(formData, jqForm, options) {
 
     return false;
 }
-
-
-
-    

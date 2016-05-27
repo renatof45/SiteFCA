@@ -88,6 +88,8 @@ input, textarea, select {
 input, select {
     vertical-align: middle;
     font-weight: normal;
+    border: 1px solid;
+    text-align: center;
 }
 form {
     clear: right;
@@ -328,7 +330,7 @@ ul#flashes li {
 
 /** jquery ui **/
 .ui-widget {
-    font-family: Tahoma, Geneva, sans-serif;
+    
 
 }
 .ui-widget button {

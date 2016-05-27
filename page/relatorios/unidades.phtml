@@ -1,19 +1,31 @@
 <form id="ajaxform1" method="post">
     <fieldset style="z-index: 100; position: fixed;background-color: rgb(243,243,243);width: 863px;">
         <div class="field">
-            
+             <input type="button" name="anterior" index="0" onclick="relatorio(2,this);" style="background-image: url(img/buttons/b_prevpage.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Anterior" class="button">
+              <input type="button" name="proximo" index="0" onclick="relatorio(2,this);" style="background-image: url(img/buttons/b_nextpage.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Próximo" class="button">
+            <?php if($_SESSION['user_type']==2): ?>  
             <input type="button" name="alterar" onclick="relatorio('salvar_relatorio');" style="background-image: url(img/buttons/save.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">
+            <?php endif; ?>
             <input type="button" name="alterar" onclick="relatorio('imprimir');" style="background-image: url(img/buttons/b_print.png);margin-top: 5px;float: left;" value="Imprimir" class="button">
 
         </div> 
     </fieldset>
 </form>
 
-<h1 style="margin-top: 30px">Relatório Area C</h1>
-
+<h1 style="margin-bottom: 0px;margin-top: 30px">Unidades</h1>
+<div id="dados"></div>
 <form id="salvarRelatorioForm" method="post">
     
     <ul id="tab1" class="tabs">
 
     </ul>
 </form>
+
+<div id="dialog-comentario-relatorio" title="Desicrição">
+    <form>
+        <fieldset>
+            <label style="width:300px">Faça uma breva descrição da alteração (opcional):</label>
+            <textarea id="comentario" style="width: 422px"></textarea>
+        </fieldset>
+    </form>
+</div>

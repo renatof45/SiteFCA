@@ -27,10 +27,10 @@ class RelatorioDao extends DAO {
         ));
     }
 
-    public function updateRelatrio($dados, $accao, $manobra) {
-        $sql = "INSERT INTO `galp`.`relatorios-output` (`dados`, `relatorio`, `area`, `versao`,`accao`,`manobra`) VALUES (:dados, :relatorio, :area, :versao, :accao,:manobra);";
+    public function updateRelatrio($comentario,$dados, $accao, $manobra) {
+        $sql = "INSERT INTO `galp`.`relatorios-output` (`comentario`,`dados`, `relatorio`, `area`, `versao`,`accao`,`manobra`,`user`) VALUES (:comentario,:dados, :relatorio, :area, :versao, :accao,:manobra,:user);";
         $statement = parent::getDb()->prepare($sql);
-        parent::executeStatement($statement, array(':manobra' => $manobra, ':accao' => $accao, ':dados' => $dados, ':relatorio' => $_SESSION['relatorio'], ':versao' => self::getCurrentVersao(), ':area' => $_SESSION['area']));
+        parent::executeStatement($statement, array(':comentario'=>$comentario,  ':user'=>$_SESSION['user'], ':manobra' => $manobra, ':accao' => $accao, ':dados' => $dados, ':relatorio' => $_SESSION['relatorio'], ':versao' => self::getCurrentVersao(), ':area' => $_SESSION['area']));
     }
 
     public function deleteRelatorio($accao) {
@@ -39,28 +39,38 @@ class RelatorioDao extends DAO {
         parent::executeStatement($statement, array(':accao' => $accao));
     }
 
-    public function getLastRelatorio() {
-        $found = false;
-        $dados = null;
-        foreach (parent::query('SELECT * FROM galp.`relatorios-output`  where relatorio=' . $_SESSION['relatorio'], PDO::FETCH_ASSOC) as $row) {
-            $found = true;
-        }
-        if ($found) {
-            $result = parent::query('SELECT * FROM galp.`relatorios-output`  where relatorio=' . $_SESSION['relatorio'], PDO::FETCH_ASSOC);
-            foreach ($result as $relatorio) {
-                return $relatorio;
-            }
-        } else {
-            foreach (parent::query('SELECT * FROM galp.`relatorios-output`  where relatorio=' . (intval($_SESSION['relatorio']) - 1), PDO::FETCH_ASSOC) as $row) {
-                $dados = $row['dados'];
-            }
-            self::insertNewRelatorio($dados, $_SESSION['relatorio'], self::getCurrentVersao());
-            $result = parent::query('SELECT * FROM galp.`relatorios-output`  where relatorio=' . $_SESSION['relatorio'], PDO::FETCH_ASSOC);
+    public function getLastRelatorio1() {
+        foreach (parent::query('SELECT max(id) as id FROM galp.`relatorios-output`  where area=' . $_SESSION['area'], PDO::FETCH_ASSOC) as $row) {
+            $result = parent::query('SELECT * FROM galp.`relatorios-output`  where id=' . $row['id'], PDO::FETCH_ASSOC);
             foreach ($result as $relatorio) {
                 return $relatorio;
             }
         }
-        return 0;
+    }
+
+    public function getLastRelatorio($index) {
+        foreach (parent::query('SELECT * FROM galp.`relatorios-output` where area='.$_SESSION['area'].' ORDER BY id DESC LIMIT '.($index+1).',1', PDO::FETCH_ASSOC) as $row) {
+            if ($row['manobra'] != 0) {
+                $result = parent::query('SELECT nome,manobra FROM galp.`manobras-processo-activas` '
+                                . 'join galp.`manobras-processo` on galp.`manobras-processo`.id=galp.`manobras-processo-activas`.procedimento'
+                                . ' where galp.`manobras-processo-activas`.id=' . $row['manobra'], PDO::FETCH_ASSOC);
+                foreach ($result as $manobra) {
+                    $result = parent::query('SELECT * FROM galp.`relatorios-output`  join utilizador on utilizador.ID=galp.`relatorios-output`.user  where galp.`relatorios-output`.id=' . $row['id'], PDO::FETCH_ASSOC);
+                    foreach ($result as $relatorio) {
+                        return(array('relatorio' => $relatorio, 'manobra' => $manobra));
+                    }
+                }
+            } else {
+                $result = parent::query('SELECT * FROM galp.`relatorios-output` join utilizador on utilizador.ID=galp.`relatorios-output`.user  where galp.`relatorios-output`.id=' . $row['id'], PDO::FETCH_ASSOC);
+                foreach ($result as $relatorio) {
+                    return(array('relatorio' => $relatorio, 'manobra' => $row['manobra']));
+                }
+            }
+        }
+    }
+
+    public function getDadosRelatorio($index){
+        //$sql='SELECT * FROM galp.`relatorios-output` where area='.$_SESSION['area'].' ORDER BY id DESC LIMIT '.$index+1.',1';
     }
 
     public function getCurrentRelatorio() {
@@ -97,28 +107,59 @@ class RelatorioDao extends DAO {
         $statement = parent::getDb()->prepare($sql);
         parent::executeStatement($statement, array(':separadores' => $separadores, ':template' => $relatorio, ':data' => $data, ':versao' => $versao));
     }
+    
+    public function checkVersao(){
+        $result = parent::query('SELECT versao FROM  `relatorios-output` where id = (SELECT max(id) FROM  `relatorios-output` where area='.$_SESSION['area'].');', PDO::FETCH_ASSOC);
+        foreach ($result as $v) {
+            if($result==null){
+                return array('check'=>'false','versao'=>$v['versao']);
+            }
+            $versao_old=$v['versao'];
+            $result1 = parent::query('SELECT versao FROM  `relatorios-templates` where status = "1" and area=' . $_SESSION['area'], PDO::FETCH_ASSOC);
+            foreach ($result1 as $v1) {
+                if($versao_old==$v1['versao']){
+                    return array('check'=>'true','versao'=>$v1['versao']);
+                }
+                else{
+                    return array('check'=>'false','versao'=>$v1['versao']);
+                }      
+            }
+        }
+    }
 
     public function setDefaultVersao($versao) {
-        $sql = "UPDATE `galp`.`relatorios-templates` SET `status`=:before WHERE `status`=:after;";
+        $sql = "UPDATE `galp`.`relatorios-templates` SET `status`=:before WHERE `status`=:after and area=:area;";
         $statement = parent::getDb()->prepare($sql);
-        parent::executeStatement($statement, array(':after' => 1, ':before' => 0));
-        $sql = "UPDATE `galp`.`relatorios-templates` SET `status`=:status WHERE `versao`=:versao;";
+        parent::executeStatement($statement, array(':after' => 1, ':before' => 0,':area'=>$_SESSION['area']));
+        $sql = "UPDATE `galp`.`relatorios-templates` SET `status`=:status WHERE `versao`=:versao and area=:area;";
         $statement = parent::getDb()->prepare($sql);
-        parent::executeStatement($statement, array(':status' => 1, ':versao' => $versao));
+        parent::executeStatement($statement, array(':status' => 1, ':versao' => $versao,':area'=>$_SESSION['area']));
     }
 
     public function createVersao($tipo, $versao) {
-        if ($tipo == 1) {
-            
+        $result = parent::query('SELECT max(versao) as versao FROM galp.`relatorios-templates` where  area=' . $_SESSION['area'], PDO::FETCH_ASSOC);
+        foreach ($result as $v) {
+            $versao_nova=$v['versao'];
+        }
+        if ($tipo == 1 || $versao==null) {
+            $sql = 'INSERT INTO `galp`.`relatorios-templates` (`template`, `area`,`versao`,`utilizador`,`separadores`) VALUES (:template, :area, :versao,:utilizador,:separadores)';
+                $statement = parent::getDb()->prepare($sql);
+                parent::executeStatement($statement, array(':separadores' => '', ':template' => '', ':area' => $_SESSION['area'], ':versao'=> $versao_nova+1, ':utilizador' => $_SESSION['user']));
         } else {
             $result = parent::query('SELECT  * FROM galp.`relatorios-templates` where versao=' . $versao . ' and area=' . $_SESSION['area'], PDO::FETCH_ASSOC);
             foreach ($result as $v) {
                 //$versao = $v['versao'];
                 $sql = 'INSERT INTO `galp`.`relatorios-templates` (`template`, `area`,`versao`,`utilizador`,`separadores`) VALUES (:template, :area, :versao,:utilizador,:separadores)';
                 $statement = parent::getDb()->prepare($sql);
-                parent::executeStatement($statement, array(':separadores' => $v['separadores'],':template' => $v['template'], ':area' => $_SESSION['area'],':versao',$versao['template'],':utilizador'=>$_SESSION['user']));
+                parent::executeStatement($statement, array(':separadores' => $v['separadores'], ':template' => $v['template'], ':area' => $_SESSION['area'], ':versao'=> $versao_nova+1, ':utilizador' => $_SESSION['user']));
             }
         }
+    }
+
+    public function deleteVersao($versao){
+         $sql = "DELETE FROM `galp`.`relatorios-templates` WHERE `relatorios-templates`.`versao` = :versao and area=:area";
+        $statement = parent::getDb()->prepare($sql);
+        parent::executeStatement($statement, array(':versao' => $versao, ':area'=>$_SESSION['area']));
     }
 
     public function getVersoes() {

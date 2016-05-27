@@ -9,7 +9,9 @@ $unidades = $unidadesdao->findUnidades($_SESSION['area']);
             <input type="button" name="alterar" onclick="relatorio('pagina');" style="background-image: url(img/buttons/b_table_add.png);margin-top: 5px;float: left;" value="Nova página" class="button">
             <input type="button" name="alterar" onclick="relatorio('eliminar');" style="background-image: url(img/buttons/b_deltbl.png);margin-top: 5px;float: left;" value="Eliminar página" class="button">
             <input type="button" name="alterar" onclick="relatorio('separador');" style="background-image: url(img/buttons/b_snewtbl.png);margin-top: 5px;float: left" value="Separador" class="button">
+             <?php if ($_GET['user'] == $_SESSION['user']): ?>
             <input type="button" name="alterar" onclick="relatorio('salvar');" style="background-image: url(img/buttons/save.png);margin-top: 5px;float: left" value="Salvar" class="button">
+            <?php endif; ?>
             <input type="button" name="alterar" onclick="relatorio('imprimir');" style="background-image: url(img/buttons/b_print.png);margin-top: 5px;float: left;" value="Imprimir" class="button">
 
         </div> 
@@ -49,8 +51,6 @@ $unidades = $unidadesdao->findUnidades($_SESSION['area']);
                     <option value="2">
                         Introdução de valores
                     </option>
-
-
                 </select>
             </div>
             <div class="field">

@@ -27,9 +27,9 @@ require_once('EWSType/NonEmptyArrayOfBaseItemIdsType.php');
 
 class EwsSendEmail {
 
-    protected function sendEmail($pass, $content) {
+    protected function sendEmail($pass, $content,$subject,$to,$from) {
         $server = 'webmail.galpenergia.com';
-        $username = 'oil\\' . $_SESSION['user'];
+        $username = 'oil\\' . $from;
         $password = $pass;
 
 
@@ -40,8 +40,8 @@ class EwsSendEmail {
 
         $toAddresses = array();
         $toAddresses[0] = new EWSType_EmailAddressType();
-        $toAddresses[0]->EmailAddress = '711241@galpenergia.corp';
-        $toAddresses[0]->Name = 'Renato Ferreira';
+        $toAddresses[0]->EmailAddress = $to.'@galpenergia.corp';
+        $toAddresses[0]->Name = '';
 
         // Multiple recipients
         //$toAddresses[1] = new EWSType_EmailAddressType();
@@ -51,17 +51,17 @@ class EwsSendEmail {
         $msg->ToRecipients = $toAddresses;
 
         $fromAddress = new EWSType_EmailAddressType();
-        $fromAddress->EmailAddress = $_SESSION['user'].'@galpenergia.corp';
-        $fromAddress->Name = $_SESSION['user_name'];
+        $fromAddress->EmailAddress = $from.'@galpenergia.corp';
+        $fromAddress->Name = '';
 
         $msg->From = new EWSType_SingleRecipientType();
         $msg->From->Mailbox = $fromAddress;
 
-        $msg->Subject = 'Test email message';
+        $msg->Subject = $subject;
 
         $msg->Body = new EWSType_BodyType();
         $msg->Body->BodyType = 'HTML';
-        $msg->Body->_ = '<p style="font-size: 18px; font-weight: bold;">Test email message from php ews library.</p>';
+        $msg->Body->_ = $content;
 
         $msgRequest = new EWSType_CreateItemType();
         $msgRequest->Items = new EWSType_NonEmptyArrayOfAllItemsType();
@@ -73,8 +73,8 @@ class EwsSendEmail {
         var_dump($response);
     }
 
-    function __construct($pass, $content) {
-        $this->sendEmail($pass, $content);
+    function __construct($pass, $content,$subject,$to,$from) {
+        $this->sendEmail($pass, $content,$subject,$to,$from);
     }
 
 }

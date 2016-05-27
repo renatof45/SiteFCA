@@ -1,9 +1,10 @@
 <form id="ajaxform1" method="post">
     <fieldset style="z-index: 100; position: fixed;background-color: rgb(243,243,243);width: 863px;">
         <div class="field">
-            <input type="button" proc_id="<?php echo $manobras['id']; ?>" onclick="processo(this,null);" name="editar_proc" style="background-image: url(img/buttons/b_edit.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Editar" class="button">
-            <input type="button" onclick="processo(this);" name="comentar" style="background-image: url(img/buttons/b_comment.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Comentar" class="button">
-            <input type="button" onclick="processo(this);" name="comentarios" style="background-image: url(img/buttons/b_comment.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Ver comentários" class="button">
+            <?php if($_SESSION['user']==$manobras['user']): ?>
+            <input type="button" proc_id="<?php echo $manobras['id']; ?>" unidade="<?php echo $manobras['unidade_id']; ?>" onclick="processo(this,null);" name="editar_proc" style="background-image: url(img/buttons/b_edit.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Editar" class="button">
+            <?php endif; ?>
+            <input type="button" onclick="processo(this);" name="comentarios" style="background-image: url(img/buttons/b_comment.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Comentários" class="button">
             <input type="button" name="imprimir" proc_id="<?php echo $manobras['id']; ?>" onclick="processo(this);" style="background-image: url(img/buttons/b_print.png);margin-top: 5px;float: left;" value="Imprimir" class="button">
 
         </div> 
@@ -14,6 +15,11 @@
 <h1 style="margin-top: 30px"><?php echo $manobras['nome']; ?></h1>
 
 <form id="ajaxform1" method="post">
+    <div class="field">
+        <label>Criador:</label>
+        <p><?php echo $manobras['criador']; ?></p>
+        
+    </div>
     <div class="field">
         <label>Unidade:</label>
         <p><?php echo $manobras['unidade']; ?></p>

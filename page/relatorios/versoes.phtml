@@ -30,8 +30,13 @@
             <?php if ($versao['status'] == 1): ?>
                 <h2 style="color: red;margin-bottom: 0px;clear: left;">Versão em uso!</h2>
             <?php endif; ?>
-            <input type="button" name="editar_versao" versao="<?php echo $versao['versao']; ?>" onclick="relatorio(this);" style="background-image: url(img/buttons/b_edit.png);clear: left;margin-bottom: 10px;margin-top: 10px;float: left;" value="Editar" class="button">
-            <?php if ($versao['status'] == 0): ?>
+            <?php if ($versao['user'] == $_SESSION['user']): ?>
+                <input type="button" user="<?php echo $versao['user']; ?>" name="editar_versao" versao="<?php echo $versao['versao']; ?>" onclick="relatorio(this);" style="background-image: url(img/buttons/b_edit.png);clear: left;margin-bottom: 10px;margin-top: 10px;float: left;" value="Editar" class="button">
+                <input type="button" user="<?php echo $versao['user']; ?>" name="apagar_versao" versao="<?php echo $versao['versao']; ?>" onclick="relatorio(this);" style="background-image: url(img/buttons/b_drop.png);margin-bottom: 10px;margin-top: 10px;float: left;" value="Eliminar" class="button">
+            <?php else: ?>
+                <input type="button" user="<?php echo $versao['user']; ?>" name="editar_versao" versao="<?php echo $versao['versao']; ?>" onclick="relatorio(this);" style="background-image: url(img/buttons/b_edit.png);clear: left;margin-bottom: 10px;margin-top: 10px;float: left;" value="Ver template" class="button">
+            <?php endif; ?>
+            <?php if ($versao['status'] == 0 && $_SESSION['user_type']==2): ?>
                 <input type="button" name="set_as_default" versao="<?php echo $versao['versao']; ?>" onclick="relatorio(this);" style="background-image: url(img/buttons/s_success.png);margin-bottom: 10px;margin-top: 10px;float: left;" value="Defenir como principal" class="button">
             <?php endif; ?>
             &nbsp;
@@ -47,17 +52,25 @@
     <form id="ajaxform1" method="post">
         <ul>
             <li>
-                <input type="radio" name="tipo" value="1" style="float: left;"/><p>Abrir um template limpo</p>
+                <input type="radio" name="tipo" checked="checked" value="1" style="float: left;margin-top: 2px;"><p>Abrir um template limpo</p>
             </li>
             <li>
-                <input type="radio" name="tipo" value="2" style="float: left;"/><p>Criar a partir de uma das seguintes versões:</p>
-                <select name='versao'>
-                    <?php foreach ($versoes as $versao): ?>
-                        <option><?php echo $versao['versao']; ?></option>
+                <input type="radio" name="tipo" value="2" style="float: left;margin-top: 2px;"><p style="
+                                                                                                  width: 220px;
+                                                                                                  clear: right;
+                                                                                                  float: left;
+                                                                                                  ">Criar a partir de uma das seguintes versões:</p>
+                <select name="versao" style="
+                        float: none;
+                        clear: right;
+                        ">
+                            <?php foreach ($versoes as $versao): ?>
+                        <option value="<?php echo $versao['versao']; ?>"><?php echo $versao['versao']; ?></option>
                     <?php endforeach; ?>
                 </select>
             </li>
         </ul>
+
     </form>
 
 </div>

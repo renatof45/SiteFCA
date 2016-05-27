@@ -21,12 +21,12 @@ if (array_key_exists('alterar', $_POST)){
     if (array_key_exists('option5', $_POST)){
       $areas[$_POST['option5']]=$_POST['option5'];
     }
-    //print_r($areas);
+    $tipo=$dao->getTipo($_SESSION['user']);
     $params = array(
             'numero' => $_POST['utilizador']['numero'],
             'pass'  => $_POST['utilizador']['pass'],
             'nome' => $_POST['utilizador']['nome'],
-            'tipo' => 2,
+            'tipo' => $tipo,
             'area'=> $areas
         );
     
@@ -36,13 +36,10 @@ if (array_key_exists('alterar', $_POST)){
 
     if (empty($errors)) {
 
-        $dao = new UtilizadorDao();
+       
 
-        $dao->insert($utilizador);
-        Flash::addFlash('Alterados dados do utilizador!');
-        $flashes = Flash::getFlashes();
-        // redirect
-        header('Location: http://localhost:8080/');
+       $dao->insert($utilizador);
+       $$app->redirect('/SiteFCA-master/web/');
        }
 }
 else{

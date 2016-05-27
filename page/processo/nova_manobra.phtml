@@ -1,9 +1,10 @@
 <form id="ajaxform1" method="post">
     <fieldset style="z-index: 100; position: fixed;background-color: rgb(243,243,243);width: 863px;">
         <div class="field">
-            <input type="button" onclick="processo(this);" name="novo_passo" style="width: 110px;margin-bottom: 5px;margin-top: 5px;float: left" value="Adicionar passo" class="button">
+            <input type="button" onclick="processo(this);" name="novo_passo" style="background-image: url(img/buttons/b_export.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Adicionar passo" class="button">
             <input type="button" onclick="processo(this);" name="novo_titulo" style="background-image: url(img/buttons/b_ftext.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Adicionar titulo" class="button">
             <input type="button" onclick="processo(this);" name="salvar" style="background-image: url(img/buttons/save.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Salvar" class="button">
+            <input type="button" onclick="processo(this);" name="eliminar_proc" style="background-image: url(img/buttons/b_drop.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Eliminar" class="button">
             <input type="button" onclick="processo(this);" name="simular" style="background-image: url(img/buttons/play.png);margin-bottom: 5px;margin-top: 5px;float: left" value="Simular" class="button">
             <input type="button" onclick="processo(this);" name="maximizar" style="background-image: url(img/buttons/viewInFullscreen.png);padding-left: 25px;margin-bottom: 5px;margin-top: 5px;float: left" value="Maximizar editor" class="button">
             <input type="button" name="alterar" onclick="processo('imprimir');" style="background-image: url(img/buttons/b_print.png);margin-top: 5px;float: left;" value="Imprimir" class="button">
@@ -35,13 +36,13 @@
         </div>
         <div class="field">
             <label>Nome:</label>
-            <input type="text" style="width: 400px" id="manobra_nome" name="manobra[nome]"/>
+            <input type="text" style="text-align:left; width: 400px" id="manobra_nome" name="manobra[nome]"/>
         </div>
         <div class="field">
             <label>Publicar:</label>
-            <select name="publicar">
-                <option <?php if (array_key_exists("edit", $_GET)){if ($feed['publicar']==0) echo "selected";} ?> value="0">Não</option>
-                <option <?php if (array_key_exists("edit", $_GET)){if ($feed['publicar']==1) echo "selected";} ?> value="1">Sim</option>
+            <select id="publicar" name="publicar">
+                <option value="0">Não</option>
+                <option value="1">Sim</option>
             </select>
         </div>
         <div class="field">
@@ -82,7 +83,7 @@
              </div>
             <div style="margin-top: 30px" class="field">
                 <label>Mensagem:</label>
-                <textarea style="height: 90px;width: 309px;" id="mensagem" name="manobra[passos][passo1]"></textarea>
+                <textarea style="height: 70px;width: 309px;" id="mensagem" name="manobra[passos][passo1]"></textarea>
             </div>
         </fieldset>
     </form>
@@ -125,4 +126,9 @@
     <label id="informacao">
         
     </label>
+</div>
+
+
+<div id="dialog-warning" title="Aviso!">
+    <label>Deseja continuar?</label>
 </div>

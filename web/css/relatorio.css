@@ -61,7 +61,7 @@ td label{
 noBorder  {border: 0; }
 .draggable {z-index: 90;  }
 .draggable:hover{cursor: move;border: 1px solid #ccc}
-.draggable label{float:none;line-height: 18px;padding-bottom: 8px;font-weight: bold;color: black;}
-.relatrio-manobra label{float:none;line-height: 18px;padding-bottom: 8px;font-weight: bold;color: black; font-size: 10px}
+.draggable label{float:none;line-height: 18px;padding-bottom: 8px;font-weight: bold;color: black;font-size: 11.5px}
+.relatrio-manobra label{float:none;line-height: 18px;padding-bottom: 8px;font-weight: bold;color: black; font-size: 11.5px}
 .containment-wrapper {position: relative; width: 859px; height:1230px; border:2px solid ;  }
 

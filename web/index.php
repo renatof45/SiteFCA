@@ -80,8 +80,39 @@ function checkLogIn() {
 $app = new \Slim\Slim(array(
     'templates.path' => './',
         ));
-$app->post('/perfil', 'checkLogIn', function() {
-    require "../page/perfil.php";
+$app->post('/perfil', 'checkLogIn', function() use ($app) {
+    $errors = array();
+    $dao = new UtilizadorDao();
+    $flashes = null;
+
+    if (array_key_exists('alterar', $_POST)) {
+        $areas = array();
+        $utilizador = new Utilizador(null);
+        if (array_key_exists('area', $_POST)) {
+            $areas[$_POST['area']] = $_POST['area'];
+        }
+
+        $tipo = $dao->getTipo($_SESSION['user']);
+        $params = array(
+            'numero' => $_POST['utilizador']['numero'],
+            'pass' => $_POST['utilizador']['pass'],
+            'nome' => $_POST['utilizador']['nome'],
+            'tipo' => $tipo,
+            'area' => $areas
+        );
+
+        UtilizadorMapper::map($utilizador, $params);
+        $dao->delete($_SESSION['user']);
+        $errors = UtilizadorValidator::validate($utilizador);
+
+        if (empty($errors)) {
+            $dao->insert($utilizador);
+            $app->redirect('/SiteFCA-master/web/index.php/sair?userchange');
+        }
+    } else {
+        $utilizador = new Utilizador($dao->getUser($_SESSION['user']));
+        //print_r($utilizador->getArea());
+    }
     require "../page/perfil.phtml";
 });
 
@@ -181,48 +212,62 @@ $app->post('/relatorio', 'checkLogIn', function() use ($app) {
 
     if ($type == 2) {
         $relatoriodao = new RelatorioDao ();
-        $template = $relatoriodao->getRelatorio ($relatoriodao->getCurrentVersao ());
-        echo json_encode ( ($template));
-        } elseif (array_key_exists ('getlastrelatorio', $_GET)) {
+        $template = $relatoriodao->getRelatorio($_GET['versao']);
+        echo json_encode(($template));
+    } elseif (array_key_exists('getlastrelatorio', $_GET)) {
         $relatoriodao = new RelatorioDao ();
-        echo json_encode ( ($relatoriodao->getLastRelatorio ()));
-        } elseif (array_key_exists ('unidades', $_GET)) {
+        if (array_key_exists('index', $_GET)) {
+            $index = $_GET['index'];
+        } else {
+            $index = -1;
+        }
+        echo json_encode(($relatoriodao->getLastRelatorio($index)));
+    } elseif (array_key_exists('unidades', $_GET)) {
         require "../page/relatorios/unidades.phtml";
-        } elseif ($type == 1) {
+    } elseif ($type == 1) {
         $relatoriodao = new RelatorioDao ();
-        $trabalhos = $relatoriodao->getTrabalhos ();
-        $equipamentos = $relatoriodao->getEquipamentos ();
+        $trabalhos = $relatoriodao->getTrabalhos();
+        $equipamentos = $relatoriodao->getEquipamentos();
         //print_r($equipamentos);
         require "../page/relatorios/resumo.phtml";
-        } elseif ($type == 3) {
+    } elseif ($type == 3) {
         $relatoriodao = new RelatorioDao ();
-        $template = $relatoriodao->getRelatorio ($_GET['versao']);
-        echo json_encode ( ($template));
+        $template = $relatoriodao->getRelatorio($_GET['versao']);
+        echo json_encode(($template));
 
         //require "../page/relatorios/novo.phtml";
-        } elseif (array_key_exists ('getteemplate', $_GET)) {
+    } elseif (array_key_exists('getteemplate', $_GET)) {
         require "../page/relatorios/novo.phtml";
-        } elseif (array_key_exists ('salvar', $_GET)) {
-        $myfile = fopen ("newfile.txt", "w") or die ("Unable to open file!");
-        fwrite ($myfile, $_POST['content'] . '#');
-        fwrite ($myfile, $_POST['separadores']);
-        fclose ($myfile);
+    } elseif (array_key_exists('salvar', $_GET)) {
+        $myfile = fopen("newfile.txt", "w") or die("Unable to open file!");
+        fwrite($myfile, $_POST['content'] . '#');
+        fwrite($myfile, $_POST['separadores']);
+        fclose($myfile);
         $relatoriodao = new RelatorioDao ();
-        $relatoriodao->updateTemplate ($_POST['content'], $_POST['separadores'], $_POST['versao']);
-        } elseif (array_key_exists ('salvarrelatorio', $_GET)) {
+        $relatoriodao->updateTemplate($_POST['content'], $_POST['separadores'], $_POST['versao']);
+    } elseif (array_key_exists('salvarrelatorio', $_GET)) {
         $relatoriodao = new RelatorioDao ();
-        $relatoriodao->updateRelatrio ($_POST['dados'], $_POST['accao'], $_POST['manobra']);
-        } elseif (array_key_exists ('getversoes', $_GET)) {
+        $relatoriodao->updateRelatrio($_POST['comentario'], $_POST['dados'], $_POST['accao'], $_POST['manobra']);
+    } elseif (array_key_exists('getversoes', $_GET)) {
         $relatoriodao = new RelatorioDao ();
-        $versoes = $relatoriodao->getVersoes ();
+        $versoes = $relatoriodao->getVersoes();
         require "../page/relatorios/versoes.phtml";
-        }
-        elseif (array_key_exists ('setdefaultversao', $_GET)){
+    } elseif (array_key_exists('setdefaultversao', $_GET)) {
         $relatoriodao = new RelatorioDao ();
-        $relatoriodao->setDefaultVersao ($_GET['setdefaultversao']);
-        }
-        elseif (array_key_exists ('criarversao', $_GET)) {
-            print_r($_POST);   
+        $relatoriodao->setDefaultVersao($_GET['setdefaultversao']);
+    } elseif (array_key_exists('criarversao', $_GET)) {
+        $relatoriodao = new RelatorioDao ();
+        if (array_key_exists('versao', $_POST))
+            $versao = $_POST['versao'];
+        else
+            $versao = 0;
+        $relatoriodao->createVersao($_POST['tipo'], $versao);
+    }elseif (array_key_exists('checkversao', $_GET)) {
+        $relatoriodao = new RelatorioDao ();
+        echo json_encode($relatoriodao->checkVersao());
+    } elseif (array_key_exists('deleteversao', $_GET)) {
+        $relatoriodao = new RelatorioDao();
+        $relatoriodao->deleteVersao($_GET['versao']);
     }
 });
 
@@ -278,7 +323,7 @@ $app->post('/processo', 'checkLogIn', function() use ($app) {
     if (array_key_exists('salvar', $_GET)) {
         //echo json_encode($_POST);
         //$app->redirect("index.php/processo?type=2");
-        $processodao->novoProc($_GET['nome'], $_GET['unidade'], json_encode($_POST['procidimento']), json_encode($_POST['descricao']));
+        $processodao->novoProc($_POST['publicar'],$_GET['nome'], $_GET['unidade'], json_encode($_POST['procidimento']), json_encode($_POST['descricao']));
 
         //require "../page/processo/nova_manobra.phtml";
     } elseif ($type == 5) {
@@ -301,7 +346,7 @@ $app->post('/processo', 'checkLogIn', function() use ($app) {
         date_default_timezone_set('Europe/Lisbon');
         echo date('Y-m-d H:i:s');
     } elseif (array_key_exists('update', $_GET)) {
-        $processodao->updateProc($_GET['id'], $_GET['nome'], $_GET['unidade'], json_encode($_POST['procidimento']), json_encode($_POST['descricao']));
+        $processodao->updateProc($_POST['publicar'],$_GET['id'], $_GET['nome'], $_GET['unidade'], json_encode($_POST['procidimento']), json_encode($_POST['descricao']));
     } elseif (array_key_exists('salvar_passo_proc', $_GET)) {
         $processodao->updatePassos($_GET['obs'], $_GET['proc_id'], $_GET['passo'], $_GET['monobra_id']);
         date_default_timezone_set('Europe/Lisbon');
@@ -330,6 +375,22 @@ $app->post('/processo', 'checkLogIn', function() use ($app) {
         require "../page/processo/nova_rotina.phtml";
     } elseif (array_key_exists('anularmanobra', $_GET)) {
         $processodao->deleteManobra($_GET['manobra']);
+    } elseif (array_key_exists('myprocs', $_GET)) {
+        $manobras=$processodao->getMyProcs($_SESSION['user']);
+        echo json_encode(array('manobra' => $manobras, 'unidades' => $unidades));
+    }
+    elseif (array_key_exists('deleteproc', $_GET)) {
+        $processodao->deleteProc($_GET['proc']);
+    }
+    elseif(array_key_exists('novarotina',$_GET)){
+        if($_GET['updaterotina']=='false')
+            echo $processodao->novaRotina($_POST['nome'],$_POST['unidade'],$_POST['alerta'],$_POST['descricao'],$_POST['frequencia']);
+        else{
+            $processodao->updateRotina($_GET['rotinaid'],$_POST['nome'],$_POST['unidade'],$_POST['alerta'],$_POST['descricao'],$_POST['frequencia']);
+        }
+    }
+    elseif(array_key_exists('parahoje', $_GET)){
+        echo json_encode($processodao->getRotinasParaHoje());
     }
 });
 
@@ -534,30 +595,18 @@ $app->get('/sair', function() use($app) {
     $app->redirect('/SiteFCA-master/web/');
 });
 
-$app->post('/signin',function() use($app){
-    if(array_key_exists('newuser', $_GET)){
-      $app->redirect('/');
+$app->post('/signin', function() use($app) {
+    if (array_key_exists('newuser', $_GET)) {
+        $app->redirect('/');
     }
-     $utilizador = new Utilizador(null);
+    $utilizador = new Utilizador(null);
     $dao = new UtilizadorDao();
     $errors = array();
 
     if (array_key_exists('signin', $_POST)) {
         $areas = array();
-        if (array_key_exists('option1', $_POST)) {
-            array_push($areas, $_POST['option1']);
-        }
-        if (array_key_exists('option2', $_POST)) {
-            array_push($areas, $_POST['option2']);
-        }
-        if (array_key_exists('option3', $_POST)) {
-            array_push($areas, $_POST['option3']);
-        }
-        if (array_key_exists('option4', $_POST)) {
-            array_push($areas, $_POST['option4']);
-        }
-        if (array_key_exists('option5', $_POST)) {
-            array_push($areas, $_POST['option5']);
+         if (array_key_exists('area', $_POST)) {
+            $areas[$_POST['area']] = $_POST['area'];
         }
         $params = array(
             'numero' => $_POST['utilizador']['numero'],
@@ -586,12 +635,12 @@ $app->post('/signin',function() use($app){
 
 
 
-$app->get('/signin',function() use($app){
+$app->get('/signin', function() use($app) {
     //$template = '../layout/user_qualification.phtml';
     require '../layout/signin.phtml';
 });
 
-$app->get('/user_qualification',function() use($app){
+$app->get('/user_qualification', function() use($app) {
 
     require '../layout/user_qualification.phtml';
 });
@@ -600,8 +649,8 @@ $app->post('/user_qualification', function () use($app) {
     $pedido = "<p>Nome: " . $_POST['nome'] . "</p><br><p>Numero: " . $_POST['numero'] . "</p><br><p>Categoria: " . $_POST['posto'] . "</p>";
 
     try {
-        new EwsSendEmail($_POST['pass'], $pedido,'Pedido de qualificação','711241',$_SESSION['user']);
-   } catch (SoapFault $ex) {
+        new EwsSendEmail($_POST['pass'], $pedido, 'Pedido de qualificação', '711241', $_SESSION['user']);
+    } catch (SoapFault $ex) {
         $errors[] = new Error('numero', $ex->getMessage());
         require '../layout/user_qualification.phtml';
     } catch (EWS_Exception $ex) {
@@ -613,17 +662,17 @@ $app->post('/user_qualification', function () use($app) {
     }
 });
 
-$app->get('/lostpass',function(){
+$app->get('/lostpass', function() {
     require '../layout/lost_pass.phtml';
 });
 
-$app->post('/lostpass',function() use($app){
-    $pass=generateRandomString();
-    $pedido= '<p>A seu pedido foi feito o reset da sua password de acesso ao Site FCA</p><br><p>Nova password: <b>'.$pass.'</b></p>';
-    
+$app->post('/lostpass', function() use($app) {
+    $pass = generateRandomString();
+    $pedido = '<p>A seu pedido foi feito o reset da sua password de acesso ao Site FCA</p><br><p>Nova password: <b>' . $pass . '</b></p>';
+
     echo $pass;
-        try {
-        new EwsSendEmail($_POST['password'], $pedido,'Reset de password',$_POST['numero'],'711241');
+    try {
+        new EwsSendEmail($_POST['password'], $pedido, 'Reset de password', $_POST['numero'], '711241');
     } catch (SoapFault $ex) {
         $errors[] = new Error('numero', $ex->getMessage());
         require '../layout/lost_pass.phtml';
@@ -632,10 +681,10 @@ $app->post('/lostpass',function() use($app){
         require '../layout/lost_pass.phtml';
     }
     if (empty($errors)) {
-        $userdao=new UtilizadorDao();
+        $userdao = new UtilizadorDao();
         $userdao->resetPass($_POST['numero'], $pass);
         $app->redirect('/SiteFCA-master/web/index.php?request_pass');
-    } 
+    }
 });
 
 $app->get('/', function() use ($app) {
@@ -661,14 +710,13 @@ $app->get('/', function() use ($app) {
             $template = '../layout/intro.html';
         }
     } else {
-        if($user['tipo']==2)
-        $template = '../layout/area-de-trabalho.html';
-     else{
-         $template = '../layout/layout_exterior.phtml';
-     }
+        if ($user['tipo'] == 2)
+            $template = '../layout/area-de-trabalho.html';
+        else {
+            $template = '../layout/layout_exterior.phtml';
+        }
     }
     require '../layout/index.phtml';
-
 });
 
 
@@ -700,53 +748,53 @@ $app->post('/login', function() use ($app) {
                     $_SESSION['user_name'] = $user['nome'];
                     $_SESSION['user_type'] = $user['tipo'];
                     $relatoriodao = new RelatorioDao();
-                     date_default_timezone_set('Europe/Lisbon');
-                        $hora = date("H:i:s");
-                        if ($hora > "06:00:00" && $hora < "14:00:00") {
-                            if ($hora > "00:00:00") {
-                                $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d'), 1);
-                                if ($relatorio) {
-                                    $_SESSION['relatorio'] = $relatorio;
-                                } else {
-                                    $relatorio = $relatoriodao->insert(1, date('Y-m-d'));
-                                    $_SESSION['relatorio'] = $relatorio;
-                                }
-                            }
-                            $_SESSION['turno'] = 1;
-                        } else if ($hora > "14:00:00" && $hora < "22:00:00") {
-                            if ($hora > "00:00:00") {
-                                $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d'), 2);
-                                if ($relatorio) {
-                                    $_SESSION['relatorio'] = $relatorio;
-                                } else {
-                                    $relatorio = $relatoriodao->insert(2, date('Y-m-d'));
-                                    $_SESSION['relatorio'] = $relatorio;
-                                }
-                            }
-
-                            $_SESSION['turno'] = 2;
-                        } else {
-                            if ($hora > "22:00:00") {
-                                $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d'), 3);
-                                if ($relatorio) {
-                                    $_SESSION['relatorio'] = $relatorio;
-                                } else {
-                                    $relatorio = $relatoriodao->insert(3, date('Y-m-d'));
-                                    $_SESSION['relatorio'] = $relatorio;
-                                }
+                    date_default_timezone_set('Europe/Lisbon');
+                    $hora = date("H:i:s");
+                    if ($hora > "06:00:00" && $hora < "14:00:00") {
+                        if ($hora > "00:00:00") {
+                            $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d'), 1);
+                            if ($relatorio) {
+                                $_SESSION['relatorio'] = $relatorio;
                             } else {
-                                $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d', (strtotime('-1 day'))), 3);
-                                if ($relatorio) {
-                                    $_SESSION['relatorio'] = $relatorio;
-                                } else {
-                                    $relatorio = $relatoriodao->insert(3, date('Y-m-d', (strtotime('-1 day'))));
-                                    $_SESSION['relatorio'] = $relatorio;
-                                }
+                                $relatorio = $relatoriodao->insert(1, date('Y-m-d'));
+                                $_SESSION['relatorio'] = $relatorio;
                             }
-                            $_SESSION['turno'] = 3;
                         }
-                        //echo $_SESSION['turno'];
-                        $app->redirect('/SiteFCA-master/web/index.php');
+                        $_SESSION['turno'] = 1;
+                    } else if ($hora > "14:00:00" && $hora < "22:00:00") {
+                        if ($hora > "00:00:00") {
+                            $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d'), 2);
+                            if ($relatorio) {
+                                $_SESSION['relatorio'] = $relatorio;
+                            } else {
+                                $relatorio = $relatoriodao->insert(2, date('Y-m-d'));
+                                $_SESSION['relatorio'] = $relatorio;
+                            }
+                        }
+
+                        $_SESSION['turno'] = 2;
+                    } else {
+                        if ($hora > "22:00:00") {
+                            $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d'), 3);
+                            if ($relatorio) {
+                                $_SESSION['relatorio'] = $relatorio;
+                            } else {
+                                $relatorio = $relatoriodao->insert(3, date('Y-m-d'));
+                                $_SESSION['relatorio'] = $relatorio;
+                            }
+                        } else {
+                            $relatorio = $relatoriodao->isShiftOpen(date('Y-m-d', (strtotime('-1 day'))), 3);
+                            if ($relatorio) {
+                                $_SESSION['relatorio'] = $relatorio;
+                            } else {
+                                $relatorio = $relatoriodao->insert(3, date('Y-m-d', (strtotime('-1 day'))));
+                                $_SESSION['relatorio'] = $relatorio;
+                            }
+                        }
+                        $_SESSION['turno'] = 3;
+                    }
+                    //echo $_SESSION['turno'];
+                    $app->redirect('/SiteFCA-master/web/index.php');
                 } else
                     $app->redirect('/SiteFCA-master/web/index.php?error');
             } else

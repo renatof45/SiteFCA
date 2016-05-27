@@ -48,7 +48,14 @@ class UtilizadorDao extends DAO{
     }
    }
 
-
+  public function getTipo($user){
+      foreach (parent::query('SELECT Tipo
+                                FROM utilizador
+                                where utilizador.id='.$user) as $row) {
+          return $row['Tipo'];
+          
+      }
+  }
    
 
    public function getUser($numero){

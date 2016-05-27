@@ -18,8 +18,8 @@ th{
 td{
 	text-indent:5px;
 	color:#444;
-	border-bottom:1px solid #bbb;
-	border-left:1px solid #bbb;
+	//border-bottom:1px solid #bbb;
+	//border-left:1px solid #bbb;
 }
 
 td.left{
