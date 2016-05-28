@@ -390,7 +390,7 @@ $app->post('/processo', 'checkLogIn', function() use ($app) {
         }
     }
     elseif(array_key_exists('parahoje', $_GET)){
-        echo json_encode($processodao->getRotinasParaHoje());
+        echo json_encode(array('rotinas'=>$processodao->getRotinasParaHoje(), 'unidades' => $unidades,'turno'=>$_SESSION['turno']));
     }
 });
 

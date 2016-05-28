@@ -23,6 +23,31 @@ var dias_do_mes = '<select style="margin-left:10px;float: left" name="diasmes" >
 var dias_da_semana = '<ul id="diasemana" onclick="processo(\'diasemana\',this);" style="float: left;margin-left: 5px"><li><input name="segunda" type="checkbox">Segunda-feira</li><li><input name="terca" type="checkbox">Terça-feira</li><li><input name="quarta" type="checkbox">Quarta-feira</li><li><input name="quinta" type="checkbox">Quinta-feira</li><li><input name="sexta" type="checkbox">Sexta-feira</li><li><input name="sabado" type="checkbox">Sábado</li><li><input name="domingo" type="checkbox">Domingo</li></ul>'
 var turnos = '<ul style="margin-left: 15px"><li><input name="manha" type="checkbox">Manhã</li><li><input name="tarde" type="checkbox">Tarde</li><li><input name="noite" type="checkbox">Noite</li></ul>';
 
+function getDiaSemana(dia) {
+    if (dia === 'segunda') {
+        return 1;
+    }
+    if (dia === 'terca') {
+        return 2;
+    }
+    if (dia === 'quarta') {
+        return 3;
+    }
+    if (dia === 'quinta') {
+        return 4;
+    }
+    if (dia === 'sexta') {
+        return 5;
+    }
+    if (dia === 'sabado') {
+        return 6;
+    }
+    if (dia === 'domingo') {
+        return 7;
+    }
+}
+
+
 function showRequestRotina(formData, jqForm, options) {
     var frequencia = '';
     frequencia += formData[4].value;
@@ -145,23 +170,125 @@ function processo(type, object) {
 
     if (type === 'para_hoje') {
         $.post('index.php/processo?parahoje', function (data) {
-            var rotinas = (JSON.parse(data));
+            document.getElementById("app").innerHTML =
+                    '<h1>Rotinas para hoje...</h1><form><ul id="tab2" class="tabs"></ul></form>';
+
+            var unidades = JSON.parse(data)['unidades'];
+            var rotinas = JSON.parse(data)['rotinas'];
+            var turno = JSON.parse(data)['turno'];
+            TABS.CreateTabs('tab2');
+            for (var i = 0; i < unidades.length; i++) {
+                var element = $('<div></div>');
+                for (var j = 0; j < rotinas.length; j++) {
+                    var div = '';
+                    if (rotinas[j].unidade === unidades[i].id) {
+                        div = '<div id="' + rotinas[j].id + '" onMouseOut="pointer(this)" onMouseOver="pointer(this)"  name="show_proc" onclick="processo(\'show_proc\',this)"  class="field" style="height: 21px;background-color: #F3F3F3;"><label style="width:500px;margin-left:5px;">' + rotinas[j].nome + '</label></div>';
+                        element.append(div);
+                    }
+                }
+                element.css('padding', '10px');
+                element.css('overflow', 'auto');
+                if (i === 0)
+                    TABS.AddTab(unidades[i].designacao, true, element[0].outerHTML, 'tab2');
+                else
+                    TABS.AddTab(unidades[i].designacao, false, element[0].outerHTML, 'tab2');
+            }
+            var frequencias = [];
+
+            var getTurno = function (turno) {
+                if (turno === 1) {
+                    return 'manha';
+                }
+                if (turno === 2) {
+                    return 'tarde';
+                }
+                if (turno === 3) {
+                    return 'noite';
+                }
+
+            };
+
             for (var i = 0; i < rotinas.length; i++) {
                 var etapas = rotinas[i].frequencia.split('-');
-                //console.log(etapas);
+                var turnos = [];
                 if (etapas[0] === '2') {
-                    var turnos=[];
                     for (var j = 1; j < etapas.length; j++) {
                         var rex = /\(.+\)/g;
                         var matches = etapas[j].match(rex);
                         matches[0] = matches[0].split(")").join('');
                         matches[0] = matches[0].split("(").join('');
-                        turnos.push({'dia':etapas[j].split('(')[0],'trunos':matches[0].split(',')});
-                        
+                        turnos.push({'dia': etapas[j].split('(')[0], 'turnos': matches[0].split(',')});
+
                     }
-                    console.log(turnos);
+                    frequencias.push({tipo: 'semanal', turnos: turnos});
+                } else if (etapas[0] === '3') {
+                    if (etapas[1] === '2' || etapas[1] === '3') {
+                        for (var j = 2; j < etapas.length; j++) {
+                            var rex = /\(.+\)/g;
+                            var matches = etapas[j].match(rex);
+                            matches[0] = matches[0].split(")").join('');
+                            matches[0] = matches[0].split("(").join('');
+                            turnos.push({'dia': etapas[j].split('(')[0], 'turnos': matches[0].split(',')});
+
+                        }
+
+                    }
+                    if (etapas[1] === '2')
+                        frequencias.push({tipo: 'mensal-todas', turnos: turnos});
+                    else if ((etapas[1] === '3'))
+                        frequencias.push({tipo: 'mensal-primeiro', turnos: turnos});
+                    else
+                        frequencias.push({tipo: 'mensal-dia', turnos: etapas[2]});
+                } else if (etapas[0] === '1') {
+
+                    for (var j = 1; j < etapas.length; j++) {
+                        turnos.push(etapas[j]);
+                    }
+                    frequencias.push({tipo: 'diaria', turnos: turnos});
+                }
+
+            }
+            for (var i = 0; i < frequencias.length; i++) {
+                if (frequencias[i].tipo === 'diaria') {
+
+                } else if (frequencias[i].tipo === 'semanal') {
+                    for (var j = 0; j < frequencias[i].turnos.length; j++) {
+                        var d = new Date();
+                        var dia = d.getDay();
+                        if (d.getHours() < 6) {
+                            dia--;
+                        }
+                        if (getDiaSemana(frequencias[i].turnos[j].dia) === dia) {
+                            for (var x = 0; x < frequencias[i].turnos[j].turnos.length; x++) {
+                                if (getTurno(turno) === frequencias[i].turnos[j].turnos[x]) {
+                                    console.log(frequencias[i].turnos[j].turnos[x]);
+                                }
+
+                            }
+                        }
+                    }
+                } else if (frequencias[i].tipo === 'mensal-primeiro') {
+                    console.log(frequencias[i]);
+                } else if (frequencias[i].tipo === 'mensal-dia') {
+                    console.log(frequencias[i]);
+                } else if (frequencias[i].tipo === 'mensal-todas') {
+                    for (var j = 0; j < frequencias[i].turnos.length; j++) {
+                        var d = new Date();
+                        var dia = d.getDay();
+                        if (d.getHours() < 6) {
+                            dia--;
+                        }
+                        if (getDiaSemana(frequencias[i].turnos[j].dia) === dia && getWeekDayofMonth(getDiaSemana(frequencias[i].turnos[j].dia))) {
+                            for (var x = 0; x < frequencias[i].turnos[j].turnos.length; x++) {
+                                if (getTurno(turno) === frequencias[i].turnos[j].turnos[x]) {
+                                    //console.log(frequencias[i].turnos[j].turnos[x]);
+                                }
+                            }
+                        }
+                    }
                 }
             }
+            //console.log(getWeekDayofMonth(1));
         });
     }
 
@@ -1053,4 +1180,26 @@ function showRequest(formData, jqForm, options) {
 
 
     return false;
+}
+
+function getWeekDayofMonth(day) {
+    var d = new Date(),
+            month = d.getMonth(),
+            weekdays = [];
+
+    d.setDate(1);
+
+    // Get the first Monday in the month
+    while (d.getDay() !== day) {
+        d.setDate(d.getDate() + 1);
+    }
+
+    // Get all the other Tuesdays in the month
+    while (d.getMonth() === month) {
+        var aux = new Date(d.getTime());
+        weekdays.push((aux.getDate()));
+        d.setDate(d.getDate() + 7);
+    }
+
+    return weekdays;
 }
