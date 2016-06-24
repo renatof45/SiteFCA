@@ -1,6 +1,0 @@
-<?php
-
-$dao=new EncOleosDao();
-
-
-?>
